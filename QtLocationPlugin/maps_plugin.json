@@ -1,0 +1,11 @@
+{
+    "Keys": ["maps"],
+    "Provider": "Gaode",
+    "Version": 101,
+    "Experimental": false,
+    "Features": [
+        "OnlineMappingFeature",
+        "OnlineGeocodingFeature",
+        "ReverseGeocodingFeature"
+    ]
+}
