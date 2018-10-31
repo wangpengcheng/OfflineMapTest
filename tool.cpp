@@ -8,6 +8,10 @@
 #include <QLocation>
 #endif
 
+#ifndef QGEOCOORDINATE_H
+#include <QGeoCoordinate>
+#endif
+
 #ifndef QMATH_H
 #include <qmath.h>
 #endif
@@ -47,25 +51,23 @@ double Tool::TransfromlonToDouble(double x,double y){
     return temp_result
 }
 /*
- * 将经纬度映射到瓦片坐标体系
+ * 将经纬度映射到瓦片坐标体系，
+ * 即将设置经纬度坐标偏差将wps84坐标设置为Gcjo2坐标体系（高德）
  */
+QGeoCoordinate WPS84ToGcj02(double lat, double lon) {
 
-  wps84_To_Gcj02(lat, lon) {
-    double dLat, dLon,
-            radLat,
-            magic, sqrtMagic ,
-            mgLat, mgLon;
+    double dLat,dLon,radLat,magic,sqrtMagic,mgLat, mgLon;
+
     dLat = TransfromLatToDouble(lon - 105.0, lat - 35.0);
     dLon = TransfromlonToDouble(lon - 105.0, lat - 35.0);
     radLat = lat/(180.0) * pi;
     magic = qSin(radLat);
     magic = 1 - ee * magic * magic;
     sqrtMagic = qSqrt(magic);
-    dLat = (dLat * (180.0))/(a * (1 - ee))/(magic*sqrtMagic) * pi;
+    dLat = (dLat*180.0)/((a*(1 - ee))/(magic*sqrtMagic)*pi);
     dLon = (dLon * 180.0) / (a / sqrtMagic * qCos(radLat) * pi);
     mgLat = lat + dLat;
     mgLon = lon + dLon;
-
-    return  QtPositioning.coordinate(mgLat, mgLon);
+    return  new QGeoCoordinate(mgLat, mgLon);
 }
 

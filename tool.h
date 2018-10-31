@@ -6,13 +6,17 @@
  * 2018-10-30 10:51
 */
 
-
+//#ifndef QGEOCOORDINATE_H
+//#include <QGeoCoordinate>
+//#endif
+class QGeoCoordinate;
 class Tool
 {
 public:
     Tool();
-    double TransfromLatToInt(double x,double y);
-    double TransfromLonToInt(double x,double y);
+    double TransfromLatToDouble(double x,double y);
+    double TransfromLonToDouble(double x,double y);
+    QGeoCoordinate WPS84ToGcj02(double lat, double lon);
 
 
 };

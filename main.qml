@@ -74,18 +74,24 @@ Window {
             Qt.quit();
         }
     }
-
     Map {
+
         id: _map
         anchors.fill: parent
         minimumZoomLevel: 14
         maximumZoomLevel: 18
-        zoomLevel:                  16
-        center:                  wps84_To_Gcj02(30.5594483655,103.9976232481)
+        zoomLevel:                  18
+        center:                wps84_To_Gcj02(30.5594483655,103.9976232481) // QtPositioning.coordinate(30.5594483655,103.9976232481)
         gesture.flickDeceleration:  3000
 
         // 地图插件
         plugin: Plugin { name: "Gaode" }
+        MapCircle {
+            center :    wps84_To_Gcj02(30.5594483655,103.9976232481)//QtPositioning.coordinate(30.5594,103.9976)
+            radius: 5.0
+            color: 'green'
+            border.width: 3
+        }
 
     }
 
