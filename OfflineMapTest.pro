@@ -41,10 +41,15 @@
 
 TEMPLATE = app
 
-QT += qml quick  location  network
+QT += qml  quick
+QT += location positioning
+QT += core gui
+QT += network widgets
+
 CONFIG += c++11
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    tool.cpp
 
 RESOURCES += qml.qrc
 
@@ -52,6 +57,8 @@ RESOURCES += qml.qrc
 QML_IMPORT_PATH =
 
 include(QtLocationPlugin/LocationPlugin.pri)
+include(test/test.pri)
+
 
 INCLUDEPATH += \
     QtLocationPlugin \
@@ -59,10 +66,9 @@ INCLUDEPATH += \
 
 LOCATION_PLUGIN_DESTDIR = $${OUT_PWD}/QtLocationPlugin
 LOCATION_PLUGIN_NAME    = GeoServiceProviderFactory
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
 
-DISTFILES +=
+HEADERS += \
+    screen_control.h \
+    tool.h
+
 
