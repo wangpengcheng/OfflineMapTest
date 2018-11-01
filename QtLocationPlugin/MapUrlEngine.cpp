@@ -50,7 +50,10 @@ UrlFactory::getImageFormat(MapType type, const QByteArray& image)
 
 //-----------------------------------------------------------------------------
 QNetworkRequest
-UrlFactory::getTileURL(MapType type, int x, int y, int zoom)
+UrlFactory::getTileURL(const MapType type,
+                       const int x,
+                       const int y,
+                       const int zoom)
 {
     //-- Build URL
     QNetworkRequest request;
@@ -75,14 +78,14 @@ UrlFactory::getTileURL(MapType type, int x, int y, int zoom)
 
 //-----------------------------------------------------------------------------
 QString
-UrlFactory::_getURL(MapType type,
-                    int x,
-                    int y,
-                    int zoom)
+UrlFactory::_getURL(const MapType type,
+                    const int x,
+                    const int y,
+                    const int zoom)
 {
     //x,y,z change
     QString zz="L"+QString::number(zoom);
-    QString yy="R"+QString("%1").arg(y+1,8,16,QLatin1Char('0'));//注意y坐标的计算机方式
+    QString yy="R"+QString("%1").arg(y,8,16,QLatin1Char('0'));//注意y坐标的计算机方式
     QString xx="C"+QString("%1").arg(x,8,16,QLatin1Char('0'));
     switch (type) {
         case GaodeStreet:

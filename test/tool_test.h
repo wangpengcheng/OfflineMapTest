@@ -1,7 +1,6 @@
 #ifndef TOOL_TEST_H
 #define TOOL_TEST_H
 #include "tool.h"
-#include <qdebug.h>
 class tool_test
 {
 public:

@@ -1,4 +1,6 @@
-#include "tool_test.h"
+#include "test/tool_test.h"
+#include <qdebug.h>
+#include <QGeoCoordinate>
 
 tool_test::tool_test():m_tool()
 {
@@ -17,7 +19,7 @@ void tool_test::WPS84Test(){
    qDebug()<<"--------This test start--------";
    qDebug()<<"This test lat is <<"<<lat_test;
    qDebug()<<"This test lon is <<"<<lon_test;
-   qDebug()<<"This test coordinate is <<"<<coordinate.toString;
+   qDebug()<<"This test coordinate is <<"<<coordinate.toString();
    qDebug()<<"--------This test end--------";
 
 }

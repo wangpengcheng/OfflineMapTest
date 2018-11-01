@@ -32,9 +32,9 @@ Tool::Tool()
 double Tool::TransfromLatToDouble(double x,double y){
     double temp_result;
     temp_result = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * qSqrt(qAbs(x));
-    temp_result += (20.0 *  qSin(6.0 * x * pi) + 20.0 * qSin(2.0 * x * pi)) * 2.0 / 3.0
-    temp_result += (20.0 * qSin(y * pi) + 40.0 * qSin(y / 3.0 * pi)) * 2.0 / 3.0
-    temp_result += (160.0 * qSin(y / 12.0 * pi) + 320 * Math.sin(y * pi / 30.0)) * 2.0 / 3.0
+    temp_result += (20.0 *  qSin(6.0 * x * pi) + 20.0 * qSin(2.0 * x * pi)) * 2.0 / 3.0;
+    temp_result += (20.0 * qSin(y * pi) + 40.0 * qSin(y / 3.0 * pi)) * 2.0 / 3.0;
+    temp_result += (160.0 * qSin(y / 12.0 * pi) + 320 * qSin(y * pi / 30.0)) * 2.0 / 3.0;
     return temp_result;
 }
 /*对GPS坐标做处理，Wps84转Gcj-02*/
@@ -64,7 +64,8 @@ QGeoCoordinate WPS84ToGcj02(double lat, double lon) {
     magic = qSin(radLat);
     magic = 1 - ee * magic * magic;
     sqrtMagic = qSqrt(magic);
-    dLat = (dLat*180.0)/((a*(1 - ee))/(magic*sqrtMagic)*pi);
+   // dLat = (dLat*180.0)/((a*(1 - ee))/(magic*sqrtMagic)*pi);
+    dLat=(dLat*180.0)/();
     dLon = (dLon * 180.0) / (a / sqrtMagic * qCos(radLat) * pi);
     mgLat = lat + dLat;
     mgLon = lon + dLon;
