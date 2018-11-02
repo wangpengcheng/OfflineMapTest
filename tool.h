@@ -9,15 +9,18 @@
 //#ifndef QGEOCOORDINATE_H
 //#include <QGeoCoordinate>
 //#endif
+#include <QObject>
 class QGeoCoordinate;
-class Tool
+class Tool: public QObject
 {
-public:
-    Tool();
-    double TransfromLatToDouble(double x,double y);
-    double TransfromLonToDouble(double x,double y);
-    QGeoCoordinate WPS84ToGCJ02(double lat, double lon);
-
+    Q_OBJECT
+    public:
+        Tool();
+        Tool(const Tool &temp);
+       // ~Tool();
+        double TransfromLatToDouble(double x,double y);
+        double TransfromLonToDouble(double x,double y);
+        QGeoCoordinate WPS84ToGCJ02(double lat, double lon);
 
 
 };

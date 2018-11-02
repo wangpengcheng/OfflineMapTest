@@ -16,9 +16,8 @@ class tool_test
 {
 public:
     tool_test();
-    tool_test(const Tool temp);
     void WPS84Test();
-    Tool m_tool;//tool成员对象
+    Tool m_tool;//tool指针成员对象
 };
 
 #endif // TOOL_TEST_H

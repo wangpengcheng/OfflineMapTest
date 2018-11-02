@@ -11,7 +11,7 @@
 #include <QDialog>
 
 #include "tool.h"
-
+#include "test/tool_test.h"
 int main(int argc, char *argv[])
 {
 
@@ -21,20 +21,14 @@ int main(int argc, char *argv[])
     QString runPath = QCoreApplication::applicationFilePath();
     qDebug()<<runPath;
     qDebug()<<QDir::currentPath();
-    /*
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     //add qucik
     QQmlApplicationEngine engine;
     //load qml file
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    */
-    //temp_test=new tool_test();
-
-
 
     return app.exec();
-
 
 }
 

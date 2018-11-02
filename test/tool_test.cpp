@@ -7,9 +7,6 @@ tool_test::tool_test():m_tool()
 
 }
 
-tool_test::tool_test(const Tool temp){
-    m_tool=temp;
-}
 //测试wps84ToGejTest()
 void tool_test::WPS84Test(){
    double lat_test=m_tool.TransfromLatToDouble(30.5594483655-105.0, 103.9976232481 - 35.0);

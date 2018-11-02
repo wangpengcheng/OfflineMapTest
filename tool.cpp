@@ -17,18 +17,25 @@
 #endif
 
 
-
-
-Tool::Tool()
+Tool::Tool():QObject(nullptr)
 {
 
 }
+
 /*
- *将纬度lat转换为常用度数
+ * 将经纬度映射到瓦片坐标体系，
+ * 即将设置经纬度坐标偏差将wps84坐标设置为GGJ02坐标体系中国
+ * 模块开始
+ * mondel start
  */
+/*定义基本常量*/
 const long long  pi =3.1415926535897932384626;
 const long long  a =6378245.0;
 const long long  ee=0.00669342162296594323;
+
+/*
+ *将纬度lat转换为常用度数
+ */
 double Tool::TransfromLatToDouble(const double x,
                                   const double y)
 {
@@ -39,7 +46,6 @@ double Tool::TransfromLatToDouble(const double x,
     temp_result += (160.0 * qSin(y / 12.0 * pi) + 320 * qSin(y * pi / 30.0)) * 2.0 / 3.0;
     return temp_result;
 }
-/*对GPS坐标做处理，Wps84转Gcj-02*/
 /*
  *将经度转化为常用度数
  */
@@ -54,10 +60,8 @@ double Tool::TransfromLonToDouble(const double x,
     temp_result += (150.0 * qSin(x / 12.0 * pi) + 300.0 * qSin(x / 30.0 * pi)) * 2.0 / 3.0;
     return temp_result;
 }
-/*
- * 将经纬度映射到瓦片坐标体系，
- * 即将设置经纬度坐标偏差将wps84坐标设置为GGJ02坐标体系中国
- */
+
+/*对GPS坐标做处理，Wps84转Gcj-02*/
 QGeoCoordinate Tool::WPS84ToGCJ02(const double lat,
                                   const double lon)
 {
@@ -76,4 +80,8 @@ QGeoCoordinate Tool::WPS84ToGCJ02(const double lat,
     QGeoCoordinate result(mgLat, mgLon);
     return  result;
 }
-
+/*
+ * 地图经纬度坐标转换
+ * 模块结束
+ *mondel start
+ */
