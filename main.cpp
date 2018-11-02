@@ -9,9 +9,8 @@
 #include <QWidget>
 #include <QDesktopWidget>
 #include <QDialog>
-// use test
+
 #include "tool.h"
-#include "test/tool_test.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,11 +30,7 @@ int main(int argc, char *argv[])
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     */
     //temp_test=new tool_test();
-    Tool temp_tool1();
-    Tool temp_tool=temp_tool1();
-    tool_test temp_test1();
-    tool_test temp_test;
-    temp_test.WPS84Test();
+
 
 
     return app.exec();

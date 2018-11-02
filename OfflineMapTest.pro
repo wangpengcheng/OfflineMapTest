@@ -50,7 +50,7 @@ CONFIG += c++11
 
 SOURCES += main.cpp \
     tool.cpp \
-    test/tool_test.cpp
+ #   test/tool_test.cpp
 
 RESOURCES += qml.qrc
 
@@ -71,6 +71,6 @@ LOCATION_PLUGIN_NAME    = GeoServiceProviderFactory
 HEADERS += \
     screen_control.h \
     tool.h \
-    test/tool_test.h
+ #   test/tool_test.h
 
 

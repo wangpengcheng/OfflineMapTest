@@ -16,7 +16,8 @@ public:
     Tool();
     double TransfromLatToDouble(double x,double y);
     double TransfromLonToDouble(double x,double y);
-    QGeoCoordinate WPS84ToGcj02(double lat, double lon);
+    QGeoCoordinate WPS84ToGCJ02(double lat, double lon);
+
 
 
 };
