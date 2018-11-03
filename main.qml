@@ -16,10 +16,11 @@
 //}
 import QtQuick 2.5
 import QtQuick.Window 2.2
-import QtQuick.Controls 1.3
+import QtQuick.Controls 1.5
 import QtLocation       5.3
 import QtPositioning    5.3
-
+import QtQml 2.0
+import "myscript.js" as MyScript
 Window {
     id: main
     visible: true
@@ -30,8 +31,7 @@ Window {
     property real pi: 3.1415926535897932384626
     property real a: 6378245.0
     property real ee: 0.00669342162296594323;
-
-
+    //property CoordinateAnimation aa : QtPositioning.coordinate(30.5594483655,103.9976232481);
     function transformLat(x , y)
     {
         var ret
@@ -63,7 +63,6 @@ Window {
         dLon = (dLon * 180.0) / (a / sqrtMagic * Math.cos(radLat) * pi);
         mgLat = lat + dLat;
         mgLon = lon + dLon;
-
         return  QtPositioning.coordinate(mgLat, mgLon);
     }
 
@@ -76,23 +75,25 @@ Window {
     }
     Map {
 
-        id: _map
+        id: map1
         anchors.fill: parent
         minimumZoomLevel: 14
         maximumZoomLevel: 18
-        zoomLevel:                  18
-        center:                wps84_To_Gcj02(30.5594483655,103.9976232481) // QtPositioning.coordinate(30.5594483655,103.9976232481)
+        zoomLevel:                  16
+        center:               wps84_To_Gcj02(30.5594483655,103.9976232481) // QtPositioning.coordinate(30.5594483655,103.9976232481)
         gesture.flickDeceleration:  3000
 
         // 地图插件
         plugin: Plugin { name: "Gaode" }
         MapCircle {
-            center :    wps84_To_Gcj02(30.5594483655,103.9976232481)//QtPositioning.coordinate(30.5594,103.9976)
+            center :wps84_To_Gcj02(30.5594483655,103.9976232481)// wps84_To_Gcj02(30.5594483655,103.9976232481)//QtPositioning.coordinate(30.5594,103.9976)
             radius: 5.0
             color: 'green'
             border.width: 3
         }
 
     }
+    //绘制公交线路：
+
 
 }

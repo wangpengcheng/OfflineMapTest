@@ -9,7 +9,7 @@
 #include <QWidget>
 #include <QDesktopWidget>
 #include <QDialog>
-
+#include <QtLocation/private/qdeclarativegeomap_p.h>
 #include "tool.h"
 #include "test/tool_test.h"
 int main(int argc, char *argv[])

@@ -71,7 +71,7 @@ UrlFactory::getTileURL(const MapType type,
     default:
         break;
     }
-    qDebug()<<"hello"+url;
+   qDebug()<<url;
     return request;
 }
 
@@ -90,7 +90,7 @@ UrlFactory::_getURL(const MapType type,
     switch (type) {
         case GaodeStreet:
         {
-            qDebug()<<QString("file:///tmp/esri_tiles/esri_100-l-3-%1-%2-%3.png").arg(x).arg(y).arg(zoom);
+           // qDebug()<<QString("file:///tmp/esri_tiles/esri_100-l-3-%1-%2-%3.png").arg(x).arg(y).arg(zoom);
 
             //return QString("http://wprd03.is.autonavi.com/appmaptile?style=7&x=%1&y=%2&z=%3").arg(x).arg(y).arg(zoom);
             //return QString("file:///tmp/esri_tiles/esri_100-l-3-%1-%2-%3.png").arg(x).arg(y).arg(zoom);
@@ -103,7 +103,7 @@ UrlFactory::_getURL(const MapType type,
             //return QString("file:///tmp/esri_tiles/esri_100-l-3-%1-%2-%3.png").arg(zoom).arg(x).arg(y);
             QString result=QString("file:///F:/GitHub/OfflineMapTest/_alllayers/%1/%2/%3.png").arg(zz).arg(yy).arg(xx);
              //QString reslut=QString(" file:///media/wangpengcheng/文档/GitHub/OfflineMapTest/_alllayers/%1/%2/%3.png").arg(zz).arg(yy).arg(xx);
-            qDebug()<<result;
+          //  qDebug()<<result;
             return result;
             break;
         }
