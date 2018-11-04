@@ -20,7 +20,7 @@ import QtQuick.Controls 1.5
 import QtLocation       5.3
 import QtPositioning    5.3
 import QtQml 2.0
-import "myscript.js" as MyScript
+
 Window {
     id: main
     visible: true
@@ -86,7 +86,7 @@ Window {
         // 地图插件
         plugin: Plugin { name: "Gaode" }
         MapCircle {
-            center :wps84_To_Gcj02(30.5594483655,103.9976232481)// wps84_To_Gcj02(30.5594483655,103.9976232481)//QtPositioning.coordinate(30.5594,103.9976)
+            center : wps84_To_Gcj02(30.5594483655,103.9976232481)// wps84_To_Gcj02(30.5594483655,103.9976232481)//QtPositioning.coordinate(30.5594,103.9976)
             radius: 5.0
             color: 'green'
             border.width: 3
