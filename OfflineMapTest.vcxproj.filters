@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Generated Files">
       <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
@@ -61,6 +61,18 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="screencontrol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\screencontroltest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\tool_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QtLocationPlugin\GeoMapReply.h">
@@ -87,6 +99,18 @@
     <QtMoc Include="QtLocationPlugin\TileCacheWorker.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <ClInclude Include="screencontrol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\screencontroltest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="tool.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="test\tool_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     
@@ -113,11 +137,10 @@
     </CustomBuild>
     
     
+    
+    
   </ItemGroup>
   <ItemGroup>
-    <None Include="MainForm.ui.qml">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="main.qml">
       <Filter>Resource Files</Filter>
     </None>

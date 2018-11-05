@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -23,10 +23,11 @@
     <RootNamespace>OfflineMapTest</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
     <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.14393.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <PlatformToolSet>v140</PlatformToolSet>
+    <PlatformToolset>v140</PlatformToolset>
     <OutputDirectory>release\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
@@ -35,7 +36,7 @@
     <PrimaryOutput>OfflineMapTest</PrimaryOutput>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <PlatformToolSet>v140</PlatformToolSet>
+    <PlatformToolset>v140</PlatformToolset>
     <OutputDirectory>release\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
@@ -44,7 +45,7 @@
     <PrimaryOutput>OfflineMapTest</PrimaryOutput>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <PlatformToolSet>v140</PlatformToolSet>
+    <PlatformToolset>v140</PlatformToolset>
     <OutputDirectory>debug\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
@@ -53,7 +54,7 @@
     <PrimaryOutput>OfflineMapTest</PrimaryOutput>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <PlatformToolSet>v140</PlatformToolSet>
+    <PlatformToolset>v140</PlatformToolset>
     <OutputDirectory>debug\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
@@ -109,8 +110,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(QTDIR)\include;$(QTDIR)\include\QtLocation;QtLocationPlugin;$(QTDIR)\include\QtLocation\5.8.0;$(QTDIR)\include\QtLocation\5.8.0\QtLocation;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtPositioning\5.8.0;$(QTDIR)\include\QtPositioning\5.8.0\QtPositioning;$(QTDIR)\include\QtCore\5.8.0;$(QTDIR)\include\QtCore\5.8.0\QtCore;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtCore;release;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(QTDIR)\include;$(QTDIR)\include\QtLocation;QtLocationPlugin;$(QTDIR)\include\QtLocation\5.11.1;$(QTDIR)\include\QtLocation\5.11.1\QtLocation;$(QTDIR)\include\QtQuick\5.11.1;$(QTDIR)\include\QtQuick\5.11.1\QtQuick;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui\5.11.1;$(QTDIR)\include\QtGui\5.11.1\QtGui;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtQml\5.11.1;$(QTDIR)\include\QtQml\5.11.1\QtQml;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtPositioning\5.11.1;$(QTDIR)\include\QtPositioning\5.11.1\QtPositioning;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtCore\5.11.1;$(QTDIR)\include\QtCore\5.11.1\QtCore;$(QTDIR)\include\QtCore;release;\include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>None</DebugInformationFormat>
@@ -118,19 +119,18 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(QTDIR)\lib\qtmain.lib;shell32.lib;$(QTDIR)\lib\Qt5Location.lib;$(QTDIR)\lib\Qt5Quick.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Qml.lib;$(QTDIR)\lib\Qt5Network.lib;$(QTDIR)\lib\Qt5Positioning.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\utils\my_sql\my_sql\lib;C:\utils\postgresql\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmain.lib;shell32.lib;$(QTDIR)\lib\Qt5Location.lib;$(QTDIR)\lib\Qt5Quick.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Qml.lib;$(QTDIR)\lib\Qt5Network.lib;$(QTDIR)\lib\Qt5Positioning.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.6.11-winx64\lib;C:\Utils\postgresql\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -147,32 +147,32 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <QtMoc>
       <QTDIR>$(QTDIR)</QTDIR>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
-      <Define>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</Define>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
       <Include>$(Configuration)/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <InputFile>%(FullPath)</InputFile>
       <DynamicSource>output</DynamicSource>
-      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\mkspecs/$(Platform)-msvc2015;.;$(QTDIR)\include;$(QTDIR)\include/QtLocation;./QtLocationPlugin;$(QTDIR)\include/QtLocation/5.8.0;$(QTDIR)\include/QtLocation/5.8.0/QtLocation;$(QTDIR)\include/QtQuick;$(QTDIR)\include/QtGui;$(QTDIR)\include/QtANGLE;$(QTDIR)\include/QtQml;$(QTDIR)\include/QtNetwork;$(QTDIR)\include/QtPositioning/5.8.0;$(QTDIR)\include/QtPositioning/5.8.0/QtPositioning;$(QTDIR)\include/QtCore/5.8.0;$(QTDIR)\include/QtCore/5.8.0/QtCore;$(QTDIR)\include/QtPositioning;$(QTDIR)\include/QtCore;E:\Microsoft Visual Studio 14.0\VC\INCLUDE;E:\Microsoft Visual Studio 14.0\VC\ATLMFC\INCLUDE;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\ucrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\winrt</IncludePath>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\mkspecs/$(Platform)-msvc;.;$(QTDIR)\include;$(QTDIR)\include/QtLocation;./QtLocationPlugin;$(QTDIR)\include/QtLocation/5.11.1;$(QTDIR)\include/QtLocation/5.11.1/QtLocation;$(QTDIR)\include/QtQuick/5.11.1;$(QTDIR)\include/QtQuick/5.11.1/QtQuick;$(QTDIR)\include/QtQuick;$(QTDIR)\include/QtWidgets;$(QTDIR)\include/QtGui/5.11.1;$(QTDIR)\include/QtGui/5.11.1/QtGui;$(QTDIR)\include/QtGui;$(QTDIR)\include/QtANGLE;$(QTDIR)\include/QtQml/5.11.1;$(QTDIR)\include/QtQml/5.11.1/QtQml;$(QTDIR)\include/QtQml;$(QTDIR)\include/QtNetwork;$(QTDIR)\include/QtPositioning/5.11.1;$(QTDIR)\include/QtPositioning/5.11.1/QtPositioning;$(QTDIR)\include/QtPositioning;$(QTDIR)\include/QtCore/5.11.1;$(QTDIR)\include/QtCore/5.11.1/QtCore;$(QTDIR)\include/QtCore;/usr/include/c++/5;/usr/include/x86_64-linux-gnu/c++/5;/usr/include/c++/5/backward;/usr/lib/gcc/x86_64-linux-gnu/5/include;/usr/local/include;/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed;/usr/include/x86_64-linux-gnu;/usr/include</IncludePath>
     </QtMoc>
     <QtRcc>
       <InitFuncName>qml</InitFuncName>
-      <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
       <QTDIR>$(QTDIR)</QTDIR>
       <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
       <Compression>default</Compression>
+      <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
       <InputFile>%(FullPath)</InputFile>
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(QTDIR)\include;$(QTDIR)\include\QtLocation;QtLocationPlugin;$(QTDIR)\include\QtLocation\5.8.0;$(QTDIR)\include\QtLocation\5.8.0\QtLocation;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtPositioning\5.8.0;$(QTDIR)\include\QtPositioning\5.8.0\QtPositioning;$(QTDIR)\include\QtCore\5.8.0;$(QTDIR)\include\QtCore\5.8.0\QtCore;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtCore;release;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(QTDIR)\include;$(QTDIR)\include\QtLocation;QtLocationPlugin;$(QTDIR)\include\QtLocation\5.11.1;$(QTDIR)\include\QtLocation\5.11.1\QtLocation;$(QTDIR)\include\QtQuick\5.11.1;$(QTDIR)\include\QtQuick\5.11.1\QtQuick;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui\5.11.1;$(QTDIR)\include\QtGui\5.11.1\QtGui;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtQml\5.11.1;$(QTDIR)\include\QtQml\5.11.1\QtQml;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtPositioning\5.11.1;$(QTDIR)\include\QtPositioning\5.11.1\QtPositioning;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtCore\5.11.1;$(QTDIR)\include\QtCore\5.11.1\QtCore;$(QTDIR)\include\QtCore;release;\include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>None</DebugInformationFormat>
@@ -180,19 +180,18 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;NDEBUG;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;NDEBUG;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(QTDIR)\lib\qtmain.lib;shell32.lib;$(QTDIR)\lib\Qt5Location.lib;$(QTDIR)\lib\Qt5Quick.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Qml.lib;$(QTDIR)\lib\Qt5Network.lib;$(QTDIR)\lib\Qt5Positioning.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\utils\my_sql\my_sql\lib;C:\utils\postgresql\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmain.lib;shell32.lib;$(QTDIR)\lib\Qt5Location.lib;$(QTDIR)\lib\Qt5Quick.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Qml.lib;$(QTDIR)\lib\Qt5Network.lib;$(QTDIR)\lib\Qt5Positioning.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.6.11-winx64\lib;C:\Utils\postgresql\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type=%27win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27 processorArchitecture=%27*%27"  /SUBSYSTEM:WINDOWS %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -210,32 +209,32 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <QtMoc>
       <QTDIR>$(QTDIR)</QTDIR>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
-      <Define>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;NDEBUG;WIN64;%(PreprocessorDefinitions)</Define>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_NO_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;NDEBUG;WIN64;%(PreprocessorDefinitions)</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
       <Include>$(Configuration)/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <InputFile>%(FullPath)</InputFile>
       <DynamicSource>output</DynamicSource>
-      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\mkspecs/$(Platform)-msvc2015;.;$(QTDIR)\include;$(QTDIR)\include/QtLocation;./QtLocationPlugin;$(QTDIR)\include/QtLocation/5.8.0;$(QTDIR)\include/QtLocation/5.8.0/QtLocation;$(QTDIR)\include/QtQuick;$(QTDIR)\include/QtGui;$(QTDIR)\include/QtANGLE;$(QTDIR)\include/QtQml;$(QTDIR)\include/QtNetwork;$(QTDIR)\include/QtPositioning/5.8.0;$(QTDIR)\include/QtPositioning/5.8.0/QtPositioning;$(QTDIR)\include/QtCore/5.8.0;$(QTDIR)\include/QtCore/5.8.0/QtCore;$(QTDIR)\include/QtPositioning;$(QTDIR)\include/QtCore;E:\Microsoft Visual Studio 14.0\VC\INCLUDE;E:\Microsoft Visual Studio 14.0\VC\ATLMFC\INCLUDE;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\ucrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\winrt</IncludePath>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\mkspecs/$(Platform)-msvc;.;$(QTDIR)\include;$(QTDIR)\include/QtLocation;./QtLocationPlugin;$(QTDIR)\include/QtLocation/5.11.1;$(QTDIR)\include/QtLocation/5.11.1/QtLocation;$(QTDIR)\include/QtQuick/5.11.1;$(QTDIR)\include/QtQuick/5.11.1/QtQuick;$(QTDIR)\include/QtQuick;$(QTDIR)\include/QtWidgets;$(QTDIR)\include/QtGui/5.11.1;$(QTDIR)\include/QtGui/5.11.1/QtGui;$(QTDIR)\include/QtGui;$(QTDIR)\include/QtANGLE;$(QTDIR)\include/QtQml/5.11.1;$(QTDIR)\include/QtQml/5.11.1/QtQml;$(QTDIR)\include/QtQml;$(QTDIR)\include/QtNetwork;$(QTDIR)\include/QtPositioning/5.11.1;$(QTDIR)\include/QtPositioning/5.11.1/QtPositioning;$(QTDIR)\include/QtPositioning;$(QTDIR)\include/QtCore/5.11.1;$(QTDIR)\include/QtCore/5.11.1/QtCore;$(QTDIR)\include/QtCore;/usr/include/c++/5;/usr/include/x86_64-linux-gnu/c++/5;/usr/include/c++/5/backward;/usr/lib/gcc/x86_64-linux-gnu/5/include;/usr/local/include;/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed;/usr/include/x86_64-linux-gnu;/usr/include</IncludePath>
     </QtMoc>
     <QtRcc>
       <InitFuncName>qml</InitFuncName>
-      <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
       <QTDIR>$(QTDIR)</QTDIR>
       <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
       <Compression>default</Compression>
+      <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
       <InputFile>%(FullPath)</InputFile>
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(QTDIR)\include;$(QTDIR)\include\QtLocation;QtLocationPlugin;$(QTDIR)\include\QtLocation\5.8.0;$(QTDIR)\include\QtLocation\5.8.0\QtLocation;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtPositioning\5.8.0;$(QTDIR)\include\QtPositioning\5.8.0\QtPositioning;$(QTDIR)\include\QtCore\5.8.0;$(QTDIR)\include\QtCore\5.8.0\QtCore;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtCore;debug;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(QTDIR)\include;$(QTDIR)\include\QtLocation;QtLocationPlugin;$(QTDIR)\include\QtLocation\5.11.1;$(QTDIR)\include\QtLocation\5.11.1\QtLocation;$(QTDIR)\include\QtQuick\5.11.1;$(QTDIR)\include\QtQuick\5.11.1\QtQuick;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui\5.11.1;$(QTDIR)\include\QtGui\5.11.1\QtGui;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtQml\5.11.1;$(QTDIR)\include\QtQml\5.11.1\QtQml;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtPositioning\5.11.1;$(QTDIR)\include\QtPositioning\5.11.1\QtPositioning;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtCore\5.11.1;$(QTDIR)\include\QtCore\5.11.1\QtCore;$(QTDIR)\include\QtCore;debug;\include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -243,10 +242,9 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
@@ -254,8 +252,8 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;shell32.lib;$(QTDIR)\lib\Qt5Locationd.lib;$(QTDIR)\lib\Qt5Quickd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Qmld.lib;$(QTDIR)\lib\Qt5Networkd.lib;$(QTDIR)\lib\Qt5Positioningd.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\utils\my_sql\my_sql\lib;C:\utils\postgresql\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;shell32.lib;$(QTDIR)\lib\Qt5Locationd.lib;$(QTDIR)\lib\Qt5Quickd.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Qmld.lib;$(QTDIR)\lib\Qt5Networkd.lib;$(QTDIR)\lib\Qt5Positioningd.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.6.11-winx64\lib;C:\Utils\postgresql\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -271,32 +269,32 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <QtRcc>
-      <QTDIR>$(QTDIR)</QTDIR>
-      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
       <Compression>default</Compression>
-      <InitFuncName>qml</InitFuncName>
       <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <InitFuncName>qml</InitFuncName>
       <InputFile>%(FullPath)</InputFile>
+      <QTDIR>$(QTDIR)</QTDIR>
     </QtRcc>
     <QtMoc>
       <QTDIR>$(QTDIR)</QTDIR>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
-      <Define>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</Define>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
       <Include>$(Configuration)/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <InputFile>%(FullPath)</InputFile>
       <DynamicSource>output</DynamicSource>
-      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\mkspecs/$(Platform)-msvc2015;.;$(QTDIR)\include;$(QTDIR)\include/QtLocation;./QtLocationPlugin;$(QTDIR)\include/QtLocation/5.8.0;$(QTDIR)\include/QtLocation/5.8.0/QtLocation;$(QTDIR)\include/QtQuick;$(QTDIR)\include/QtGui;$(QTDIR)\include/QtANGLE;$(QTDIR)\include/QtQml;$(QTDIR)\include/QtNetwork;$(QTDIR)\include/QtPositioning/5.8.0;$(QTDIR)\include/QtPositioning/5.8.0/QtPositioning;$(QTDIR)\include/QtCore/5.8.0;$(QTDIR)\include/QtCore/5.8.0/QtCore;$(QTDIR)\include/QtPositioning;$(QTDIR)\include/QtCore;E:\Microsoft Visual Studio 14.0\VC\INCLUDE;E:\Microsoft Visual Studio 14.0\VC\ATLMFC\INCLUDE;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\ucrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\winrt</IncludePath>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\mkspecs/$(Platform)-msvc;.;$(QTDIR)\include;$(QTDIR)\include/QtLocation;./QtLocationPlugin;$(QTDIR)\include/QtLocation/5.11.1;$(QTDIR)\include/QtLocation/5.11.1/QtLocation;$(QTDIR)\include/QtQuick/5.11.1;$(QTDIR)\include/QtQuick/5.11.1/QtQuick;$(QTDIR)\include/QtQuick;$(QTDIR)\include/QtWidgets;$(QTDIR)\include/QtGui/5.11.1;$(QTDIR)\include/QtGui/5.11.1/QtGui;$(QTDIR)\include/QtGui;$(QTDIR)\include/QtANGLE;$(QTDIR)\include/QtQml/5.11.1;$(QTDIR)\include/QtQml/5.11.1/QtQml;$(QTDIR)\include/QtQml;$(QTDIR)\include/QtNetwork;$(QTDIR)\include/QtPositioning/5.11.1;$(QTDIR)\include/QtPositioning/5.11.1/QtPositioning;$(QTDIR)\include/QtPositioning;$(QTDIR)\include/QtCore/5.11.1;$(QTDIR)\include/QtCore/5.11.1/QtCore;$(QTDIR)\include/QtCore;/usr/include/c++/5;/usr/include/x86_64-linux-gnu/c++/5;/usr/include/c++/5/backward;/usr/lib/gcc/x86_64-linux-gnu/5/include;/usr/local/include;/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed;/usr/include/x86_64-linux-gnu;/usr/include</IncludePath>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(QTDIR)\include;$(QTDIR)\include\QtLocation;QtLocationPlugin;$(QTDIR)\include\QtLocation\5.8.0;$(QTDIR)\include\QtLocation\5.8.0\QtLocation;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtPositioning\5.8.0;$(QTDIR)\include\QtPositioning\5.8.0\QtPositioning;$(QTDIR)\include\QtCore\5.8.0;$(QTDIR)\include\QtCore\5.8.0\QtCore;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtCore;debug;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(QTDIR)\include;$(QTDIR)\include\QtLocation;QtLocationPlugin;$(QTDIR)\include\QtLocation\5.11.1;$(QTDIR)\include\QtLocation\5.11.1\QtLocation;$(QTDIR)\include\QtQuick\5.11.1;$(QTDIR)\include\QtQuick\5.11.1\QtQuick;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui\5.11.1;$(QTDIR)\include\QtGui\5.11.1\QtGui;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtQml\5.11.1;$(QTDIR)\include\QtQml\5.11.1\QtQml;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtPositioning\5.11.1;$(QTDIR)\include\QtPositioning\5.11.1\QtPositioning;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtCore\5.11.1;$(QTDIR)\include\QtCore\5.11.1\QtCore;$(QTDIR)\include\QtCore;debug;\include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -304,10 +302,9 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
@@ -315,8 +312,8 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;shell32.lib;$(QTDIR)\lib\Qt5Locationd.lib;$(QTDIR)\lib\Qt5Quickd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Qmld.lib;$(QTDIR)\lib\Qt5Networkd.lib;$(QTDIR)\lib\Qt5Positioningd.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\utils\my_sql\my_sql\lib;C:\utils\postgresql\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;shell32.lib;$(QTDIR)\lib\Qt5Locationd.lib;$(QTDIR)\lib\Qt5Quickd.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Qmld.lib;$(QTDIR)\lib\Qt5Networkd.lib;$(QTDIR)\lib\Qt5Positioningd.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.6.11-winx64\lib;C:\Utils\postgresql\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type=%27win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27 processorArchitecture=%27*%27"  /SUBSYSTEM:WINDOWS %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -333,26 +330,26 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <QtRcc>
-      <QTDIR>$(QTDIR)</QTDIR>
-      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
       <Compression>default</Compression>
-      <InitFuncName>qml</InitFuncName>
       <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+      <InitFuncName>qml</InitFuncName>
       <InputFile>%(FullPath)</InputFile>
+      <QTDIR>$(QTDIR)</QTDIR>
     </QtRcc>
     <QtMoc>
       <QTDIR>$(QTDIR)</QTDIR>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
-      <Define>_WINDOWS;UNICODE;WIN32;QT_DEPRECATED_WARNINGS;QT_QML_DEBUG;QT_LOCATION_LIB;QT_QUICK_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;WIN64;%(PreprocessorDefinitions)</Define>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;QT_LOCATION_LIB;QT_QUICK_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_QML_LIB;QT_NETWORK_LIB;QT_POSITIONING_LIB;QT_CORE_LIB;WIN64;%(PreprocessorDefinitions)</Define>
       <CompilerFlavor>msvc</CompilerFlavor>
       <Include>$(Configuration)/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <InputFile>%(FullPath)</InputFile>
       <DynamicSource>output</DynamicSource>
-      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\mkspecs/$(Platform)-msvc2015;.;$(QTDIR)\include;$(QTDIR)\include/QtLocation;./QtLocationPlugin;$(QTDIR)\include/QtLocation/5.8.0;$(QTDIR)\include/QtLocation/5.8.0/QtLocation;$(QTDIR)\include/QtQuick;$(QTDIR)\include/QtGui;$(QTDIR)\include/QtANGLE;$(QTDIR)\include/QtQml;$(QTDIR)\include/QtNetwork;$(QTDIR)\include/QtPositioning/5.8.0;$(QTDIR)\include/QtPositioning/5.8.0/QtPositioning;$(QTDIR)\include/QtCore/5.8.0;$(QTDIR)\include/QtCore/5.8.0/QtCore;$(QTDIR)\include/QtPositioning;$(QTDIR)\include/QtCore;E:\Microsoft Visual Studio 14.0\VC\INCLUDE;E:\Microsoft Visual Studio 14.0\VC\ATLMFC\INCLUDE;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\ucrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.14393.0\winrt</IncludePath>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\mkspecs/$(Platform)-msvc;.;$(QTDIR)\include;$(QTDIR)\include/QtLocation;./QtLocationPlugin;$(QTDIR)\include/QtLocation/5.11.1;$(QTDIR)\include/QtLocation/5.11.1/QtLocation;$(QTDIR)\include/QtQuick/5.11.1;$(QTDIR)\include/QtQuick/5.11.1/QtQuick;$(QTDIR)\include/QtQuick;$(QTDIR)\include/QtWidgets;$(QTDIR)\include/QtGui/5.11.1;$(QTDIR)\include/QtGui/5.11.1/QtGui;$(QTDIR)\include/QtGui;$(QTDIR)\include/QtANGLE;$(QTDIR)\include/QtQml/5.11.1;$(QTDIR)\include/QtQml/5.11.1/QtQml;$(QTDIR)\include/QtQml;$(QTDIR)\include/QtNetwork;$(QTDIR)\include/QtPositioning/5.11.1;$(QTDIR)\include/QtPositioning/5.11.1/QtPositioning;$(QTDIR)\include/QtPositioning;$(QTDIR)\include/QtCore/5.11.1;$(QTDIR)\include/QtCore/5.11.1/QtCore;$(QTDIR)\include/QtCore;/usr/include/c++/5;/usr/include/x86_64-linux-gnu/c++/5;/usr/include/c++/5/backward;/usr/lib/gcc/x86_64-linux-gnu/5/include;/usr/local/include;/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed;/usr/include/x86_64-linux-gnu;/usr/include</IncludePath>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -364,6 +361,10 @@
     <ClCompile Include="QtLocationPlugin\MapUrlEngine.cpp" />
     <ClCompile Include="QtLocationPlugin\TileCacheWorker.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="screencontrol.cpp" />
+    <ClCompile Include="test\screencontroltest.cpp" />
+    <ClCompile Include="tool.cpp" />
+    <ClCompile Include="test\tool_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QtLocationPlugin\GeoMapReply.h">
@@ -382,6 +383,11 @@
     </QtMoc>
     <QtMoc Include="QtLocationPlugin\TileCacheWorker.h">
     </QtMoc>
+    <ClInclude Include="screencontrol.h" />
+    <ClInclude Include="test\screencontroltest.h" />
+    <QtMoc Include="tool.h">
+    </QtMoc>
+    <ClInclude Include="test\tool_test.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -390,8 +396,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:strictStrings -Zc:throwingNew -Zi -MDd -GR -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E -Za $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;debug\moc_predefs.h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:strictStrings -Zc:throwingNew -Zi -MDd -GR -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E -Za $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;debug\moc_predefs.h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zi -MDd -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;debug\moc_predefs.h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zi -MDd -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;debug\moc_predefs.h</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generate moc_predefs.h</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generate moc_predefs.h</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_predefs.h;%(Outputs)</Outputs>
@@ -401,8 +407,8 @@
       <FileType>Document</FileType>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:strictStrings -Zc:throwingNew -O2 -MD -GR -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E -Za $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;release\moc_predefs.h</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:strictStrings -Zc:throwingNew -O2 -MD -GR -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E -Za $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;release\moc_predefs.h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -O2 -MD -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;release\moc_predefs.h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -O2 -MD -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;release\moc_predefs.h</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generate moc_predefs.h</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generate moc_predefs.h</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_predefs.h;%(Outputs)</Outputs>
@@ -412,7 +418,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="MainForm.ui.qml" />
     <None Include="main.qml" />
     <QtRcc Include="qml.qrc">
     </QtRcc>

@@ -1,4 +1,4 @@
-#include <iostream>
+﻿
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QApplication>
@@ -16,7 +16,9 @@
  * #include "tool.h"
  * #include "test/tool_test.h"
 */
-#include "screencontrol.h"
+#include "tool.h"
+#include "test/tool_test.h"
+
 #include "test/screencontroltest.h"
 
 int main(int argc, char *argv[])
@@ -28,40 +30,23 @@ int main(int argc, char *argv[])
     QString runPath = QCoreApplication::applicationFilePath();
     qDebug()<<runPath;
     qDebug()<<QDir::currentPath();
-    /*
+
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     //add qucik
     QQmlApplicationEngine engine;
     //load qml file
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    */
+    /*
     //获取当前硬件控件
     QDesktopWidget *desktop=QApplication::desktop();
     //创建测试类
-   // ScreenControlTest1  kao;
+    ScreenControlTest  he_he(desktop);
     //测试窗口
-    // kao.m_screencontrol;
-
-  //  QRect result=desktop->screenGeometry();
-   // qDebug()<<result.width();
-    qDebug()<<"--------This test start--------";
-
-    int temp_count=desktop->screenCount();
-    qDebug()<<"this screen numbers  is "<<temp_count;
-    for(int i=0;i<temp_count;++i)
-    {
-           QWidget *temp=new QWidget();
-           temp->setGeometry(desktop->screenGeometry(i));
-           QString  temp_string=QString("this screen's number is %1").arg(i);
-           temp->setWindowTitle(temp_string);
-           temp->resize(500,600);
-         //  temp->move(500,500);
-           temp->show();
-           qDebug()<<temp_string;
-    }
-    qDebug()<<"--------This test end--------";
-
+     he_he.SetWindowTest();
+    // tool_test temp_test; //main function
+     //temp_test.WPS84Test();//wps84Test tool
+    */
     return app.exec();
 
 }
