@@ -9,6 +9,8 @@
  *
  * 王鹏程 2018-11-4 16:39
  * QQ: 673018396
+ * 完整项目地址：
+ * https://github.com/wangpengcheng/OfflineMapTest
  *
 */
 

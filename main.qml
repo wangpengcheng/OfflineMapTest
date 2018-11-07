@@ -78,7 +78,7 @@ Window {
         id: map1
         anchors.fill: parent
         minimumZoomLevel: 14
-        maximumZoomLevel: 18
+        maximumZoomLevel: 19
         zoomLevel:                  16
         center:               wps84_To_Gcj02(30.5594483655,103.9976232481) // QtPositioning.coordinate(30.5594483655,103.9976232481)
         gesture.flickDeceleration:  3000
@@ -94,6 +94,10 @@ Window {
 
     }
     //绘制公交线路：
+    Column{
+    }
+    Image{
+    }
 
 
 }

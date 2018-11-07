@@ -4,11 +4,10 @@
  * tool一般工具类，实现所有常用工具转化
  * 王鹏程 QQ:673018396
  * 2018-10-30 10:51
+ * 完整项目地址：
+ * https://github.com/wangpengcheng/OfflineMapTest
 */
 
-//#ifndef QGEOCOORDINATE_H
-//#include <QGeoCoordinate>
-//#endif
 #include <QObject>
 class QGeoCoordinate;
 class Tool: public QObject
