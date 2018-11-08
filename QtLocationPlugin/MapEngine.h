@@ -67,7 +67,7 @@ private:
     UrlFactory*             _urlFactory;
 };
 
-extern MapEngine*       getMapEngine();
+extern MapEngine*    getMapEngine();
 extern void             destroyMapEngine();
 
 #endif

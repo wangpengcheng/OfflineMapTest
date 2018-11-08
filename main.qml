@@ -76,6 +76,7 @@ Window {
     Map {
 
         id: map1
+        objectName: "maptest1"
         anchors.fill: parent
         minimumZoomLevel: 14
         maximumZoomLevel: 19
@@ -93,11 +94,5 @@ Window {
         }
 
     }
-    //绘制公交线路：
-    Column{
-    }
-    Image{
-    }
-
 
 }

@@ -6,10 +6,7 @@
 #include <QFile>
 
 //-----------------------------------------------------------------------------
-GeoTiledMapReply::GeoTiledMapReply(QNetworkAccessManager *networkManager,
-                                   const QNetworkRequest &request,
-                                   const QGeoTileSpec &spec,
-                                   QObject *parent)
+GeoTiledMapReply::GeoTiledMapReply(QNetworkAccessManager *networkManager, const QNetworkRequest &request, const QGeoTileSpec &spec, QObject *parent)
     : QGeoTiledMapReply(spec, parent)
     , _reply(NULL)
     , _request(request)
@@ -26,10 +23,7 @@ GeoTiledMapReply::GeoTiledMapReply(QNetworkAccessManager *networkManager,
         setFinished(true);
         setCached(false);
     } else {
-        FetchTileTask* task = getMapEngine()->createFetchTileTask(UrlFactory::GaodeSatellite,
-                                                                  spec.x(),
-                                                                  spec.y(),
-                                                                  spec.zoom());
+        FetchTileTask* task = getMapEngine()->createFetchTileTask(UrlFactory::GaodeSatellite, spec.x(), spec.y(), spec.zoom());
         connect(task, &MapTask::error, this, &GeoTiledMapReply::cacheError);
         getMapEngine()->addTask(task);
     }

@@ -5,12 +5,16 @@
 #include <QString>
 #include <QHash>
 #include <QDateTime>
-#include "MapUrlEngine.h"
-#ifndef UINT64_MAX
-#define UINT64_MAX  18446744073709551615
-#endif
-#define	M_PI		3.14159265358979323846	/* pi */
 
+#include "MapUrlEngine.h"
+
+#ifndef UINT64_MAX
+#define  UINT64_MAX 18446744073709551615
+#endif
+
+#ifndef M_PI
+#define	M_PI		3.14159265358979323846	/* pi */
+#endif
 
 //-----------------------------------------------------------------------------
 class MapTask : public QObject
