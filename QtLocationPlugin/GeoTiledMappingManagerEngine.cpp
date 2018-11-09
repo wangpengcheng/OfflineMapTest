@@ -27,7 +27,9 @@ GeoTiledMap::GeoTiledMap(QGeoTiledMappingManagerEngine *engine, QObject *parent)
 #endif
 
 //-----------------------------------------------------------------------------
-GeoTiledMappingManagerEngine::GeoTiledMappingManagerEngine(const QVariantMap &parameters, QGeoServiceProvider::Error *error, QString *errorString)
+GeoTiledMappingManagerEngine::GeoTiledMappingManagerEngine(const QVariantMap &parameters,
+                                                           QGeoServiceProvider::Error *error,
+                                                           QString *errorString)
 :   QGeoTiledMappingManagerEngine()
 {
     QGeoCameraCapabilities cameraCaps;

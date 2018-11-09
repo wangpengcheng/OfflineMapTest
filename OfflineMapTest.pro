@@ -49,9 +49,9 @@ QT += network widgets
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    tool.cpp \
-    busstation.cpp \
-    screencontrol.cpp
+    src/tool.cpp \
+    src/busstation.cpp \
+    src/screencontrol.cpp
 
 RESOURCES += qml.qrc
 
@@ -70,6 +70,6 @@ LOCATION_PLUGIN_DESTDIR = $${OUT_PWD}/QtLocationPlugin
 LOCATION_PLUGIN_NAME    = GeoServiceProviderFactory
 
 HEADERS += \
-    tool.h \
-    screencontrol.h \
-    busstation.h
+    src/tool.h \
+    src/screencontrol.h \
+    src/busstation.h

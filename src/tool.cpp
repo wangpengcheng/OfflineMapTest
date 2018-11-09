@@ -15,8 +15,9 @@
 #ifndef QMATH_H
 #include <QtMath>
 #endif
-
-
+#ifndef QDEBUG_H
+#include <QDebug>
+#endif
 Tool::Tool():QObject(nullptr)
 {
 
@@ -33,9 +34,7 @@ const long long  pi =3.1415926535897932384626;
 const long long  a =6378245.0;
 const long long  ee=0.00669342162296594323;
 
-/*
- *将纬度lat转换为常用度数
- */
+//将纬度lat转换为常用度数
 double Tool::TransfromLatToDouble(const double x,
                                   const double y)
 {
@@ -46,10 +45,8 @@ double Tool::TransfromLatToDouble(const double x,
     temp_result += (160.0 * qSin(y / 12.0 * pi) + 320 * qSin(y * pi / 30.0)) * 2.0 / 3.0;
     return temp_result;
 }
-/*
- *将经度转化为常用度数
- */
 
+//将经度转化为常用度数
 double Tool::TransfromLonToDouble(const double x,
                                   const double y)
 {
@@ -61,7 +58,7 @@ double Tool::TransfromLonToDouble(const double x,
     return temp_result;
 }
 
-/*对GPS坐标做处理，Wps84转Gcj-02*/
+//对GPS坐标做处理，Wps84转Gcj-02
 QGeoCoordinate Tool::WPS84ToGCJ02(const double lat,
                                   const double lon)
 {
@@ -85,3 +82,19 @@ QGeoCoordinate Tool::WPS84ToGCJ02(const double lat,
  * 模块结束
  *mondel start
  */
+
+/*测试工具模块开始*/
+/*测试提示*/
+void Tool::TestNoteTool(const QString TestName,
+                         const int i)
+{
+    if(i==0)
+    {
+        qDebug()<<QString("----------This %1 test Start----------").arg(TestName);
+    }else if (i==1) {
+        qDebug()<<QString("----------This %1 test End  ----------").arg(TestName);
+    }else {
+        qDebug()<<"Please input the right option";
+    }
+
+}

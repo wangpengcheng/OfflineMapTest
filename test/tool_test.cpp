@@ -21,3 +21,8 @@ void tool_test::WPS84Test(){
    qDebug()<<"--------This test end--------";
 
 }
+void tool_test::TestNoteToolTest()
+{
+    m_tool.TestNoteTool("TestToolTest Function",0);
+    m_tool.TestNoteTool("TestToolTest Function",1);
+}
