@@ -17,21 +17,37 @@
 ** 详见test/tool_test.h文件中的ToolTest类使用方法
 **
 *****************************************************************************/
+#ifndef QT_QTPOSITIONING_MODULE_H
+#include <QtPositioning>
+#endif
+
+#ifndef  QLOCATION_H
+#include <QLocation>
+#endif
+
+#ifndef QGEOCOORDINATE_H
+#include <QGeoCoordinate>
+#endif
+
+#ifndef QMATH_H
+#include <QtMath>
+#endif
+#ifndef QDEBUG_H
+#include <QDebug>
+#endif
 #include <QObject>
-class QGeoCoordinate;
 class Tool: public QObject
 {
     Q_OBJECT
     public:
-        Tool();
-        Tool(const Tool &temp);
+        explicit Tool(QObject *parent = nullptr);
        // ~Tool();
-        double TransfromLatToDouble(double x,double y);
-        double TransfromLonToDouble(double x,double y);
-        QGeoCoordinate WPS84ToGCJ02(double lat, double lon);
+        Q_INVOKABLE double TransfromLatToDouble(double x,double y);
+        Q_INVOKABLE double TransfromLonToDouble(double x,double y);
+        Q_INVOKABLE QGeoCoordinate WPS84ToGCJ02(double lat, double lon);
         //测试信息工具类
-        void TestNoteTool(const QString TestName,
-                           const int i);//选择模式1-start，2-end
+        Q_INVOKABLE void TestNoteTool(const QString TestName,
+                          const int i);//选择模式1-start，2-end
 
 
 };

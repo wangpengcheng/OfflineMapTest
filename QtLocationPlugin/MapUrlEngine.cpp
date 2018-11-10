@@ -8,6 +8,9 @@
 #include <QByteArray>
 #include <QDebug>
 #include <math.h>
+#ifndef  QCOREAPPLICATION_H
+#include <QCoreApplication>
+#endif
 UrlFactory::UrlFactory()
     : _timeout(5 * 1000)
 
@@ -104,10 +107,19 @@ UrlFactory::_getURL(const MapType type,
         break;
     case GaodeSatellite:
     {
-      //  qDebug()<<QString("http://wprd03.is.autonavi.com/appmaptile?style=7&x=%1&y=%2&z=%3").arg(x).arg(y).arg(zoom);
        //  return QString("http://wprd03.is.autonavi.com/appmaptile?style=7&x=%1&y=%2&z=%3").arg(x).arg(y).arg(zoom);
         //return QString("file:///tmp/esri_tiles/esri_100-l-3-%1-%2-%3.png").arg(zoom).arg(x).arg(y);
-       return QString("file:///F:/GitHub/OfflineMapTest/_alllayers/%1/%2/%3.png").arg(zz).arg(yy).arg(xx);
+         QString path_string=QCoreApplication::applicationDirPath();
+         if(path_string!=""){
+             QString temp_str="file:///"+path_string+"/_alllayers/%1/%2/%3.png";
+              qDebug()<<temp_str.arg(zz).arg(yy).arg(xx);
+             return temp_str.arg(zz).arg(yy).arg(xx);
+         }else {
+               QString temp_str="file:///"+path_string+"/_alllayers/%1/%2/%3.png";
+               qDebug()<<temp_str.arg(zz).arg(yy).arg(xx);
+            return QString("file:///F:/GitHub/OfflineMapTest/_alllayers/%1/%2/%3.png").arg(zz).arg(yy).arg(xx);
+         }
+
     }
         break;
 

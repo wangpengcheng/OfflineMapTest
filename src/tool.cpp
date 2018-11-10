@@ -18,7 +18,7 @@
 #ifndef QDEBUG_H
 #include <QDebug>
 #endif
-Tool::Tool():QObject(nullptr)
+Tool::Tool(QObject *parent)//:QObject(nullptr)
 {
 
 }
