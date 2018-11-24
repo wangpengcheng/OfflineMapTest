@@ -1,0 +1,47 @@
+﻿  Generate moc_predefs.h
+  Moc'ing QtLocationPlugin\GeoMapReply.h...
+  Moc'ing QtLocationPlugin\GeoServiceProviderPlugin.h...
+  Moc'ing QtLocationPlugin\GeoTileFetcher.h...
+  Moc'ing QtLocationPlugin\GeoTiledMappingManagerEngine.h...
+  Moc'ing QtLocationPlugin\MapEngine.h...
+  Moc'ing QtLocationPlugin\MapEngineData.h...
+  Moc'ing QtLocationPlugin\MapUrlEngine.h...
+  Moc'ing QtLocationPlugin\TileCacheWorker.h...
+  Moc'ing src\tool.h...
+  Rcc'ing qml.qrc...
+  GeoMapReply.cpp
+  GeoServiceProviderPlugin.cpp
+  GeoTileFetcher.cpp
+  GeoTiledMappingManagerEngine.cpp
+  MapEngine.cpp
+QtLocationPlugin\GeoTiledMappingManagerEngine.cpp(30): warning C4100: “parameters”: 未引用的形参
+  MapUrlEngine.cpp
+  TileCacheWorker.cpp
+  busstation.cpp
+  busstationtest.cpp
+  main.cpp
+  screencontrol.cpp
+  screencontroltest.cpp
+F:\GitHub\OfflineMapTest\src/tool.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 test\busstationtest.cpp)
+  tool.cpp
+src\tool.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+f:\github\offlinemaptest\src\tool.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 src\tool.cpp)
+f:\github\offlinemaptest\src/tool.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
+  tool_test.cpp
+F:\GitHub\OfflineMapTest\src/tool.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 test\tool_test.cpp)
+src\tool.cpp(21): warning C4100: “parent”: 未引用的形参
+  moc_GeoMapReply.cpp
+f:\github\offlinemaptest\src\tool.cpp(42): warning C4700: 使用了未初始化的局部变量“temp_result”
+  moc_GeoServiceProviderPlugin.cpp
+  moc_GeoTileFetcher.cpp
+  moc_GeoTiledMappingManagerEngine.cpp
+  moc_MapEngine.cpp
+  moc_MapEngineData.cpp
+  moc_MapUrlEngine.cpp
+  moc_TileCacheWorker.cpp
+  moc_tool.cpp
+f:\github\offlinemaptest\generatedfiles\debug\../../src/tool.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 .\GeneratedFiles\Debug\moc_tool.cpp)
+  qrc_qml.cpp
+    正在创建库 F:\GitHub\OfflineMapTest\x64\Debug\\OfflineMapTest.lib 和对象 F:\GitHub\OfflineMapTest\x64\Debug\\OfflineMapTest.exp
+  OfflineMapTest.vcxproj -> F:\GitHub\OfflineMapTest\x64\Debug\OfflineMapTest.exe
+  OfflineMapTest.vcxproj -> F:\GitHub\OfflineMapTest\x64\Debug\OfflineMapTest.pdb (Full PDB)

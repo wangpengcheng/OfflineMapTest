@@ -113,6 +113,7 @@ void BusStationTest::SetIocnScaleTest()
 {
     tool.TestNoteTool("SetIocnScaleTest",0);
     bus_station_test_->SetIocnScale(0.5);
+    /*
     if(bus_station_test_->bus_station_iocn()->size()==QSize(25,25))
     {
         qDebug()<<"This SetIocnScaleTest() function is OK";
@@ -121,6 +122,7 @@ void BusStationTest::SetIocnScaleTest()
         qDebug()<<"The Height is"<<bus_station_test_->bus_station_iocn()->size();
     }
     tool.TestNoteTool("SetBusStationIdTest",1);
+    */
 }
 void BusStationTest::ShowTest(QDeclarativeGeoMap *qMap)
 {

@@ -21,9 +21,31 @@
 **
 ** QT Version    5.11.1
 *****************************************************************************/
-
-class QDesktopWidget;
-class QWidget;
+/*
+ * 2018-11-24 添加新模块功能
+ * 思路：设置模式列表，不同模式对应不同的分辨率坐标和窗口大小
+ * 一： 3*4 3行4列，每个窗口分辨率为1920*1080（长*宽） 共计12个坐标点，每个窗口dx=1920;dy=1080 num=12
+ * 二： 3*2 3行2列，每个窗口分辨率为（1920*2）*1080 共计6个坐标点，每个窗口dx=1920*2;dy=1080 num=6
+ * 三： 3*1 3行1列，每个窗口分辨率为（1920*3）*1080 共计3个坐标点，每个窗口dx=1920*3;dy=1080 num=3
+ * 四： 1*4 1行4列，每个窗口分辨率为1920*（1080*3） 共计4个坐标点，每个窗口dx=1920;dy=1080*3 num=4
+ * 五： 1*2 1行2列，每个窗口分辨率为（1920*2）*（1080*3）共计2个坐标点，每个窗口dx=1920*2;dy=1080*3 num=2
+ * 六： 1*1 1行1列，每个窗口分辨率为（1920*4）*（1080*3）共计1个坐标点，每个串口dx=1920*4;dy=1080*3
+*/
+#ifndef QLIST_H
+#include <QList>
+#endif
+#ifndef QDESKTOPWIDGET_H
+#include <QDesktopWidget>
+#endif
+#ifndef  QVIDEOWIDGET_H
+#include <QVideoWidget>
+#endif
+#ifndef QMEDIAPLAYER_H
+#include <QMediaPlayer>
+#endif
+#ifndef QMEDIAPLAYLIST_H
+#include <QMediaPlaylist>
+#endif
 class ScreenControl
 {
 public:
@@ -31,12 +53,28 @@ public:
     ScreenControl(QDesktopWidget *desktop);
     QDesktopWidget* desktop();
     int screen_count();
+    int virtual_screen_count();
+    QList<QVideoWidget *> video_widget_list();
+    QList<QMediaPlayer *> video_player_list();
+    QList<QMediaPlaylist *> video_playlist_list();
+    int screen_width();
+    int screen_height();
     void SetWindowScreen(QWidget * widget,
                          const int screen_number);//设置窗口所在屏幕
     QDesktopWidget* m_desktop;//desktop硬件
-
+    QList<QVideoWidget *> video_widget_list_;//视频窗口队列
+    QList<QMediaPlayer *> video_player_list_;//视屏播放器列表
+    QList<QMediaPlaylist *> video_playlist_list_;//视频播放队列列表
+    void SetModel(int x=3,int y=4);//设置屏幕模式
+    void init();//初始化函数
+    void Update();//数据更新函数
 private:
-    int m_screen_count;//屏幕总数
+    int m_screen_count=0;//屏幕总数
+    int virtual_screen_count_=12;//虚拟屏幕数
+    int screen_width_=1920;//每块屏幕宽度
+    int screen_height_=1080;//屏幕高度
+    int widget_width_=0;//窗口宽度
+    int widget_height_=0;//窗口宽度
 
 };
 

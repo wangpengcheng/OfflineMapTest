@@ -1,4 +1,4 @@
-#include "tool.h"
+﻿#include "tool.h"
 
 #ifndef QT_QTPOSITIONING_MODULE_H
 #include <QtPositioning>
@@ -38,7 +38,7 @@ const long long  ee=0.00669342162296594323;
 double Tool::TransfromLatToDouble(const double x,
                                   const double y)
 {
-    double temp_result;
+    double temp_result=0;
     temp_result += -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * qSqrt(qAbs(x));
     temp_result += (20.0 *  qSin(6.0 * x * pi) + 20.0 * qSin(2.0 * x * pi)) * 2.0 / 3.0;
     temp_result += (20.0 * qSin(y * pi) + 40.0 * qSin(y / 3.0 * pi)) * 2.0 / 3.0;

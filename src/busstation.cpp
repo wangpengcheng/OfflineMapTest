@@ -108,10 +108,8 @@ QQuickText *BusStation::bus_station_information()
 }
 void BusStation::SetIocnScale(double scale)
 {
-    qDebug()<<bus_station_iocn_->size();
     bus_station_iocn_->setSize(QSize(bus_station_iocn_->width()*scale,
-                                           bus_station_iocn_->height()*scale));
-    qDebug()<<bus_station_iocn_->size();
+                                     bus_station_iocn_->height()*scale));
 }
 void BusStation::StationInit()
 {

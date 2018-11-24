@@ -8,6 +8,8 @@
 #include <QDesktopWidget>
 #include <QDialog>
 #include <QStandardPaths>
+#include <QtQuickWidgets/QQuickWidget>
+#include <QtQuick/QQuickWindow>
 //使用location 注册类
 #include <QtLocation/private/qdeclarativegeomap_p.h>
 #include <QtLocation/private/qdeclarativecirclemapitem_p.h>
@@ -17,13 +19,22 @@
 //引入tool类
 #include <QtQuick/private/qquickimage_p.h>
 #include "src/tool.h"
+
 #include "src/busstation.h"
+//video
+#include <QVideoWidget>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
+
+//键盘监听
+#include <QKeyEvent>
 
 //use tool
 Tool tool;
 //设置内部函数
 void AddCoordinateToList(QList<QGeoCoordinate> &temp);
-
+void VideoTest();//test video
+void ShowBusLine(QQmlApplicationEngine &engine);//显示公交线路
 int main(int argc, char *argv[])
 {
 
@@ -31,43 +42,14 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QString path_string=QDir::tempPath();
     qDebug()<<path_string;
-
+   // VideoTest();
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     //add qucik
     QQmlApplicationEngine engine;
     //load qml file
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    QList<QGeoCoordinate> coordinate_list;
-    AddCoordinateToList(coordinate_list);//添加关键路径点
-    //定义GeoPath路径
-    QGeoPath bus_path;
-    //创建线段对象
-    QDeclarativePolylineMapItem *BusLine=new QDeclarativePolylineMapItem();
-    BusLine->setPath(coordinate_list);
-    BusLine->line()->setColor("red");
-    BusLine->line()->setWidth(3.5);
-
-    //qt 获取qml第一个对象：
-    QObject *pRoot=engine.rootObjects().first();
-    //找到map节点
-    QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
-
-        if(qMap!=0){
-            //添加线路
-            qMap->addMapItem(BusLine);
-            int station_array[]={0,3,12,16,29,34,36};
-            for(int i=0;i<7;++i)//添加站点
-            {
-                BusStation *temp_station=new BusStation();
-                temp_station->setCoordinate(coordinate_list.value(station_array[i]));
-                qMap->addMapItem(temp_station);
-            }
-
-           }else {
-               qDebug("Can not get this Object");
-           }
-
+    ShowBusLine(engine);
     return app.exec();
 
 }
@@ -110,4 +92,74 @@ void AddCoordinateToList(QList<QGeoCoordinate> &temp)
     temp.append(tool.WPS84ToGCJ02(30.5594968900,104.0031678400));//一号运动场
     temp.append(tool.WPS84ToGCJ02(30.5590118900,104.0036178400));
     temp.append(tool.WPS84ToGCJ02(30.5583098900,104.0042138400));//东南门
+}
+void ShowBusLine(QQmlApplicationEngine &engine)
+{
+
+    QList<QGeoCoordinate> coordinate_list;
+    AddCoordinateToList(coordinate_list);//添加关键路径点
+    //定义GeoPath路径
+    QGeoPath bus_path;
+    //创建线段对象
+    QDeclarativePolylineMapItem *BusLine=new QDeclarativePolylineMapItem();
+    BusLine->setPath(coordinate_list);
+    BusLine->line()->setColor("red");
+    BusLine->line()->setWidth(3.5);
+
+    //qt 获取qml第一个对象：
+    QObject *pRoot=engine.rootObjects().first();
+    //找到map节点
+    QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
+    //QQuickWindow *qWindow=engine.findChild<QQuickWindow *>("main");
+   // qDebug()<<qWindow->width();
+        if(qMap!=0){
+            //添加线路
+            qMap->addMapItem(BusLine);
+            int station_array[]={0,3,12,16,29,34,36};
+            for(int i=0;i<7;++i)//添加站点
+            {
+                BusStation *temp_station=new BusStation();
+                temp_station->setCoordinate(coordinate_list.value(station_array[i]));
+                qMap->addMapItem(temp_station);
+            }
+
+           }else {
+               qDebug("Can not get this Object");
+           }
+}
+void VideoTest()
+{
+    tool.TestNoteTool("video test ",0);
+    for(int i=0;i<12;++i){
+    QVideoWidget *vw = new QVideoWidget();
+    QMediaPlayer *player=new QMediaPlayer();
+    QMediaPlaylist *playlist=new QMediaPlaylist();
+
+    QString video_path=QString("C:/Users/lin/Videos/Captures/%1.mp4").arg(i%3);
+
+//    QFile file(video_path);
+
+//        if(!file.open(QIODevice::ReadOnly)){
+
+//            qDebug() << "Could not open file";
+//        }else{
+//            player->setMedia(QUrl::fromLocalFile(video_path));
+//            playlist->addMedia(QUrl("http://example.com/movie1.mp4"));
+
+//            vw->show();
+//            player->play();
+//        }
+        playlist->addMedia(QUrl("file:///C:/Users/lin/Videos/Captures/2.mp4"));
+        playlist->addMedia(QUrl::fromLocalFile(video_path));
+       // playlist->addMedia(QUrl::fromLocalFile(video_path));
+        playlist->setCurrentIndex(1);
+        playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+        player->setPlaylist(playlist);
+        player->setVideoOutput(vw);
+        vw->resize(400,400);
+        vw->setGeometry(QRect(400*(i%4),20+400*(i/4),400,400));
+        vw->show();
+        player->play();
+    }
+    tool.TestNoteTool("video test ",1);
 }

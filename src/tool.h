@@ -1,4 +1,4 @@
-#ifndef TOOL_H
+﻿#ifndef TOOL_H
 #define TOOL_H
 /****************************************************************************
 ** @projectName   OfflineMapTest
