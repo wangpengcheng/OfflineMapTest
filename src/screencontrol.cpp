@@ -67,29 +67,30 @@ void ScreenControl::init()
         QMediaPlayer *temp_player=new QMediaPlayer();
         QMediaPlaylist *temp_playlist=new QMediaPlaylist();
 
-            QString video_path=QString("C:/Users/lin/Videos/Captures/1.mp4");
-            temp_playlist->addMedia(QUrl("file:///C:/Users/lin/Videos/Captures/2.mp4"));
+            QString video_path=QString("D:/minieyeone.mp4");
+            //temp_playlist->addMedia(QUrl("file:///C:/Users/lin/Videos/Captures/2.mp4"));
             temp_playlist->addMedia(QUrl::fromLocalFile(video_path));
            // playlist->addMedia(QUrl::fromLocalFile(video_path));
             temp_playlist->setCurrentIndex(1);//设置播放间隔
             temp_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
             temp_player->setPlaylist(temp_playlist);
             temp_player->setVideoOutput(temp_video_widget);
-            temp_video_widget->resize(screen_width_,screen_height_);
-            temp_video_widget->setGeometry(QRect(screen_width_*(i%4),20+screen_width_*(i/4),screen_width_,screen_width_));
-            temp_video_widget->show();
-            temp_player->play();
         //将数据加入列表
         video_widget_list_.append(temp_video_widget);
         video_player_list_.append(temp_player);
         video_playlist_list_.append(temp_playlist);
     }
+    SetModel(1,2);//设置模式为3*4
+    VideoPlay();//视频播放
+  //  video_player_list_.at(0)->play();
 }
-void ScreenControl::SetModel(int x,int y)//设置屏幕模式
+//设置屏幕模式
+void ScreenControl::SetModel(const int x,
+                             const int y)
 {
     //计算窗口宽高
     widget_width_=screen_width_/y;//计算窗口宽度
-    widget_height_=screen_width_/x;//计算窗口高度
+    widget_height_=screen_height_/x;//计算窗口高度
     //双重循环遍历三项列表
     if(x*y<video_widget_list_.size())//如果小于视频播放列表数目就将剩下的隐藏
     {
@@ -100,17 +101,47 @@ void ScreenControl::SetModel(int x,int y)//设置屏幕模式
 
     }else if (x*y>video_widget_list_.size()) {
         qDebug()<<"this number of model is over widget size,please,check again !!!!";
-        return ;
     }
     for(int i=0;i<x;++i)//行
     {
         for(int j=0;j<y;++j)//列
         {
+            //设置中间变量指针
+            QVideoWidget *temp_widget =video_widget_list_.at(i*y+j);
+            //播放器
+            QMediaPlayer *temp_player =video_player_list_.at(i*y+j);
+            //更改位置
             video_widget_list_.at(i*y+j)->resize(widget_width_,widget_height_);//重设屏幕宽和高
+           // temp_player->play();
             QRect temp(widget_width_*j,widget_height_*i,widget_width_, widget_height_);//计算坐标
             video_widget_list_.at(i*y+j)->setGeometry(temp);//设置窗口坐标
+            video_widget_list_.at(i*y+j)->show();
+            //video_player_list_.at(i*y+j)->play();
         }
+
     }
 
 }
 
+/*
+ * 视频控制模块
+*/
+//视频列表均播放
+void ScreenControl::VideoPlay()
+{
+    //判断小于虚拟屏幕数量和列表数量
+    for(int i=0;i<video_player_list_.size();++i)
+    {
+        //video_player_list_.at(i)->play();
+        qDebug()<<video_player_list_.at(i)->playlist()->dynamicPropertyNames();
+    }
+
+}
+//视频列表均暂停
+void ScreenControl::VideoPause()
+{
+    for(int i=0;i<video_player_list_.size();++i)
+    {
+        video_player_list_.at(i)->pause();
+    }
+}

@@ -44,10 +44,10 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QString path_string=QDir::tempPath();
     qDebug()<<path_string;
-   // VideoTest();
-    //use Plugin
+    //VideoTest();
     ScreenControlTest screen_control_test;
     screen_control_test.initTest();
+    //use Plugin
  //   Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     //add qucik
  //   QQmlApplicationEngine engine;
@@ -139,7 +139,7 @@ void VideoTest()
     QMediaPlayer *player=new QMediaPlayer();
     QMediaPlaylist *playlist=new QMediaPlaylist();
 
-    QString video_path=QString("C:/Users/lin/Videos/Captures/%1.mp4").arg(i%3);
+    QString video_path=QString("D:/project_video.mp4");
 
 //    QFile file(video_path);
 
@@ -153,7 +153,7 @@ void VideoTest()
 //            vw->show();
 //            player->play();
 //        }
-        playlist->addMedia(QUrl("file:///C:/Users/lin/Videos/Captures/2.mp4"));
+       // playlist->addMedia(QUrl("file:///D:/minieyeone.mp4"));
         playlist->addMedia(QUrl::fromLocalFile(video_path));
        // playlist->addMedia(QUrl::fromLocalFile(video_path));
         playlist->setCurrentIndex(1);

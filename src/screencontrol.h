@@ -65,7 +65,9 @@ public:
     QList<QVideoWidget *> video_widget_list_;//视频窗口队列
     QList<QMediaPlayer *> video_player_list_;//视屏播放器列表
     QList<QMediaPlaylist *> video_playlist_list_;//视频播放队列列表
-    void SetModel(int x=3,int y=4);//设置屏幕模式
+    void VideoPlay();//视频播放函数
+    void VideoPause();//视频暂停
+    void SetModel(const int x,const int y);//设置屏幕模式
     void init();//初始化函数
     void Update();//数据更新函数
 private:
