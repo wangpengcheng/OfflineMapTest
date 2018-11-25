@@ -68,7 +68,7 @@ void ScreenControl::init()
         QMediaPlaylist *temp_playlist=new QMediaPlaylist();
 
             QString video_path=QString("C:/Users/lin/Videos/Captures/1.mp4");
-           // temp_playlist->addMedia(QUrl("file:///C:/Users/lin/Videos/Captures/2.mp4"));
+            temp_playlist->addMedia(QUrl("file:///C:/Users/lin/Videos/Captures/2.mp4"));
             temp_playlist->addMedia(QUrl::fromLocalFile(video_path));
            // playlist->addMedia(QUrl::fromLocalFile(video_path));
             temp_playlist->setCurrentIndex(1);//设置播放间隔
@@ -79,7 +79,10 @@ void ScreenControl::init()
             temp_video_widget->setGeometry(QRect(screen_width_*(i%4),20+screen_width_*(i/4),screen_width_,screen_width_));
             temp_video_widget->show();
             temp_player->play();
+        //将数据加入列表
         video_widget_list_.append(temp_video_widget);
+        video_player_list_.append(temp_player);
+        video_playlist_list_.append(temp_playlist);
     }
 }
 void ScreenControl::SetModel(int x,int y)//设置屏幕模式
@@ -88,14 +91,26 @@ void ScreenControl::SetModel(int x,int y)//设置屏幕模式
     widget_width_=screen_width_/y;//计算窗口宽度
     widget_height_=screen_width_/x;//计算窗口高度
     //双重循环遍历三项列表
+    if(x*y<video_widget_list_.size())//如果小于视频播放列表数目就将剩下的隐藏
+    {
+        for(int a=x*y;a<video_widget_list_.size();++a)
+        {
+            video_widget_list_.at(a)->hide();
+        }
+
+    }else if (x*y>video_widget_list_.size()) {
+        qDebug()<<"this number of model is over widget size,please,check again !!!!";
+        return ;
+    }
     for(int i=0;i<x;++i)//行
     {
         for(int j=0;j<y;++j)//列
         {
             video_widget_list_.at(i*y+j)->resize(widget_width_,widget_height_);//重设屏幕宽和高
             QRect temp(widget_width_*j,widget_height_*i,widget_width_, widget_height_);//计算坐标
-            video_widget_list_.at(i*y+j)->setGeometry(temp);//设置坐标
+            video_widget_list_.at(i*y+j)->setGeometry(temp);//设置窗口坐标
         }
     }
+
 }
 

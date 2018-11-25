@@ -22,14 +22,20 @@
 #ifndef SCREENCONTROLTEST_H
 #define SCREENCONTROLTEST_H
 #include "src/screencontrol.h"
+#ifndef  TOOL_H
+#include "src/tool.h"
+#endif
+
 class ScreenControlTest
 {
 public:
     ScreenControlTest();
     ScreenControlTest(QDesktopWidget *desktop);
     void SetWindowTest();//测试窗口设置
+    void initTest();
 private:
     ScreenControl m_screencontrol;
+     Tool tool;
 };
 
 #endif // SCREENCONTROLTEST_H

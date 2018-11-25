@@ -12,7 +12,6 @@
 
 #include <QDebug>
 #include "test/screencontroltest.h"
-
 ScreenControlTest::ScreenControlTest()
 {
 
@@ -41,5 +40,13 @@ void ScreenControlTest::SetWindowTest()
     }
     qDebug()<<"--------This test end--------";
 
+
+}
+void ScreenControlTest::initTest()
+{
+
+    tool.TestNoteTool("initTest",0);
+    m_screencontrol.init();
+    tool.TestNoteTool("iniTest",1);
 
 }

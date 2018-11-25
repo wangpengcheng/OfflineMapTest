@@ -29,6 +29,8 @@
 //键盘监听
 #include <QKeyEvent>
 
+#include "test/screencontroltest.h"
+
 //use tool
 Tool tool;
 //设置内部函数
@@ -44,12 +46,14 @@ int main(int argc, char *argv[])
     qDebug()<<path_string;
    // VideoTest();
     //use Plugin
-    Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
+    ScreenControlTest screen_control_test;
+    screen_control_test.initTest();
+ //   Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     //add qucik
-    QQmlApplicationEngine engine;
+ //   QQmlApplicationEngine engine;
     //load qml file
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    ShowBusLine(engine);
+ //   engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+ //   ShowBusLine(engine);
     return app.exec();
 
 }
