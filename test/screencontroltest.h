@@ -1,4 +1,4 @@
-
+﻿
 /****************************************************************************
 ** @projectName   OfflineMapTest
 ** QT Version     5.11.1
@@ -18,6 +18,10 @@
 ** ScreenControlTest  he_he(desktop);//创建测试类
 ** he_he.SetWindowTest();    //测试窗口
 **
+** ------2018-12-04 更新屏幕控制模块，完善测试类，新测试方法如下--------
+** ScreenControlTest screen_control_test;
+** screen_control_test.MainTest();
+**
 *****************************************************************************/
 #ifndef SCREENCONTROLTEST_H
 #define SCREENCONTROLTEST_H
@@ -31,8 +35,11 @@ class ScreenControlTest
 public:
     ScreenControlTest();
     ScreenControlTest(QDesktopWidget *desktop);
+    void ConstructFunctionTest();//构造函数测试
     void SetWindowTest();//测试窗口设置
-    void initTest();
+    void InitTest();//初始化测试
+    void SetModelTest();//模式设置测试
+    void MainTest();
 private:
     ScreenControl m_screencontrol;
      Tool tool;

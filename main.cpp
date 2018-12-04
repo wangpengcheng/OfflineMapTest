@@ -46,14 +46,16 @@ int main(int argc, char *argv[])
     qDebug()<<path_string;
     //VideoTest();
     ScreenControlTest screen_control_test;
-    screen_control_test.initTest();
+    screen_control_test.MainTest();
+    /*
     //use Plugin
- //   Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
+    Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     //add qucik
- //   QQmlApplicationEngine engine;
+    QQmlApplicationEngine engine;
     //load qml file
- //   engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
- //   ShowBusLine(engine);
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    ShowBusLine(engine);
+    */
     return app.exec();
 
 }
@@ -134,12 +136,12 @@ void ShowBusLine(QQmlApplicationEngine &engine)
 void VideoTest()
 {
     tool.TestNoteTool("video test ",0);
-    for(int i=0;i<12;++i){
+    for(int i=0;i<10;++i){
     QVideoWidget *vw = new QVideoWidget();
     QMediaPlayer *player=new QMediaPlayer();
     QMediaPlaylist *playlist=new QMediaPlaylist();
 
-    QString video_path=QString("D:/project_video.mp4");
+    QString video_path=QString("C:/Users/lin/Videos/Captures/minieyeone.mp4");
 
 //    QFile file(video_path);
 

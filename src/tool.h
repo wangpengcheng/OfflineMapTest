@@ -47,7 +47,7 @@ class Tool: public QObject
         Q_INVOKABLE QGeoCoordinate WPS84ToGCJ02(double lat, double lon);
         //测试信息工具类
         Q_INVOKABLE void TestNoteTool(const QString TestName,
-                          const int i);//选择模式1-start，2-end
+                                      const int i);//选择模式1-start，2-end
 
 
 };

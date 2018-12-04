@@ -18,6 +18,12 @@
 ** @example
 **
 ** 详见test/screencontroltest.h 中的ScreenControlTest 类
+** ------2018-12-4 更新；完善测试类，添加自动分屏模块；根据屏幕大小和窗口排列自动排列计算窗口大小------
+** 使用方法：
+** ScreenControl screen_control;
+** screen_control.SetScreenSize(1920,1080);
+** screen_control.SetModel(3,4);//3 行4列
+**
 **
 ** QT Version    5.11.1
 *****************************************************************************/
@@ -46,11 +52,13 @@
 #ifndef QMEDIAPLAYLIST_H
 #include <QMediaPlaylist>
 #endif
+#include <QDebug>
 class ScreenControl
 {
 public:
     ScreenControl();
     ScreenControl(QDesktopWidget *desktop);
+  //  ~ScreenControl();
     QDesktopWidget* desktop();
     int screen_count();
     int virtual_screen_count();
@@ -59,16 +67,20 @@ public:
     QList<QMediaPlaylist *> video_playlist_list();
     int screen_width();
     int screen_height();
+    void SetScreenSize(const int width,
+                       const int height);//设置屏幕宽高
+    int widget_width();
+    int widget_height();
     void SetWindowScreen(QWidget * widget,
                          const int screen_number);//设置窗口所在屏幕
     QDesktopWidget* m_desktop;//desktop硬件
-    QList<QVideoWidget *> video_widget_list_;//视频窗口队列
-    QList<QMediaPlayer *> video_player_list_;//视屏播放器列表
-    QList<QMediaPlaylist *> video_playlist_list_;//视频播放队列列表
+    QList<QMediaPlayer *> video_player_list_={};//视屏播放器列表
+    QList<QVideoWidget *> video_widget_list_={};//视频窗口队列
+    QList<QMediaPlaylist *> video_playlist_list_={};//视频播放队列列表
     void VideoPlay();//视频播放函数
     void VideoPause();//视频暂停
     void SetModel(const int x,const int y);//设置屏幕模式
-    void init();//初始化函数
+    void Init();//初始化函数
     void Update();//数据更新函数
 private:
     int m_screen_count=0;//屏幕总数
@@ -77,6 +89,7 @@ private:
     int screen_height_=1080;//屏幕高度
     int widget_width_=0;//窗口宽度
     int widget_height_=0;//窗口宽度
+    int show_widget_count_=0;
 
 };
 
