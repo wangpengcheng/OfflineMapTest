@@ -74,9 +74,9 @@ public:
     void SetWindowScreen(QWidget * widget,
                          const int screen_number);//设置窗口所在屏幕
     QDesktopWidget* m_desktop;//desktop硬件
-    QList<QMediaPlayer *> video_player_list_={};//视屏播放器列表
-    QList<QVideoWidget *> video_widget_list_={};//视频窗口队列
-    QList<QMediaPlaylist *> video_playlist_list_={};//视频播放队列列表
+    QList<QMediaPlayer *> video_player_list_;//视屏播放器列表
+    QList<QVideoWidget *> video_widget_list_;//视频窗口队列
+    QList<QMediaPlaylist *> video_playlist_list_;//视频播放队列列表
     void VideoPlay();//视频播放函数
     void VideoPause();//视频暂停
     void SetModel(const int x,const int y);//设置屏幕模式

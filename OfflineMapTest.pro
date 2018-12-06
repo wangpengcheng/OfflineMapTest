@@ -12,7 +12,8 @@ CONFIG += c++11
 SOURCES += main.cpp \
     src/tool.cpp \
     src/busstation.cpp \
-    src/screencontrol.cpp
+    src/screencontrol.cpp \
+    src/busline.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,4 +34,5 @@ LOCATION_PLUGIN_NAME    = GeoServiceProviderFactory
 HEADERS += \
     src/tool.h \
     src/screencontrol.h \
-    src/busstation.h
+    src/busstation.h \
+    src/busline.h

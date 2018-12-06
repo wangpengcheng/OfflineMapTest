@@ -15,7 +15,7 @@
 ** @address       https://github.com/wangpengcheng/OfflineMapTest
 ** @date          2018-11-09 周五  21:41:02
 ** @example
-** #include<busstationtest.h>//head
+** #include "test/busstationtest.h"//head
 ** //main
 ** QQmlApplicationEngine engine;//add qucik
 ** engine.load(QUrl(QStringLiteral("qrc:/main.qml")));//load qml file
@@ -28,7 +28,7 @@
 **     test.ShowTest(qMap);
 ** }else{
 **       qDebug("Can not get this Object");
-**       }
+** }
 **
 *****************************************************************************/
 

@@ -15,6 +15,7 @@
 #include <QtLocation/private/qdeclarativecirclemapitem_p.h>
 #include <QtLocation/private/qdeclarativegeomapquickitem_p.h>
 #include <QtLocation/private/qdeclarativepolylinemapitem_p.h>
+#include <QtLocation/private/qdeclarativegeomapitemgroup_p.h>
 #include <QGeoPath>//geoPath
 //引入tool类
 #include <QtQuick/private/qquickimage_p.h>
@@ -28,15 +29,17 @@
 
 //键盘监听
 #include <QKeyEvent>
-
 #include "test/screencontroltest.h"
+
+//测试函数
+#include "test/buslinetest.h"
 
 //use tool
 Tool tool;
 //设置内部函数
-void AddCoordinateToList(QList<QGeoCoordinate> &temp);
+//void AddCoordinateToList(QList<QGeoCoordinate> &temp);
 void VideoTest();//test video
-void ShowBusLine(QQmlApplicationEngine &engine);//显示公交线路
+//void ShowBusLine(QQmlApplicationEngine &engine);//显示公交线路
 int main(int argc, char *argv[])
 {
 
@@ -45,20 +48,24 @@ int main(int argc, char *argv[])
     QString path_string=QDir::tempPath();
     qDebug()<<path_string;
     //VideoTest();
-    ScreenControlTest screen_control_test;
-    screen_control_test.MainTest();
-    /*
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     //add qucik
     QQmlApplicationEngine engine;
     //load qml file
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    ShowBusLine(engine);
-    */
+    //qt 获取qml第一个对象：
+    QObject *pRoot=engine.rootObjects().first();
+    //找到map节点
+    QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
+    BusLineTest test;
+    test.MainTest();
+    test.ShowTest(qMap);
+    //ShowBusLine(engine);
     return app.exec();
 
 }
+/*
 void AddCoordinateToList(QList<QGeoCoordinate> &temp)
 {
     temp.append(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));//体育学院站
@@ -99,40 +106,47 @@ void AddCoordinateToList(QList<QGeoCoordinate> &temp)
     temp.append(tool.WPS84ToGCJ02(30.5590118900,104.0036178400));
     temp.append(tool.WPS84ToGCJ02(30.5583098900,104.0042138400));//东南门
 }
-void ShowBusLine(QQmlApplicationEngine &engine)
-{
+*/
+//void ShowBusLine(QDeclarativeGeoMap &qMap)
+//{
 
-    QList<QGeoCoordinate> coordinate_list;
-    AddCoordinateToList(coordinate_list);//添加关键路径点
-    //定义GeoPath路径
-    QGeoPath bus_path;
-    //创建线段对象
-    QDeclarativePolylineMapItem *BusLine=new QDeclarativePolylineMapItem();
-    BusLine->setPath(coordinate_list);
-    BusLine->line()->setColor("red");
-    BusLine->line()->setWidth(3.5);
+//    QList<QGeoCoordinate> coordinate_list;
+//    AddCoordinateToList(coordinate_list);//添加关键路径点
+//    //定义GeoPath路径
+//    QGeoPath bus_path;
+//    bus_path.setPath(coordinate_list);
+//    bus_path.setWidth(0.5);
+//    //创建线段对象
+//    QDeclarativePolylineMapItem *BusLine=new QDeclarativePolylineMapItem();
+////    BusLine->setPath(coordinate_list);
+//    BusLine->setPath(bus_path);
+//    BusLine->line()->setColor("red");
+//   // BusLine->line()->setWidth(3.5);
 
-    //qt 获取qml第一个对象：
-    QObject *pRoot=engine.rootObjects().first();
-    //找到map节点
-    QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
-    //QQuickWindow *qWindow=engine.findChild<QQuickWindow *>("main");
-   // qDebug()<<qWindow->width();
-        if(qMap!=0){
-            //添加线路
-            qMap->addMapItem(BusLine);
-            int station_array[]={0,3,12,16,29,34,36};
-            for(int i=0;i<7;++i)//添加站点
-            {
-                BusStation *temp_station=new BusStation();
-                temp_station->setCoordinate(coordinate_list.value(station_array[i]));
-                qMap->addMapItem(temp_station);
-            }
+//    //测试QDeclarativeGeoMapItemGroup
+//    QDeclarativeGeoMapItemGroup *test=new QDeclarativeGeoMapItemGroup();
+//    bool temp2=true;
+//    //QQuickWindow *qWindow=engine.findChild<QQuickWindow *>("main");
+//   // qDebug()<<qWindow->width();
+//        if(qMap!=0){
+//            //添加线路
+//            //qMap->addMapItem(BusLine);
+//            int station_array[]={0,3,12,16,29,34,36};
+//            for(int i=0;i<7;++i)//添加站点
+//            {
+//                BusStation *temp_station=new BusStation();
+//                temp_station->setCoordinate(coordinate_list.value(station_array[i]));
+//               // qMap->addMapItem(temp_station);
+//                temp_station->setParentItem(test);
+//            }
 
-           }else {
-               qDebug("Can not get this Object");
-           }
-}
+//           }else {
+//               qDebug("Can not get this Object");
+//           }
+//        BusLine->setParentItem(test);
+//        //test();
+//        qMap->addMapItemGroup(test);
+//}
 void VideoTest()
 {
     tool.TestNoteTool("video test ",0);

@@ -66,7 +66,7 @@ public:
     QQuickText *bus_station_information();
     void SetIocnScale(double Scale);
     void StationInit();//初始化相关参数；
-    void Update();//更新数据
+    void Updata();//更新数据
 
 private:
     QString bus_station_id_;//公交站编号

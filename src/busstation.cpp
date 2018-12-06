@@ -19,7 +19,7 @@
 BusStation::BusStation()
 {
      StationInit();
-     Update();
+     Updata();
 }
 BusStation::~BusStation()
 {
@@ -39,7 +39,7 @@ BusStation:: BusStation(const QGeoCoordinate coordinate)
     //初始化相关参数；
     StationInit();
     setCoordinate(coordinate);
-    Update();
+    Updata();
 }
 BusStation:: BusStation(const QGeoCoordinate coordinate,
                         const QString station_id)
@@ -47,7 +47,7 @@ BusStation:: BusStation(const QGeoCoordinate coordinate,
     StationInit();
     setCoordinate(coordinate);
     bus_station_id_=station_id;//station_id;//设置站点图标；
-    Update();
+    Updata();
 }
 BusStation::BusStation(const QGeoCoordinate coordinate,
                        const QString station_id,
@@ -57,7 +57,7 @@ BusStation::BusStation(const QGeoCoordinate coordinate,
     setCoordinate(coordinate);//设置站点坐标
     bus_station_id_=station_id;//设置站点id；
     bus_station_name_=station_name;//设置站点名称
-    Update();
+    Updata();
 
 }
 BusStation:: BusStation(const QGeoCoordinate coordinate,//坐标
@@ -72,7 +72,7 @@ BusStation:: BusStation(const QGeoCoordinate coordinate,//坐标
     bus_station_name_=station_name;//设置站点名称
     bus_station_iocn_->setSource(iocn_url);//设置iocn
     bus_station_iocn_->setSize(QSize(50,50));
-    Update();
+    Updata();
 }
 void BusStation::SetBusStationId(const QString station_id)
 {
@@ -125,7 +125,7 @@ void BusStation::StationInit()
     bus_station_iocn_->setSize(QSize(50,50));//设置默认大小
     setCoordinate(InitCoordinate);//设置默认位置
 }
-void BusStation::Update()
+void BusStation::Updata()
 {
     setSourceItem(bus_station_iocn_);//将图片添加到Item
     setAnchorPoint(QPointF(bus_station_iocn_->width()*0.5,
