@@ -9,12 +9,16 @@ BusLineTest::BusLineTest()
 {
     bus_line_=NULL;
     bus_line_=new BusLine();
+    qDebug()<<&bus_line_;
+   // bus_line_->update();
+   // bus_line_->Updata(bus_line_);
 }
 BusLineTest::~BusLineTest()
 {
     if(bus_line_!=NULL)
     {
         delete [] bus_line_;
+        bus_line_=NULL;
     }
 }
 void BusLineTest::ConstructFunctionTest()
@@ -27,7 +31,7 @@ void BusLineTest::ConstructFunctionTest()
     int station_array[]={0,3,12,16,29,34,36};
     for(int i=0;i<7;++i)//添加站点
     {
-        temp_station_coordinates.append(temp_coordinates.at(i));
+        temp_station_coordinates.append(temp_coordinates.at(station_array[i]));
     }
     //构造函数
     BusLine bus_line;//构造函数1
@@ -47,10 +51,13 @@ void BusLineTest::ConstructFunctionTest()
         qDebug()<<"the construct function1 is eorr";
     }
     tool.TestNoteTool("ConstructFunctionTest",1);
+    bus_line_=new BusLine(temp_coordinates,temp_station_coordinates);
 }
 void BusLineTest::ShowTest(QDeclarativeGeoMap *qMap)
 {
     tool.TestNoteTool("ShowTest",0);
+    qDebug()<<bus_line_;
+    qDebug()<<bus_line_->bus_poly_line()->parentItem();
    if(qMap!=NULL&&this->bus_line_)
    {
       qMap->addMapItemGroup(bus_line_);

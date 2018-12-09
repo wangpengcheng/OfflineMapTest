@@ -26,6 +26,7 @@ BusLine::~BusLine()
     if(bus_poly_line_!=NULL)
     {
         delete[] bus_poly_line_;
+        bus_poly_line_=NULL;
     }
 }
 QList<QGeoCoordinate> BusLine::line_coordinate_list()
@@ -97,7 +98,10 @@ QDeclarativePolylineMapItem *BusLine::bus_poly_line()
 }
 void BusLine::Updata()//更新数据
 {
+    bus_poly_line_->setPath(line_coordinate_list_);
     /*绑定子节点-start*/
+   QQuickItem *parent;
+   //parent=&this;
     bus_poly_line_->setParentItem(this);
     for(int i=0;i<bus_station_list_.size();++i)
     {
@@ -105,8 +109,7 @@ void BusLine::Updata()//更新数据
     }
     /*绑定子节点-end*/
    // bus_polyline_path_.setPath(line_coordinate_list_);
-    bus_poly_line_->setPath(line_coordinate_list_);
-
+    qDebug()<<bus_poly_line_->parentItem();
 }
 void BusLine::Init()//初始化数据
 {

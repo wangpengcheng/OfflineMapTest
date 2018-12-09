@@ -30,9 +30,10 @@ Tool::Tool(QObject *parent)//:QObject(nullptr)
  * mondel start
  */
 /*定义基本常量*/
-const long long  pi =3.1415926535897932384626;
-const long long  a =6378245.0;
-const long long  ee=0.00669342162296594323;
+const long long  pi =3.1415926535897932384626;//定义pi=3.14
+const long long  earth_radius =6378245.0;//定义地球半径
+const long long  ee=0.00669342162296594323;//
+const double NF_pi = 0.01745329251994329; // 弧度 PI/180
 
 //将纬度lat转换为常用度数
 double Tool::TransfromLatToDouble(const double x,
@@ -70,17 +71,99 @@ QGeoCoordinate Tool::WPS84ToGCJ02(const double lat,
     magic = qSin(radLat);
     magic = 1 - ee*magic* magic;
     sqrtMagic = qSqrt(magic);
-    dLat = (dLat*180.0)/((a*(1 - ee))/(magic*sqrtMagic)*pi);
-    dLon = (dLon * 180.0) / (a / sqrtMagic * qCos(radLat) * pi);
+    dLat = (dLat*180.0)/((earth_radius*(1 - ee))/(magic*sqrtMagic)*pi);
+    dLon = (dLon * 180.0) / (earth_radius / sqrtMagic * qCos(radLat) * pi);
     mgLat = lat + dLat;
     mgLon = lon + dLon;
     QGeoCoordinate result(mgLat, mgLon);
     return  result;
 }
+    /**
+    * 将度转化为弧度
+    * @param {degree} Number 度
+    * @returns {Number} 弧度
+    */
+   double DegreeToRad(const double degree){
+       return pi * degree/180;
+   }
+
+   /**
+    * 将弧度转化为度
+    * @param {radian} Number 弧度
+    * @returns {Number} 度
+    */
+   double RadToDegree(const double rad){
+       return (180 * rad) / pi;
+   }
+
+    /*将v值限定在a,b之间，纬度使用 */
+   double GetRange(double v,
+                   const double a,
+                   const double b)
+   {
+           if(a !=NULL){
+               v = qMax(v, a);
+           }
+           if(b != NULL){
+               v = qMin(v, b);
+           }
+           return v;
+       }
+
+     /* 将v值限定在a,b之间，经度使用*/
+     double GetLoop(double v,
+                    const double a,
+                    const double b)
+     {
+           while(v>b){
+               v-=b-a;
+           }
+           while(v<a){
+               v+=b-a;
+           }
+           return v;
+     }
+     /**
+          * 计算两点之间的距离,两点坐标必须为经纬度
+          * @param {point1} Point 点对象
+          * @param {point2} Point 点对象
+          * @returns {Number} 两点之间距离，单位为米
+          */
+double Tool::GetDistance(QGeoCoordinate point1,QGeoCoordinate point2)//高德地图坐标计算公式，针对高德地图坐标
+{
+             //判断类型
+             if(!point1.isValid()||!point2.isValid())
+             {
+                 qDebug()<<"points are not full valid ,Please check input again!!!";
+                 return 0;
+             }
+             double x1,x2,y1,y2,temp_result;
+             x1 = NF_pi*point1.longitude();
+             y1 = NF_pi*point1.latitude();
+             x2 = NF_pi*point2.longitude();
+             y2 = NF_pi*point2.latitude();
+             double sinx1 = qSin(x1);
+             double siny1 = qSin(y1);
+             double cosx1 = qCos(x1);
+             double cosy1 = qCos(y1);
+             double sinx2 = qSin(x2);
+             double siny2 = qSin(y2);
+             double cosx2 = qCos(x2);
+             double cosy2 = qCos(y2);
+             double *v1= new double[3];
+             v1[0] = cosy1 * cosx1 - cosy2 * cosx2;
+             v1[1] = cosy1 * sinx1 - cosy2 * sinx2;
+             v1[2] = siny1 - siny2;
+             double dist = qSqrt(v1[0] * v1[0] + v1[1] * v1[1] + v1[2] * v1[2]);
+             temp_result =qAsin(dist / 2) * 12742001.5798544;
+             delete[] v1;
+             return  temp_result;
+         }
+
 /*
  * 地图经纬度坐标转换
  * 模块结束
- *mondel start
+ *mondel end;
  */
 
 /*测试工具模块开始*/

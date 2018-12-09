@@ -1,4 +1,4 @@
-#include "busstationtest.h"
+﻿#include "busstationtest.h"
 #include <QtQuick/private/qquickimage_p.h>
 BusStationTest::BusStationTest()
 {
@@ -10,6 +10,7 @@ BusStationTest::~BusStationTest()
     if(bus_station_test_!=NULL)
     {
          delete[] bus_station_test_;
+        bus_station_test_=NULL;
     }
 }
 void BusStationTest::ConstructFunctionTest()

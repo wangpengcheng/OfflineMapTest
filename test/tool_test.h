@@ -1,4 +1,4 @@
-#ifndef TOOL_TEST_H
+﻿#ifndef TOOL_TEST_H
 #define TOOL_TEST_H
 
 /****************************************************************************
@@ -31,6 +31,7 @@ public:
     tool_test();
     void WPS84Test();
     void TestNoteToolTest();
+    void GetDistanceTest();
     Tool m_tool;//tool指针成员对象
 };
 

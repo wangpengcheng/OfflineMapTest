@@ -1,4 +1,4 @@
-#include "test/tool_test.h"
+﻿#include "test/tool_test.h"
 #include <qdebug.h>
 #include <QGeoCoordinate>
 
@@ -25,4 +25,13 @@ void tool_test::TestNoteToolTest()
 {
     m_tool.TestNoteTool("TestToolTest Function",0);
     m_tool.TestNoteTool("TestToolTest Function",1);
+}
+void tool_test::GetDistanceTest()
+{
+    m_tool.TestNoteTool("GetDistanceTest",0);
+    double test_1=m_tool.GetDistance(QGeoCoordinate(39.923423,116.368904),
+                                     QGeoCoordinate(39.922501,116.387271));
+    qDebug()<<QString::number(test_1,'f',10);
+     m_tool.TestNoteTool("GetDistanceTest",1);
+
 }

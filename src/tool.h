@@ -42,9 +42,10 @@ class Tool: public QObject
     public:
         explicit Tool(QObject *parent = nullptr);
        // ~Tool();
-        Q_INVOKABLE double TransfromLatToDouble(double x,double y);
-        Q_INVOKABLE double TransfromLonToDouble(double x,double y);
-        Q_INVOKABLE QGeoCoordinate WPS84ToGCJ02(double lat, double lon);
+        Q_INVOKABLE double TransfromLatToDouble(double x,double y);//将经度转换为数值
+        Q_INVOKABLE double TransfromLonToDouble(double x,double y);//将维度转换为数值
+        Q_INVOKABLE QGeoCoordinate WPS84ToGCJ02(double lat, double lon);//转换坐标系到星火坐标系
+        Q_INVOKABLE double GetDistance(QGeoCoordinate point1,QGeoCoordinate point2);//计算两点之间距离
         //测试信息工具类
         Q_INVOKABLE void TestNoteTool(const QString TestName,
                                       const int i);//选择模式1-start，2-end
