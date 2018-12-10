@@ -7,14 +7,16 @@ HEADERS += \
     $$PWD/tool_test.h \
     $$PWD/screencontroltest.h \
     $$PWD/busstationtest.h \
-    $$PWD/buslinetest.h
+    $$PWD/buslinetest.h \
+    $$PWD/bustest.h
 
 
 SOURCES += \
     $$PWD/tool_test.cpp \
     $$PWD/screencontroltest.cpp \
     $$PWD/busstationtest.cpp \
-    $$PWD/buslinetest.cpp
+    $$PWD/buslinetest.cpp \
+    $$PWD/bustest.cpp
 
 
 #OTHER_FILES += \

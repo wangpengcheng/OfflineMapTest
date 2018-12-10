@@ -17,11 +17,17 @@
 ** 示例代码
 **
 *****************************************************************************/
+#ifndef QSTRING_H
+#include <QString>
+#endif
 #ifndef QQUICKITEM_H
 #include <QQuickItem>
 #endif
 #ifndef  QDECLARATIVEGEOMAPQUICKITEM_H
 #include <QtLocation/private/qdeclarativegeomapquickitem_p.h>
+#endif
+#ifndef  QQUICKIMAGE_P_H
+#include <QtQuick/private/qquickimage_p.h>
 #endif
 /*
  * bus 类的主要设计思路和数据类型：
@@ -34,7 +40,46 @@ class Bus: public QDeclarativeGeoMapQuickItem
 {
 public:
     Bus();
+    ~Bus();
+    Bus(const QGeoCoordinate new_coordinate);
+    Bus(const QGeoCoordinate new_coordinate,
+        QList<QGeoCoordinate> new_path);
+    Bus(const QGeoCoordinate new_coordinate,
+        QList<QGeoCoordinate> new_path,
+        const QUrl iocn_path);
+     /*基本信息存取 start*/
+    QString bus_id();
+    void set_bus_id(const QString input_bus_id);
+    QString bus_name();
+    void set_bus_name(const QString input_name);
+    QString bus_line_number();
+    void set_bus_line_number(const QString input_bus_number);
+    QString bus_information();
+    void set_bus_information(const QString input_bus_information);
+    QString bus_diver();
+    void set_bus_diver(const QString input_bus_diver);
+    /*基本信息存取 end*/
+    /*重要信息存取 start*/
+    QList<QGeoCoordinate> bus_path_coordinates();
+    void set_bus_path_coordinates(QList<QGeoCoordinate> new_path);
+    QQuickImage *bus_iocn();
+    void set_bus_iocn(QQuickImage *iocn_image);
+    void set_bus_iocn(const QUrl iocn_source_url);
+    /*重要信息存取 end*/
+    void Init();
+    void Updata();
 private:
+    /*基本信息 start*/
+    QString bus_id_;
+    QString bus_name_;
+    QString bus_line_number_;
+    QString bus_information_;
+    QString bus_diver_;
+    /*基本信息 end*/
+    /*重要信息 start*/
+    QList<QGeoCoordinate> bus_path_coordinates_;//线路关键点列表
+    QQuickImage *bus_iocn_;//公交车图标iocn指针
+    /*重要信息 end*/
 
 };
 
