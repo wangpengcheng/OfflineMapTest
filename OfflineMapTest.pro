@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     src/tool.cpp \
     src/busstation.cpp \
     src/screencontrol.cpp \
-    src/busline.cpp
+    src/busline.cpp \
+    src/bus.cpp
 
 RESOURCES += qml.qrc
 
@@ -35,4 +36,5 @@ HEADERS += \
     src/tool.h \
     src/screencontrol.h \
     src/busstation.h \
-    src/busline.h
+    src/busline.h \
+    src/bus.h

@@ -3,5 +3,7 @@
         <file>main.qml</file>
         <file>img/bus_station.png</file>
         <file>img/6.png</file>
+        <file>img/car_up.png</file>
+        <file>img/car_up1.png</file>
     </qresource>
 </RCC>

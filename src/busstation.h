@@ -40,7 +40,7 @@
 #endif
 class QQuickImage;
 class QQuickText;
-class BusStation :public QDeclarativeGeoMapQuickItem
+class BusStation : public QDeclarativeGeoMapQuickItem
 {
 public:
     BusStation();//空构造函数
@@ -61,6 +61,7 @@ public:
     void SetBusStationName(const QString station_name);
     QString bus_station_name();
     void SetBusStationIocn(QQuickImage *iocn);
+    void SetBusStationIocn(const QUrl source);
     QQuickImage *bus_station_iocn();
     void SetBusStationInformation(QQuickText *station_information);//暂时设置公交车基本信息
     QQuickText *bus_station_information();

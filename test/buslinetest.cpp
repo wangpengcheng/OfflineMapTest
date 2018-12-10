@@ -9,9 +9,6 @@ BusLineTest::BusLineTest()
 {
     bus_line_=NULL;
     bus_line_=new BusLine();
-    qDebug()<<&bus_line_;
-   // bus_line_->update();
-   // bus_line_->Updata(bus_line_);
 }
 BusLineTest::~BusLineTest()
 {
@@ -56,9 +53,27 @@ void BusLineTest::ConstructFunctionTest()
 void BusLineTest::ShowTest(QDeclarativeGeoMap *qMap)
 {
     tool.TestNoteTool("ShowTest",0);
+    //判断是否为空
+    if(bus_line_->bus_poly_line()->size().isEmpty())
+    {
+        //准备数据
+        QList<QGeoCoordinate> temp_coordinates,temp_station_coordinates;
+        AddCoordinateToList(temp_coordinates);
+        //准备站点数据
+        int station_array[]={0,3,12,16,29,34,36};
+        for(int i=0;i<7;++i)//添加站点
+        {
+            temp_station_coordinates.append(temp_coordinates.at(station_array[i]));
+        }
+        bus_line_=new BusLine(temp_coordinates,temp_station_coordinates);
+    }else {
+        qDebug()<<"Please check input data;key points size is 0";
+    }
     qDebug()<<bus_line_;
+    qDebug()<<bus_line_->bus_poly_line()->size().isEmpty();
     qDebug()<<bus_line_->bus_poly_line()->parentItem();
-   if(qMap!=NULL&&this->bus_line_)
+   if(qMap!=NULL&&
+     bus_line_->bus_poly_line()->size().isEmpty())
    {
       qMap->addMapItemGroup(bus_line_);
    }else {

@@ -94,6 +94,10 @@ void BusStation::SetBusStationIocn(QQuickImage *iocn)
 {
     bus_station_iocn_=iocn;
 }
+void BusStation::SetBusStationIocn(const QUrl iocn_url)
+{
+    bus_station_iocn_->setSource(iocn_url);
+}
 QQuickImage* BusStation::bus_station_iocn()
 {
     return bus_station_iocn_;

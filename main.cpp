@@ -10,6 +10,8 @@
 #include <QStandardPaths>
 #include <QtQuickWidgets/QQuickWidget>
 #include <QtQuick/QQuickWindow>
+#include <QTimer>
+#include <QTimeLine>
 //使用location 注册类
 #include <QtLocation/private/qdeclarativegeomap_p.h>
 #include <QtLocation/private/qdeclarativecirclemapitem_p.h>
@@ -40,6 +42,7 @@ Tool tool;
 void AddCoordinateToList(QList<QGeoCoordinate> &temp);
 void VideoTest();//test video
 void ShowBusLine(QDeclarativeGeoMap *qMap);//显示公交线路
+void MoveTest(QDeclarativeGeoMap *qMap);
 int main(int argc, char *argv[])
 {
 
@@ -62,7 +65,10 @@ int main(int argc, char *argv[])
     BusLineTest test;
     //test.MainTest();主要测试函数
     test.ShowTest(qMap);
+    qDebug()<<qMap->fromCoordinate(qMap->center());
     //ShowBusLine(qMap);
+   // QTimer *temp_timer=new QTimer(this);
+    MoveTest(qMap);
     return app.exec();
 
 }
@@ -185,4 +191,16 @@ void VideoTest()
         player->play();
     }
     tool.TestNoteTool("video test ",1);
+}
+void MoveTest(QDeclarativeGeoMap *qMap)
+{
+    BusStation *bus_station_test=new BusStation();
+    bus_station_test->setCoordinate(tool.WPS84ToGCJ02(30.5595483655,103.9976232481));
+    qMap->addMapItem(bus_station_test);
+    //QQuickImage temp_image=new QQuickImage("qrc:/img/car_up.png");
+    bus_station_test->SetBusStationIocn(QUrl("qrc:/img/car_up.png"));
+   // QTimeLine timeline=new QTimeLine(1000);
+    // Construct a 1-second timeline with a frame range of 0 - 100
+   bus_station_test->setCoordinate(tool.WPS84ToGCJ02(30.5697483655,103.9976232481));
+
 }
