@@ -29,6 +29,14 @@
 #ifndef  QQUICKIMAGE_P_H
 #include <QtQuick/private/qquickimage_p.h>
 #endif
+#ifndef QTIMELINE_H
+#include <QTimeLine>
+#endif
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QJsonObject>
+#include <QJsonDocument>
 /*
  * bus 类的主要设计思路和数据类型：
  * 基本信息数据定义：
@@ -38,6 +46,7 @@
 */
 class Bus: public QDeclarativeGeoMapQuickItem
 {
+     Q_OBJECT
 public:
     Bus();
     ~Bus();
@@ -80,7 +89,11 @@ private:
     QList<QGeoCoordinate> bus_path_coordinates_;//线路关键点列表
     QQuickImage *bus_iocn_;//公交车图标iocn指针
     /*重要信息 end*/
-
+    QTimeLine *timeLine;
+private slots:
+    void set_rotate(int rotate);
+    void UpdataCoordinatesByNet();
+    void GetReplyFinished(QNetworkReply *reply);
 };
 
 #endif // BUS_H

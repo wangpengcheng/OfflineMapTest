@@ -7,6 +7,7 @@ QT += core gui
 QT += network widgets
 QT += multimedia multimediawidgets #add video and music
 QT += quickwidgets
+QT += network  #add network
 CONFIG += c++11
 
 SOURCES += main.cpp \

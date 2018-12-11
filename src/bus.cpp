@@ -125,10 +125,38 @@ void Bus::Init()
     bus_iocn_->setSource(QUrl("qrc:/img/car_up.png"));
     //bus_station_iocn_->setSize(QSize(50,50));//设置默认大小
     setCoordinate(InitCoordinate);//设置默认位置
+    setRotation(-90);//设置图片旋转90度
+    //设置默认时钟,请求网络
+    timeLine = new QTimeLine(100000, this);
+    timeLine->setFrameRange(0, 100);
+    connect(timeLine, SIGNAL(frameChanged(int)),this, SLOT(UpdataCoordinatesByNet()));
+    timeLine->start();
+
 }
 void Bus::Updata()
 {
     setSourceItem(bus_iocn_);//将图片添加到Item
     setAnchorPoint(QPointF(bus_iocn_->width()*0.5,
                            bus_iocn_->height()*0.5));//设置偏移
+}
+
+void Bus::UpdataCoordinatesByNet()
+{
+    //设置网络请求
+    QNetworkAccessManager *manage = new QNetworkAccessManager(this);
+    QNetworkRequest network_request;
+    network_request.setUrl(QUrl(QString("http://118.24.113.233/location_point_simulation.php")));
+    /*建立connect，ReplyFinished为自定义槽函数,*/
+    connect(manage,SIGNAL(finished(QNetworkReply *)),this,SLOT(GetReplyFinished(QNetworkReply *)));
+
+    /*发送get网络请求*/
+   manage->get(network_request);
+}
+void Bus::GetReplyFinished(QNetworkReply *reply)
+{
+    QJsonObject data = QJsonDocument::fromJson(reply->readAll()).object();
+    double x=data.value(QString("bus_position")).toObject().value("x").toDouble();
+    double y=data.value(QString("bus_position")).toObject().value("y").toDouble();
+    setCoordinate(QGeoCoordinate(x,y));
+        //ui->textBrowser->setText(data);
 }

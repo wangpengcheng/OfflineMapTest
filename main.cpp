@@ -33,9 +33,10 @@
 
 //测试函数
 #include "test/buslinetest.h"
+#include "test/bustest.h"
+//使用函数
 #include "src/busline.h"
 #include "src/busstation.h"
-
 //use tool
 Tool tool;
 //设置内部函数
@@ -68,7 +69,10 @@ int main(int argc, char *argv[])
     qDebug()<<qMap->fromCoordinate(qMap->center());
     //ShowBusLine(qMap);
    // QTimer *temp_timer=new QTimer(this);
-    MoveTest(qMap);
+   // MoveTest(qMap);
+    BusTest bus_test;
+    bus_test.ShowTest(qMap);
+    bus_test.MoveTest();
     return app.exec();
 
 }
