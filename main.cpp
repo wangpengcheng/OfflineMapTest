@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
     BusLineTest test;
     //test.MainTest();主要测试函数
     test.ShowTest(qMap);
+    //将地图上的点转化为屏幕上的像素点
     qDebug()<<qMap->fromCoordinate(qMap->center());
     //ShowBusLine(qMap);
    // QTimer *temp_timer=new QTimer(this);
@@ -73,6 +74,7 @@ int main(int argc, char *argv[])
     BusTest bus_test;
     bus_test.ShowTest(qMap);
     bus_test.MoveTest();
+    bus_test.UpdataPositionTest();
     return app.exec();
 
 }

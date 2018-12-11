@@ -31,6 +31,7 @@ public:
     ~BusTest();
     void ShowTest(QDeclarativeGeoMap *qMap);//显示测试函数
     void MoveTest();//移动测试
+    void UpdataPositionTest();//网络更新位置测试
     void MainTest();//主要测试函数
 private:
     Bus *bus_test_;

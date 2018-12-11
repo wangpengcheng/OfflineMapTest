@@ -24,6 +24,8 @@ void BusTest::ShowTest(QDeclarativeGeoMap *qMap)
     };
     qMap->addMapItem(bus_test_);
     qDebug()<<bus_test_->parentItem();
+    auto *parent1=bus_test_->quickMap();
+    qDebug()<<parent1->fromCoordinate(parent1->center());
     tool.TestNoteTool("ShowTest",1);
 }
 void BusTest::MoveTest()
@@ -32,6 +34,10 @@ void BusTest::MoveTest()
     {
        bus_test_->setCoordinate(tool.WPS84ToGCJ02(30.5573103000,103.9932192500));
     }
+}
+void BusTest::UpdataPositionTest()
+{
+    bus_test_->UpdataPosition();
 }
 void  BusTest::MainTest()
 {

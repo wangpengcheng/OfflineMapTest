@@ -43,6 +43,8 @@
  * 1.公交车ID 2.公交车名称  3.所属线路编号 4.附加基本信息;公交驾驶员信息
  * 功能实现成员变量：
  * 1.指向地图 2.储存线路 3.公交车图标 4.信息关键点（停靠关键点） 5.小车转动角度,6.时间定时器
+ * 实现重要功能：
+ * 请求网络得出车辆位置，并在地图中显示位置
 */
 class Bus: public QDeclarativeGeoMapQuickItem
 {
@@ -75,8 +77,11 @@ public:
     void set_bus_iocn(QQuickImage *iocn_image);
     void set_bus_iocn(const QUrl iocn_source_url);
     /*重要信息存取 end*/
-    void Init();
-    void Updata();
+    void Init();//变量初始化
+    void Updata();//更新数据
+    void UpdataPosition();//更新车辆位置
+    /*其它函数*/
+    double GetPixelDistance(QGeoCoordinate coordinate1,QGeoCoordinate coordinate2);//获取像素点上两点距离
 private:
     /*基本信息 start*/
     QString bus_id_;
@@ -89,9 +94,12 @@ private:
     QList<QGeoCoordinate> bus_path_coordinates_;//线路关键点列表
     QQuickImage *bus_iocn_;//公交车图标iocn指针
     /*重要信息 end*/
-    QTimeLine *timeLine;
+    /*位置更新信息 start*/
+    QTimeLine *bus_time_line_;
+    QTimer *bus_timer_;
+    /*位置更新信息 end*/
+    //相关槽函数
 private slots:
-    void set_rotate(int rotate);
     void UpdataCoordinatesByNet();
     void GetReplyFinished(QNetworkReply *reply);
 };
