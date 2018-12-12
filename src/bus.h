@@ -37,6 +37,9 @@
 #include <QNetworkReply>
 #include <QJsonObject>
 #include <QJsonDocument>
+#ifndef TOOL_H
+#include "src/tool.h"
+#endif
 /*
  * bus 类的主要设计思路和数据类型：
  * 基本信息数据定义：
@@ -81,7 +84,9 @@ public:
     void Updata();//更新数据
     void UpdataPosition();//更新车辆位置
     /*其它函数*/
-    double GetPixelDistance(QGeoCoordinate coordinate1,QGeoCoordinate coordinate2);//获取像素点上两点距离
+    double GetPixelDistance(const QGeoCoordinate coordinate1,
+                            const QGeoCoordinate coordinate2);//获取像素点上两点距离
+    void LuShu();
 private:
     /*基本信息 start*/
     QString bus_id_;
@@ -89,6 +94,7 @@ private:
     QString bus_line_number_;
     QString bus_information_;
     QString bus_diver_;
+    Tool tool;
     /*基本信息 end*/
     /*重要信息 start*/
     QList<QGeoCoordinate> bus_path_coordinates_;//线路关键点列表
@@ -98,10 +104,17 @@ private:
     QTimeLine *bus_time_line_;
     QTimer *bus_timer_;
     /*位置更新信息 end*/
+    /*路书动画 start*/
+
+    /*路书动画 end*/
     //相关槽函数
-private slots:
+public slots:
     void UpdataCoordinatesByNet();
     void GetReplyFinished(QNetworkReply *reply);
+    void Move(const double dx,
+              const double dy);
+    void MoveNextPoint(const QGeoCoordinate coordinate1,
+                       const QGeoCoordinate coordinate2);
 };
 
 #endif // BUS_H

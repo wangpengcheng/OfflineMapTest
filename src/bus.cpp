@@ -162,7 +162,6 @@ void Bus::UpdataPosition()
     bus_timer_=new QTimer(this);
     connect(bus_timer_, SIGNAL(timeout()), this, SLOT(UpdataCoordinatesByNet()));
     bus_timer_->start(2000);//设置更新间隔为2s
-
 }
 void Bus::UpdataCoordinatesByNet()
 {
@@ -182,10 +181,11 @@ void Bus::GetReplyFinished(QNetworkReply *reply)
     double x=data.value(QString("bus_position")).toObject().value("x").toDouble();
     double y=data.value(QString("bus_position")).toObject().value("y").toDouble();
     setCoordinate(QGeoCoordinate(x,y));
-        //ui->textBrowser->setText(data);
+    qDebug()<<this->coordinate();
 }
 /*网络位置请求 end*/
-double Bus::GetPixelDistance(QGeoCoordinate coordinate1, QGeoCoordinate coordinate2)
+double Bus::GetPixelDistance(const QGeoCoordinate coordinate1,
+                             const QGeoCoordinate coordinate2)
 {
     QPointF point1,point2;
     auto parent_map=this->quickMap();
@@ -193,4 +193,65 @@ double Bus::GetPixelDistance(QGeoCoordinate coordinate1, QGeoCoordinate coordina
     point2=parent_map->fromCoordinate(coordinate2);
     double result=qSqrt(qPow((point1.x()-point2.x()),2)+qPow((point1.y()-point2.y()),2));
     return result;
+}
+void Bus::Move(const double dx,
+               const double dy)
+{
+    QGeoCoordinate old_point,new_point;
+    old_point=this->coordinate();//获取中心点
+    qDebug()<<old_point;
+    double x,y;
+    x=old_point.latitude()+dx;
+    y=old_point.longitude()+dy;
+    qDebug()<<"x:"<<x<<"y:"<<y;
+    new_point=QGeoCoordinate(x,y);
+    qDebug()<<new_point;
+    this->setCoordinate(new_point);
+}
+void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
+                        const QGeoCoordinate coordinate2)
+{
+
+    if(coordinate1==coordinate2)
+    {
+        qDebug()<<"the same point ";
+        return ;
+    }
+    double dx=0.000005,dy=0.000005;//设置步长间隔
+    int step_num;//统计步长
+    //计算差值
+    double diff_x=coordinate1.latitude()-coordinate2.latitude();
+    double diff_y=coordinate1.longitude()-coordinate2.longitude();
+    if(diff_y<=0.000005&&diff_y>=-0.000005&&
+       diff_x<=0.000005&&diff_x>=-0.000005){
+        dx=0;
+        dy=0;
+    }else if(diff_x<=0.000005&&diff_x>=-0.000005){
+        step_num=floor(qAbs(diff_y/dy));
+        dx=0;
+    }else if(diff_y<=0.000005&&diff_y>=-0.000005) {
+        step_num=floor(qAbs(diff_x/dx));
+        dy=0;
+    }else {
+        step_num=floor(qAbs(diff_x/dx));
+        //计算斜率K
+        dy=dx*(diff_y/diff_x);
+    }
+    //设置动画时钟
+    bus_time_line_=new QTimeLine(100*step_num,this);
+    bus_time_line_->setFrameRange(0,step_num);
+    connect(bus_time_line_,&QTimeLine::frameChanged,this, [=](int value) {
+        qDebug() << value;
+        this->Move(dx,dy);
+    });
+    //更改地图起点坐标
+    this->setCoordinate(coordinate1);
+    bus_time_line_->start();
+}
+void Bus::LuShu()
+{
+    tool.TestNoteTool("LuShu",0);
+    MoveNextPoint(tool.WPS84ToGCJ02(30.5563134000,103.9938400000),
+                  tool.WPS84ToGCJ02(30.5571043000,103.9934402500));
+    tool.TestNoteTool("LuShu ",1);
 }

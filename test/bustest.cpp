@@ -30,14 +30,24 @@ void BusTest::ShowTest(QDeclarativeGeoMap *qMap)
 }
 void BusTest::MoveTest()
 {
+    tool.TestNoteTool("MoveTest",0);
     if(bus_test_->parentItem())
     {
-       bus_test_->setCoordinate(tool.WPS84ToGCJ02(30.5573103000,103.9932192500));
+       bus_test_->setCoordinate(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));
     }
+    tool.TestNoteTool("MoveTest",1);
 }
 void BusTest::UpdataPositionTest()
 {
+    tool.TestNoteTool("UpdataPositionTest",0);
     bus_test_->UpdataPosition();
+    tool.TestNoteTool("UpdataPositionTest",1);
+}
+void BusTest::LuShuTest()
+{
+    tool.TestNoteTool("LuShuTest",0);
+    bus_test_->LuShu();
+    tool.TestNoteTool("LuShuTest",1);
 }
 void  BusTest::MainTest()
 {
