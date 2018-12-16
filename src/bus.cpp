@@ -185,6 +185,7 @@ void Bus::GetReplyFinished(QNetworkReply *reply)
     qDebug()<<this->coordinate();
 }
 /*网络位置请求 end*/
+//计算像素点差距
 double Bus::GetPixelDistance(const QGeoCoordinate coordinate1,
                              const QGeoCoordinate coordinate2)
 {
@@ -201,22 +202,22 @@ void Bus::Move(const double dx,
     QGeoCoordinate old_point,new_point;
     double temp_rotation=NULL;//转动角度;-180~180,
     old_point=this->coordinate();//获取中心点
-    qDebug()<<old_point;
+    //qDebug()<<old_point;
     double x,y;
     x=old_point.latitude()+dx;
     y=old_point.longitude()+dy;
-    qDebug()<<"x:"<<x<<"y:"<<y;
-    qDebug()<<"dx:"<<dx<<"dy:"<<dy;
+    //qDebug()<<"x:"<<x<<"y:"<<y;
+    //qDebug()<<"dx:"<<dx<<"dy:"<<dy;
     new_point=QGeoCoordinate(x,y);
-    qDebug()<<new_point;
+    //qDebug()<<new_point;
     this->setCoordinate(new_point);
     //计算转动方向
     if(dx==0&&dy==0){
         qDebug()<<"no move ";
     }else
     {
-        temp_rotation=-qRadiansToDegrees(qAtan2(dx,dy));//注意坐标体系转换变号，负号反向
-        qDebug()<<temp_rotation;
+        temp_rotation=-qRadiansToDegrees(qAtan2(dy,dx));//注意坐标体系转换变号，负号反向
+        //qDebug()<<temp_rotation;
     }
     if(temp_rotation!=NULL)
     {
@@ -232,52 +233,109 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
         qDebug()<<"the same point ";
         return ;
     }
-    double dx=0.000005,dy=0.000005;//设置步长间隔
+    //更改地图起点坐标
+    this->setCoordinate(coordinate1);
+    const double const_step=0.000005;
+    double dx=const_step,dy=const_step;//设置步长间隔
     int step_num;//统计步长
     //计算差值
     double diff_x=coordinate1.latitude()-coordinate2.latitude();
     double diff_y=coordinate1.longitude()-coordinate2.longitude();//注意地图坐标体系变化
-    //设置基本方向
-//    if(diff_x<0)
-//    {
-//        dx=-dx;
-//    }
-//    if(diff_y<0)
-//    {
-//        dy=-dy;
-//    }
     //计算步长和转动角度
-    if(diff_y<=0.000005&&diff_y>=-0.000005&&
-       diff_x<=0.000005&&diff_x>=-0.000005){
+    // dx=(diff_x/qAbs(diff_x))*dx;
+    if(diff_y<=const_step&&diff_y>=-const_step&&
+       diff_x<=const_step&&diff_x>=-const_step){
         dx=0;
         dy=0;
         //ToDo 计算转动角度
-    }else if(diff_x<=0.000005&&diff_x>=-0.000005){
+    }else if(diff_x<=const_step&&diff_x>=-const_step){
         step_num=floor(qAbs(diff_y/dy));
         dx=0;
-    }else if(diff_y<=0.000005&&diff_y>=-0.000005) {
+    }else if(diff_y<=const_step&&diff_y>=-const_step) {
         step_num=floor(qAbs(diff_x/dx));
         dy=0;
     }else {//x,y都不为0
         step_num=floor(qAbs(diff_x/dx));
         //计算斜率K
         dy=dx*(diff_y/diff_x);
+          //dy=dx*qTan(qAtan2(diff_y,diff_x));
     }
     //设置动画时钟
-    bus_time_line_=new QTimeLine(100*step_num,this);
-    bus_time_line_->setFrameRange(0,step_num);
-    connect(bus_time_line_,&QTimeLine::frameChanged,this, [=](int value) {
-        qDebug() << value;
-        this->Move(dx,dy);
+    QTimeLine *temp_timeline=new QTimeLine(100*step_num,this);
+    temp_timeline->setFrameRange(0,step_num);
+    //绑定运动事件
+        connect(temp_timeline,&QTimeLine::frameChanged,this, [=](int value) {
+          //  qDebug() << value;
+            this->Move(dx,dy);
+        });
+    temp_timeline->start();
+    //当前的帧数
+    int currentCount = 0;
+    //步长，米/秒
+    int timer = 10;
+    double step = this->bus_speed_/(1000/timer);//根据速度计算每步步长
+    //初始坐标
+    QPointF init_pos = this->quickMap()->fromCoordinate(coordinate1);
+    //获取结束点的(x,y)坐标
+    QPointF target_pos = this->quickMap()->fromCoordinate(coordinate1);
+    //总的步长
+    double count =round(this->GetPixelDistance(coordinate1, coordinate2) / step);
+    //如果小于1直接移动到下一点
+    if (count < 1)
+    {
+        this->MoveNextIndex(++this->line_index_);//直接移动到下一个
+        return;
+    }
+
+
+    //绑定结束事件
+    /*
+    connect(temp_timeline,&QTimeLine::finished,this,[=]()
+    {
+        qDebug() <<"this time line end!!!!!!!";
+       // this->line_index_++;//变换现在时间点顺序；
+//        qDebug()<<this->bus_path_coordinates().size();
+//        qDebug()<<line_index_;
+//        qDebug()<<(!bus_path_coordinates_.isEmpty());
+//        qDebug()<<(this->line_index_+1<bus_path_coordinates_.size());
+        if((!bus_path_coordinates_.isEmpty())&&//关键点列表不为空
+           (this->line_index_+1<bus_path_coordinates_.size()))//下一个点存在
+        {
+            MoveNextPoint(bus_path_coordinates_.at(line_index_),
+                          bus_path_coordinates_.at(line_index_+1));
+            this->line_index_++;
+            qDebug()<<this->line_index_;
+
+        }
     });
-    //更改地图起点坐标
-    this->setCoordinate(coordinate1);
-    bus_time_line_->start();
+    */
+
 }
 void Bus::LuShu()
 {
     tool.TestNoteTool("LuShu",0);
-    MoveNextPoint(tool.WPS84ToGCJ02(30.5563134000,103.9938400000),
-                  tool.WPS84ToGCJ02(30.5571043000,103.9934402500));
+    MoveNextPoint(tool.WPS84ToGCJ02(30.5590118900,104.0036178400),
+                  tool.WPS84ToGCJ02(30.5583098900,104.0042138400));
     tool.TestNoteTool("LuShu ",1);
+}
+void Bus::MoveNextIndex(const int index)//移动到
+{
+
+    if (index < this->bus_path_coordinates().size()-1)
+    {
+        this->MoveNextPoint(this->bus_path_coordinates_.at(index),
+                            this->bus_path_coordinates_.at(index+1));
+    }
+}
+double Bus::LinearInterpolation(const int init_pos,
+                                const int target_pos,
+                                const int current_count,
+                                const int count)
+{
+    int b = init_pos;
+    int c = target_pos - init_pos;
+    int t = current_count;
+    int d = count;
+    double temp_result=(double)(c * t / d + b);
+    return temp_result;
 }
