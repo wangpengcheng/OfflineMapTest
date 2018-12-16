@@ -47,6 +47,12 @@ void BusTest::LuShuTest()
 {
     tool.TestNoteTool("LuShuTest",0);
     bus_test_->LuShu();
+    double temp=0.0000005;
+    qDebug()<<qRadiansToDegrees(qAtan2(temp,temp));//一
+    qDebug()<<qRadiansToDegrees(qAtan2(temp,-temp));//二
+    qDebug()<<qRadiansToDegrees(qAtan2(-temp,-temp));//三
+    qDebug()<<qRadiansToDegrees(qAtan2(-temp,temp));//四
+     qDebug()<<qAtan2(1,0);//四
     tool.TestNoteTool("LuShuTest",1);
 }
 void  BusTest::MainTest()

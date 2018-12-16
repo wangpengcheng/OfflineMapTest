@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     BusTest bus_test;
     bus_test.ShowTest(qMap);
    // bus_test.MoveTest();
-   // bus_test.UpdataPositionTest();
+    //bus_test.UpdataPositionTest();
     bus_test.LuShuTest();
     return app.exec();
 

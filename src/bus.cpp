@@ -137,7 +137,7 @@ void Bus::Init()
     bus_iocn_->setSource(QUrl("qrc:/img/car_up.png"));
     //bus_station_iocn_->setSize(QSize(50,50));//设置默认大小
     setCoordinate(InitCoordinate);//设置默认位置
-    setRotation(-90);//设置图片旋转90度
+    setRotation(90);//设置图片旋转90度
     bus_time_line_=NULL;
     bus_timer_=NULL;
 }
@@ -161,7 +161,7 @@ void Bus::UpdataPosition()
     /*利用QTimer 进行请求*/
     bus_timer_=new QTimer(this);
     connect(bus_timer_, SIGNAL(timeout()), this, SLOT(UpdataCoordinatesByNet()));
-    bus_timer_->start(2000);//设置更新间隔为2s
+    bus_timer_->start(5000);//设置更新间隔为5s
 }
 void Bus::UpdataCoordinatesByNet()
 {
@@ -181,6 +181,7 @@ void Bus::GetReplyFinished(QNetworkReply *reply)
     double x=data.value(QString("bus_position")).toObject().value("x").toDouble();
     double y=data.value(QString("bus_position")).toObject().value("y").toDouble();
     setCoordinate(QGeoCoordinate(x,y));
+   // MoveNextPoint(this->coordinate(),QGeoCoordinate(x,y));
     qDebug()<<this->coordinate();
 }
 /*网络位置请求 end*/
@@ -198,15 +199,29 @@ void Bus::Move(const double dx,
                const double dy)
 {
     QGeoCoordinate old_point,new_point;
+    double temp_rotation=NULL;//转动角度;-180~180,
     old_point=this->coordinate();//获取中心点
     qDebug()<<old_point;
     double x,y;
     x=old_point.latitude()+dx;
     y=old_point.longitude()+dy;
     qDebug()<<"x:"<<x<<"y:"<<y;
+    qDebug()<<"dx:"<<dx<<"dy:"<<dy;
     new_point=QGeoCoordinate(x,y);
     qDebug()<<new_point;
     this->setCoordinate(new_point);
+    //计算转动方向
+    if(dx==0&&dy==0){
+        qDebug()<<"no move ";
+    }else
+    {
+        temp_rotation=-qRadiansToDegrees(qAtan2(dx,dy));//注意坐标体系转换变号，负号反向
+        qDebug()<<temp_rotation;
+    }
+    if(temp_rotation!=NULL)
+    {
+        setRotation(temp_rotation);
+    }
 }
 void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
                         const QGeoCoordinate coordinate2)
@@ -221,18 +236,29 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
     int step_num;//统计步长
     //计算差值
     double diff_x=coordinate1.latitude()-coordinate2.latitude();
-    double diff_y=coordinate1.longitude()-coordinate2.longitude();
+    double diff_y=coordinate1.longitude()-coordinate2.longitude();//注意地图坐标体系变化
+    //设置基本方向
+//    if(diff_x<0)
+//    {
+//        dx=-dx;
+//    }
+//    if(diff_y<0)
+//    {
+//        dy=-dy;
+//    }
+    //计算步长和转动角度
     if(diff_y<=0.000005&&diff_y>=-0.000005&&
        diff_x<=0.000005&&diff_x>=-0.000005){
         dx=0;
         dy=0;
+        //ToDo 计算转动角度
     }else if(diff_x<=0.000005&&diff_x>=-0.000005){
         step_num=floor(qAbs(diff_y/dy));
         dx=0;
     }else if(diff_y<=0.000005&&diff_y>=-0.000005) {
         step_num=floor(qAbs(diff_x/dx));
         dy=0;
-    }else {
+    }else {//x,y都不为0
         step_num=floor(qAbs(diff_x/dx));
         //计算斜率K
         dy=dx*(diff_y/diff_x);

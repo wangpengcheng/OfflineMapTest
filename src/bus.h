@@ -105,7 +105,7 @@ private:
     QTimer *bus_timer_;
     /*位置更新信息 end*/
     /*路书动画 start*/
-
+    QList<QTimeLine *> bus_time_line_list_;
     /*路书动画 end*/
     //相关槽函数
 public slots:
