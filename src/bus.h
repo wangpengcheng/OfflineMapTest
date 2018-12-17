@@ -88,10 +88,12 @@ public:
                             const QGeoCoordinate coordinate2);//获取像素点上两点距离
     void LuShu();
     void MoveNextIndex(const int index);//移动到下一个关键点
-    double LinearInterpolation(const int init_pos, //起始点
-                               const int target_pos,//终结点
+    double LinearInterpolation(const double init_pos, //起始点
+                               const double target_pos,//终结点
                                const int current_count,//当前帧数
                                const int count);//总帧数
+    void SetRotation(const QGeoCoordinate coordinate1,
+                     const QGeoCoordinate coordinate2);
 private:
     /*基本信息 start*/
     QString bus_id_;
@@ -113,7 +115,8 @@ private:
     QList<QTimeLine *> bus_time_line_list_;
     /*路书动画 end*/
     int line_index_=0;//当前点索引初始化为0
-    double bus_speed_=0;//公交车速度
+    double bus_speed_=100;//公交车速度
+    bool is_cricle=false;//是否循环
     //相关槽函数
 public slots:
     void UpdataCoordinatesByNet();

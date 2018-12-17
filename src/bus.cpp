@@ -209,14 +209,14 @@ void Bus::Move(const double dx,
     //qDebug()<<"x:"<<x<<"y:"<<y;
     //qDebug()<<"dx:"<<dx<<"dy:"<<dy;
     new_point=QGeoCoordinate(x,y);
-    //qDebug()<<new_point;
+    qDebug()<<new_point;
     this->setCoordinate(new_point);
     //计算转动方向
     if(dx==0&&dy==0){
         qDebug()<<"no move ";
     }else
     {
-        temp_rotation=-qRadiansToDegrees(qAtan2(dy,dx));//注意坐标体系转换变号，负号反向
+        temp_rotation=-qRadiansToDegrees(qAtan2(dx,dy));//注意坐标体系转换变号，负号反向
         //qDebug()<<temp_rotation;
     }
     if(temp_rotation!=NULL)
@@ -234,91 +234,57 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
         return ;
     }
     //更改地图起点坐标
-    this->setCoordinate(coordinate1);
-    const double const_step=0.000005;
-    double dx=const_step,dy=const_step;//设置步长间隔
-    int step_num;//统计步长
-    //计算差值
-    double diff_x=coordinate1.latitude()-coordinate2.latitude();
-    double diff_y=coordinate1.longitude()-coordinate2.longitude();//注意地图坐标体系变化
-    //计算步长和转动角度
-    // dx=(diff_x/qAbs(diff_x))*dx;
-    if(diff_y<=const_step&&diff_y>=-const_step&&
-       diff_x<=const_step&&diff_x>=-const_step){
-        dx=0;
-        dy=0;
-        //ToDo 计算转动角度
-    }else if(diff_x<=const_step&&diff_x>=-const_step){
-        step_num=floor(qAbs(diff_y/dy));
-        dx=0;
-    }else if(diff_y<=const_step&&diff_y>=-const_step) {
-        step_num=floor(qAbs(diff_x/dx));
-        dy=0;
-    }else {//x,y都不为0
-        step_num=floor(qAbs(diff_x/dx));
-        //计算斜率K
-        dy=dx*(diff_y/diff_x);
-          //dy=dx*qTan(qAtan2(diff_y,diff_x));
-    }
-    //设置动画时钟
-    QTimeLine *temp_timeline=new QTimeLine(100*step_num,this);
-    temp_timeline->setFrameRange(0,step_num);
-    //绑定运动事件
-        connect(temp_timeline,&QTimeLine::frameChanged,this, [=](int value) {
-          //  qDebug() << value;
-            this->Move(dx,dy);
-        });
-    temp_timeline->start();
-    //当前的帧数
-    int currentCount = 0;
+    //this->setCoordinate(coordinate1);
     //步长，米/秒
     int timer = 10;
     double step = this->bus_speed_/(1000/timer);//根据速度计算每步步长
-    //初始坐标
-    QPointF init_pos = this->quickMap()->fromCoordinate(coordinate1);
-    //获取结束点的(x,y)坐标
-    QPointF target_pos = this->quickMap()->fromCoordinate(coordinate1);
+    //根据速度计算时间
+    if(bus_speed_==0)
+    {
+        bus_speed_=10;
+    }
+    //计算所需时间
+    int total_time=qFloor(1000*(tool.GetDistance(coordinate1,coordinate2)/bus_speed_));
     //总的步长
-    double count =round(this->GetPixelDistance(coordinate1, coordinate2) / step);
+    int count =qFloor(this->GetPixelDistance(coordinate1, coordinate2)/step);
     //如果小于1直接移动到下一点
     if (count < 1)
     {
         this->MoveNextIndex(++this->line_index_);//直接移动到下一个
         return;
     }
-
-
+    //设置动画时钟
+    QTimeLine *temp_timeline=new QTimeLine(total_time,this);
+    temp_timeline->setFrameRange(0,count);
+    //设置时间变化曲线
+    temp_timeline->setCurveShape(QTimeLine::LinearCurve);
+    //绑定运动事件
+    connect(temp_timeline,&QTimeLine::frameChanged,this, [=](int value) {
+            qDebug() << value;
+        //计算步长
+         double pixe_point_x=LinearInterpolation(coordinate1.latitude(),coordinate2.latitude(),value,count);
+         double pixe_point_y=LinearInterpolation(coordinate1.longitude(),coordinate2.longitude(),value,count);
+         QGeoCoordinate temp_result(pixe_point_x,pixe_point_y);//输出坐标值
+         qDebug()<<temp_result;
+         this->setCoordinate(temp_result);
+    });
     //绑定结束事件
-    /*
     connect(temp_timeline,&QTimeLine::finished,this,[=]()
     {
-        qDebug() <<"this time line end!!!!!!!";
-       // this->line_index_++;//变换现在时间点顺序；
-//        qDebug()<<this->bus_path_coordinates().size();
-//        qDebug()<<line_index_;
-//        qDebug()<<(!bus_path_coordinates_.isEmpty());
-//        qDebug()<<(this->line_index_+1<bus_path_coordinates_.size());
-        if((!bus_path_coordinates_.isEmpty())&&//关键点列表不为空
-           (this->line_index_+1<bus_path_coordinates_.size()))//下一个点存在
-        {
-            MoveNextPoint(bus_path_coordinates_.at(line_index_),
-                          bus_path_coordinates_.at(line_index_+1));
-            this->line_index_++;
-            qDebug()<<this->line_index_;
-
-        }
+        MoveNextIndex(++this->line_index_);//移动到下一个点
     });
-    */
-
+    //计算转向角
+    SetRotation(coordinate1, coordinate2);
+    temp_timeline->start();
 }
 void Bus::LuShu()
 {
     tool.TestNoteTool("LuShu",0);
-    MoveNextPoint(tool.WPS84ToGCJ02(30.5590118900,104.0036178400),
-                  tool.WPS84ToGCJ02(30.5583098900,104.0042138400));
+    MoveNextPoint(this->bus_path_coordinates_.at(0),
+                  this->bus_path_coordinates_.at(1));
     tool.TestNoteTool("LuShu ",1);
 }
-void Bus::MoveNextIndex(const int index)//移动到
+void Bus::MoveNextIndex(const int index)//移动到下一个位置
 {
 
     if (index < this->bus_path_coordinates().size()-1)
@@ -327,15 +293,96 @@ void Bus::MoveNextIndex(const int index)//移动到
                             this->bus_path_coordinates_.at(index+1));
     }
 }
-double Bus::LinearInterpolation(const int init_pos,
-                                const int target_pos,
+double Bus::LinearInterpolation(const double init_pos,
+                                const double target_pos,
                                 const int current_count,
                                 const int count)
 {
-    int b = init_pos;
-    int c = target_pos - init_pos;
+    double b = init_pos;
+    double c = target_pos - init_pos;
     int t = current_count;
     int d = count;
     double temp_result=(double)(c * t / d + b);
+    //double temp_result=(double)(c/d);
     return temp_result;
+}
+void Bus::SetRotation(const QGeoCoordinate coordinate1,
+                      const QGeoCoordinate coordinate2)
+{
+//    double deg = 0;
+//    if(coordinate1.latitude()!= coordinate2.latitude()){
+//           double tan = (coordinate1.longitude() - coordinate2.longitude())/(coordinate1.latitude() - coordinate2.latitude());
+//           deg =qRadiansToDegrees(qAtan(tan));//注意坐标体系转换变号，负号反向
+//                //degree  correction;
+//           double atan  = qAtan(tan);
+//           //deg = qRadiansToDegrees();
+//           if(coordinate2.latitude()<coordinate1.latitude()){
+//              deg = -deg + 90 + 90;
+
+//           } else {
+//              deg = -deg;
+//           }
+//             this->setRotation(deg);
+//     }else {
+//        double disy =coordinate2.longitude()-coordinate1.longitude() ;
+//        double bias = 0;
+//        if(disy > 0){
+//           bias=-1;
+//        }else{
+//           bias = 1;
+//        }
+//        this->setRotation(-bias*90);
+
+//    }
+//     double temp_rotation=NULL;//转动角度;-180~180,
+//    //计算转动方向
+//    double dx=coordinate1.latitude() - coordinate2.latitude();
+//    double dy=coordinate1.longitude() - coordinate2.longitude();
+//    if(dx==0&&dy==0){
+//        qDebug()<<"no move ";
+//    }else
+//    {
+//        temp_rotation=-qRadiansToDegrees(qAtan2(dy,dx));//注意坐标体系转换变号，负号反向
+//        //qDebug()<<temp_rotation;
+//    }
+//    if(temp_rotation!=NULL)
+//    {
+//        setRotation(temp_rotation);
+//    }
+        double temp_rotation=NULL;
+        const double const_step=1;
+        double dx=const_step,dy=const_step;//设置步长间隔
+        int step_num;//统计步长
+        //计算差值
+        double diff_x=coordinate2.latitude()-coordinate1.latitude();
+        double diff_y=coordinate2.longitude()-coordinate1.longitude();//注意地图坐标体系变化
+        //计算步长和转动角度
+        dx=(diff_x/qAbs(diff_x))*dx;
+        if(diff_y==0&&
+           diff_x==0){
+            dx=0;
+            dy=0;
+            //ToDo 计算转动角度
+        }else if(diff_x==0){
+            dx=0;
+        }else if(diff_y==0) {
+            dy=0;
+        }else {//x,y都不为0
+            //计算斜率K
+            dy=dx*(diff_y/diff_x);
+        }
+
+        //计算转动方向
+            if(dx==0&&dy==0){
+                qDebug()<<"no move ";
+            }else
+            {
+                temp_rotation=-qRadiansToDegrees(qAtan2(diff_x,diff_y));//注意坐标体系转换变号，负号反向
+                //qDebug()<<temp_rotation;
+            }
+            if(temp_rotation!=NULL)
+            {
+                setRotation(temp_rotation);
+            }
+
 }
