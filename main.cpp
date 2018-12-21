@@ -76,6 +76,7 @@ int main(int argc, char *argv[])
    // bus_test.MoveTest();
     //bus_test.UpdataPositionTest();
     bus_test.LuShuTest();
+    //bus_test.ChangePathTest();
     return app.exec();
 
 }
