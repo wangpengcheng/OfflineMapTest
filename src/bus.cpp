@@ -267,7 +267,6 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
     this->bus_time_line_list_.append(temp_timeline);
     //绑定运动事件
     connect(temp_timeline,&QTimeLine::frameChanged,this, [=](int value) {
-            qDebug() << value;
         //计算步长
          double pixe_point_x=LinearInterpolation(coordinate1.latitude(),coordinate2.latitude(),value,count);
          double pixe_point_y=LinearInterpolation(coordinate1.longitude(),coordinate2.longitude(),value,count);
@@ -281,7 +280,6 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
     });
     //计算转向角
     SetRotation(coordinate1, coordinate2);
-    qDebug()<<this->coordinate();
     temp_timeline->start();//动画开始
 }
 void Bus::LuShu()
