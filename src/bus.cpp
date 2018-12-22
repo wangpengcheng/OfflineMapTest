@@ -302,7 +302,7 @@ double Bus::LinearInterpolation(const double init_pos,
     double c = target_pos - init_pos;
     int t = current_count;
     int d = count;
-    double temp_result=(double)(c * t / d + b);
+    double temp_result=(double)(c*t/d+b);
     //double temp_result=(double)(c/d);
     return temp_result;
 }
