@@ -6,7 +6,6 @@
 //    width: 640
 //    height: 480
 //    title: qsTr("Hello World")
-
 //    MainForm {
 //        anchors.fill: parent
 //        mouseArea.onClicked: {
@@ -20,12 +19,12 @@ import QtQuick.Controls 1.5
 import QtLocation       5.3
 import QtPositioning    5.3
 import QtQml 2.0
-Window {
-    id: main
-    objectName: "main"
+Item {
+    id: map
+    objectName: "map"
     visible: true
-    height: 700
-    width: 1000
+    height: parent.height
+    width: parent.width
 
     /*对GPS坐标做处理，Wps84转Gcj-02*/
     property real pi: 3.1415926535897932384626

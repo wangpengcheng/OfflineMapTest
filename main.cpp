@@ -10,6 +10,8 @@
 #include <QStandardPaths>
 #include <QtQuickWidgets/QQuickWidget>
 #include <QtQuick/QQuickWindow>
+#include <QtQuick/QQuickView>
+#include <QtWebView>
 #include <QTimer>
 #include <QTimeLine>
 //使用location 注册类
@@ -47,9 +49,12 @@ void MoveTest(QDeclarativeGeoMap *qMap);
 int main(int argc, char *argv[])
 {
 
-    //QGuiApplication app(argc, argv);
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
+    //QApplication app(argc, argv);
     QString path_string=QDir::tempPath();
+    //添加字体
+    QFontDatabase::addApplicationFont(":/fonts/DejaVuSans.ttf");
+    app.setFont(QFont("DejaVu Sans"));
     qDebug()<<path_string;
     //VideoTest();
     //use Plugin
@@ -57,9 +62,10 @@ int main(int argc, char *argv[])
     //add qucik
     QQmlApplicationEngine engine;
     //load qml file
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     //qt 获取qml第一个对象：
     QObject *pRoot=engine.rootObjects().first();
+    qDebug()<<pRoot->property("id");
     //找到map节点
     QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
     //使用测试线路添加数据
