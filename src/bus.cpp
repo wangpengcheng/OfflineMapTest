@@ -123,6 +123,11 @@ void Bus::set_bus_iocn(const QUrl iocn_source_url)
 {
     bus_iocn_->setSource(iocn_source_url);
 }
+void Bus::SetBusIocnScale(double Scale)
+{
+    bus_iocn_->setSize(QSize(this->bus_iocn_->width()*Scale,
+                             this->bus_iocn_->height()*Scale));
+}
 void Bus::Init()
 {
     bus_id_="";//公交站编号
@@ -131,7 +136,7 @@ void Bus::Init()
     bus_information_="";//公交信息
     bus_diver_="";//公交驾驶人员信息
     QGeoCoordinate InitCoordinate(30.5567330000,103.9997920000);
-    bus_path_coordinates_.append(InitCoordinate);
+//    bus_path_coordinates_.append(InitCoordinate);
     bus_iocn_=NULL;//防止内存分配失败
     bus_iocn_=new QQuickImage();
     bus_iocn_->setSource(QUrl("qrc:/img/car_up.png"));
@@ -258,6 +263,8 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
     temp_timeline->setFrameRange(0,count);
     //设置时间变化曲线
     temp_timeline->setCurveShape(QTimeLine::LinearCurve);
+    //将计时器添加到队列中
+    this->bus_time_line_list_.append(temp_timeline);
     //绑定运动事件
     connect(temp_timeline,&QTimeLine::frameChanged,this, [=](int value) {
             qDebug() << value;
@@ -265,7 +272,6 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
          double pixe_point_x=LinearInterpolation(coordinate1.latitude(),coordinate2.latitude(),value,count);
          double pixe_point_y=LinearInterpolation(coordinate1.longitude(),coordinate2.longitude(),value,count);
          QGeoCoordinate temp_result(pixe_point_x,pixe_point_y);//输出坐标值
-         qDebug()<<temp_result;
          this->setCoordinate(temp_result);
     });
     //绑定结束事件
@@ -275,13 +281,13 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
     });
     //计算转向角
     SetRotation(coordinate1, coordinate2);
-    temp_timeline->start();
+    qDebug()<<this->coordinate();
+    temp_timeline->start();//动画开始
 }
 void Bus::LuShu()
 {
     tool.TestNoteTool("LuShu",0);
-    MoveNextPoint(this->bus_path_coordinates_.at(0),
-                  this->bus_path_coordinates_.at(1));
+    this->LuShuStart();//开始动画
     tool.TestNoteTool("LuShu ",1);
 }
 void Bus::MoveNextIndex(const int index)//移动到下一个位置
@@ -291,6 +297,22 @@ void Bus::MoveNextIndex(const int index)//移动到下一个位置
     {
         this->MoveNextPoint(this->bus_path_coordinates_.at(index),
                             this->bus_path_coordinates_.at(index+1));
+    }else if(index==this->bus_path_coordinates().size()-1)//如果到达最后一个点
+    {
+        if(this->is_cricle_){//如果确定循环
+              //console.log(f.i);
+            this->line_index_=0;
+            this->ChangePath();//更改路径
+            this->LuShuStart();//再次运行；
+//            //更改车辆iocn使得车辆翻转
+//            if(this->is_return){
+//               this->bus_iocn_->setSource(QUrl("qrc:/img/car_up1.png"));
+//            }else {
+//                this->bus_iocn_->setSource(QUrl("qrc:/img/car_up.png"));
+//            }
+            //更改信号变量
+            this->is_return=!this->is_return;
+        }
     }
 }
 double Bus::LinearInterpolation(const double init_pos,
@@ -352,7 +374,6 @@ void Bus::SetRotation(const QGeoCoordinate coordinate1,
         double temp_rotation=NULL;
         const double const_step=1;
         double dx=const_step,dy=const_step;//设置步长间隔
-        int step_num;//统计步长
         //计算差值
         double diff_x=coordinate2.latitude()-coordinate1.latitude();
         double diff_y=coordinate2.longitude()-coordinate1.longitude();//注意地图坐标体系变化
@@ -373,16 +394,61 @@ void Bus::SetRotation(const QGeoCoordinate coordinate1,
         }
 
         //计算转动方向
-            if(dx==0&&dy==0){
-                qDebug()<<"no move ";
-            }else
-            {
-                temp_rotation=-qRadiansToDegrees(qAtan2(diff_x,diff_y));//注意坐标体系转换变号，负号反向
-                //qDebug()<<temp_rotation;
-            }
-            if(temp_rotation!=NULL)
-            {
-                setRotation(temp_rotation);
-            }
+        if(dx==0&&dy==0){
+            qDebug()<<"no move ";
+        }else{
+            temp_rotation=-qRadiansToDegrees(qAtan2(diff_x,diff_y));//注意坐标体系转换变号，负号反
+        }
+        if(temp_rotation!=NULL)
+        {
+            setRotation(temp_rotation);
+        }
+
+}
+void Bus::ChangePath()//转置队列
+{
+    int temp_size=this->bus_path_coordinates_.size();
+    for(int i=0;i<temp_size/2;++i)
+    {
+        this->bus_path_coordinates_.swap(i,temp_size-i-1);
+    }
+}
+void Bus::LuShuStart()
+{
+    auto me=this;
+    int len = me->bus_path_coordinates_.size();
+       //不是第一次点击开始,并且小车还没到达终
+    if (me->line_index_!=0&& me->line_index_<len - 1) {
+        //没按pause再按start不做处理
+        if (!me->is_pause) {
+               return;
+        }else if(!me->is_stop){
+            //按了pause按钮,并且再按start，直接移动到下一点
+            //并且此过程中，没有按stop按钮
+            //防止先stop，再pause，然后连续不停的start的异常
+            me->MoveNextIndex(++me->line_index_);
+        }
+    }else {//第一次点击开始，或者点了stop之后点开始
+           //重置状态
+        this->MoveNextIndex(0);//移动到1
+        this->is_pause = false;
+        this->is_stop = false;
+    }
+}
+void Bus::LuShuPause()
+{
+    this->is_pause=!this->is_pause;
+    this->bus_time_line_list_.at(this->line_index_)->setPaused(this->is_pause);//停止动画
+}
+void Bus::LuShuStop()
+{
+
+    this->is_stop = true;
+    this->bus_time_line_list_.at(this->line_index_)->stop();//停止动画
+    this->line_index_= 0;//重置起点
+    if(is_return)//是否在返程
+    {
+     this->ChangePath();
+    }
 
 }

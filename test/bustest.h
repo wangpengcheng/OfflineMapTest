@@ -33,6 +33,8 @@ public:
     void MoveTest();//移动测试
     void UpdataPositionTest();//网络更新位置测试
     void LuShuTest();
+    void ChangePathTest();//路径变换测试
+    void AddCoordinateToList(QList<QGeoCoordinate> &temp);//添加路径关键点
     void MainTest();//主要测试函数
 private:
     Bus *bus_test_;
