@@ -20,26 +20,46 @@ import QtQuick.Controls 1.5
 import QtLocation       5.3
 import QtPositioning    5.3
 import QtQml 2.0
-ApplicationWindow {
+import QtWebEngine 1.0
+Item {
     id: main
     objectName: "main"
     visible: true
     height: 1080*1
     width: 1920*1
 
-    Item {
-        id: div1
-        objectName:"div1"
+    Column {
+        anchors.fill: parent
+        spacing: 0
+        Item {
+            id: item1
+            height: parent.height*0.7
+            width: parent.width
+            MyMap{}//添加地图
+        }
+        Item {
+            id: rol
+            height: parent.height*0.3
+            width: parent.width
 
-    }
-    MyMap{}//添加地图
-    Window{
-        id: window1
-        objectName: "window1"
-        visible: true
-        width: 500
-        height: 500
-        DashBoard{}
-    }
+            Row{
+                id: row1
+                spacing: 1
+                height: parent.height
+                width: parent.width
+                Rectangle {
+                    id: re2
+                    height: parent.height
+                    width: parent.width*0.25
+                }
+                Item {
+                    height: parent.height
+                    width: parent.width*0.25
+                     DashBoard{}
+                }
 
+            }
+        }
+    }
 }
+
