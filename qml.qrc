@@ -20,5 +20,7 @@
         <file>img/fuel-icon.png</file>
         <file>qml/ControlWindow.qml</file>
         <file>qml/VideoPlay.qml</file>
+        <file>qml/SpeedChart.qml</file>
+        <file>qml/SpeedsXml.qml</file>
     </qresource>
 </RCC>

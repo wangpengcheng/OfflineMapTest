@@ -7,7 +7,10 @@ Item {
     objectName: "video_play_div"
     anchors.fill: parent
     visible: true
-    property  url video_path : "file:///C:/Users/lin/Videos/IMG_8983.MOV"
+    property  url video_path1 : "file:///C:/Users/pc/Videos/play_video/yuanshiping.mp4"
+    property  url video_path2 : "file:///C:/Users/pc/Videos/play_video/fenge.mp4"
+    property  url video_path3 : "file:///C:/Users/pc/Videos/play_video/bianyuan.mp4"
+    property  url video_path4 : "file:///C:/Users/pc/Videos/play_video/chedaoxian.mp4"
     property real video_width: parent.width*0.5
     property real video_height: parent.height*0.5
     Grid {
@@ -19,7 +22,7 @@ Item {
             height: video_height;
             MediaPlayer {
                 id: mediaPlayer1
-                source: video_path
+                source: video_path1
                 autoPlay: true
             }
             VideoOutput {
@@ -34,7 +37,7 @@ Item {
             height: video_height;
             MediaPlayer {
                 id: mediaPlayer2
-                source: video_path
+                source: video_path2
                 autoPlay: true
             }
             VideoOutput {
@@ -49,7 +52,7 @@ Item {
             height: video_height;
             MediaPlayer {
                 id: mediaPlayer3
-                source: video_path
+                source: video_path3
                 autoPlay: true
             }
             VideoOutput {
@@ -64,7 +67,7 @@ Item {
             height: video_height;
             MediaPlayer {
                 id: mediaPlayer4
-                source: video_path
+                source: video_path4
                 autoPlay: true
             }
             VideoOutput {
@@ -74,6 +77,42 @@ Item {
             }
         }
     }
+    //隐藏显示div
+    function isVisiable()
+    {
+        video_play_div.visible=!video_play_div.visible;
+    }
+    //设置div宽和高
+    function set_width(new_width)
+    {
+        video_play_div.width=new_width;
+    }
+    function set_height(new_height)
+    {
+        video_play_div.height=new_height;
+    }
+    function video_play()
+    {
+        mediaPlayer1.play();
+        mediaPlayer2.play();
+        mediaPlayer3.play();
+        mediaPlayer4.play();
+    }
+    function video_pause()
+    {
+        mediaPlayer1.pause();
+        mediaPlayer2.pause();
+        mediaPlayer3.pause();
+        mediaPlayer4.pause();
+    }
+    function video_stop()
+    {
+        mediaPlayer1.stop();
+        mediaPlayer2.stop();
+        mediaPlayer3.stop();
+        mediaPlayer4.stop();
+    }
+
 
 }
 

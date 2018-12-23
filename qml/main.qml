@@ -20,7 +20,6 @@ import QtQuick.Controls 1.5
 import QtLocation       5.3
 import QtPositioning    5.3
 import QtQml 2.0
-import QtWebEngine 1.0
 import QtMultimedia 5.0
 Item {
     id: main
@@ -42,7 +41,9 @@ Item {
         objectName: "video_play_item"
         height: parent.height*0.7
         width: parent.width*0.5
-        VideoPlay{}//视频播放模块
+        VideoPlay{
+            id: my_video_play;
+        }//视频播放模块
     }
 
     //底部数据显示栏
@@ -53,7 +54,7 @@ Item {
          opacity: 0.7
          visible: true
          anchors.bottom: parent.bottom
-         anchors.bottomMargin: 10
+         anchors.bottomMargin: 5
          width: parent.width
 
          Row{
@@ -65,12 +66,17 @@ Item {
               id: re2
               height: parent.height
               width: parent.width*0.25
+              SpeedChart{
+                  id: my_speed_chart;
+              }
 
              }
              Item {
                height: parent.height
                width: parent.width*0.25
-               DashBoard{}
+               DashBoard{
+                   id: my_dash_borad;
+               }
              }
           }
         }
@@ -87,6 +93,30 @@ Item {
         //键盘点击事件
         Keys.onPressed: {
             console.log("This click key  is "+event.key);
+            //显示视频
+            if ((event.modifiers & Qt.ControlModifier ) && //ctrl+shift+v
+                (event.modifiers & Qt.AltModifier )&&
+                (event.key == Qt.Key_V)){
+                if(video_play_item.visible==false)
+                {
+                    video_play_item.visible= true;
+                    //my_video_play.video_play();
+                }else{
+                    video_play_item.visible= false;
+                    //my_video_play.video_pause();
+                }
+            }
+            //显示仪表盘
+            if ((event.modifiers & Qt.ControlModifier) && //ctrl+shift+c
+                (event.modifiers & Qt.AltModifier )&&
+                (event.key == Qt.Key_C)){
+                if(row1.visible==false)
+                {
+                    row1.visible=true;
+                }else{
+                    row1.visible=false;
+                }
+            }
             switch(event.key) {
              //基本控制-start
                 //方向控制-start
@@ -105,10 +135,10 @@ Item {
                 //方向控制-end
               //缩放-start
             case 43://小键盘“+”
-                map1.zoomLevel+=1;
+                my_map.map_zoom(1);
                 break;
             case 45://小键盘“-”
-                map1.zoomLevel-=1;
+                my_map.map_zoom(0);
                 break;
 
              //缩放-end

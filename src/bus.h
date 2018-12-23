@@ -122,7 +122,7 @@ private:
     QList<QTimeLine *> bus_time_line_list_;
     /*路书动画 end*/
     int line_index_=0;//当前点索引初始化为0
-    double bus_speed_=100;//公交车速度
+    double bus_speed_=5;//公交车速度
     bool is_cricle_=true;//是否循环
     bool is_pause = false;//是否
     bool is_stop = false;//不停止
