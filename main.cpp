@@ -49,8 +49,8 @@ void MoveTest(QDeclarativeGeoMap *qMap);
 int main(int argc, char *argv[])
 {
 
-    QGuiApplication app(argc, argv);
-    //QApplication app(argc, argv);
+    //QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
     QString path_string=QDir::tempPath();
     //添加字体
     QFontDatabase::addApplicationFont(":/fonts/DejaVuSans.ttf");
@@ -59,13 +59,19 @@ int main(int argc, char *argv[])
     //VideoTest();
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
-    //add qucik
-    QQmlApplicationEngine engine;
-    //load qml file
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
-    //qt 获取qml第一个对象：
-    QObject *pRoot=engine.rootObjects().first();
-    qDebug()<<pRoot->property("id");
+    QQuickView viewer;
+    viewer.setResizeMode(QQuickView::SizeRootObjectToView);
+    viewer.setSource(QUrl("qrc:/qml/main.qml"));
+    viewer.show();
+    QQuickItem *pRoot=viewer.rootObject();
+    qDebug()<<pRoot;
+//    //add qucik
+//    QQmlApplicationEngine engine;
+//    //load qml file
+//    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+//    //qt 获取qml第一个对象：
+//    QObject *pRoot=engine.rootObjects().first();
+//    qDebug()<<pRoot->property("id");
     //找到map节点
     QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
     //使用测试线路添加数据
@@ -73,7 +79,6 @@ int main(int argc, char *argv[])
     //test.MainTest();主要测试函数
     test.ShowTest(qMap);
     //将地图上的点转化为屏幕上的像素点
-    qDebug()<<qMap->fromCoordinate(qMap->center());
     //ShowBusLine(qMap);
    // QTimer *temp_timer=new QTimer(this);
    // MoveTest(qMap);

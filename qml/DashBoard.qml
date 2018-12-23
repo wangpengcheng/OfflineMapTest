@@ -105,7 +105,7 @@ Rectangle {
                     style: IconGaugeStyle {
                         id: fuelGaugeStyle
 
-                        icon: "qrc:/images/fuel-icon.png"
+                        icon: "qrc:/img/fuel-icon.png"
                         minWarningColor: Qt.rgba(0.5, 0, 0, 1)
 
                         tickmarkLabel: Text {
@@ -128,7 +128,7 @@ Rectangle {
                     style: IconGaugeStyle {
                         id: tempGaugeStyle
 
-                        icon: "qrc:/images/temperature-icon.png"
+                        icon: "qrc:/img/temperature-icon.png"
                         maxWarningColor: Qt.rgba(0.5, 0, 0, 1)
 
                         tickmarkLabel: Text {

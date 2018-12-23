@@ -38,3 +38,5 @@ HEADERS += \
     src/busstation.h \
     src/busline.h \
     src/bus.h
+
+DISTFILES +=

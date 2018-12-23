@@ -16,5 +16,9 @@
         <file>qml/ValueSource.qml</file>
         <file>fonts/DejaVuSans.ttf</file>
         <file>fonts/LICENSE</file>
+        <file>img/temperature-icon.png</file>
+        <file>img/fuel-icon.png</file>
+        <file>qml/ControlWindow.qml</file>
+        <file>qml/VideoPlay.qml</file>
     </qresource>
 </RCC>
