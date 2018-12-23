@@ -1,9 +1,24 @@
-<RCC>
+﻿<RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
         <file>img/bus_station.png</file>
         <file>img/6.png</file>
         <file>img/car_up.png</file>
         <file>img/car_up1.png</file>
+        <file>qml/DashBoard.qml</file>
+        <file>qml/DashboardGaugeStyle.qml</file>
+        <file>qml/IconGaugeStyle.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/MainForm.ui.qml</file>
+        <file>qml/MyMap.qml</file>
+        <file>qml/TachometerStyle.qml</file>
+        <file>qml/Test.qml</file>
+        <file>qml/TurnIndicator.qml</file>
+        <file>qml/ValueSource.qml</file>
+        <file>fonts/DejaVuSans.ttf</file>
+        <file>fonts/LICENSE</file>
+        <file>img/temperature-icon.png</file>
+        <file>img/fuel-icon.png</file>
+        <file>qml/ControlWindow.qml</file>
+        <file>qml/VideoPlay.qml</file>
     </qresource>
 </RCC>

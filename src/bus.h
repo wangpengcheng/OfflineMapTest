@@ -79,6 +79,7 @@ public:
     QQuickImage *bus_iocn();
     void set_bus_iocn(QQuickImage *iocn_image);
     void set_bus_iocn(const QUrl iocn_source_url);
+    void SetBusIocnScale(double Scale);//更改icon缩放
     /*重要信息存取 end*/
     void Init();//变量初始化
     void Updata();//更新数据
@@ -87,6 +88,19 @@ public:
     double GetPixelDistance(const QGeoCoordinate coordinate1,
                             const QGeoCoordinate coordinate2);//获取像素点上两点距离
     void LuShu();
+    void MoveNextIndex(const int index);//移动到下一个关键点
+    double LinearInterpolation(const double init_pos, //起始点
+                               const double target_pos,//终结点
+                               const int current_count,//当前帧数
+                               const int count);//总帧数
+    void SetRotation(const QGeoCoordinate coordinate1,
+                     const QGeoCoordinate coordinate2);
+    void ChangePath();//转置路径坐标
+    void LuShuStart();//开始LuShu
+    void LuShuPause();//暂停LuShu
+    void LuShuStop();//停止路书
+    inline bool is_cricle(){this->is_cricle_;}
+    inline void set_is_cricle(const bool isCricle){this->is_cricle_=isCricle;}
 private:
     /*基本信息 start*/
     QString bus_id_;
@@ -105,8 +119,14 @@ private:
     QTimer *bus_timer_;
     /*位置更新信息 end*/
     /*路书动画 start*/
-
+    QList<QTimeLine *> bus_time_line_list_;
     /*路书动画 end*/
+    int line_index_=0;//当前点索引初始化为0
+    double bus_speed_=100;//公交车速度
+    bool is_cricle_=true;//是否循环
+    bool is_pause = false;//是否
+    bool is_stop = false;//不停止
+    bool is_return=false;//是否在返程
     //相关槽函数
 public slots:
     void UpdataCoordinatesByNet();

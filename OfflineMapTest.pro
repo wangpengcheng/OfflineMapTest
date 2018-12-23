@@ -1,6 +1,5 @@
 
 TEMPLATE = app
-
 QT += qml  quick
 QT += location positioning
 QT += core gui
@@ -8,6 +7,7 @@ QT += network widgets
 QT += multimedia multimediawidgets #add video and music
 QT += quickwidgets
 QT += network  #add network
+QT += webview
 CONFIG += c++11
 
 SOURCES += main.cpp \
@@ -29,7 +29,6 @@ include(test/test.pri)
 INCLUDEPATH += \
     QtLocationPlugin \
 
-
 LOCATION_PLUGIN_DESTDIR = $${OUT_PWD}/QtLocationPlugin
 LOCATION_PLUGIN_NAME    = GeoServiceProviderFactory
 
@@ -39,3 +38,5 @@ HEADERS += \
     src/busstation.h \
     src/busline.h \
     src/bus.h
+
+DISTFILES +=
