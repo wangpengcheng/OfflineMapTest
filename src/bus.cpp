@@ -329,46 +329,6 @@ double Bus::LinearInterpolation(const double init_pos,
 void Bus::SetRotation(const QGeoCoordinate coordinate1,
                       const QGeoCoordinate coordinate2)
 {
-//    double deg = 0;
-//    if(coordinate1.latitude()!= coordinate2.latitude()){
-//           double tan = (coordinate1.longitude() - coordinate2.longitude())/(coordinate1.latitude() - coordinate2.latitude());
-//           deg =qRadiansToDegrees(qAtan(tan));//注意坐标体系转换变号，负号反向
-//                //degree  correction;
-//           double atan  = qAtan(tan);
-//           //deg = qRadiansToDegrees();
-//           if(coordinate2.latitude()<coordinate1.latitude()){
-//              deg = -deg + 90 + 90;
-
-//           } else {
-//              deg = -deg;
-//           }
-//             this->setRotation(deg);
-//     }else {
-//        double disy =coordinate2.longitude()-coordinate1.longitude() ;
-//        double bias = 0;
-//        if(disy > 0){
-//           bias=-1;
-//        }else{
-//           bias = 1;
-//        }
-//        this->setRotation(-bias*90);
-
-//    }
-//     double temp_rotation=NULL;//转动角度;-180~180,
-//    //计算转动方向
-//    double dx=coordinate1.latitude() - coordinate2.latitude();
-//    double dy=coordinate1.longitude() - coordinate2.longitude();
-//    if(dx==0&&dy==0){
-//        qDebug()<<"no move ";
-//    }else
-//    {
-//        temp_rotation=-qRadiansToDegrees(qAtan2(dy,dx));//注意坐标体系转换变号，负号反向
-//        //qDebug()<<temp_rotation;
-//    }
-//    if(temp_rotation!=NULL)
-//    {
-//        setRotation(temp_rotation);
-//    }
         double temp_rotation=NULL;
         const double const_step=1;
         double dx=const_step,dy=const_step;//设置步长间隔
