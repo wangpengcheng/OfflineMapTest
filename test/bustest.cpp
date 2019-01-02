@@ -50,7 +50,7 @@ void BusTest::LuShuTest()
     AddCoordinateToList(temp_points);
     tool.TestNoteTool("LuShuTest",0);
     bus_test_->set_bus_path_coordinates(temp_points);
-    qDebug()<<bus_test_->bus_path_coordinates().size();
+    bus_test_->ChangePath();
     bus_test_->LuShu();
     tool.TestNoteTool("LuShuTest",1);
 }

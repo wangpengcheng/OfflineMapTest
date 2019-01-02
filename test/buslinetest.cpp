@@ -69,7 +69,7 @@ void BusLineTest::ShowTest(QDeclarativeGeoMap *qMap)
     }else {
         qDebug()<<"Please check input data;key points size is 0";
     }
-   if(qMap!=NULL&&
+   if(qMap!=nullptr&&
      bus_line_->bus_poly_line()->size().isEmpty())
    {
       qMap->addMapItemGroup(bus_line_);

@@ -11,7 +11,7 @@
 #include <QtQuickWidgets/QQuickWidget>
 #include <QtQuick/QQuickWindow>
 #include <QtQuick/QQuickView>
-#include <QtWebView>
+#include <QFontDatabase>
 #include <QTimer>
 #include <QTimeLine>
 //使用location 注册类
@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
     viewer.setResizeMode(QQuickView::SizeRootObjectToView);
     viewer.setSource(QUrl("qrc:/qml/main.qml"));
     viewer.show();
+    //获取根节点
     QQuickItem *pRoot=viewer.rootObject();
     qDebug()<<pRoot;
 //    //add qucik

@@ -82,7 +82,7 @@ Item {
         anchors.fill: parent
         minimumZoomLevel: 16
         maximumZoomLevel: 19
-        zoomLevel:                  16
+        zoomLevel:                  18
         center:               wps84_To_Gcj02(30.5594483655,103.9976232481) // QtPositioning.coordinate(30.5594483655,103.9976232481)
         gesture.flickDeceleration:  3000
         // 地图插件
@@ -91,6 +91,19 @@ Item {
     function move(x,y)
     {
         map1.pan(x,y);
+    }
+    function map_zoom(is_add)
+    {
+        if(is_add==1){
+            if(map1.zoomLevel<=map1.maximumZoomLevel){
+                map1.zoomLevel+=1;
+            }
+        }else if(is_add==0)
+        {
+            if(map1.zoomLevel>=map1.minimumZoomLevel){
+                map1.zoomLevel-=1;
+            }
+        }
     }
 
 }
