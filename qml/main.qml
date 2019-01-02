@@ -66,9 +66,9 @@ Item {
               id: re2
               height: parent.height
               width: parent.width*0.25
-//              SpeedChart{
-//                  id: my_speed_chart;
-//              }
+              SpeedChart{
+                  id: my_speed_chart;
+              }
 
              }
              Item {

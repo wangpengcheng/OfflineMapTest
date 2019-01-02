@@ -15,6 +15,14 @@
 ** @example
 **
 ** 示例代码
+**    //找到qml中的map节点
+**  QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
+**  BusTest bus_test;
+**  bus_test.ShowTest(qMap);
+**  bus_test.MoveTest();
+**  bus_test.UpdataPositionTest();
+**  bus_test.LuShuTest();
+**  bus_test.ChangePathTest();
 **
 *****************************************************************************/
 #ifndef QDECLARATIVEGEOMAP_H
@@ -32,7 +40,7 @@ public:
     void ShowTest(QDeclarativeGeoMap *qMap);//显示测试函数
     void MoveTest();//移动测试
     void UpdataPositionTest();//网络更新位置测试
-    void LuShuTest();
+    void LuShuTest();//路书测试
     void ChangePathTest();//路径变换测试
     void AddCoordinateToList(QList<QGeoCoordinate> &temp);//添加路径关键点
     void MainTest();//主要测试函数

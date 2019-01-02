@@ -99,7 +99,7 @@ public:
     void LuShuStart();//开始LuShu
     void LuShuPause();//暂停LuShu
     void LuShuStop();//停止路书
-    inline bool is_cricle(){this->is_cricle_;}
+    inline bool is_cricle(){return this->is_cricle_;}
     inline void set_is_cricle(const bool isCricle){this->is_cricle_=isCricle;}
 private:
     /*基本信息 start*/

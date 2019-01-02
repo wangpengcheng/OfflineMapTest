@@ -9,20 +9,20 @@ Bus::Bus()
 }
 Bus::~Bus()
 {
-    if(bus_iocn_!=NULL)
+    if(bus_iocn_!=nullptr)
     {
         delete[] bus_iocn_;
-        bus_iocn_=NULL;
+        bus_iocn_=nullptr;
     };
-    if(bus_time_line_!=NULL)
+    if(bus_time_line_!=nullptr)
     {
         delete[] bus_time_line_;
-        bus_time_line_=NULL;
+        bus_time_line_=nullptr;
     };
-    if(bus_timer_!=NULL)
+    if(bus_timer_!=nullptr)
     {
         delete[] bus_timer_;
-        bus_timer_=NULL;
+        bus_timer_=nullptr;
     };
 }
 Bus::Bus(const QGeoCoordinate new_coordinate)
@@ -137,14 +137,14 @@ void Bus::Init()
     bus_diver_="";//公交驾驶人员信息
     QGeoCoordinate InitCoordinate(30.5567330000,103.9997920000);
 //    bus_path_coordinates_.append(InitCoordinate);
-    bus_iocn_=NULL;//防止内存分配失败
+    bus_iocn_=nullptr;//防止内存分配失败
     bus_iocn_=new QQuickImage();
     bus_iocn_->setSource(QUrl("qrc:/img/car_up.png"));
     //bus_station_iocn_->setSize(QSize(50,50));//设置默认大小
     setCoordinate(InitCoordinate);//设置默认位置
     setRotation(90);//设置图片旋转90度
-    bus_time_line_=NULL;
-    bus_timer_=NULL;
+    bus_time_line_=nullptr;
+    bus_timer_=nullptr;
 }
 void Bus::Updata()
 {

@@ -4,21 +4,21 @@
 #endif
 BusTest::BusTest()
 {
-    bus_test_=NULL;
+    bus_test_=nullptr;
     bus_test_=new Bus();
 }
 BusTest::~BusTest()
 {
-    if(bus_test_!=NULL)
+    if(bus_test_!=nullptr)
     {
         delete[] bus_test_;
-        bus_test_=NULL;
+        bus_test_=nullptr;
     }
 }
 void BusTest::ShowTest(QDeclarativeGeoMap *qMap)
 {
     tool.TestNoteTool("ShowTest",0);
-    if(bus_test_==NULL)
+    if(bus_test_==nullptr)
     {
         bus_test_=new Bus(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));
     };
@@ -68,6 +68,8 @@ void BusTest::ChangePathTest()
 }
 void BusTest::MainTest()
 {
+    tool.TestNoteTool("MainTest",0);
+    tool.TestNoteTool("MainTest",1);
 
 }
 void BusTest::AddCoordinateToList(QList<QGeoCoordinate> &temp)
