@@ -18,7 +18,7 @@
         <file>fonts/LICENSE</file>
         <file>img/temperature-icon.png</file>
         <file>img/fuel-icon.png</file>
-        <file>qml/ControlWindow.qml</file>
+        <file>qml/MainShowWindow.qml</file>
         <file>qml/VideoPlay.qml</file>
         <file>qml/SpeedChart.qml</file>
         <file>qml/SpeedsXml.qml</file>

@@ -11,6 +11,7 @@
 #include <QtQuickWidgets/QQuickWidget>
 #include <QtQuick/QQuickWindow>
 #include <QtQuick/QQuickView>
+#include <QtQuick/QQuickWindow>
 #include <QFontDatabase>
 #include <QTimer>
 #include <QTimeLine>
@@ -23,6 +24,8 @@
 #include <QGeoPath>//geoPath
 //引入tool类
 #include <QtQuick/private/qquickimage_p.h>
+#include <QtQuick/private/qquickwindow_p.h>
+#include <QtQuick/private/qquickitem_p.h>
 #include "src/tool.h"
 //video
 #include <QVideoWidget>
@@ -39,6 +42,7 @@
 //使用函数
 #include "src/busline.h"
 #include "src/busstation.h"
+#include "src/bus.h"
 //use tool
 Tool tool;
 //设置内部函数
@@ -48,24 +52,34 @@ void ShowBusLine(QDeclarativeGeoMap *qMap);//显示公交线路
 void MoveTest(QDeclarativeGeoMap *qMap);
 int main(int argc, char *argv[])
 {
-
     //QGuiApplication app(argc, argv);
     QApplication app(argc, argv);
+    QDesktopWidget* desktop=QApplication::desktop();
     QString path_string=QDir::tempPath();
     //添加字体
     QFontDatabase::addApplicationFont(":/fonts/DejaVuSans.ttf");
     app.setFont(QFont("DejaVu Sans"));
-    qDebug()<<path_string;
+    //qDebug()<<path_string;
     //VideoTest();
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
-    QQuickView viewer;
-    viewer.setResizeMode(QQuickView::SizeRootObjectToView);
-    viewer.setSource(QUrl("qrc:/qml/main.qml"));
-    viewer.show();
+    QQuickWidget *mainMapBoxWidget = new QQuickWidget();
+    mainMapBoxWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    mainMapBoxWidget->setSource(QUrl("qrc:/qml/main.qml"));
+    //mainMapBoxWidget->resize(MAIN_DISPALY_WIDTH,MAIN_DISPALY_HEIGH);
+    mainMapBoxWidget->show();
+    QDeclarativeGeoMap *qMap=mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
+    //QQuickView viewer,viewer2;
+    //QQuickWidget;
+//    viewer.setResizeMode(QQuickView::SizeRootObjectToView);
+//    viewer.setSource(QUrl("qrc:/qml/main.qml"));
+//    viewer.show();
+//    viewer2.setResizeMode(QQuickView::SizeViewToRootObject);
+//    viewer2.setSource(QUrl("qrc:/qml/ControlWindow.qml"));
+//    viewer2.show();
     //获取根节点
-    QQuickItem *pRoot=viewer.rootObject();
-    qDebug()<<pRoot;
+//    QQuickItem *pRoot=viewer.rootObject();
+//    qDebug()<<pRoot;
 //    //add qucik
 //    QQmlApplicationEngine engine;
 //    //load qml file
@@ -74,21 +88,40 @@ int main(int argc, char *argv[])
 //    QObject *pRoot=engine.rootObjects().first();
 //    qDebug()<<pRoot->property("id");
     //找到map节点
-    QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
+//    QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
+//    QQuickWindow *control_window=pRoot->findChild<QQuickWindow *>("my_control_window");
+//    control_window->setGeometry(desktop->screenGeometry(1));
+//    QDeclarativeGeoMap *qMap2=control_window->findChild<QDeclarativeGeoMap *>();
+//    qMap2->setPlugin(qMap->plugin());
+//    qMap2->setCenter(qMap->center());
+//    qMap2->setZoomLevel(qMap->zoomLevel());
+//    qMap2->setParentItem(control_window->contentItem());
+//    qMap2->setObjectName("control_map");
+//    qMap2->setWidth(control_window->width());
+//    qMap2->setHeight(control_window->height());
+//    QQuickItemPrivate::get(qMap2)->anchors()->setFill(control_window->contentItem());
     //使用测试线路添加数据
     BusLineTest test;
-    //test.MainTest();主要测试函数
+    test.MainTest();//主要测试函数
     test.ShowTest(qMap);
-    //将地图上的点转化为屏幕上的像素点
+    //test.ShowTest(qMap2);
     //ShowBusLine(qMap);
    // QTimer *temp_timer=new QTimer(this);
    // MoveTest(qMap);
-    BusTest bus_test;
-    bus_test.ShowTest(qMap);
-   // bus_test.MoveTest();
-    //bus_test.UpdataPositionTest();
-    bus_test.LuShuTest();
-    //bus_test.ChangePathTest();
+    //BusTest *bus_test;
+    //bus_test->ShowTest(qMap);
+    //bus_test->LuShuTest();
+    QList<QGeoCoordinate> path;
+    AddCoordinateToList(path);
+    Bus test_bus(path);
+    test_bus.SetMap(qMap);
+    //qMap2->addMapItem(&test_bus);
+    //qMap->addMapItem(&test_bus);
+//    qDebug()<<qMap2;
+//    qMap2->addMapItem(&test_bus2);
+    test_bus.LuShuStart();
+  //  qDebug()<<qMap;
+
     return app.exec();
 
 }

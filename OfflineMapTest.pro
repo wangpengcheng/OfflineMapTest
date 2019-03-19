@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     src/busstation.cpp \
     src/screencontrol.cpp \
     src/busline.cpp \
-    src/bus.cpp
+    src/bus.cpp \
+    mainwindow.cpp
 
 RESOURCES += qml.qrc
 
@@ -37,6 +38,10 @@ HEADERS += \
     src/screencontrol.h \
     src/busstation.h \
     src/busline.h \
-    src/bus.h
+    src/bus.h \
+    mainwindow.h
 
 DISTFILES +=
+
+FORMS += \
+    mainwindow.ui

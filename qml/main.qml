@@ -36,20 +36,21 @@ Item {
             id:my_map
         }//添加地图
     }
-    Item { //播放栏
-        id :video_play_item
-        objectName: "video_play_item"
-        height: parent.height*0.7
-        width: parent.width*0.5
-        VideoPlay{
-            id: my_video_play;
-        }//视频播放模块
-    }
-
+//    Item { //播放栏
+//        id :video_play_item
+//        visible: false
+//        objectName: "video_play_item"
+//        height: parent.height*0.7
+//        width: parent.width*0.5
+//        VideoPlay{
+//            id: my_video_play;
+//        }//视频播放模块
+//    }
+    //控制窗口
+    //MainShowWindow{}
     //底部数据显示栏
     Item {
          id: rol
-
          height: parent.height*0.3
          opacity: 0.7
          visible: true
@@ -94,18 +95,18 @@ Item {
         Keys.onPressed: {
             console.log("This click key  is "+event.key);
             //显示视频
-            if ((event.modifiers & Qt.ControlModifier ) && //ctrl+shift+v
-                (event.modifiers & Qt.AltModifier )&&
-                (event.key == Qt.Key_V)){
-                if(video_play_item.visible==false)
-                {
-                    video_play_item.visible= true;
-                    //my_video_play.video_play();
-                }else{
-                    video_play_item.visible= false;
-                    //my_video_play.video_pause();
-                }
-            }
+//            if ((event.modifiers & Qt.ControlModifier ) && //ctrl+shift+v
+//                (event.modifiers & Qt.AltModifier )&&
+//                (event.key == Qt.Key_V)){
+//                if(video_play_item.visible==false)
+//                {
+//                    video_play_item.visible= true;
+//                    //my_video_play.video_play();
+//                }else{
+//                    video_play_item.visible= false;
+//                    //my_video_play.video_pause();
+//                }
+//            }
             //显示仪表盘
             if ((event.modifiers & Qt.ControlModifier) && //ctrl+shift+c
                 (event.modifiers & Qt.AltModifier )&&

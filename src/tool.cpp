@@ -150,13 +150,12 @@ double Tool::GetDistance(QGeoCoordinate point1,QGeoCoordinate point2)//高德地
              double siny2 = qSin(y2);
              double cosx2 = qCos(x2);
              double cosy2 = qCos(y2);
-             double *v1= new double[3];
+             double v1[3];
              v1[0] = cosy1 * cosx1 - cosy2 * cosx2;
              v1[1] = cosy1 * sinx1 - cosy2 * sinx2;
              v1[2] = siny1 - siny2;
              double dist = qSqrt(v1[0] * v1[0] + v1[1] * v1[1] + v1[2] * v1[2]);
              temp_result =qAsin(dist / 2) * 12742001.5798544;
-             delete[] v1;
              return  temp_result;
          }
 

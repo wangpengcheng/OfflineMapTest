@@ -24,13 +24,27 @@ Bus::~Bus()
         delete[] bus_timer_;
         bus_timer_=nullptr;
     };
+    if(bus_quick_item_!=nullptr){
+        delete [] bus_quick_item_;
+        bus_quick_item_=nullptr;
+    }
+}
+Bus::Bus(QList<QGeoCoordinate> new_path)
+{
+    Init();
+    Updata();
+    if(!new_path.isEmpty()){
+        set_bus_path_coordinates(new_path);
+    }else {
+        qDebug()<<"input object is empty ,please chech again";
+    }
 }
 Bus::Bus(const QGeoCoordinate new_coordinate)
 {
     Init();
     Updata();
     if(new_coordinate.isValid()){
-        setCoordinate(new_coordinate);
+        this->bus_quick_item_->setCoordinate(new_coordinate);
     }
 }
 Bus::Bus(const QGeoCoordinate new_coordinate,
@@ -39,7 +53,7 @@ Bus::Bus(const QGeoCoordinate new_coordinate,
     Init();
     Updata();
     if(new_coordinate.isValid()&&!new_path.isEmpty()){
-        setCoordinate(new_coordinate);
+        this->bus_quick_item_->setCoordinate(new_coordinate);
         set_bus_path_coordinates(new_path);
     }else {
         qDebug()<<"input object is empty ,please check again";
@@ -55,7 +69,7 @@ Bus::Bus(const QGeoCoordinate new_coordinate,
        &&!new_path.isEmpty()
        &&!iocn_path.isEmpty())
     {
-        setCoordinate(new_coordinate);
+        this->bus_quick_item_->setCoordinate(new_coordinate);
         set_bus_path_coordinates(new_path);
         set_bus_iocn(iocn_path);
     }else {
@@ -109,7 +123,7 @@ QList<QGeoCoordinate> Bus::bus_path_coordinates()
 }
 void Bus::set_bus_path_coordinates(QList<QGeoCoordinate> new_path)
 {
-    bus_path_coordinates_=new_path;
+    this->bus_path_coordinates_=new_path;
 }
 QQuickImage *Bus::bus_iocn()
 {
@@ -135,21 +149,22 @@ void Bus::Init()
     bus_line_number_="";//公交线路编号
     bus_information_="";//公交信息
     bus_diver_="";//公交驾驶人员信息
+    bus_time_line_=nullptr;
+    bus_timer_=nullptr;
+    bus_quick_item_=new QDeclarativeGeoMapQuickItem();
     QGeoCoordinate InitCoordinate(30.5567330000,103.9997920000);
+    this->bus_quick_item_->setCoordinate(InitCoordinate);//设置默认位置
 //    bus_path_coordinates_.append(InitCoordinate);
     bus_iocn_=nullptr;//防止内存分配失败
     bus_iocn_=new QQuickImage();
     bus_iocn_->setSource(QUrl("qrc:/img/car_up.png"));
+    this->bus_quick_item_->setRotation(90);//设置图片旋转90度
     //bus_station_iocn_->setSize(QSize(50,50));//设置默认大小
-    setCoordinate(InitCoordinate);//设置默认位置
-    setRotation(90);//设置图片旋转90度
-    bus_time_line_=nullptr;
-    bus_timer_=nullptr;
 }
 void Bus::Updata()
 {
-    setSourceItem(bus_iocn_);//将图片添加到Item
-    setAnchorPoint(QPointF(bus_iocn_->width()*0.5,
+    this->bus_quick_item_->setSourceItem(bus_iocn_);//将图片添加到Item
+    this->bus_quick_item_->setAnchorPoint(QPointF(bus_iocn_->width()*0.5,
                            bus_iocn_->height()*0.5));//设置偏移
 }
 /*网络位置请求 start*/
@@ -185,9 +200,9 @@ void Bus::GetReplyFinished(QNetworkReply *reply)
     QJsonObject data = QJsonDocument::fromJson(reply->readAll()).object();
     double x=data.value(QString("bus_position")).toObject().value("x").toDouble();
     double y=data.value(QString("bus_position")).toObject().value("y").toDouble();
-    setCoordinate(QGeoCoordinate(x,y));
+    this->bus_quick_item_->setCoordinate(QGeoCoordinate(x,y));
    // MoveNextPoint(this->coordinate(),QGeoCoordinate(x,y));
-    qDebug()<<this->coordinate();
+    qDebug()<<this->bus_quick_item_->coordinate();
 }
 /*网络位置请求 end*/
 //计算像素点差距
@@ -195,10 +210,11 @@ double Bus::GetPixelDistance(const QGeoCoordinate coordinate1,
                              const QGeoCoordinate coordinate2)
 {
     QPointF point1,point2;
-    auto parent_map=this->quickMap();
+    auto parent_map=this->bus_quick_item_->quickMap();
     point1=parent_map->fromCoordinate(coordinate1);
     point2=parent_map->fromCoordinate(coordinate2);
     double result=qSqrt(qPow((point1.x()-point2.x()),2)+qPow((point1.y()-point2.y()),2));
+    qDebug()<<"this distance is "<<result;
     return result;
 }
 void Bus::Move(const double dx,
@@ -206,7 +222,7 @@ void Bus::Move(const double dx,
 {
     QGeoCoordinate old_point,new_point;
     double temp_rotation=NULL;//转动角度;-180~180,
-    old_point=this->coordinate();//获取中心点
+    old_point=this->bus_quick_item_->coordinate();//获取中心点
     //qDebug()<<old_point;
     double x,y;
     x=old_point.latitude()+dx;
@@ -215,7 +231,7 @@ void Bus::Move(const double dx,
     //qDebug()<<"dx:"<<dx<<"dy:"<<dy;
     new_point=QGeoCoordinate(x,y);
     qDebug()<<new_point;
-    this->setCoordinate(new_point);
+    this->bus_quick_item_->setCoordinate(new_point);
     //计算转动方向
     if(dx==0&&dy==0){
         qDebug()<<"no move ";
@@ -226,14 +242,16 @@ void Bus::Move(const double dx,
     }
     if(temp_rotation!=NULL)
     {
-        setRotation(temp_rotation);
+        this->bus_quick_item_->setRotation(temp_rotation);
     }
 }
 void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
                         const QGeoCoordinate coordinate2)
 {
-
-    if(coordinate1==coordinate2)
+    if(!coordinate1.isValid()||!coordinate2.isValid()){
+        qDebug()<<"input is valisd";
+        return ;
+    }else if(coordinate1==coordinate2)
     {
         qDebug()<<"the same point ";
         return ;
@@ -242,7 +260,7 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
     //this->setCoordinate(coordinate1);
     //步长，米/秒
     int timer = 10;
-    double step = this->bus_speed_/(1000/timer);//根据速度计算每步步长
+    double step = this->bus_speed_/(1000/timer);//根据速度计算每步步长:每步多少米
     //根据速度计算时间
     if(bus_speed_==0)
     {
@@ -251,7 +269,7 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
     //计算所需时间
     int total_time=qFloor(1000*(tool.GetDistance(coordinate1,coordinate2)/bus_speed_));
     //总的步长
-    int count =qFloor(this->GetPixelDistance(coordinate1, coordinate2)/step);
+    int count =qFloor(tool.GetDistance(coordinate1, coordinate2)/step);
     //如果小于1直接移动到下一点
     if (count < 1)
     {
@@ -271,7 +289,7 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
          double pixe_point_x=LinearInterpolation(coordinate1.latitude(),coordinate2.latitude(),value,count);
          double pixe_point_y=LinearInterpolation(coordinate1.longitude(),coordinate2.longitude(),value,count);
          QGeoCoordinate temp_result(pixe_point_x,pixe_point_y);//输出坐标值
-         this->setCoordinate(temp_result);
+         this->bus_quick_item_->setCoordinate(temp_result);
     });
     //绑定结束事件
     connect(temp_timeline,&QTimeLine::finished,this,[=]()
@@ -288,13 +306,21 @@ void Bus::LuShu()
     this->LuShuStart();//开始动画
     tool.TestNoteTool("LuShu ",1);
 }
+void Bus::SetMap(QDeclarativeGeoMap *qMap)
+{
+    if(qMap!=nullptr){
+        qMap->addMapItem(this->bus_quick_item_);
+    }else {
+        qDebug()<<"this Map point is empty!";
+    }
+}
 void Bus::MoveNextIndex(const int index)//移动到下一个位置
 {
-
-    if (index < this->bus_path_coordinates().size()-1)
+    if (index <this->bus_path_coordinates_.size()-1&&index>=0)
     {
-        this->MoveNextPoint(this->bus_path_coordinates_.at(index),
-                            this->bus_path_coordinates_.at(index+1));
+        QGeoCoordinate frist_point=this->bus_path_coordinates_.at(index);
+        QGeoCoordinate last_point=this->bus_path_coordinates_.at(index+1);
+        this->MoveNextPoint(frist_point,last_point);
     }else if(index==this->bus_path_coordinates().size()-1)//如果到达最后一个点
     {
         if(this->is_cricle_){//如果确定循环
@@ -359,7 +385,7 @@ void Bus::SetRotation(const QGeoCoordinate coordinate1,
         }
         if(temp_rotation!=NULL)
         {
-            setRotation(temp_rotation);
+            this->bus_quick_item_->setRotation(temp_rotation);
         }
 
 }
@@ -373,18 +399,18 @@ void Bus::ChangePath()//转置队列
 }
 void Bus::LuShuStart()
 {
-    auto me=this;
-    int len = me->bus_path_coordinates_.size();
+    int len = this->bus_path_coordinates_.size();
        //不是第一次点击开始,并且小车还没到达终
-    if (me->line_index_!=0&& me->line_index_<len - 1) {
+    if ((this->line_index_!=0)&&
+        (this->line_index_<len - 1)){
         //没按pause再按start不做处理
-        if (!me->is_pause) {
+        if (!this->is_pause) {
                return;
-        }else if(!me->is_stop){
+        }else if(!this->is_stop){
             //按了pause按钮,并且再按start，直接移动到下一点
             //并且此过程中，没有按stop按钮
             //防止先stop，再pause，然后连续不停的start的异常
-            me->MoveNextIndex(++me->line_index_);
+            this->MoveNextIndex(++this->line_index_);
         }
     }else {//第一次点击开始，或者点了stop之后点开始
            //重置状态

@@ -5,7 +5,7 @@
 BusTest::BusTest()
 {
     bus_test_=nullptr;
-    bus_test_=new Bus();
+    bus_test_=new Bus(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));
 }
 BusTest::~BusTest()
 {
@@ -22,18 +22,18 @@ void BusTest::ShowTest(QDeclarativeGeoMap *qMap)
     {
         bus_test_=new Bus(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));
     };
-    qMap->addMapItem(bus_test_);
-    qDebug()<<bus_test_->parentItem();
-    auto *parent1=bus_test_->quickMap();
+    bus_test_->SetMap(qMap);
+    qDebug()<<bus_test_->bus_quick_item()->parentItem();
+    auto *parent1=bus_test_->bus_quick_item()->quickMap();
     qDebug()<<parent1->fromCoordinate(parent1->center());
     tool.TestNoteTool("ShowTest",1);
 }
 void BusTest::MoveTest()
 {
     tool.TestNoteTool("MoveTest",0);
-    if(bus_test_->parentItem())
+    if(bus_test_->bus_quick_item()->parentItem())
     {
-       bus_test_->setCoordinate(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));
+       bus_test_->bus_quick_item()->setCoordinate(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));
     }
     tool.TestNoteTool("MoveTest",1);
 }

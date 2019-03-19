@@ -48,13 +48,16 @@
  * 1.指向地图 2.储存线路 3.公交车图标 4.信息关键点（停靠关键点） 5.小车转动角度,6.时间定时器
  * 实现重要功能：
  * 请求网络得出车辆位置，并在地图中显示位置
+ * 2019-3-17 21:23:00 发现bug  QDeclarativeGeoMapQuickItem 没有虚析构函数在使用销毁时容易产生内存泄漏
+ *初步拟解决方案，将QDeclarativeGeoMapQuickItem转变为private成员，尽量修改函数
 */
-class Bus: public QDeclarativeGeoMapQuickItem
+class Bus: public QObject
 {
      Q_OBJECT
 public:
     Bus();
     ~Bus();
+    Bus(QList<QGeoCoordinate> new_path);
     Bus(const QGeoCoordinate new_coordinate);
     Bus(const QGeoCoordinate new_coordinate,
         QList<QGeoCoordinate> new_path);
@@ -72,6 +75,8 @@ public:
     void set_bus_information(const QString input_bus_information);
     QString bus_diver();
     void set_bus_diver(const QString input_bus_diver);
+    inline QDeclarativeGeoMapQuickItem * bus_quick_item(){ return  this->bus_quick_item_;}
+    inline void set_bus_quick_item(QDeclarativeGeoMapQuickItem *quick_item){this->bus_quick_item_=quick_item;}
     /*基本信息存取 end*/
     /*重要信息存取 start*/
     QList<QGeoCoordinate> bus_path_coordinates();
@@ -88,6 +93,7 @@ public:
     double GetPixelDistance(const QGeoCoordinate coordinate1,
                             const QGeoCoordinate coordinate2);//获取像素点上两点距离
     void LuShu();
+    void SetMap(QDeclarativeGeoMap *qMap);
     void MoveNextIndex(const int index);//移动到下一个关键点
     double LinearInterpolation(const double init_pos, //起始点
                                const double target_pos,//终结点
@@ -112,17 +118,18 @@ private:
     /*基本信息 end*/
     /*重要信息 start*/
     QList<QGeoCoordinate> bus_path_coordinates_;//线路关键点列表
-    QQuickImage *bus_iocn_;//公交车图标iocn指针
+    QQuickImage *bus_iocn_=nullptr;//公交车图标iocn指针
+    QDeclarativeGeoMapQuickItem *bus_quick_item_=nullptr;
     /*重要信息 end*/
     /*位置更新信息 start*/
-    QTimeLine *bus_time_line_;
-    QTimer *bus_timer_;
+    QTimeLine *bus_time_line_=nullptr;
+    QTimer *bus_timer_=nullptr;
     /*位置更新信息 end*/
     /*路书动画 start*/
     QList<QTimeLine *> bus_time_line_list_;
     /*路书动画 end*/
     int line_index_=0;//当前点索引初始化为0
-    double bus_speed_=5;//公交车速度
+    double bus_speed_=5;//公交车速度(km/s)
     bool is_cricle_=true;//是否循环
     bool is_pause = false;//是否
     bool is_stop = false;//不停止

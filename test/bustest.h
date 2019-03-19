@@ -44,6 +44,7 @@ public:
     void ChangePathTest();//路径变换测试
     void AddCoordinateToList(QList<QGeoCoordinate> &temp);//添加路径关键点
     void MainTest();//主要测试函数
+    inline Bus* bus_test(){return this->bus_test_;}
 private:
     Bus *bus_test_;
     Tool tool;

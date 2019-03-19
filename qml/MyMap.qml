@@ -64,17 +64,17 @@ Item {
         mgLon = lon + dLon;
         return  QtPositioning.coordinate(mgLat, mgLon);
     }
-    function get_map(is_get)
+    function get_map()
     {
         return map1;
     }
     //绑定鼠标事件
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            Qt.quit();
-        }
-    }
+//    MouseArea {
+//        anchors.fill: parent
+//        onClicked: {
+//            Qt.quit();
+//        }
+//    }
     Map {
 
         id: map1
@@ -82,8 +82,8 @@ Item {
         anchors.fill: parent
         minimumZoomLevel: 16
         maximumZoomLevel: 19
-        zoomLevel:                  18
-        center:               wps84_To_Gcj02(30.5594483655,103.9976232481) // QtPositioning.coordinate(30.5594483655,103.9976232481)
+        zoomLevel: 18
+        center: wps84_To_Gcj02(30.5594483655,103.9976232481) // QtPositioning.coordinate(30.5594483655,103.9976232481)
         gesture.flickDeceleration:  3000
         // 地图插件
         plugin: Plugin { name: "Gaode" }
@@ -92,7 +92,7 @@ Item {
     {
         map1.pan(x,y);
     }
-    function map_zoom(is_add)
+    function map_zoom_add(is_add)
     {
         if(is_add==1){
             if(map1.zoomLevel<=map1.maximumZoomLevel){
@@ -104,6 +104,9 @@ Item {
                 map1.zoomLevel-=1;
             }
         }
+    }
+    function get_map_width(){
+        return map1.width;
     }
 
 }

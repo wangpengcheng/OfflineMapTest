@@ -7,15 +7,15 @@
 #endif
 BusLineTest::BusLineTest()
 {
-    bus_line_=NULL;
+    bus_line_=nullptr;
     bus_line_=new BusLine();
 }
 BusLineTest::~BusLineTest()
 {
-    if(bus_line_!=NULL)
+    if(bus_line_!=nullptr)
     {
         delete [] bus_line_;
-        bus_line_=NULL;
+        bus_line_=nullptr;
     }
 }
 void BusLineTest::ConstructFunctionTest()
