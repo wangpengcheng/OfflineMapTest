@@ -22,5 +22,15 @@
         <file>qml/VideoPlay.qml</file>
         <file>qml/SpeedChart.qml</file>
         <file>qml/SpeedsXml.qml</file>
+        <file>qml/MyTool.qml</file>
+        <file>img/Control/dingwei.png</file>
+        <file>img/Control/fangda.png</file>
+        <file>img/Control/fangxiang.png</file>
+        <file>img/Control/suoxiao.png</file>
+        <file>img/Control/dingwei_1.png</file>
+        <file>img/Control/fangda_1.png</file>
+        <file>img/Control/fangxiang_1.png</file>
+        <file>img/Control/suoxiao_1.png</file>
+        <file>qml/MapContrlModel.qml</file>
     </qresource>
 </RCC>

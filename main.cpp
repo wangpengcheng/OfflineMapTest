@@ -45,6 +45,9 @@
 #include "src/bus.h"
 //use tool
 Tool tool;
+
+#include <QLabel> 
+
 //设置内部函数
 void AddCoordinateToList(QList<QGeoCoordinate> &temp);
 void VideoTest();//test video
@@ -67,10 +70,11 @@ int main(int argc, char *argv[])
     mainMapBoxWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
     mainMapBoxWidget->setSource(QUrl("qrc:/qml/main.qml"));
     //mainMapBoxWidget->resize(MAIN_DISPALY_WIDTH,MAIN_DISPALY_HEIGH);
-    mainMapBoxWidget->show();
-    QDeclarativeGeoMap *qMap=mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
-    //QQuickView viewer,viewer2;
-    //QQuickWidget;
+   // QDeclarativeGeoMap *qMap=mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
+    //QQuickWindow *show_window=mainMapBoxWidget->rootObject()->findChild<QQuickWindow *>("main_show_window");
+    //show_window->setGeometry(desktop->screenGeometry(1));
+   mainMapBoxWidget->show();
+//    QQuickView viewer,viewer2;
 //    viewer.setResizeMode(QQuickView::SizeRootObjectToView);
 //    viewer.setSource(QUrl("qrc:/qml/main.qml"));
 //    viewer.show();
@@ -88,9 +92,8 @@ int main(int argc, char *argv[])
 //    QObject *pRoot=engine.rootObjects().first();
 //    qDebug()<<pRoot->property("id");
     //找到map节点
-//    QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
+    //QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
 //    QQuickWindow *control_window=pRoot->findChild<QQuickWindow *>("my_control_window");
-//    control_window->setGeometry(desktop->screenGeometry(1));
 //    QDeclarativeGeoMap *qMap2=control_window->findChild<QDeclarativeGeoMap *>();
 //    qMap2->setPlugin(qMap->plugin());
 //    qMap2->setCenter(qMap->center());
@@ -101,9 +104,9 @@ int main(int argc, char *argv[])
 //    qMap2->setHeight(control_window->height());
 //    QQuickItemPrivate::get(qMap2)->anchors()->setFill(control_window->contentItem());
     //使用测试线路添加数据
-    BusLineTest test;
-    test.MainTest();//主要测试函数
-    test.ShowTest(qMap);
+    //BusLineTest test;
+    //test.MainTest();//主要测试函数
+   // test.ShowTest(qMap);
     //test.ShowTest(qMap2);
     //ShowBusLine(qMap);
    // QTimer *temp_timer=new QTimer(this);
@@ -111,15 +114,15 @@ int main(int argc, char *argv[])
     //BusTest *bus_test;
     //bus_test->ShowTest(qMap);
     //bus_test->LuShuTest();
-    QList<QGeoCoordinate> path;
-    AddCoordinateToList(path);
-    Bus test_bus(path);
-    test_bus.SetMap(qMap);
+   // QList<QGeoCoordinate> path;
+   // AddCoordinateToList(path);
+   // Bus test_bus(path);
+   // test_bus.SetMap(qMap);
     //qMap2->addMapItem(&test_bus);
     //qMap->addMapItem(&test_bus);
 //    qDebug()<<qMap2;
 //    qMap2->addMapItem(&test_bus2);
-    test_bus.LuShuStart();
+   // test_bus.LuShuStart();
   //  qDebug()<<qMap;
 
     return app.exec();
