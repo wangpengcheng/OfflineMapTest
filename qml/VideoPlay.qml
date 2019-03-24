@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.2
 Item {
     id: video_play_div
     objectName: "video_play_div"
+
     anchors.fill: parent
     visible: true
     property string video_path_root: "file:///C:/Users/lin/Videos/out/";
@@ -15,6 +16,7 @@ Item {
     property  url video_path4 : video_path_root+"chedaoxian.mp4"
     property real video_width: parent.width*0.5
     property real video_height: parent.height*0.5
+
     Grid {
         columns: 2
         spacing: 2

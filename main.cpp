@@ -68,12 +68,13 @@ int main(int argc, char *argv[])
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     QQuickWidget *mainMapBoxWidget = new QQuickWidget();
     mainMapBoxWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    mainMapBoxWidget->setSource(QUrl("qrc:/qml/main.qml"));
+    mainMapBoxWidget->setSource(QUrl("qrc:/qml/Test.qml"));
     //mainMapBoxWidget->resize(MAIN_DISPALY_WIDTH,MAIN_DISPALY_HEIGH);
    // QDeclarativeGeoMap *qMap=mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
     //QQuickWindow *show_window=mainMapBoxWidget->rootObject()->findChild<QQuickWindow *>("main_show_window");
     //show_window->setGeometry(desktop->screenGeometry(1));
-   mainMapBoxWidget->show();
+    //mainMapBoxWidget->setGeometry(desktop->screenGeometry(1));
+    mainMapBoxWidget->show();
 //    QQuickView viewer,viewer2;
 //    viewer.setResizeMode(QQuickView::SizeRootObjectToView);
 //    viewer.setSource(QUrl("qrc:/qml/main.qml"));
@@ -124,7 +125,6 @@ int main(int argc, char *argv[])
 //    qMap2->addMapItem(&test_bus2);
    // test_bus.LuShuStart();
   //  qDebug()<<qMap;
-
     return app.exec();
 
 }

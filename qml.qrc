@@ -32,5 +32,7 @@
         <file>img/Control/fangxiang_1.png</file>
         <file>img/Control/suoxiao_1.png</file>
         <file>qml/MapContrlModel.qml</file>
+        <file>qml/VideoItem.qml</file>
+        <file>qml/VideoShowWindow.qml</file>
     </qresource>
 </RCC>
