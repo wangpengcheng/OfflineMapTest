@@ -61,7 +61,7 @@ public:
 private: //设置私有变量
      QList<QGeoCoordinate> line_coordinate_list_;//线路坐标列表
     // QGeoPath bus_polyline_path_;
-     QDeclarativePolylineMapItem *bus_poly_line_;//设置线段
+     QDeclarativePolylineMapItem *bus_poly_line_=nullptr;//设置线段
      QList<BusStation *> bus_station_list_;//公交站点列表
      QString bus_line_id_;//线路编号
      QString bus_line_name_;//线路名称

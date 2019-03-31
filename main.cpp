@@ -43,7 +43,7 @@
 #include "src/busline.h"
 #include "src/busstation.h"
 #include "src/bus.h"
-
+#include "src/mapcontrlconnect.h"
 //主函数
 #include "mainwindow.h"
 //use tool
@@ -80,11 +80,14 @@ int main(int argc, char *argv[])
     map_control_widget->setResizeMode(QQuickWidget::SizeRootObjectToView);
     map_control_widget->setSource(QUrl("qrc:/qml/MapControlModel.qml"));
     QDeclarativeGeoMap *control_map=map_control_widget->rootObject()->findChild<QDeclarativeGeoMap *>("control_show_map");
+    qDebug()<<&qMap;
+    qDebug()<<&control_map;
+    MapContrlConnect map_connect(qMap,control_map);
     map_control_widget->show();
-  //  mainMapBoxWidget2->show();
     mainMapBoxWidget->show();
-    MainWindow main;
-    main.show();
+
+    //MainWindow main;
+    //main.show();
 //    //add qucik
 //    QQmlApplicationEngine engine;
 //    //load qml file

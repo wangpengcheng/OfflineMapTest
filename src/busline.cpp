@@ -23,10 +23,10 @@ BusLine::BusLine(QList<QGeoCoordinate> line_coordinates,
 }
 BusLine::~BusLine()
 {
-    if(bus_poly_line_!=NULL)
+    if(bus_poly_line_!=nullptr)
     {
-        delete[] bus_poly_line_;
-        bus_poly_line_=NULL;
+        delete bus_poly_line_;
+        bus_poly_line_=nullptr;
     }
 }
 QList<QGeoCoordinate> BusLine::line_coordinate_list()

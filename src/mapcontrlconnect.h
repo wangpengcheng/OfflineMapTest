@@ -21,13 +21,14 @@
 #include <QtLocation/private/qdeclarativegeomap_p.h>
 #include <iostream>
 #include <memory>
-class MapContrlConnect : public QQuickItem
+class MapContrlConnect : public QObject
 {
     Q_OBJECT
 public:
     MapContrlConnect();
-    MapContrlConnect(std::shared_ptr<QDeclarativeGeoMap> show_map,
-                     std::shared_ptr<QDeclarativeGeoMap> control_map);
+
+    MapContrlConnect(QDeclarativeGeoMap *show_map,
+                     QDeclarativeGeoMap *control_map);
     //~MapContrlConnect();
     void Init();
 
@@ -37,8 +38,10 @@ public slots:
     void change_show_zoom(qreal zoomLevel);
     void change_show_center(const QGeoCoordinate &center);
 private:
-    std::shared_ptr<QDeclarativeGeoMap> show_map_ptr_=nullptr;
-    std::shared_ptr<QDeclarativeGeoMap> control_map_ptr=nullptr;
+//    std::shared_ptr<QDeclarativeGeoMap*> show_map_ptr_=nullptr;
+//    std::shared_ptr<QDeclarativeGeoMap*> control_map_ptr_=nullptr;
+    QDeclarativeGeoMap *show_map_ptr_=nullptr;
+    QDeclarativeGeoMap *control_map_ptr_=nullptr;
 
 };
 
