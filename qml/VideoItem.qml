@@ -5,7 +5,7 @@ Item {
     id:video_item
     //anchors.fill: parent
     visible: true;
-    width: {if(parent!=null){parent.width}else{800;}}
+    width: {parent?parent.width:800;}
     height: {parent?parent.height:800;}
     property string video_path_root: "file:///C:/Users/lin/Videos/out/";
     property  url video_path1 : video_path_root+"yuanshiping.mp4"
@@ -21,7 +21,9 @@ Item {
         }
     VideoOutput {
         id:video_out_put_
-        anchors.fill: parent
+        //anchors.fill: parent
+        width:parent.width
+        height: parent.height
         source: media_player_
 
     }

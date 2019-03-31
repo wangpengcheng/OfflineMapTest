@@ -8,6 +8,7 @@ QT += multimedia multimediawidgets #add video and music
 QT += quickwidgets
 QT += network  #add network
 QT += charts
+QT += qml-private quick-private gui-private core-private
 CONFIG += c++11
 
 SOURCES += main.cpp \
@@ -16,7 +17,8 @@ SOURCES += main.cpp \
     src/screencontrol.cpp \
     src/busline.cpp \
     src/bus.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    src/mapcontrlconnect.cpp
 
 RESOURCES += qml.qrc
 
@@ -39,7 +41,8 @@ HEADERS += \
     src/busstation.h \
     src/busline.h \
     src/bus.h \
-    mainwindow.h
+    mainwindow.h \
+    src/mapcontrlconnect.h
 
 DISTFILES +=
 

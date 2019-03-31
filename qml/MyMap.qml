@@ -37,6 +37,9 @@ Item {
 //            Qt.quit();
 //        }
 //    }
+    MyTool{
+        id:my_tool
+    }
     Map {
         id: map1
         objectName: "maptest1"

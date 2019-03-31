@@ -8,13 +8,16 @@ import QtQuick.Controls.Styles 1.0
 
 Item{
     visible: true
-    height: parent.height
-    width: parent.width
+    height: 1080//parent.height
+    width: 1920//parent.width
     property real move_dx: 10//pixels
     property real map_scale_x: 4
     property real map_scale_y: 3
     property alias control_show_map: contrl_show_map
     property alias control_div: control_div
+    MyTool{
+        id:my_tool
+    }
     Map {
         id: contrl_show_map
         objectName: "control_show_map"
@@ -30,11 +33,6 @@ Item{
             anchors.fill: parent
             width: parent.width
             height: parent.height
-            onReleased: {
-                main_window.my_map.map1.center=contrl_show_map.center
-                //console.log(main_window.my_map.map1.center)
-            }
-
         }
     }
     Item{

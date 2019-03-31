@@ -1,25 +1,28 @@
 ﻿import QtQuick 2.0
-
+Item{
+    id:root
+    width: {parent?parent.width:800;}
+    height: {parent?parent.height:600;}
   Rectangle {
-      width: 800; height: 800
+      id:frist_rect
+      objectName: "frist_rect"
+      anchors.fill: parent
       color: "#303030"
 
-      Flow {
-          anchors.horizontalCenter: parent.horizontalCenter
-          anchors.verticalCenter: parent.verticalCenter
+//          anchors.horizontalCenter: parent.horizontalCenter
+//          anchors.verticalCenter: parent.verticalCenter
 //          rows:2
 //          columns: 4
          // spacing: 6
 
-          Rectangle { color: "#aa6666"; width: parent*0.2; height: 150 }
-          Rectangle { color: "#aaaa66"; width: 50; height: 150 }
-          Rectangle { color: "#9999aa"; width: 50; height: 50 }
-          Rectangle { color: "#6666aa"; width: 80; height: 50 }
-          Rectangle { color: "#aaaa66"; width: 50; height: 150 }
-          Rectangle { color: "#9999aa"; width: 50; height: 50 }
-          Rectangle { color: "#6666aa"; width: 80; height: 50 }
-          Rectangle { color: "#aaaa66"; width: 50; height: 150 }
-          Rectangle { color: "#9999aa"; width: 50; height: 50 }
-          Rectangle { color: "#6666aa"; width: 80; height: 50 }
+          Rectangle { color: "#aa6666"; width: parent.width*0.2; height: parent.height*0.2 }
+
       }
-  }
+      Component.onCompleted: {
+          console.log("hello word!!");
+          frist_rect.parent=null;
+          var my_children=root.children;
+          console.log(my_children[0]);
+          console.log(frist_rect);
+      }
+}

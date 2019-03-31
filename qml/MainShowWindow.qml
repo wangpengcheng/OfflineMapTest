@@ -6,13 +6,16 @@ import QtLocation       5.3
 import QtPositioning    5.3
 import QtQml 2.0
 import QtMultimedia 5.0
-Window {
+Item {
     id: main_show_window
     objectName: "main_show_window"
     visible: true
     height: 1080*1
     width: 1920*1
     property alias my_map : my_map;
+    MyTool{
+        id:my_tool
+    }
     Item {
         id: map_item
         height: parent.height

@@ -43,11 +43,12 @@
 #include "src/busline.h"
 #include "src/busstation.h"
 #include "src/bus.h"
+
+//主函数
+#include "mainwindow.h"
 //use tool
 Tool tool;
-
-#include <QLabel> 
-
+#include <QLabel>
 //设置内部函数
 void AddCoordinateToList(QList<QGeoCoordinate> &temp);
 void VideoTest();//test video
@@ -62,29 +63,28 @@ int main(int argc, char *argv[])
     //添加字体
     QFontDatabase::addApplicationFont(":/fonts/DejaVuSans.ttf");
     app.setFont(QFont("DejaVu Sans"));
-    //qDebug()<<path_string;
     //VideoTest();
+
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     QQuickWidget *mainMapBoxWidget = new QQuickWidget();
     mainMapBoxWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    mainMapBoxWidget->setSource(QUrl("qrc:/qml/Test.qml"));
-    //mainMapBoxWidget->resize(MAIN_DISPALY_WIDTH,MAIN_DISPALY_HEIGH);
-   // QDeclarativeGeoMap *qMap=mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
+    mainMapBoxWidget->setSource(QUrl("qrc:/qml/MainShowWindow.qml"));
+    //get show map
+    QDeclarativeGeoMap *qMap=mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
     //QQuickWindow *show_window=mainMapBoxWidget->rootObject()->findChild<QQuickWindow *>("main_show_window");
     //show_window->setGeometry(desktop->screenGeometry(1));
     //mainMapBoxWidget->setGeometry(desktop->screenGeometry(1));
+    //mainMapBoxWidget->show();
+    QQuickWidget *map_control_widget= new QQuickWidget();
+    map_control_widget->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    map_control_widget->setSource(QUrl("qrc:/qml/MapControlModel.qml"));
+    QDeclarativeGeoMap *control_map=map_control_widget->rootObject()->findChild<QDeclarativeGeoMap *>("control_show_map");
+    map_control_widget->show();
+  //  mainMapBoxWidget2->show();
     mainMapBoxWidget->show();
-//    QQuickView viewer,viewer2;
-//    viewer.setResizeMode(QQuickView::SizeRootObjectToView);
-//    viewer.setSource(QUrl("qrc:/qml/main.qml"));
-//    viewer.show();
-//    viewer2.setResizeMode(QQuickView::SizeViewToRootObject);
-//    viewer2.setSource(QUrl("qrc:/qml/ControlWindow.qml"));
-//    viewer2.show();
-    //获取根节点
-//    QQuickItem *pRoot=viewer.rootObject();
-//    qDebug()<<pRoot;
+    MainWindow main;
+    main.show();
 //    //add qucik
 //    QQmlApplicationEngine engine;
 //    //load qml file
@@ -92,23 +92,11 @@ int main(int argc, char *argv[])
 //    //qt 获取qml第一个对象：
 //    QObject *pRoot=engine.rootObjects().first();
 //    qDebug()<<pRoot->property("id");
-    //找到map节点
-    //QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
-//    QQuickWindow *control_window=pRoot->findChild<QQuickWindow *>("my_control_window");
-//    QDeclarativeGeoMap *qMap2=control_window->findChild<QDeclarativeGeoMap *>();
-//    qMap2->setPlugin(qMap->plugin());
-//    qMap2->setCenter(qMap->center());
-//    qMap2->setZoomLevel(qMap->zoomLevel());
-//    qMap2->setParentItem(control_window->contentItem());
-//    qMap2->setObjectName("control_map");
-//    qMap2->setWidth(control_window->width());
-//    qMap2->setHeight(control_window->height());
-//    QQuickItemPrivate::get(qMap2)->anchors()->setFill(control_window->contentItem());
     //使用测试线路添加数据
-    //BusLineTest test;
-    //test.MainTest();//主要测试函数
-   // test.ShowTest(qMap);
-    //test.ShowTest(qMap2);
+    BusLineTest test;
+    test.MainTest();//主要测试函数
+    test.ShowTest(qMap);
+    test.ShowTest(control_map);
     //ShowBusLine(qMap);
    // QTimer *temp_timer=new QTimer(this);
    // MoveTest(qMap);
