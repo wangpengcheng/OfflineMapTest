@@ -67,25 +67,32 @@ int main(int argc, char *argv[])
 
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
-    QQuickWidget *mainMapBoxWidget = new QQuickWidget();
-    mainMapBoxWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    QQuickView *mainMapBoxWidget = new QQuickView();
+    mainMapBoxWidget->setResizeMode(QQuickView::SizeRootObjectToView);
     mainMapBoxWidget->setSource(QUrl("qrc:/qml/MainShowWindow.qml"));
     //get show map
-    QDeclarativeGeoMap *qMap=mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
+    std::shared_ptr<QDeclarativeGeoMap> qMap(mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("show_map"));
+    //QDeclarativeGeoMap *qMap=mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
     //QQuickWindow *show_window=mainMapBoxWidget->rootObject()->findChild<QQuickWindow *>("main_show_window");
     //show_window->setGeometry(desktop->screenGeometry(1));
     //mainMapBoxWidget->setGeometry(desktop->screenGeometry(1));
     //mainMapBoxWidget->show();
-    QQuickWidget *map_control_widget= new QQuickWidget();
-    map_control_widget->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    //QQuickView *map_control_widget= new QQuickView();
+    //map_control_widget->setResizeMode(QQuickView::SizeRootObjectToView);
+        QQuickWidget *map_control_widget= new QQuickWidget();
+        map_control_widget->setResizeMode(QQuickWidget::SizeRootObjectToView);
     map_control_widget->setSource(QUrl("qrc:/qml/MapControlModel.qml"));
-    QDeclarativeGeoMap *control_map=map_control_widget->rootObject()->findChild<QDeclarativeGeoMap *>("control_show_map");
-    qDebug()<<&qMap;
-    qDebug()<<&control_map;
+    std::shared_ptr<QDeclarativeGeoMap> control_map(map_control_widget->rootObject()->findChild<QDeclarativeGeoMap *>("control_show_map"));
+    //QDeclarativeGeoMap *control_map=map_control_widget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
+//    qDebug()<<&qMap;
+//    qDebug()<<&control_map;
     MapContrlConnect map_connect(qMap,control_map);
-    map_control_widget->show();
     mainMapBoxWidget->show();
-
+    map_control_widget->resize(800,600);
+    map_control_widget->show();
+    QWidget *container=QWidget::createWindowContainer(mainMapBoxWidget);
+    container->resize(500,400);
+    container->show();
     //MainWindow main;
     //main.show();
 //    //add qucik
@@ -98,8 +105,9 @@ int main(int argc, char *argv[])
     //使用测试线路添加数据
     BusLineTest test;
     test.MainTest();//主要测试函数
-    test.ShowTest(qMap);
-    test.ShowTest(control_map);
+    test.ShowTest(qMap.get());
+    //test.ShowTest(qMap);
+    //test.ShowTest(control_map);
     //ShowBusLine(qMap);
    // QTimer *temp_timer=new QTimer(this);
    // MoveTest(qMap);

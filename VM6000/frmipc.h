@@ -1,4 +1,4 @@
-#ifndef FRMIPC_H
+﻿#ifndef FRMIPC_H
 #define FRMIPC_H
 
 #include <QDialog>
@@ -18,7 +18,6 @@ class frmIPC : public QDialog
 public:
     explicit frmIPC(QWidget *parent = 0);
     ~frmIPC();
-
 private slots:
     void on_btnAdd_clicked();
     void on_btnDelete_clicked();

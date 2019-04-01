@@ -12,18 +12,32 @@ Item {
     visible: true
     height: 1080*1
     width: 1920*1
-    property alias my_map : my_map;
+    property alias my_map : show_map;
     MyTool{
-        id:my_tool
+        id:my_tool0
     }
     Item {
         id: map_item
         height: parent.height
         width: parent.width
         z: 0
-        MyMap{
-            id:my_map
-        }//添加地图
+        Map {
+            id: show_map
+            objectName: "show_map"
+            anchors.fill: parent
+            minimumZoomLevel: 16
+            maximumZoomLevel: 19
+            zoomLevel: 18
+            center:   my_tool0.wps84_To_Gcj02(30.5594483655,103.9976232481) // my_tool.wps84_To_Gcj02()
+            gesture.flickDeceleration:  3000
+            // 地图插件
+            plugin: Plugin { name: "Gaode" }
+            MouseArea{
+                anchors.fill: parent
+                width: parent.width
+                height: parent.height
+            }
+        }
     }
 //    Item { //播放栏
 //        id :video_play_item

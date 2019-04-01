@@ -46,20 +46,20 @@ void frmMain::change_style()
     QAction *action = (QAction *)sender();
     QString style = action->text();
     qDebug()<<style;
-    if (style=="淡蓝色") {
+    if (style==QStringLiteral("淡蓝色")) {
         qDebug()<<style;
         myApp::AppStyle = QStringLiteral(":/image/blue.css");
-    } else if (style == "蓝色") {
+    } else if (style == QStringLiteral("蓝色")) {
         myApp::AppStyle = QStringLiteral(":/image/dev.css");
-    } else if (style == "灰色") {
+    } else if (style == QStringLiteral("灰色")) {
         myApp::AppStyle = QStringLiteral(":/image/gray.css");
-    } else if (style == "黑色") {
+    } else if (style == QStringLiteral("黑色")) {
         myApp::AppStyle = QStringLiteral(":/image/black.css");
-    } else if (style == "灰黑色") {
+    } else if (style == QStringLiteral("灰黑色")) {
         myApp::AppStyle = QStringLiteral(":/image/brown.css");
-    } else if (style == "白色") {
+    } else if (style == QStringLiteral("白色")) {
         myApp::AppStyle = QStringLiteral(":/image/white.css");
-    } else if (style == "银色") {
+    } else if (style == QStringLiteral("银色")) {
         myApp::AppStyle = QStringLiteral(":/image/silvery.css");
     }
 

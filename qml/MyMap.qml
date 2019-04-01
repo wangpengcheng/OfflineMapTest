@@ -38,7 +38,7 @@ Item {
 //        }
 //    }
     MyTool{
-        id:my_tool
+        id:my_map_tool
     }
     Map {
         id: map1
@@ -47,7 +47,7 @@ Item {
         minimumZoomLevel: 16
         maximumZoomLevel: 19
         zoomLevel: 18
-        center:  my_tool.wps84_To_Gcj02(30.5594483655,103.9976232481) // QtPositioning.coordinate(30.5594483655,103.9976232481)
+        center:  my_map_tool.wps84_To_Gcj02(30.5594483655,103.9976232481) // QtPositioning.coordinate(30.5594483655,103.9976232481)
         gesture.flickDeceleration:  3000
         // 地图插件
         plugin: Plugin { name: "Gaode" }

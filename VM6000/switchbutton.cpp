@@ -1,4 +1,4 @@
-#include "switchbutton.h"
+﻿#include "switchbutton.h"
 
 /* 说明:自定义开关按钮控件实现文件
  * 功能:用来控制配置文件的开关设置

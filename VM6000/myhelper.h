@@ -24,7 +24,7 @@ public:
     //设置为开机启动
     static void AutoRunWithSystem(bool IsAutoRun, QString AppName, QString AppPath) {
         QSettings *reg = new QSettings(
-            "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+            QStringLiteral("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"),
             QSettings::NativeFormat);
 
         if (IsAutoRun) {

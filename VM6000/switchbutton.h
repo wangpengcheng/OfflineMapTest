@@ -1,4 +1,4 @@
-#ifndef SWITCHBUTTON_H
+﻿#ifndef SWITCHBUTTON_H
 #define SWITCHBUTTON_H
 
 #include <QPushButton>
@@ -33,5 +33,4 @@ private slots:
     void ChangeOnOff();
 
 };
-
-#endif //SWITCHBUTTON_H
+#endif // SWITCHBUTTON_H

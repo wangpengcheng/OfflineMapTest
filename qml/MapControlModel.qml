@@ -14,9 +14,9 @@ Item{
     property real map_scale_x: 4
     property real map_scale_y: 3
     property alias control_show_map: contrl_show_map
-    property alias control_div: control_div
+    //property alias control_div: control_div
     MyTool{
-        id:my_tool
+        id:my_tool2
     }
     Map {
         id: contrl_show_map
@@ -25,7 +25,7 @@ Item{
         minimumZoomLevel: 16
         maximumZoomLevel: 19
         zoomLevel: 18
-        center:   my_tool.wps84_To_Gcj02(30.5594483655,103.9976232481) // my_tool.wps84_To_Gcj02()
+        center:   my_tool2.wps84_To_Gcj02(30.5594483655,103.9976232481) // my_tool.wps84_To_Gcj02()
         gesture.flickDeceleration:  3000
         // 地图插件
         plugin: Plugin { name: "Gaode" }
@@ -35,6 +35,7 @@ Item{
             height: parent.height
         }
     }
+
     Item{
         id:control_div
         x: parent.width*0.6;
@@ -56,44 +57,45 @@ Item{
             clip: true
             border.width: 2
             anchors.fill: parent
-            Row {
+            Item {
                 id: row
                 anchors.fill: parent
                 width: parent.width
                 height: parent.height
     //                    anchors.verticalCenter: parent.verticalCenter
     //                    anchors.horizontalCenter: parent.horizontalCenter
-                Column{
+                Item{
                     id:move_div
                     width: parent.width*0.5
                     height: parent.height*0.8
-                   // anchors.left: parent.left
-                   // anchors.leftMargin: parent.width*0.05
+                    anchors.left: parent.left
+                    anchors.leftMargin: parent.width*0.05
                     anchors.verticalCenter: parent.verticalCenter
+                    //anchors.top: row.top
                     property string fangxiang_pic: "qrc:/img/Control/fangxiang.png";
                     property string fangxiang_pic1: "qrc:/img/Control/fangxiang_1.png";
-                    Column{
+                    Item{
                         id:move_top
                         //anchors.fill: parent
                         width: parent.width*0.8
                         height: parent.height*0.25
-                        anchors.horizontalCenter: parent.horizontalCenter
                         Button{
                             id:move_top_button
                             display: AbstractButton.IconOnly
-                            anchors.verticalCenter: parent.verticalCenter
+                         //   anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
                             //anchors.top: parent.top;
                             //anchors.topMargin: parent.height*0.5*0.2;
                             width: parent.width*0.25
                             height: parent.width*0.25
+                            anchors.verticalCenter: parent.verticalCenter
 
                             //anchors.fill: parent
                             background:Image {
                                     width: parent.width
                                     height: parent.height
                                     anchors.fill: parent
-                                    source:/*move_div.fangxiang_pic*/ {
+                                    source:{
                                         if(parent.hovered) {
                                             move_div.fangxiang_pic1;
                                         } else{
@@ -109,14 +111,14 @@ Item{
 
                         }
                     }
-                    Column{
+                    Item{
                         id:move_left_right
                         //anchors.fill: parent
                         width: parent.width*0.8
                         height: parent.height*0.25
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top:move_top.bottom
-                        //anchors.topMargin: parent.height*0.15
+                       // anchors.horizontalCenter: parent.horizontalCenter
+                       anchors.top:move_top.bottom
+                       //anchors.topMargin: parent.height*0.15
                         Button {
                             id:move_left_button
                             display: AbstractButton.IconOnly
@@ -137,7 +139,7 @@ Item{
                                     width: parent.width
                                     height: parent.height
                                     anchors.fill: parent
-                                    source:/*move_div.fangxiang_pic*/ {
+                                    source:{
                                         if(parent.hovered) {
                                             move_div.fangxiang_pic1;
                                         } else{
@@ -166,7 +168,7 @@ Item{
                                     width: parent.width
                                     height: parent.height
                                     anchors.fill: parent
-                                    source:/*move_div.fangxiang_pic*/ {
+                                    source: {
                                         if(parent.hovered) {
                                             move_div.fangxiang_pic1;
                                         } else{
@@ -181,12 +183,12 @@ Item{
 
                         }
                     }
-                    Column{
+                    Item{
                         id:move_bottom
                         //anchors.fill: parent
                         width: parent.width*0.8
                         height: parent.height*0.25
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        //anchors.horizontalCenter: parent.horizontalCenter
                         anchors.top:move_left_right.bottom
                         Button{
                             id:move_bottom_button
@@ -202,7 +204,7 @@ Item{
                                     width: parent.width
                                     height: parent.height
                                     //anchors.fill: parent
-                                    source:/*move_div.fangxiang_pic*/ {
+                                    source:{
                                         if(parent.hovered) {
                                             move_div.fangxiang_pic1;
                                         } else{
@@ -217,21 +219,21 @@ Item{
 
                         }
                     }
-                    Column{
+                    Item{
 
                         id:text_col
                         width: parent.width*0.8
                         height: parent.height*0.1
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        //anchors.horizontalCenter: parent.horizontalCenter
                         anchors.top:move_bottom.bottom
-                        Text {
+                        Label {
                             id: text1
                             width: parent.width
                             height: parent.height
-                            anchors.horizontalCenter: parent.horizontalCenter
 
-                            anchors.topMargin:  sliderVertical.height*0.1
                             text: qsTr("地图平移")
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.topMargin: 26
                             verticalAlignment: Text.AlignVCenter
                             font.bold: true
                             fontSizeMode: Text.Fit
@@ -241,7 +243,7 @@ Item{
 
                     }
                 }
-                Column{
+                Item{
                     id:slider_col
                     width:parent.width*0.2
                     height: parent.height*0.8
@@ -264,7 +266,7 @@ Item{
                         value: 3
                     }
 
-                    Text {
+                    Label {
                         id: text2
                         width: parent.width
                         height: parent*0.3
@@ -279,13 +281,14 @@ Item{
                         font.pixelSize: 22
                     }
                 }
-                Column{
+                Item{
                     id:up_col
                     width: parent.width*0.2;
                     height: parent.height*0.8;
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: slider_col.right
                     anchors.rightMargin:10
+
                     property string locate_pic: "qrc:/img/Control/dingwei.png"
                     property string up_pic: "qrc:/img/Control/fangda.png"
                     property string down_pic: "qrc:/img/Control/suoxiao.png"
@@ -306,7 +309,7 @@ Item{
                                 width: parent.width
                                 height: parent.height
                                 anchors.fill: parent
-                                source:/*up_col.locate_pic*/ {
+                                source:{
                                     if(parent.hovered) {
                                         up_col.locate_pic1;
                                     } else{
@@ -315,9 +318,10 @@ Item{
                                 }
                                 }
                         onClicked: {
-                            contrl_show_map.center=my_tool.wps84_To_Gcj02(30.5594483655,103.9976232481);
-                            main_window.my_map.map1.center=contrl_show_map.center;
-                            main_window.my_map.map1.zoomLevel=contrl_show_map.zoomLevel;
+                            contrl_show_map.center=my_tool2.wps84_To_Gcj02(30.5594483655,103.9976232481);
+                            contrl_show_map.zoomLevel=18;
+                           // main_window.my_map.map1.center=contrl_show_map.center;
+                           // main_window.my_map.map1.zoomLevel=contrl_show_map.zoomLevel;
                         }
                     }
                     Button{
@@ -335,7 +339,7 @@ Item{
                                 width: parent.width
                                 height: parent.height
                                 anchors.fill: parent
-                                source:/*up_col.up_pic*/ {
+                                source:{
                                     if(parent.hovered) {
                                         up_col.up_pic1;
                                     } else{
@@ -363,7 +367,7 @@ Item{
                                 width: parent.width
                                 height: parent.height
                                 anchors.fill: parent
-                                source:/*up_col.down_pic */{
+                                source:{
                                     if(parent.hovered) {
                                         up_col.down_pic1;
                                     } else{
@@ -376,7 +380,7 @@ Item{
                         }
 
                     }
-                    Text {
+                    Label {
                         id: text3
                         width: parent.width
                         height: parent*0.3
@@ -395,9 +399,6 @@ Item{
             }
 
         }
-
-
-
     }
     /*
      *move_model 1 :top,2 :left ,3:right 4:bottom
@@ -406,19 +407,19 @@ Item{
         switch(move_model){
         case 1 :
             contrl_show_map.pan(0,-move_dx*sliderVertical.value);
-            main_window.my_map.map1.pan(0,-move_dx*sliderVertical.value*map_scale_y);
+            //main_window.my_map.map1.pan(0,-move_dx*sliderVertical.value*map_scale_y);
             break;
         case 2:
             contrl_show_map.pan(-move_dx*sliderVertical.value,0);
-            main_window.my_map.map1.pan(-move_dx*sliderVertical.value*map_scale_x,0);
+            //main_window.my_map.map1.pan(-move_dx*sliderVertical.value*map_scale_x,0);
             break;
         case 3:
             contrl_show_map.pan(move_dx*sliderVertical.value,0);
-            main_window.my_map.map1.pan(move_dx*sliderVertical.value*map_scale_x,0);
+            //main_window.my_map.map1.pan(move_dx*sliderVertical.value*map_scale_x,0);
             break;
         case 4:
             contrl_show_map.pan(0,move_dx*sliderVertical.value);
-            main_window.my_map.map1.pan(0,move_dx*sliderVertical.value*map_scale_y);
+            //main_window.my_map.map1.pan(0,move_dx*sliderVertical.value*map_scale_y);
             break;
         default:
             console.log("input error");
@@ -432,10 +433,10 @@ Item{
     function map_updown(map_model){
         if(map_model===2){
             contrl_show_map.zoomLevel-=1;
-            main_window.my_map.map1.zoomLevel-=1;
+           // main_window.my_map.map1.zoomLevel-=1;
         }else if(map_model===1){
             contrl_show_map.zoomLevel+=1;
-            main_window.my_map.map1.zoomLevel+=1;
+          //  main_window.my_map.map1.zoomLevel+=1;
         }
     }
 

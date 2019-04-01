@@ -27,9 +27,8 @@ int main(int argc, char *argv[])
 
     //创建共享内存,判断是否已经运行程序
     QSharedMemory mem("VM");
-    if (!mem.create(1)) {
+    if(!mem.create(1)){
         myHelper::ShowMessageBoxError(QStringLiteral("程序已运行,软件将自动关闭!"));
-        return 1;
     }
 
     //判断当前数据库文件是否存在(如果数据库打开失败则终止应用程序)

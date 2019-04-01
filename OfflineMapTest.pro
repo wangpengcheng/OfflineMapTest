@@ -27,7 +27,7 @@ QML_IMPORT_PATH =
 
 include(QtLocationPlugin/LocationPlugin.pri)
 include(test/test.pri)
-
+include(VM6000/VM6000.pri)
 
 INCLUDEPATH += \
     QtLocationPlugin \
@@ -48,3 +48,9 @@ DISTFILES +=
 
 FORMS += \
     mainwindow.ui
+
+MOC_DIR         = temp/moc
+RCC_DIR         = temp/rcc
+UI_DIR          = temp/ui
+OBJECTS_DIR     = temp/obj
+DESTDIR         = bin

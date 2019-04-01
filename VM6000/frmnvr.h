@@ -1,4 +1,4 @@
-#ifndef FRMNVR_H
+﻿#ifndef FRMNVR_H
 #define FRMNVR_H
 
 #include <QDialog>
