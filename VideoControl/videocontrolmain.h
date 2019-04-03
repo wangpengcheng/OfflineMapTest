@@ -1,13 +1,14 @@
-﻿#include <QApplication>
+﻿#ifndef VIDEOCONTROLMAIN_H
+#define VIDEOCONTROLMAIN_H
+#include <QApplication>
 #include "myhelper.h"
 #include "frmmain.h"
 #include "myapp.h"
 #if _MSC_VER >= 1600
 #pragma execution_character_set("utf-8")
 #endif
-int main(int argc, char *argv[])
+int videomain(QApplication &a)
 {
-    QApplication a(argc, argv);
 
     a.setApplicationName("VM");         //设置应用程序名称
     a.setApplicationVersion("V201412"); //设置应用程序版本
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
 
     QSqlDatabase DbConn;
     DbConn = QSqlDatabase::addDatabase("QSQLITE");
-    DbConn.setDatabaseName(myApp::AppPath + "VM.db");
+    DbConn.setDatabaseName(myApp::AppPath + "1VM.db");
 
     //创建数据库连接并打开(如果数据库打开失败则终止应用程序)
     if (!DbConn.open()) {
@@ -51,5 +52,7 @@ int main(int argc, char *argv[])
     w.show();
     w.setGeometry(qApp->desktop()->availableGeometry());
 
-    return a.exec();
+   // return a.exec();
+    return 0;
 }
+#endif // VIDEOCONTROLMAIN_H

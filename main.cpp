@@ -45,7 +45,12 @@
 #include "src/bus.h"
 #include "src/mapcontrlconnect.h"
 //主函数
-#include "mainwindow.h"
+#include "VideoControl/myhelper.h"
+#include "VideoControl/frmmain.h"
+#include "VideoControl/myapp.h"
+#include "VideoControl/myvideowidget.h"
+#include "VideoControl/videoshowwidget.h"
+#include "qcoreapplication.h"
 //use tool
 Tool tool;
 #include <QLabel>
@@ -53,11 +58,13 @@ Tool tool;
 void AddCoordinateToList(QList<QGeoCoordinate> &temp);
 void VideoTest();//test video
 void ShowBusLine(QDeclarativeGeoMap *qMap);//显示公交线路
-void MoveTest(QDeclarativeGeoMap *qMap);
+void MoveTest(QDeclarativeGeoMap *qMap);//公交移动测试
+int VideoControlTest(QApplication app);
 int main(int argc, char *argv[])
 {
     //QGuiApplication app(argc, argv);
     QApplication app(argc, argv);
+    /*
     QDesktopWidget* desktop=QApplication::desktop();
     QString path_string=QDir::tempPath();
     //添加字体
@@ -106,11 +113,6 @@ int main(int argc, char *argv[])
     BusLineTest test;
     test.MainTest();//主要测试函数
     test.ShowTest(qMap.get());
-    //test.ShowTest(qMap);
-    //test.ShowTest(control_map);
-    //ShowBusLine(qMap);
-   // QTimer *temp_timer=new QTimer(this);
-   // MoveTest(qMap);
     //BusTest *bus_test;
     //bus_test->ShowTest(qMap);
     //bus_test->LuShuTest();
@@ -123,7 +125,69 @@ int main(int argc, char *argv[])
 //    qDebug()<<qMap2;
 //    qMap2->addMapItem(&test_bus2);
    // test_bus.LuShuStart();
-  //  qDebug()<<qMap;
+
+    app.setApplicationName("VM");         //设置应用程序名称
+    app.setApplicationVersion("V201412"); //设置应用程序版本
+    myHelper::SetUTF8Code();            //设置程序编码为UTF-8
+    myHelper::SetChinese();             //设置程序为中文字库
+
+    //赋值当前应用程序路径和桌面宽度高度
+    myApp::AppPath = QApplication::applicationDirPath() + "/";
+    myApp::DeskWidth = qApp->desktop()->availableGeometry().width();
+    myApp::DeskHeight = qApp->desktop()->availableGeometry().height();
+
+    //程序加载时先加载所有配置信息
+    myApp::ReadConfig();
+
+    //加载和应用样式
+    myHelper::SetStyle(myApp::AppStyle);
+
+    //创建共享内存,判断是否已经运行程序
+    QSharedMemory mem("VM");
+    if(!mem.create(1)){
+        myHelper::ShowMessageBoxError(QStringLiteral("程序已运行,软件将自动关闭!"));
+    }
+
+    //判断当前数据库文件是否存在(如果数据库打开失败则终止应用程序)
+    if (!myHelper::FileIsExist(myApp::AppPath + "VM.db")) {
+        myHelper::ShowMessageBoxError(QStringLiteral("数据库文件不存在,程序将自动关闭!"));
+        return 1;
+    }
+
+    QSqlDatabase DbConn;
+    DbConn = QSqlDatabase::addDatabase("QSQLITE");
+    DbConn.setDatabaseName(myApp::AppPath + "VM.db");
+
+    //创建数据库连接并打开(如果数据库打开失败则终止应用程序)
+    if (!DbConn.open()) {
+        myHelper::ShowMessageBoxError(QStringLiteral("打开数据库失败,程序将自动关闭！"));
+        return 1;
+    }
+    frmMain w;
+    w.show();
+    w.setGeometry(qApp->desktop()->availableGeometry());
+    qDebug()<<"init file";
+*/
+    QFont font;
+    font.setFamily("MicroSoft Yahei");
+    font.setPixelSize(12);
+    app.setFont(font);
+
+#if (QT_VERSION <= QT_VERSION_CHECK(5,0,0))
+#if _MSC_VER
+    QTextCodec *codec = QTextCodec::codecForName("gbk");
+#else
+    QTextCodec *codec = QTextCodec::codecForName("utf-8");
+#endif
+    QTextCodec::setCodecForLocale(codec);
+    QTextCodec::setCodecForCStrings(codec);
+    QTextCodec::setCodecForTr(codec);
+#else
+    QTextCodec *codec = QTextCodec::codecForName("utf-8");
+    QTextCodec::setCodecForLocale(codec);
+#endif
+    VideoShowWidget test;
+    test.showMaximized();
     return app.exec();
 
 }

@@ -40,11 +40,13 @@ private slots:
     void show_video_9();            //切换到9画面
     void show_video_16();           //切换到16画面
 
-    void on_btnMenu_Close_clicked();
-    void on_btnMenu_Min_clicked();
+    void on_btnMenu_Close_clicked();//关闭按钮
+    void on_btnMenu_Min_clicked();//最小化按钮
     void on_treeMain_doubleClicked(const QModelIndex &index);
 
     void on_labStart_linkActivated(const QString &link);
+
+    void on_labConfig_linkActivated(const QString &link);
 
 private:
     Ui::frmMain *ui;    

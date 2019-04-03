@@ -13,8 +13,9 @@ frmMain::frmMain(QWidget *parent) :
     ui(new Ui::frmMain)
 {
     ui->setupUi(this);
-
+    //初始化风格
     this->InitStyle();
+    //初始化表格
     this->InitForm();
     this->InitVideo();
     this->LoadVideo();
@@ -145,7 +146,7 @@ void frmMain::InitVideo()
         VideoLab[i]->setProperty("labVideo", true);
         VideoLab[i]->setText(QStringLiteral("通道%1").arg(i + 1));
     }
-
+    //设置右键
     menu = new QMenu(this);
     menu->setStyleSheet("font: 10pt \"微软雅黑\";");
     menu->addAction(QStringLiteral("删除当前视频"), this, SLOT(delete_video_one()));
@@ -154,8 +155,8 @@ void frmMain::InitVideo()
     menu->addAction(QStringLiteral("截图当前视频"), this, SLOT(snapshot_video_one()));
     menu->addAction(QStringLiteral("截图所有视频"), this, SLOT(snapshot_video_all()));
     menu->addSeparator();
-
-    QMenu *menu1 = menu->addMenu(QStringLiteral("切换到4画面"));
+    //设置切换1画面
+    QMenu *menu1 = menu->addMenu(QStringLiteral("切换到1画面"));
     menu1->addAction(QStringLiteral("通道1"), this, SLOT(show_video_1()));
     menu1->addAction(QStringLiteral("通道2"), this, SLOT(show_video_1()));
     menu1->addAction(QStringLiteral("通道3"), this, SLOT(show_video_1()));
@@ -172,17 +173,17 @@ void frmMain::InitVideo()
     menu1->addAction(QStringLiteral("通道14"), this, SLOT(show_video_1()));
     menu1->addAction(QStringLiteral("通道15"), this, SLOT(show_video_1()));
     menu1->addAction(QStringLiteral("通道16"), this, SLOT(show_video_1()));
-
-    QMenu *menu4 = menu->addMenu(QStringLiteral("切换到1画面"));
+    //设置切换4画面
+    QMenu *menu4 = menu->addMenu(QStringLiteral("切换到4画面"));
     menu4->addAction(QStringLiteral("通道1-通道4"), this, SLOT(show_video_4()));
     menu4->addAction(QStringLiteral("通道5-通道8"), this, SLOT(show_video_4()));
     menu4->addAction(QStringLiteral("通道9-通道12"), this, SLOT(show_video_4()));
     menu4->addAction(QStringLiteral("通道13-通道16"), this, SLOT(show_video_4()));
-
+    //设置切换到9画面
     QMenu *menu9 = menu->addMenu(QStringLiteral("切换到9画面"));
     menu9->addAction(QStringLiteral("通道1-通道9"), this, SLOT(show_video_9()));
     menu9->addAction(QStringLiteral("通道8-通道16"), this, SLOT(show_video_9()));
-
+    //设置切换到16画面
     menu->addAction(QStringLiteral("切换到16画面"), this, SLOT(show_video_16()));
 }
 
@@ -284,74 +285,77 @@ void frmMain::keyPressEvent(QKeyEvent *event)
 
 bool frmMain::eventFilter(QObject *obj, QEvent *event)
 {
+    //将其转为静态指针
     QMouseEvent *MouseEvent = static_cast<QMouseEvent *>(event);
+    //设置鼠标双击事件
     if ((event->type() == QEvent::MouseButtonDblClick) &&
             (MouseEvent->buttons() == Qt::LeftButton)) {
         QLabel *labDouble = qobject_cast<QLabel *>(obj);
-        if (!video_max) {
-            removelayout();
-            video_max = true;
-            VideoLay[0]->addWidget(labDouble);
+        if (!video_max) {//如果通道不是最大化。实现最大化
+            removelayout();//将显示的视屏移除
+            video_max = true;//设置最大化为真
+            VideoLay[0]->addWidget(labDouble);//添加窗口到布局界面
             labDouble->setVisible(true);
-        } else {
+        } else {//已经全屏则退回原来的模式
             video_max = false;
-            ChangeVideoLayout();
+            ChangeVideoLayout();//更改模式为原来的模式
         }
 
-        labDouble->setFocus();
+        labDouble->setFocus();//设置获得焦点事件
         return true;
-    } else if (event->type() == QEvent::MouseButtonPress) {
-        if (obj == ui->labFull) {
-            screen_full();
+    } else if (event->type() == QEvent::MouseButtonPress) {//获取简单鼠标点击事件
+        if (obj == ui->labFull) {//如果是全屏
+            screen_full();//全屏
             return true;
-        } else if (obj == ui->labStart) {
-            if (ui->labStart->text() == "启动轮询") {
+        } else if (obj == ui->labStart) {//启动轮询
+            if (ui->labStart->text() == QStringLiteral("启动轮询")) {
                 ui->labStart->setText(QStringLiteral("停止轮询"));
             } else {
                 ui->labStart->setText(QStringLiteral("启动轮询"));
             }
             return true;
-        } else if (obj == ui->labNVR) {
+        } else if (obj == ui->labNVR) {//如果是NVR,则开启NVR
             frmNVR nvr;
             nvr.exec();
             LoadNVRIPC();
             return true;
-        } else if (obj == ui->labIPC) {
+        } else if (obj == ui->labIPC) {//如果是IPC，则开启IPC窗口
             frmIPC ipc;
             ipc.exec();
             LoadNVRIPC();
             return true;
-        } else if (obj == ui->labPollConfig) {
+        } else if (obj == ui->labPollConfig) {//开启轮询设置界面
             frmPollConfig pollConfig;
-            pollConfig.exec();
+            pollConfig.exec();//显示设置按钮
             return true;
-        } else if (obj == ui->labVideoPlayBack) {
+        } else if (obj == ui->labVideoPlayBack) {//设置视频互访
             myHelper::ShowMessageBoxError(QStringLiteral("功能暂未开放!"));
             return true;
-        } else if (obj == ui->labConfig) {
+        } else if (obj == ui->labConfig) {//设置系统设置
             frmConfig config;
             config.exec();
             ui->lab_Title->setText(myApp::AppTitle);
             this->setWindowTitle(myApp::AppTitle);
             return true;
-        } else if (obj == ui->labExit) {
+        } else if (obj == ui->labExit) {//关闭按钮
             on_btnMenu_Close_clicked();
             return true;
-        } else if (obj == ui->labStyle) {
-            menuStyle->exec(QPoint(myApp::DeskWidth - 135, 31));
+        } else if (obj == ui->labStyle) {//风格按钮
+            menuStyle->exec(QPoint(myApp::DeskWidth - 155, 31));
             return true;
-        } else if (MouseEvent->buttons() == Qt::RightButton) {
+        } else if (MouseEvent->buttons() == Qt::RightButton) {//途观是鼠标右键的话
             tempLab = qobject_cast<QLabel *>(obj);
-            menu->exec(QCursor::pos());
+            menu->exec(QCursor::pos());//鼠标右键位置
             return true;
         } else {
             tempLab = qobject_cast<QLabel *>(obj);
+            //设置当前选中
             ui->lab_Title->setText(QStringLiteral("%1  当前选中[%2]").arg(myApp::AppTitle).arg(tempLab->text()));
             return true;
         }
     }
 
-    return QObject::eventFilter(obj, event);
+    return QObject::eventFilter(obj, event);//返回监听事件
 }
 
 void frmMain::on_btnMenu_Close_clicked()
@@ -663,6 +667,11 @@ void frmMain::screen_normal()
 }
 
 void frmMain::on_labStart_linkActivated(const QString &link)
+{
+
+}
+
+void frmMain::on_labConfig_linkActivated(const QString &link)
 {
 
 }

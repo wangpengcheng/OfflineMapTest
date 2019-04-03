@@ -17,7 +17,6 @@ SOURCES += main.cpp \
     src/screencontrol.cpp \
     src/busline.cpp \
     src/bus.cpp \
-    mainwindow.cpp \
     src/mapcontrlconnect.cpp
 
 RESOURCES += qml.qrc
@@ -27,7 +26,7 @@ QML_IMPORT_PATH =
 
 include(QtLocationPlugin/LocationPlugin.pri)
 include(test/test.pri)
-include(VM6000/VM6000.pri)
+include(VideoControl/VideoControl.pri)
 
 INCLUDEPATH += \
     QtLocationPlugin \
@@ -41,13 +40,13 @@ HEADERS += \
     src/busstation.h \
     src/busline.h \
     src/bus.h \
-    mainwindow.h \
     src/mapcontrlconnect.h
 
 DISTFILES +=
 
-FORMS += \
-    mainwindow.ui
+FORMS +=
+FORMS +=
+
 
 MOC_DIR         = temp/moc
 RCC_DIR         = temp/rcc

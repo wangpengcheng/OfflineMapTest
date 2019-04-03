@@ -1,7 +1,7 @@
 ﻿#include "myapp.h"
 #include "myhelper.h"
 
-QString myApp::AppPath = "";
+QString myApp::AppPath = QStringLiteral("");
 int myApp::DeskWidth = 1024;
 int myApp::DeskHeight = 768;
 
