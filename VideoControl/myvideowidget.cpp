@@ -22,6 +22,7 @@ MyVideoWidget::MyVideoWidget(QUrl video_file_path)
         video_layout_->addWidget(video_widget_);
         video_layout_->setMargin(2);
         this->setLayout(video_layout_);
+
     }else {
         qDebug()<<"Init MyVideoWidget file!!!!!";
     }

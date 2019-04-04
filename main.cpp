@@ -51,6 +51,7 @@
 #include "VideoControl/myvideowidget.h"
 #include "VideoControl/videoshowwidget.h"
 #include "qcoreapplication.h"
+#include "src/mainshowdialog.h"
 //use tool
 Tool tool;
 #include <QLabel>
@@ -64,7 +65,7 @@ int main(int argc, char *argv[])
 {
     //QGuiApplication app(argc, argv);
     QApplication app(argc, argv);
-    /*
+
     QDesktopWidget* desktop=QApplication::desktop();
     QString path_string=QDir::tempPath();
     //添加字体
@@ -74,6 +75,7 @@ int main(int argc, char *argv[])
 
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
+     /*
     QQuickView *mainMapBoxWidget = new QQuickView();
     mainMapBoxWidget->setResizeMode(QQuickView::SizeRootObjectToView);
     mainMapBoxWidget->setSource(QUrl("qrc:/qml/MainShowWindow.qml"));
@@ -186,8 +188,15 @@ int main(int argc, char *argv[])
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
     QTextCodec::setCodecForLocale(codec);
 #endif
-    VideoShowWidget test;
-    test.showMaximized();
+//    VideoShowWidget test;
+//    test.resize(1920,1080);
+//    test.show();
+//    MyVideoWidget test_video_widget(QUrl(QString("C:/Users/lin/Videos/Captures/2.mp4")));
+//    test_video_widget.show();
+//    test_video_widget.VideoPlay();
+    MainShowDialog test_dialog;
+    test_dialog.resize(800,600);
+    test_dialog.show();
     return app.exec();
 
 }

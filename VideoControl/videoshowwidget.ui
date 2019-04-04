@@ -9,28 +9,35 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>759</width>
-    <height>477</height>
+    <width>766</width>
+    <height>484</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>2</number>
+   </property>
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
+   <property name="topMargin">
+    <number>2</number>
+   </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>2</number>
+   </property>
    <item>
-    <widget class="QFrame" name="frame">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="spacing">
+      <number>2</number>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <layout class="QGridLayout" name="gridLayout"/>
-      </item>
-     </layout>
-    </widget>
+    </layout>
    </item>
   </layout>
  </widget>

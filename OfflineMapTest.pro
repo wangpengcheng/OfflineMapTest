@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     src/screencontrol.cpp \
     src/busline.cpp \
     src/bus.cpp \
-    src/mapcontrlconnect.cpp
+    src/mapcontrlconnect.cpp \
+    src/mainshowdialog.cpp
 
 RESOURCES += qml.qrc
 
@@ -40,11 +41,13 @@ HEADERS += \
     src/busstation.h \
     src/busline.h \
     src/bus.h \
-    src/mapcontrlconnect.h
+    src/mapcontrlconnect.h \
+    src/mainshowdialog.h
 
 DISTFILES +=
 
-FORMS +=
+FORMS += \
+    src/mainshowdialog.ui
 FORMS +=
 
 

@@ -33,23 +33,25 @@ public slots:
     void show_video_all();
     void show_video_4();
     void show_video_6();
-    void show_video_8();
-    void show_video_9();
-    void show_video_16();
+//    void show_video_8();
+//    void show_video_9();
+    void show_video_7();
+    void show_video_12();
 
     void hide_video_all();
     void change_video(int index, int v_row,int col);
     void change_video_4(int index);
     void change_video_6(int index);
-    void change_video_8(int index);
-    void change_video_9(int index);
+   // void change_video_8(int index);
+  //  void change_video_9(int index);
+    void change_video_7(int index);
     void change_video_12(int index);
 private:
     Ui::VideoShowWidget *ui;
 
     bool videoMax;
     int videoCount;
-    QString videoType;
+    QString video_type_;
     QMenu *videoMenu=nullptr;//右键选项
     QList<MyVideoWidget *>widgets;//播放窗口队列
 };

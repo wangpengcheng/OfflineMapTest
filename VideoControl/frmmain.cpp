@@ -148,7 +148,7 @@ void frmMain::InitVideo()
     }
     //设置右键
     menu = new QMenu(this);
-    menu->setStyleSheet("font: 10pt \"微软雅黑\";");
+    menu->setStyleSheet(QStringLiteral("font: 10pt \"微软雅黑\";"));
     menu->addAction(QStringLiteral("删除当前视频"), this, SLOT(delete_video_one()));
     menu->addAction(QStringLiteral("删除所有视频"), this, SLOT(delete_video_all()));
     menu->addSeparator();
@@ -420,37 +420,37 @@ void frmMain::show_video_1()
 
     QAction *action = (QAction *)sender();
     QString name = action->text();
-    if (name == "通道1") {
+    if (name == QStringLiteral("通道1")) {
         index = 0;
-    } else if (name == "通道2") {
+    } else if (name == QStringLiteral("通道2")) {
         index = 1;
-    } else if (name == "通道3") {
+    } else if (name == QStringLiteral("通道3")) {
         index = 2;
-    } else if (name == "通道4") {
+    } else if (name == QStringLiteral("通道4")) {
         index = 3;
-    } else if (name == "通道5") {
+    } else if (name == QStringLiteral("通道5")) {
         index = 4;
-    } else if (name == "通道6") {
+    } else if (name == QStringLiteral("通道6")) {
         index = 5;
-    } else if (name == "通道7") {
+    } else if (name == QStringLiteral("通道7")) {
         index = 6;
-    } else if (name == "通道8") {
+    } else if (name == QStringLiteral("通道8")) {
         index = 7;
-    } else if (name == "通道9") {
+    } else if (name == QStringLiteral("通道9")) {
         index = 8;
-    } else if (name == "通道10") {
+    } else if (name == QStringLiteral("通道10")) {
         index = 9;
-    } else if (name == "通道11") {
+    } else if (name == QStringLiteral("通道11")) {
         index = 10;
-    } else if (name == "通道12") {
+    } else if (name == QStringLiteral("通道12")) {
         index = 11;
-    } else if (name == "通道13") {
+    } else if (name == QStringLiteral("通道13")) {
         index = 12;
-    } else if (name == "通道14") {
+    } else if (name == QStringLiteral("通道14")) {
         index = 13;
-    } else if (name == "通道15") {
+    } else if (name == QStringLiteral("通道15")) {
         index = 14;
-    } else if (name == "通道16") {
+    } else if (name == QStringLiteral("通道16")) {
         index = 15;
     }
 
@@ -474,16 +474,16 @@ void frmMain::show_video_4()
 
     QAction *action = (QAction *)sender();
     QString name = action->text();
-    if (name == "通道1-通道4") {
+    if (name == QStringLiteral("通道1-通道4")) {
         index = 0;
         myApp::VideoType = "1_4";
-    } else if (name == "通道5-通道8") {
+    } else if (name == QStringLiteral("通道5-通道8")) {
         index = 4;
         myApp::VideoType = "5_8";
-    } else if (name == "通道9-通道12") {
+    } else if (name == QStringLiteral("通道9-通道12")) {
         index = 8;
         myApp::VideoType = "9_12";
-    } else if (name == "通道13-通道16") {
+    } else if (name == QStringLiteral("通道13-通道16")) {
         index = 12;
         myApp::VideoType = "13_16";
     }
@@ -513,10 +513,10 @@ void frmMain::show_video_9()
 
     QAction *action = (QAction *)sender();
     QString name = action->text();
-    if (name == "通道1-通道9") {
+    if (name == QStringLiteral("通道1-通道9")) {
         index = 0;
         myApp::VideoType = "1_9";
-    } else if (name == "通道8-通道16") {
+    } else if (name == QStringLiteral("通道8-通道16")) {
         index = 7;
         myApp::VideoType = "8_16";
     }
@@ -579,7 +579,7 @@ void frmMain::change_video_16(int index)
 QString frmMain::GetNVRID(QString NVRIP)
 {
     QSqlQuery query;
-    QString sql = "select [NVRID] from [NVRInfo]";
+    QString sql = QStringLiteral("select [NVRID] from [NVRInfo]");
     sql += " where [NVRIP]='" + NVRIP + "'";
     query.exec(sql);
     query.next();
@@ -589,7 +589,7 @@ QString frmMain::GetNVRID(QString NVRIP)
 void frmMain::GetRtspAddr(QString NVRID, QString IPCIP, QString &IPCRtspAddrMain, QString &IPCRtspAddrSub)
 {
     QSqlQuery query;
-    QString sql = "select [IPCRtspAddrMain],[IPCRtspAddrSub] from [IPCInfo] where [IPCUse]='启用'";
+    QString sql = QStringLiteral("select [IPCRtspAddrMain],[IPCRtspAddrSub] from [IPCInfo] where [IPCUse]='启用'");
     sql += " and [NVRID]='" + NVRID + "'";
     query.exec(sql);
     while(query.next()) {
@@ -634,7 +634,7 @@ void frmMain::on_treeMain_doubleClicked(const QModelIndex &index)
 
     //如果该摄像机不在线
     if (!myHelper::IPCEnable(rtspAddr)) {
-        myHelper::ShowMessageBoxError("该摄像机不在线!");
+        myHelper::ShowMessageBoxError(QStringLiteral("该摄像机不在线!"));
         return;
     }
 
