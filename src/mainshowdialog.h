@@ -22,27 +22,37 @@
 #include <QQuickWidget>
 #include <QQuickView>
 #include <QVBoxLayout>
+#include <QSharedPointer>
+#include <iostream>
+#include <memory>
+//地图类
+#include <QtLocation/private/qdeclarativegeomap_p.h>
+#include <QtLocation/private/qdeclarativecirclemapitem_p.h>
+#include <QtLocation/private/qdeclarativegeomapquickitem_p.h>
+#include <QtLocation/private/qdeclarativepolylinemapitem_p.h>
+#include <QtLocation/private/qdeclarativegeomapitemgroup_p.h>
+#include <QGeoPath>//geoPath
 class VideoShowWidget;
-namespace Ui {
-class MainShowDialog;
-}
-
 class MainShowDialog : public QDialog
 {
     Q_OBJECT
 
 public:
     explicit MainShowDialog(QWidget *parent = nullptr);
+    //简单的存取函数
+    inline QWidget* map_page(){return map_page_;}
+    inline VideoShowWidget* video_page(){return video_page_;}
+    inline std::shared_ptr<QDeclarativeGeoMap> show_map(){return show_map_;}
     ~MainShowDialog();
     void Init();//初始化函数
 
 private:
-    Ui::MainShowDialog *ui;
     //私有成员类
     QStackedWidget *stacked_widget_=nullptr;//中间间隔类
     QWidget *map_page_=nullptr;//qml地图
     VideoShowWidget *video_page_=nullptr;//自定义视频展示widget
     QVBoxLayout* vbox_layout_=nullptr;//水平布局
+    std::shared_ptr<QDeclarativeGeoMap> show_map_=nullptr;//地图指针方便获取地图
 
 };
 

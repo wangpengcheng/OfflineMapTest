@@ -17,6 +17,10 @@ class VideoShowWidget : public QWidget
 public:
     explicit VideoShowWidget(QWidget *parent = nullptr);
     ~VideoShowWidget();
+    //获取视频列表
+    inline QList<MyVideoWidget *> video_widgets(){return widgets;}
+    inline bool is_videomax(){return videoMax;}
+    inline int  video_count(){return videoCount;}
     //保护函数，设置键盘监听
 protected:
     bool eventFilter(QObject *watched, QEvent *event);

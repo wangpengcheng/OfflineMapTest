@@ -197,6 +197,7 @@ int main(int argc, char *argv[])
     MainShowDialog test_dialog;
     test_dialog.resize(800,600);
     test_dialog.show();
+    test_dialog.show_map().use_count();
     return app.exec();
 
 }

@@ -46,8 +46,6 @@ HEADERS += \
 
 DISTFILES +=
 
-FORMS += \
-    src/mainshowdialog.ui
 FORMS +=
 
 
