@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
 //    qDebug()<<qMap2;
 //    qMap2->addMapItem(&test_bus2);
    // test_bus.LuShuStart();
-
+    */
     app.setApplicationName("VM");         //设置应用程序名称
     app.setApplicationVersion("V201412"); //设置应用程序版本
     myHelper::SetUTF8Code();            //设置程序编码为UTF-8
@@ -165,11 +165,11 @@ int main(int argc, char *argv[])
         myHelper::ShowMessageBoxError(QStringLiteral("打开数据库失败,程序将自动关闭！"));
         return 1;
     }
-    frmMain w;
-    w.show();
-    w.setGeometry(qApp->desktop()->availableGeometry());
-    qDebug()<<"init file";
-*/
+//    frmMain w;
+//    w.show();
+//    w.setGeometry(qApp->desktop()->availableGeometry());
+//    qDebug()<<"init file";
+    /*
     QFont font;
     font.setFamily("MicroSoft Yahei");
     font.setPixelSize(12);
@@ -194,10 +194,13 @@ int main(int argc, char *argv[])
 //    MyVideoWidget test_video_widget(QUrl(QString("C:/Users/lin/Videos/Captures/2.mp4")));
 //    test_video_widget.show();
 //    test_video_widget.VideoPlay();
+*/
     MainShowDialog test_dialog;
     test_dialog.resize(800,600);
     test_dialog.show();
-    test_dialog.show_map().use_count();
+    //test_dialog.stacked_widget()->setCurrentIndex(2);
+    //qDebug()<<test_dialog.show_map().get();
+
     return app.exec();
 
 }

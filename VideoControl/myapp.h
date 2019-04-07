@@ -23,7 +23,7 @@ public:
     static int PollType;                    //轮询画面数
     static int PollInterval;                //轮询间隔
     static int PollSleep;                   //轮询延时
-    static QString RtspAddr16;              //16个通道对应rtsp地址
+    static QString RtspAddr12;              //12个通道对应rtsp地址
     static QString VideoType;               //当前画面展示类型
     static QString LastConfig;              //软件最后配置信息
 

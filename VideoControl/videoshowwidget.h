@@ -35,6 +35,7 @@ public slots:
     void snapshot_video_all();
 
     void show_video_all();
+    void show_video_1();
     void show_video_4();
     void show_video_6();
 //    void show_video_8();
@@ -50,6 +51,7 @@ public slots:
   //  void change_video_9(int index);
     void change_video_7(int index);
     void change_video_12(int index);
+    void change_video_1(int index);//1视频改变
 private:
     Ui::VideoShowWidget *ui;
 

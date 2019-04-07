@@ -26,7 +26,7 @@ bool VideoShowWidget::eventFilter(QObject *watched, QEvent *event)
 {
     //监听全局事件
     if (event->type() == QEvent::MouseButtonDblClick) {
-            MyVideoWidget *widget = (MyVideoWidget *)watched;//获取双击对象
+            MyVideoWidget *widget = qobject_cast<MyVideoWidget *>(watched);//获取双击对象
             if (!videoMax) {//如果没有处于最大模式则，将其设置为最大模式
                 hide_video_all();
                 ui->gridLayout->addWidget(widget, 0, 0,1,1);
@@ -79,6 +79,20 @@ void VideoShowWidget::initMenu()
     videoMenu->addAction(QStringLiteral("截图当前视频"), this, SLOT(snapshot_video_one()));
     videoMenu->addAction(QStringLiteral("截图所有视频"), this, SLOT(snapshot_video_all()));
     videoMenu->addSeparator();
+
+    QMenu *menu1 = videoMenu->addMenu(QStringLiteral("切换到1画面"));
+    menu1->addAction(QStringLiteral("通道1"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道2"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道3"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道4"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道5"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道6"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道7"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道8"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道9"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道10"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道11"), this, SLOT(show_video_1()));
+    menu1->addAction(QStringLiteral("通道12"), this, SLOT(show_video_1()));
 
     QMenu *menu4 = videoMenu->addMenu(QStringLiteral("切换到4画面"));
     menu4->addAction(QStringLiteral("通道1-通道4"), this, SLOT(show_video_4()));
@@ -162,6 +176,58 @@ void VideoShowWidget::show_video_all()
             change_video_12(0);
         }
 }
+//显示1画面
+void VideoShowWidget::show_video_1()
+{
+    videoMax = false;
+    QString videoType;
+    int index = 0;
+    QAction *action = qobject_cast<QAction *>(sender());
+    QString name = action->text();
+    if (name == QStringLiteral("通道1")) {
+        index = 0;
+        videoType = "0_0";
+    } else if (name == QStringLiteral("通道2")) {
+        index = 1;
+        videoType = "0_1";
+    } else if (name == QStringLiteral("通道3")) {
+        index = 2;
+        videoType = "0_2";
+    } else if (name == QStringLiteral("通道4")) {
+        index = 3;
+        videoType = "0_3";
+    } else if (name == QStringLiteral("通道5")) {
+        index = 4;
+        videoType = "0_4";
+    } else if (name == QStringLiteral("通道6")) {
+        index = 5;
+        videoType = "0_5";
+    } else if (name == QStringLiteral("通道7")) {
+        index = 6;
+        videoType = "0_6";
+    } else if (name == QStringLiteral("通道8")) {
+        index = 7;
+        videoType = "0_7";
+    } else if (name == QStringLiteral("通道9")) {
+        index = 8;
+        videoType = "0_8";
+    } else if (name == QStringLiteral("通道10")) {
+        index = 9;
+        videoType = "0_9";
+    } else if (name == QStringLiteral("通道11")) {
+        index = 10;
+        videoType = "0_10";
+    } else if (name == QStringLiteral("通道12")) {
+        index = 11;
+        videoType = "0_11";
+    }
+    if (this->video_type_ != videoType) {
+        this->video_type_ = videoType;
+        change_video_1(index);
+    }else {
+        qDebug()<<"It is already in this model,need no change ";
+    }
+}
 //显示4画面
 void VideoShowWidget::show_video_4()
 {
@@ -169,7 +235,7 @@ void VideoShowWidget::show_video_4()
     QString videoType;
     int index = 0;
 
-    QAction *action = (QAction *)sender();
+    QAction *action = qobject_cast<QAction *>(sender());
     QString name = action->text();
     qDebug()<<name;
     if (name == QStringLiteral("通道1-通道4")) {
@@ -189,10 +255,9 @@ void VideoShowWidget::show_video_4()
     if (this->video_type_ != videoType) {
         this->video_type_ = videoType;
         change_video_4(index);
-        qDebug()<<index;
+    }else {
+        qDebug()<<"It is already in this model,need no change ";
     }
-    qDebug()<<"videoType is :"<<videoType;
-    qDebug()<<"video_type is :"<<this->video_type_;
 }
 //显示6视频
 void VideoShowWidget::show_video_6()
@@ -339,7 +404,20 @@ void VideoShowWidget::change_video(int index, int v_row,int v_col)
         }
     }
 }
+//
+void VideoShowWidget::change_video_1(int index)
+{
+    if(index>=0&&index<12)
+    {
+        hide_video_all();
+        videoMax=true;
+        ui->gridLayout->addWidget(widgets.at(index),0,0);
+        widgets.at(index)->setVisible(true);
+    }else {
+        qDebug()<<"Please give right input!!!";
+    }
 
+}
 void VideoShowWidget::change_video_4(int index)
 {
     hide_video_all();

@@ -46,7 +46,8 @@ HEADERS += \
 
 DISTFILES +=
 
-FORMS +=
+FORMS += \
+    src/mainshowdialog.ui
 
 
 MOC_DIR         = temp/moc

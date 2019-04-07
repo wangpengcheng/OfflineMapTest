@@ -8,8 +8,9 @@ import QtQuick.Controls.Styles 1.0
 
 Item{
     visible: true
-    height: 1080//parent.height
-    width: 1920//parent.width
+//    height: 1080//parent.height
+//    width: 1920//parent.width
+    //anchors.fill: parent
     property real move_dx: 10//pixels
     property real map_scale_x: 4
     property real map_scale_y: 3

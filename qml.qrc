@@ -34,5 +34,6 @@
         <file>qml/MapControlModel.qml</file>
         <file>qml/VideoItem.qml</file>
         <file>qml/VideoShowWindow.qml</file>
+        <file>qml/MyCharts.qml</file>
     </qresource>
 </RCC>

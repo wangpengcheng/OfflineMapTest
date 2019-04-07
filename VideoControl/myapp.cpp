@@ -22,9 +22,9 @@ int myApp::PollInterval = 30;
 int myApp::PollSleep = 0;
 
 //默认16个通道全部显示
-QString myApp::VideoType = "16";
+QString myApp::VideoType = "12";
 //16个通道对应rtsp地址,方便自启动后自动加载
-QString myApp::RtspAddr16 = "|||||||||||||||";
+QString myApp::RtspAddr12 = "|||||||||||||||";
 //最后配置信息,画面数
 QString myApp::LastConfig = "1";
 
@@ -58,7 +58,7 @@ void myApp::ReadConfig()
     myApp::PollInterval = set->value("PollInterval").toInt();
     myApp::PollSleep = set->value("PollSleep").toInt();
     myApp::VideoType = set->value("VideoType").toString();
-    myApp::RtspAddr16 = set->value("RtspAddr16").toString();
+    myApp::RtspAddr12 = set->value("RtspAddr16").toString();
     myApp::LastConfig = set->value("LastConfig").toString();
     set->endGroup();
 }
@@ -84,7 +84,7 @@ void myApp::WriteConfig()
     set->setValue("PollInterval", myApp::PollInterval);
     set->setValue("PollSleep", myApp::PollSleep);
     set->setValue("VideoType", myApp::VideoType);
-    set->setValue("RtspAddr16", myApp::RtspAddr16);
+    set->setValue("RtspAddr12", myApp::RtspAddr12);
     set->setValue("LastConfig", myApp::LastConfig);
     set->endGroup();
 }
