@@ -28,15 +28,15 @@
      <property name="styleSheet">
       <string notr="true">QTabWidget{display:none}</string>
      </property>
-     <widget class="QWidget" name="map_show_page" native="true"/>
-     <widget class="QWidget" name="video_show_page" native="true">
+     <widget class="QWidget" name="map_show_page"/>
+     <widget class="QWidget" name="video_show_page">
       <widget class="QWidget" name="widget_main" native="true">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>981</width>
-         <height>581</height>
+         <width>32</width>
+         <height>32</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -44,7 +44,7 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <property name="spacing">
-         <number>5</number>
+         <number>4</number>
         </property>
         <property name="leftMargin">
          <number>5</number>
@@ -61,20 +61,8 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QWidget" name="aggregative_show_page" native="true">
-      <widget class="QWidget" name="gridLayoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>-1</x>
-         <y>-1</y>
-         <width>981</width>
-         <height>611</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="aggregative_gridLayout"/>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="show_tab_choosePage4" native="true"/>
+     <widget class="QWidget" name="aggregative_show_page"/>
+     <widget class="QWidget" name="show_tab_choosePage4"/>
     </widget>
    </item>
   </layout>

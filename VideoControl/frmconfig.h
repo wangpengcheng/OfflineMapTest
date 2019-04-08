@@ -1,4 +1,4 @@
-﻿#ifndef FRMCONFIG_H
+#ifndef FRMCONFIG_H
 #define FRMCONFIG_H
 
 #include <QDialog>

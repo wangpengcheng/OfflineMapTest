@@ -1,3 +1,4 @@
+﻿
 #ifndef FRMPOLLCONFIG_H
 #define FRMPOLLCONFIG_H
 

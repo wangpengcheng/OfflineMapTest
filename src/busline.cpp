@@ -114,8 +114,8 @@ void BusLine::Init()//初始化数据
     bus_line_id_="";
     bus_line_name_="";
     bus_line_information_="";
-    bus_poly_line_=NULL;
-    if(bus_poly_line_==NULL)
+    bus_poly_line_=nullptr;
+    if(bus_poly_line_==nullptr)
     {
         bus_poly_line_=new QDeclarativePolylineMapItem();
     }

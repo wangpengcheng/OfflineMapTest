@@ -48,10 +48,6 @@
 #include "VideoControl/myhelper.h"
 #include "VideoControl/frmmain.h"
 #include "VideoControl/myapp.h"
-#include "VideoControl/myvideowidget.h"
-#include "VideoControl/videoshowwidget.h"
-#include "qcoreapplication.h"
-#include "src/mainshowdialog.h"
 //use tool
 Tool tool;
 #include <QLabel>
@@ -130,6 +126,7 @@ int main(int argc, char *argv[])
     */
     app.setApplicationName("VM");         //设置应用程序名称
     app.setApplicationVersion("V201412"); //设置应用程序版本
+    app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);//允许使用
     myHelper::SetUTF8Code();            //设置程序编码为UTF-8
     myHelper::SetChinese();             //设置程序为中文字库
 
@@ -165,10 +162,10 @@ int main(int argc, char *argv[])
         myHelper::ShowMessageBoxError(QStringLiteral("打开数据库失败,程序将自动关闭！"));
         return 1;
     }
-//    frmMain w;
-//    w.show();
-//    w.setGeometry(qApp->desktop()->availableGeometry());
-//    qDebug()<<"init file";
+    frmMain w;
+    w.show();
+    w.setGeometry(qApp->desktop()->availableGeometry());
+    qDebug()<<"init file";
     /*
     QFont font;
     font.setFamily("MicroSoft Yahei");
@@ -195,9 +192,9 @@ int main(int argc, char *argv[])
 //    test_video_widget.show();
 //    test_video_widget.VideoPlay();
 */
-    MainShowDialog test_dialog;
-    test_dialog.resize(800,600);
-    test_dialog.show();
+//    MainShowDialog test_dialog;
+//    test_dialog.resize(1920,1080);
+//    test_dialog.show();
     //test_dialog.stacked_widget()->setCurrentIndex(2);
     //qDebug()<<test_dialog.show_map().get();
 

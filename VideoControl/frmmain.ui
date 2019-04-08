@@ -327,7 +327,7 @@
    <item>
     <widget class="QTabWidget" name="tab_choose">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="map_control_page">
       <attribute name="title">

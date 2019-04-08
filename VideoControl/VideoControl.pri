@@ -24,10 +24,10 @@ SOURCES += \
     $$PWD/frmconfig.cpp \
     $$PWD/frmnvr.cpp \
     $$PWD/frmipc.cpp \
-    $$PWD/frmpollconfig.cpp \
     $$PWD/switchbutton.cpp \
     $$PWD/videoshowwidget.cpp \
-    $$PWD/myvideowidget.cpp
+    $$PWD/myvideowidget.cpp \
+    $$PWD/frmpollconfig.cpp
 
 HEADERS  += \
     $$PWD/myhelper.h \
@@ -39,12 +39,11 @@ HEADERS  += \
     $$PWD/frminputbox.h \
     $$PWD/frmnvr.h \
     $$PWD/frmipc.h \
-    $$PWD/frmpollconfig.h \
     $$PWD/switchbutton.h \
-    $$PWD/frmconfig.h \
     $$PWD/videocontrolmain.h \
     $$PWD/videoshowwidget.h \
-    $$PWD/myvideowidget.h
+    $$PWD/myvideowidget.h \
+    $$PWD/frmpollconfig.h
 
 FORMS    += \
     $$PWD/frmmessagebox.ui \

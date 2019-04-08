@@ -10,7 +10,10 @@
 class QMenu;
 class QLabel;
 class QModelIndex;
-
+class MainShowDialog;
+class MapContrlConnect;
+class BusTest;
+class BusLineTest;
 namespace Ui
 {
     class frmMain;
@@ -29,7 +32,6 @@ public:
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
     void keyPressEvent(QKeyEvent *event);
-
 private slots:
     void change_style();            //切换样式
 
@@ -74,28 +76,32 @@ private:
     QQuickWidget* map_control_widget_=nullptr; //地图控制widget
     QVBoxLayout* map_vbox_layout_=nullptr; //地图分配指针
     std::shared_ptr<QDeclarativeGeoMap> control_map_=nullptr; //控制地图显示
+    //地图添加覆盖物，方便管理，防止内存泄漏//ToDo 更改成static函数
+    BusTest* bus_test_=nullptr ;//bus测试
+    BusLineTest* bus_line_test_=nullptr;//bus_line测试
     /*地图控制模块变量 end*/
     /*综合显示模块变量 start*/
     QGridLayout* aggregative_gridLayout_=nullptr; //综合模式网格布局
     QQuickWidget* speed_chart_widget_=nullptr; //数据显示模块
     /*综合显示模块变量 end*/
-    /*数据显示窗口*/
-
-
+    //显示窗口
+    MainShowDialog* show_dialog_=nullptr;   //主要显示窗口
+    MapContrlConnect* map_connect_=nullptr; //主要地图连接类
     void InitStyle();               //初始化无边框窗体
     void InitForm();                //初始化窗体数据
     void InitMenu();                //初始化右侧按钮
     void InitVideo();               //初始化视频布局载体数据
     void InitTabWidget();           //初始化TabWidget布局
+    void InitShowDialog();          //初始化显示窗口
     void LoadVideo();               //加载配置数据
     void LoadNVRIPC();              //加载NVR及IPC数据    
-
     void removelayout();            //移除所有布局
     void change_video_1(int index); //改变1画面布局
     void change_video_4(int index); //改变4画面布局
     void change_video_6(int index); //改变6画面布局
     void change_video_7(int index); //改变7画面布局
     void change_video_12();         //改变12画面布局
+public:
     void change_video(int index, int v_row,int col); //更改布局
     QString GetNVRID(QString NVRIP);//获取NVR编号
 

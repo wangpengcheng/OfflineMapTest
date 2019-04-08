@@ -7,7 +7,10 @@
 #include "frmnvr.h"
 #include "frmipc.h"
 #include "frmpollconfig.h"
-
+#include "src/mainshowdialog.h"
+#include "src/mapcontrlconnect.h"
+#include "test/buslinetest.h"
+#include "test/bustest.h"
 frmMain::frmMain(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::frmMain)
@@ -27,6 +30,8 @@ frmMain::frmMain(QWidget *parent) :
     this->LoadVideo();
     //初始化NVRIPC
     this->LoadNVRIPC();
+    //初始化ShowDialog
+    this->InitShowDialog();
 }
 
 frmMain::~frmMain()
@@ -56,7 +61,15 @@ frmMain::~frmMain()
     if(speed_chart_widget_!=nullptr){
         delete [] speed_chart_widget_;
     }
-
+    if(map_connect_!=nullptr){
+        delete [] map_connect_;
+    }
+    if(bus_test_!=nullptr){
+        delete [] bus_test_;
+    }
+    if(bus_line_test_!=nullptr){
+        delete [] bus_line_test_;
+    }
 }
 
 void frmMain::InitStyle()
@@ -295,7 +308,46 @@ void frmMain::LoadNVRIPC()
     }
     ui->treeMain->expandAll();
 }
+//初始化显示窗口
+void frmMain::InitShowDialog()
+{
+    //初始化显示窗口
+    show_dialog_=new MainShowDialog();
+    show_dialog_->setGeometry(QApplication::desktop()->screenGeometry(1));
+    this->setGeometry(QApplication::desktop()->screenGeometry(0));
+    //连接显示地图和控制地图
+    if(control_map_!=nullptr&&
+       show_dialog_->show_map()!=nullptr)
+    {
+        //连接地图
+        map_connect_=new MapContrlConnect(show_dialog_->show_map(),
+                                          this->control_map_);
 
+    }else {
+        myHelper::ShowMessageBoxError("Can not connect two map ,this input pointer is empty!");
+    }
+    //显示地图添加车辆和站点
+    if(show_dialog_->show_map()!=nullptr){
+        //使用测试类中的数据,添加线路
+        //TODO 连接数据库，进行数据的加载
+        bus_line_test_=new BusLineTest();
+        bus_line_test_->MainTest();
+        bus_line_test_->ShowTest(show_dialog_->show_map().get());
+        //添加车辆
+        bus_test_=new BusTest();//直接在堆上分配内存
+        bus_test_->ShowTest(show_dialog_->show_map().get());
+        bus_test_->LuShuTest();//开始路书
+
+    }else {
+        qDebug()<<"show map is empty!";
+    }
+    show_dialog_->show();
+    //ToDo连接视频模块,因为Qt sginal原因，不能直接使用槽连接；希望下一步完成本类的槽函数
+    //连接TabWidgets 和MainShowDialog 的stackWidgets
+    connect(this->ui->tab_choose,SIGNAL(currentChanged(int)),this->show_dialog_->stacked_widget(),SLOT(setCurrentIndex(int)));
+
+
+}
 void frmMain::ChangeVideoLayout()
 {
     if (myApp::VideoType == "1_4") {
@@ -534,6 +586,8 @@ void frmMain::change_video_1(int index)
         video_max_=true;
         ui->gridLayout->addWidget(video_labs_.at(index),0,0);
         video_labs_.at(index)->setVisible(true);
+        //更改显示窗口连接
+        show_dialog_->video_widget()->change_video_1(index);
     }else {
         qDebug()<<"Please give right input!!!";
     }
@@ -580,6 +634,7 @@ void frmMain::change_video_4(int index)
         for(int i=index;i<index+4;++i){
             video_labs_.at(i)->setVisible(true);
         }
+         show_dialog_->video_widget()->change_video_4(index);
     }else{
         qDebug()<<"Please give right input!!!";
     }
@@ -622,6 +677,7 @@ void frmMain::change_video_6(int index){
         for(int i=index;i<index+6;++i){
             video_labs_.at(i)->setVisible(true);
         }
+        show_dialog_->video_widget()->change_video_6(index);
     }else{
         qDebug()<<"Please give right input!!!";
     }
@@ -663,6 +719,7 @@ void frmMain::change_video_7(int index)
         for (int i = 0; i < 7; ++i) {
             video_labs_.at(index+i)->setVisible(true);
         }
+         show_dialog_->video_widget()->change_video_7(index);
     }else{
         qDebug()<<"Please give right input!!!";
     }
@@ -686,6 +743,7 @@ void frmMain::change_video_12()
     removelayout();
     //重新设置布局
     change_video(0,3,4);
+    show_dialog_->video_widget()->change_video_12(0);
 }
 void frmMain::change_video(int index, int v_row,int v_col)
 {

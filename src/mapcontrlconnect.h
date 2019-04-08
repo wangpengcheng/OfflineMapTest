@@ -16,6 +16,8 @@
 **
 ** 示例代码
 **
+**  MapContrlConnect map_connect(qMap,control_map);
+**
 *****************************************************************************/
 #include <QObject>
 #include <QtLocation/private/qdeclarativegeomap_p.h>

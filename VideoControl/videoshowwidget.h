@@ -42,16 +42,16 @@ public slots:
 //    void show_video_9();
     void show_video_7();
     void show_video_12();
-
+public:
     void hide_video_all();
     void change_video(int index, int v_row,int col);
+    void change_video_1(int index);//1视频改变
     void change_video_4(int index);
     void change_video_6(int index);
    // void change_video_8(int index);
   //  void change_video_9(int index);
     void change_video_7(int index);
     void change_video_12(int index);
-    void change_video_1(int index);//1视频改变
 private:
     Ui::VideoShowWidget *ui;
 

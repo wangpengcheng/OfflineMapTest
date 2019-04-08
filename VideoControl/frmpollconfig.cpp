@@ -360,10 +360,10 @@ void frmPollConfig::on_btnExcel_clicked()
     }
 
     //调用导出数据函数
-    QString title = "轮询摄像机信息";
+    QString title = QStringLiteral("轮询摄像机信息");
     ExcelHelper::Instance()->ToExcel(myApp::AppPath + "DB/" + title + ".xls", title, title, columnNames, columnWidths, columnCount, content);
 
-    if (myHelper::ShowMessageBoxQuesion("导出数据到Excel成功,现在就打开吗？") == 1) {
+    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("导出数据到Excel成功,现在就打开吗？")) == 1) {
         QDesktopServices::openUrl(QUrl::fromLocalFile(myApp::AppPath + "DB/" + title + ".xls"));
     }
 }
