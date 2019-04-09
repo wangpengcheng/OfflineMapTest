@@ -16,11 +16,11 @@ MyVideoWidget::MyVideoWidget(QUrl video_file_path)
         //设置开始绑定
         media_player_->setPlaylist(play_list_);
         media_player_->setVideoOutput(video_widget_);
-        video_widget_->setParent(this);
+        //video_widget_->setParent(this);
         //video_widget_->resize(this->width(),this->height());
         //video_widget_->resize();
         video_layout_->addWidget(video_widget_);
-        video_layout_->setMargin(2);
+        video_layout_->setMargin(1);
         this->setLayout(video_layout_);
 
     }else {

@@ -10,8 +10,8 @@ Item {
     id: main_show_window
     objectName: "main_show_window"
     visible: true
-    height: 1080*1
-    width: 1920*1
+//    height: 1080*1
+//    width: 1920*1
     property alias my_map : show_map;
     MyTool{
         id:my_tool0

@@ -71,6 +71,8 @@ void VideoShowWidget::initForm()
           widgets.append(widget);
       }
     //设置边距
+    ui->gridLayout->setMargin(2);
+    ui->gridLayout->setSpacing(2);
 }
 //初始化右侧按键
 void VideoShowWidget::initMenu()
@@ -403,6 +405,7 @@ void VideoShowWidget::change_video(int index, int v_row,int v_col)
             break;
         }
     }
+    emit play_changed(0);
 }
 //
 void VideoShowWidget::change_video_1(int index)
@@ -416,7 +419,9 @@ void VideoShowWidget::change_video_1(int index)
     }else {
         qDebug()<<"Please give right input!!!";
     }
-
+    qDebug()<<"col:"<<ui->gridLayout->columnCount();
+    qDebug()<<"row:"<<ui->gridLayout->rowCount();
+    emit play_changed(0);
 }
 void VideoShowWidget::change_video_4(int index)
 {
@@ -449,6 +454,9 @@ void VideoShowWidget::change_video_4(int index)
     }else {
         qDebug()<<"input error";
     }
+    qDebug()<<"col:"<<ui->gridLayout->columnCount();
+    qDebug()<<"row:"<<ui->gridLayout->rowCount();
+    emit play_changed(0);
 }
 
 void VideoShowWidget::change_video_6(int index)
@@ -490,6 +498,9 @@ void VideoShowWidget::change_video_6(int index)
 //            widgets.at(i)->setVisible(true);
 //        }
 //    }
+    qDebug()<<"col:"<<ui->gridLayout->columnCount();
+    qDebug()<<"row:"<<ui->gridLayout->rowCount();
+    emit play_changed(0);
 }
 //显示7视频
 void VideoShowWidget::change_video_7(int index)
@@ -507,7 +518,6 @@ void VideoShowWidget::change_video_7(int index)
         for (int i = 0; i < 7; ++i) {
             widgets.at(i)->setVisible(true);
         }
-        qDebug()<<index;
     }else if(index==5){
         ui->gridLayout->addWidget(widgets.at(5),0,0,2,3);
         ui->gridLayout->addWidget(widgets.at(6),0,3,1,1);
@@ -520,6 +530,9 @@ void VideoShowWidget::change_video_7(int index)
             widgets.at(i)->setVisible(true);
         }
     }
+    qDebug()<<"col:"<<ui->gridLayout->columnCount();
+    qDebug()<<"row:"<<ui->gridLayout->rowCount();
+    emit play_changed(0);
 }
 /*
 void VideoShowWidget::change_video_8(int index)
@@ -565,4 +578,7 @@ void VideoShowWidget::change_video_12(int index)
 {
     hide_video_all();
     change_video(index,3,4);//三行四列
+    qDebug()<<"col:"<<ui->gridLayout->columnCount();
+    qDebug()<<"row:"<<ui->gridLayout->rowCount();
+    emit play_changed(0);
 }

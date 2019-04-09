@@ -7,7 +7,7 @@
 //#include "myvideowidget.h"
 class MyVideoWidget;
 namespace Ui {
-class VideoShowWidget;
+    class VideoShowWidget;
 }
 
 class VideoShowWidget : public QWidget
@@ -28,7 +28,8 @@ protected:
 public slots:
     void initForm();
     void initMenu();
-
+signals:
+void   play_changed(int index);
 public slots:
     void play_video_all();
     void snapshot_video_one();
@@ -42,7 +43,6 @@ public slots:
 //    void show_video_9();
     void show_video_7();
     void show_video_12();
-public:
     void hide_video_all();
     void change_video(int index, int v_row,int col);
     void change_video_1(int index);//1视频改变

@@ -29,7 +29,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QVideoEncoderSettingsControl>
-class MyVideoWidget: public QVideoWidget
+class MyVideoWidget: public QWidget
 {
     Q_OBJECT
 public:

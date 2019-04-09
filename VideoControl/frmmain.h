@@ -101,6 +101,13 @@ private:
     void change_video_6(int index); //改变6画面布局
     void change_video_7(int index); //改变7画面布局
     void change_video_12();         //改变12画面布局
+    //改变布局的对应信号函数
+signals:
+    void signal_change_video_1(int index); //改变1画面布局
+    void signal_change_video_4(int index); //改变4画面布局
+    void signal_change_video_6(int index); //改变6画面布局
+    void signal_change_video_7(int index); //改变7画面布局
+    void signal_change_video_12(int index);         //改变12画面布局
 public:
     void change_video(int index, int v_row,int col); //更改布局
     QString GetNVRID(QString NVRIP);//获取NVR编号

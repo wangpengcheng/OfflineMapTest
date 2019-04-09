@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainShowDialog</class>
- <widget class="QDialog" name="MainShowDialog">
+ <widget class="QWidget" name="MainShowDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>656</height>
+    <width>766</width>
+    <height>484</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>0</width>
-    <height>0</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>视频监控系统V201412</string>
   </property>
-  <property name="sizeGripEnabled">
-   <bool>false</bool>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>2</number>
+   </property>
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
+   <property name="topMargin">
+    <number>2</number>
+   </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>2</number>
+   </property>
    <item>
     <widget class="QStackedWidget" name="show_tab_choose">
      <property name="styleSheet">
@@ -30,38 +36,62 @@
      </property>
      <widget class="QWidget" name="map_show_page"/>
      <widget class="QWidget" name="video_show_page">
-      <widget class="QWidget" name="widget_main" native="true">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>32</width>
-         <height>32</height>
-        </rect>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>2</number>
        </property>
-       <property name="styleSheet">
-        <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>
+       <property name="leftMargin">
+        <number>2</number>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <property name="spacing">
-         <number>4</number>
-        </property>
-        <property name="leftMargin">
-         <number>5</number>
-        </property>
-        <property name="topMargin">
-         <number>5</number>
-        </property>
-        <property name="rightMargin">
-         <number>5</number>
-        </property>
-        <property name="bottomMargin">
-         <number>5</number>
-        </property>
-       </layout>
-      </widget>
+       <property name="topMargin">
+        <number>2</number>
+       </property>
+       <property name="rightMargin">
+        <number>2</number>
+       </property>
+       <property name="bottomMargin">
+        <number>2</number>
+       </property>
+      </layout>
      </widget>
-     <widget class="QWidget" name="aggregative_show_page"/>
+     <widget class="QWidget" name="aggregative_show_page">
+      <layout class="QHBoxLayout" name="aggregative_horizontalLayout">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="leftMargin">
+        <number>2</number>
+       </property>
+       <property name="topMargin">
+        <number>2</number>
+       </property>
+       <property name="rightMargin">
+        <number>2</number>
+       </property>
+       <property name="bottomMargin">
+        <number>2</number>
+       </property>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QWidget" name="verticalWidget_2" native="true">
+           <layout class="QVBoxLayout" name="verticalLayout_3"/>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="verticalWidget_3" native="true">
+           <layout class="QVBoxLayout" name="verticalLayout_4"/>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="horizontalWidget" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="show_tab_choosePage4"/>
     </widget>
    </item>

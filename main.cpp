@@ -44,6 +44,7 @@
 #include "src/busstation.h"
 #include "src/bus.h"
 #include "src/mapcontrlconnect.h"
+#include "src/mainshowdialog.h"
 //主函数
 #include "VideoControl/myhelper.h"
 #include "VideoControl/frmmain.h"
@@ -61,8 +62,6 @@ int main(int argc, char *argv[])
 {
     //QGuiApplication app(argc, argv);
     QApplication app(argc, argv);
-
-    QDesktopWidget* desktop=QApplication::desktop();
     QString path_string=QDir::tempPath();
     //添加字体
     QFontDatabase::addApplicationFont(":/fonts/DejaVuSans.ttf");
@@ -162,10 +161,10 @@ int main(int argc, char *argv[])
         myHelper::ShowMessageBoxError(QStringLiteral("打开数据库失败,程序将自动关闭！"));
         return 1;
     }
-    frmMain w;
-    w.show();
-    w.setGeometry(qApp->desktop()->availableGeometry());
-    qDebug()<<"init file";
+//    frmMain w;
+//    w.show();
+//    w.setGeometry(qApp->desktop()->availableGeometry());
+//    qDebug()<<"init file";
     /*
     QFont font;
     font.setFamily("MicroSoft Yahei");
@@ -185,16 +184,16 @@ int main(int argc, char *argv[])
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
     QTextCodec::setCodecForLocale(codec);
 #endif
+*/
 //    VideoShowWidget test;
-//    test.resize(1920,1080);
+//    //test.resize(1920,1080);
 //    test.show();
 //    MyVideoWidget test_video_widget(QUrl(QString("C:/Users/lin/Videos/Captures/2.mp4")));
 //    test_video_widget.show();
 //    test_video_widget.VideoPlay();
-*/
-//    MainShowDialog test_dialog;
-//    test_dialog.resize(1920,1080);
-//    test_dialog.show();
+
+    MainShowDialog test_dialog;
+    test_dialog.show();
     //test_dialog.stacked_widget()->setCurrentIndex(2);
     //qDebug()<<test_dialog.show_map().get();
 

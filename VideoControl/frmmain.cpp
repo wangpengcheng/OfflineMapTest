@@ -315,6 +315,7 @@ void frmMain::InitShowDialog()
     show_dialog_=new MainShowDialog();
     show_dialog_->setGeometry(QApplication::desktop()->screenGeometry(1));
     this->setGeometry(QApplication::desktop()->screenGeometry(0));
+    qDebug()<<show_dialog_->video_widget();
     //连接显示地图和控制地图
     if(control_map_!=nullptr&&
        show_dialog_->show_map()!=nullptr)
@@ -345,6 +346,12 @@ void frmMain::InitShowDialog()
     //ToDo连接视频模块,因为Qt sginal原因，不能直接使用槽连接；希望下一步完成本类的槽函数
     //连接TabWidgets 和MainShowDialog 的stackWidgets
     connect(this->ui->tab_choose,SIGNAL(currentChanged(int)),this->show_dialog_->stacked_widget(),SLOT(setCurrentIndex(int)));
+    //视频布局控制槽连接
+    connect(this,SIGNAL(signal_change_video_1(int)),show_dialog_->video_widget(),SLOT(change_video_1(int)));
+    connect(this,SIGNAL(signal_change_video_4(int)),show_dialog_->video_widget(),SLOT(change_video_4(int)));
+    connect(this,SIGNAL(signal_change_video_6(int)),show_dialog_->video_widget(),SLOT(change_video_6(int)));
+    connect(this,SIGNAL(signal_change_video_7(int)),show_dialog_->video_widget(),SLOT(change_video_7(int)));
+    connect(this,SIGNAL(signal_change_video_12(int)),show_dialog_->video_widget(),SLOT(change_video_12(int)));
 
 
 }
@@ -582,12 +589,14 @@ void frmMain::show_video_1()
 void frmMain::change_video_1(int index)
 {
     if(index>=0&&index<12){
+        emit signal_change_video_1(index);
         removelayout();
         video_max_=true;
         ui->gridLayout->addWidget(video_labs_.at(index),0,0);
         video_labs_.at(index)->setVisible(true);
         //更改显示窗口连接
-        show_dialog_->video_widget()->change_video_1(index);
+        //show_dialog_->video_widget()->change_video_1(index);
+
     }else {
         qDebug()<<"Please give right input!!!";
     }
@@ -626,6 +635,8 @@ void frmMain::show_video_4()
 void frmMain::change_video_4(int index)
 {
     if(index>=0&&index<9){
+        //抛出信号
+        emit signal_change_video_4(index);
         removelayout();
         ui->gridLayout->addWidget(video_labs_.at(index+0),0,0);
         ui->gridLayout->addWidget(video_labs_.at(index+1),0,1);
@@ -634,7 +645,8 @@ void frmMain::change_video_4(int index)
         for(int i=index;i<index+4;++i){
             video_labs_.at(i)->setVisible(true);
         }
-         show_dialog_->video_widget()->change_video_4(index);
+         //show_dialog_->video_widget()->change_video_4(index);
+         //qDebug()<<show_dialog_->video_widget();
     }else{
         qDebug()<<"Please give right input!!!";
     }
@@ -667,6 +679,7 @@ void frmMain::show_video_6()
 }
 void frmMain::change_video_6(int index){
     if(index>=0&&index<7){
+        emit signal_change_video_6(index);
         removelayout();
         ui->gridLayout->addWidget(video_labs_.at(index+0),0,0,1,2);
         ui->gridLayout->addWidget(video_labs_.at(index+1),0,2,1,2);
@@ -677,7 +690,8 @@ void frmMain::change_video_6(int index){
         for(int i=index;i<index+6;++i){
             video_labs_.at(i)->setVisible(true);
         }
-        show_dialog_->video_widget()->change_video_6(index);
+        //show_dialog_->video_widget()->change_video_6(index);
+
     }else{
         qDebug()<<"Please give right input!!!";
     }
@@ -707,6 +721,7 @@ void frmMain::show_video_7()
 void frmMain::change_video_7(int index)
 {
     if(index>=0&&index<6){
+        emit signal_change_video_7(index);
         removelayout();
         //设置布局
         ui->gridLayout->addWidget(video_labs_.at(index+0),0,0,2,3);
@@ -719,7 +734,7 @@ void frmMain::change_video_7(int index)
         for (int i = 0; i < 7; ++i) {
             video_labs_.at(index+i)->setVisible(true);
         }
-         show_dialog_->video_widget()->change_video_7(index);
+         //show_dialog_->video_widget()->change_video_7(index);
     }else{
         qDebug()<<"Please give right input!!!";
     }
@@ -739,11 +754,13 @@ void frmMain::show_video_12()
 
 void frmMain::change_video_12()
 {
+    //发射信号
+    emit signal_change_video_12(0);
     //删除原有布局
     removelayout();
     //重新设置布局
     change_video(0,3,4);
-    show_dialog_->video_widget()->change_video_12(0);
+    //show_dialog_->video_widget()->change_video_12(0);
 }
 void frmMain::change_video(int index, int v_row,int v_col)
 {

@@ -17,7 +17,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 SOURCES += \
     $$PWD/iconhelper.cpp \
     $$PWD/myapp.cpp \
-    $$PWD/excelhelper.cpp \
     $$PWD/frmmessagebox.cpp \
     $$PWD/frmmain.cpp \
     $$PWD/frminputbox.cpp \
@@ -27,7 +26,8 @@ SOURCES += \
     $$PWD/switchbutton.cpp \
     $$PWD/videoshowwidget.cpp \
     $$PWD/myvideowidget.cpp \
-    $$PWD/frmpollconfig.cpp
+    $$PWD/frmpollconfig.cpp \
+    $$PWD/excelhelper.cpp
 
 HEADERS  += \
     $$PWD/myhelper.h \
@@ -43,7 +43,8 @@ HEADERS  += \
     $$PWD/videocontrolmain.h \
     $$PWD/videoshowwidget.h \
     $$PWD/myvideowidget.h \
-    $$PWD/frmpollconfig.h
+    $$PWD/frmpollconfig.h \
+    $$PWD/frmconfig.h
 
 FORMS    += \
     $$PWD/frmmessagebox.ui \
