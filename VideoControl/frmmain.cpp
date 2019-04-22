@@ -11,8 +11,10 @@
 #include "src/mapcontrlconnect.h"
 #include "test/buslinetest.h"
 #include "test/bustest.h"
+#include "videodecodethread.h"
+#include "streamvideowidget.h"
 frmMain::frmMain(QWidget *parent) :
-    QDialog(parent),
+    QWidget(parent),
     ui(new Ui::frmMain)
 {
     ui->setupUi(this);
@@ -52,6 +54,9 @@ frmMain::~frmMain()
     if(map_control_widget_!=nullptr){
         delete [] map_control_widget_;
     }
+    if(map_control_view_!=nullptr){
+        delete [] map_control_view_;
+    }
     if(map_vbox_layout_!=nullptr){
         delete [] map_vbox_layout_;
     }
@@ -77,9 +82,11 @@ void frmMain::InitStyle()
 	this->setStyleSheet("QGroupBox#gboxMain{border-width:0px;}");
     this->setProperty("Form", true);
     //设置窗体标题栏隐藏--Qt::WindowStaysOnTopHint |
-    this->setWindowFlags(Qt::FramelessWindowHint |
-                         Qt::WindowSystemMenuHint |
-                         Qt::WindowMinMaxButtonsHint);
+//    this->setWindowFlags(Qt::FramelessWindowHint |
+//                         Qt::WindowSystemMenuHint |
+//                         Qt::WindowMinMaxButtonsHint);
+    ui->btnMenu_Close->hide();
+    ui->btnMenu_Min->hide();
 
     IconHelper::Instance()->SetIcon(ui->btnMenu_Close, QChar(0xf00d), 10);
     IconHelper::Instance()->SetIcon(ui->btnMenu_Min, QChar(0xf068), 10);
@@ -167,16 +174,18 @@ void frmMain::InitTabWidget(){
      video_vbox_layout_->addWidget(ui->widget_main);
      video_control_widget_=ui->widget_main;
      //添加地图控制
-     map_control_widget_=new QQuickWidget();
-     map_control_widget_->setResizeMode(QQuickWidget::SizeRootObjectToView);
-     map_control_widget_->setSource(QUrl("qrc:/qml/MapControlModel.qml"));
+     map_control_widget_=new QWidget();
+     map_control_view_=new QQuickView();
+     map_control_view_->setResizeMode(QQuickView::SizeRootObjectToView);
+     map_control_view_->setSource(QUrl("qrc:/qml/MapControlModel.qml"));
+     map_control_widget_=QWidget::createWindowContainer(map_control_view_);
      //创建地图布局控件
      map_vbox_layout_=new QVBoxLayout(ui->map_control_page);
-     map_vbox_layout_->setMargin(5);//设置边距
+     map_vbox_layout_->setMargin(2);//设置边距
      map_vbox_layout_->addWidget(map_control_widget_);
 
      //获取控制地图
-     control_map_=std::shared_ptr<QDeclarativeGeoMap>(map_control_widget_->rootObject()->findChild<QDeclarativeGeoMap *>("control_show_map"));
+     control_map_=std::shared_ptr<QDeclarativeGeoMap>(map_control_view_->rootObject()->findChild<QDeclarativeGeoMap *>("control_show_map"));
      //初始化综合模式
      //由于综合模式的特殊性，不得不使用QTabWidget的信号来实现切换
      //QVBoxLayout* aggregative_vbox_layout_=new QVBoxLayout(ui->aggregative_model);
@@ -278,7 +287,7 @@ void frmMain::LoadNVRIPC()
     ui->treeMain->clear();
 
     QSqlQuery queryNVR;
-    QString sqlNVR = "select [NVRID],[NVRName],[NVRIP] from [NVRInfo] where [NVRUse]='启用'";
+    QString sqlNVR = QStringLiteral("select [NVRID],[NVRName],[NVRIP] from [NVRInfo] where [NVRUse]='启用'");
     queryNVR.exec(sqlNVR);
 
     while (queryNVR.next()) {
@@ -291,7 +300,7 @@ void frmMain::LoadNVRIPC()
         itemNVR->setIcon(0, QIcon(":/image/nvr.png"));
 
         QSqlQuery queryIPC;
-        QString sqlIPC = QString("select [IPCID],[IPCName],[IPCRtspAddrMain] from [IPCInfo] where [NVRID]='%1' and [IPCUse]='启用' order by [IPCID] asc").arg(tempNVRID);
+        QString sqlIPC = QString(QStringLiteral("select [IPCID],[IPCName],[IPCRtspAddrMain] from [IPCInfo] where [NVRID]='%1' and [IPCUse]='启用' order by [IPCID] asc")).arg(tempNVRID);
         queryIPC.exec(sqlIPC);
 
         while (queryIPC.next()) {
@@ -313,9 +322,26 @@ void frmMain::InitShowDialog()
 {
     //初始化显示窗口
     show_dialog_=new MainShowDialog();
-    show_dialog_->setGeometry(QApplication::desktop()->screenGeometry(1));
-    this->setGeometry(QApplication::desktop()->screenGeometry(0));
-    qDebug()<<show_dialog_->video_widget();
+    //为显示窗口添加视频源
+    QString rtsp_address="rtsp://192.168.137.165:554/test";
+    qDebug()<<rtsp_address;
+    VideoDecodeThread* decode=new VideoDecodeThread(rtsp_address);
+    QSharedPointer<VideoDecodeThread> test_code(decode);
+    test_code.get()->set_net_stream_address(rtsp_address);
+    test_code.get()->StartDecode();
+    show_dialog_->stacked_widget()->setCurrentIndex(2);
+    QList<StreamVideoWidget *> video_vidgets=show_dialog_->video_widget()->video_widgets();
+    for(auto temp : video_vidgets){
+        temp->set_decode_thread(test_code);//设置视频源
+    }
+    //设置显示两个窗口位置
+    //show_dialog_->setGeometry(QApplication::desktop()->screenGeometry(1));
+    show_dialog_->move(QApplication::desktop()->screenGeometry(1).center());
+    show_dialog_->resize(800,600);
+
+    //this->setGeometry(QApplication::desktop()->screenGeometry(0));
+    this->move(QApplication::desktop()->screenGeometry(0).center());
+    this->resize(800,600);
     //连接显示地图和控制地图
     if(control_map_!=nullptr&&
        show_dialog_->show_map()!=nullptr)

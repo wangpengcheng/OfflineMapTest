@@ -27,7 +27,9 @@ SOURCES += \
     $$PWD/videoshowwidget.cpp \
     $$PWD/myvideowidget.cpp \
     $$PWD/frmpollconfig.cpp \
-    $$PWD/excelhelper.cpp
+    $$PWD/excelhelper.cpp \
+    $$PWD/videodecodethread.cpp \
+    $$PWD/streamvideowidget.cpp
 
 HEADERS  += \
     $$PWD/myhelper.h \
@@ -44,7 +46,10 @@ HEADERS  += \
     $$PWD/videoshowwidget.h \
     $$PWD/myvideowidget.h \
     $$PWD/frmpollconfig.h \
-    $$PWD/frmconfig.h
+    $$PWD/frmconfig.h \
+    $$PWD/videodecodethread.h \
+    $$PWD/streamvideowidget.h
+
 
 FORMS    += \
     $$PWD/frmmessagebox.ui \

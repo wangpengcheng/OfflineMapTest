@@ -29,6 +29,19 @@ include(QtLocationPlugin/LocationPlugin.pri)
 include(test/test.pri)
 include(VideoControl/VideoControl.pri)
 
+#add ffmpeg
+INCLUDEPATH += $$PWD/3rdpart/ffmpeg/include
+
+LIBS += $$PWD/3rdpart/ffmpeg/lib/avcodec.lib \
+        $$PWD/3rdpart/ffmpeg/lib/avdevice.lib \
+        $$PWD/3rdpart/ffmpeg/lib/avfilter.lib \
+        $$PWD/3rdpart/ffmpeg/lib/avformat.lib \
+        $$PWD/3rdpart/ffmpeg/lib/avutil.lib \
+        $$PWD/3rdpart/ffmpeg/lib/postproc.lib \
+        $$PWD/3rdpart/ffmpeg/lib/swresample.lib \
+        $$PWD/3rdpart/ffmpeg/lib/swscale.lib
+
+
 INCLUDEPATH += \
     QtLocationPlugin \
 

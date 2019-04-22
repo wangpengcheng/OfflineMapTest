@@ -30,7 +30,7 @@ public:
     inline QQuickWidget* map_page(){return map_page_;}
     inline QWidget* video_page(){return video_page_;}
     inline QStackedWidget* stacked_widget(){return stacked_widget_;}
-    inline VideoShowWidget* video_widget(){qDebug()<<this->video_widget_;return video_widget_;}
+    inline VideoShowWidget* video_widget(){return video_widget_;}
     inline std::shared_ptr<QDeclarativeGeoMap> show_map(){return show_map_;}
 
 private slots:

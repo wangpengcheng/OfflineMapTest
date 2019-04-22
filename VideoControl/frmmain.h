@@ -7,6 +7,7 @@
 #include <QtLocation/private/qdeclarativegeomap_p.h>
 #include <QQuickWidget>
 #include <QGridLayout>
+#include <QQuickView>
 class QMenu;
 class QLabel;
 class QModelIndex;
@@ -19,7 +20,7 @@ namespace Ui
     class frmMain;
 }
 
-class frmMain : public QDialog
+class frmMain : public QWidget
 {
     Q_OBJECT
 
@@ -69,11 +70,13 @@ private:
     QString video_type_;            //当前video的type值
     int video_count_;               //视频总数
     QList<QLabel *> video_labs_;    //通道显示视频lab载体
+
     QVBoxLayout* video_vbox_layout_=nullptr; //视频布局元素
     QWidget* video_control_widget_=nullptr; //视频控制页面的widget
     /*视频控制模块变量 end*/
     /*地图控制模块变量 start*/
-    QQuickWidget* map_control_widget_=nullptr; //地图控制widget
+    QWidget* map_control_widget_=nullptr; //地图控制widget
+    QQuickView* map_control_view_=nullptr;
     QVBoxLayout* map_vbox_layout_=nullptr; //地图分配指针
     std::shared_ptr<QDeclarativeGeoMap> control_map_=nullptr; //控制地图显示
     //地图添加覆盖物，方便管理，防止内存泄漏//ToDo 更改成static函数

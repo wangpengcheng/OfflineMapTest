@@ -5,7 +5,8 @@
 #include <QMenu>
 #include <QTimer>
 //#include "myvideowidget.h"
-class MyVideoWidget;
+//class MyVideoWidget
+class StreamVideoWidget;
 namespace Ui {
     class VideoShowWidget;
 }
@@ -18,7 +19,8 @@ public:
     explicit VideoShowWidget(QWidget *parent = nullptr);
     ~VideoShowWidget();
     //获取视频列表
-    inline QList<MyVideoWidget *> video_widgets(){return widgets;}
+    //inline QList<MyVideoWidget *> video_widgets(){return widgets;}
+    inline QList<StreamVideoWidget *> video_widgets(){return widgets;}
     inline bool is_videomax(){return videoMax;}
     inline int  video_count(){return videoCount;}
     //保护函数，设置键盘监听
@@ -59,7 +61,9 @@ private:
     int videoCount;
     QString video_type_;
     QMenu *videoMenu=nullptr;//右键选项
-    QList<MyVideoWidget *>widgets;//播放窗口队列
+    //QList<MyVideoWidget *>widgets;//播放窗口队列
+    QList<StreamVideoWidget *>widgets;//播放窗口队列
+
 };
 
 #endif // VIDEOSHOWWIDGET_H

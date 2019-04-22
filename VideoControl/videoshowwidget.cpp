@@ -1,6 +1,8 @@
 ﻿#include "videoshowwidget.h"
 #include "ui_videoshowwidget.h"
-#include "myvideowidget.h"
+//#include "myvideowidget.h"
+//流媒体播放窗口
+#include "streamvideowidget.h"
 VideoShowWidget::VideoShowWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::VideoShowWidget)
@@ -26,7 +28,8 @@ bool VideoShowWidget::eventFilter(QObject *watched, QEvent *event)
 {
     //监听全局事件
     if (event->type() == QEvent::MouseButtonDblClick) {
-            MyVideoWidget *widget = qobject_cast<MyVideoWidget *>(watched);//获取双击对象
+            //MyVideoWidget *widget = qobject_cast<MyVideoWidget *>(watched);//获取双击对象
+            StreamVideoWidget *widget = qobject_cast<StreamVideoWidget *>(watched);
             if (!videoMax) {//如果没有处于最大模式则，将其设置为最大模式
                 hide_video_all();
                 ui->gridLayout->addWidget(widget, 0, 0,1,1);
@@ -58,10 +61,11 @@ void VideoShowWidget::initForm()
     //ui->gridLayout->setSpacing(5);//设置间距
     //ui->gridLayout->setMargin(5);//设置边距
     video_type_="1_12";
-    QString video_path=QString("C:/Users/lin/Videos/Captures/2.mp4");
+    //QString video_path=QString("C:/Users/lin/Videos/Captures/2.mp4");
     //初始化并添加视频
     for (int i = 0; i < videoCount; ++i) {
-          MyVideoWidget *widget = new MyVideoWidget(video_path);
+          //MyVideoWidget *widget = new MyVideoWidget(video_path);
+          StreamVideoWidget *widget = new StreamVideoWidget();
           widget->setObjectName(QString("video%1").arg(i + 1));
           widget->installEventFilter(this);
           widget->setFocusPolicy(Qt::StrongFocus);

@@ -13,6 +13,7 @@
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
 #include <QFontDatabase>
+#include <QSharedPointer>
 #include <QTimer>
 #include <QTimeLine>
 //使用location 注册类
@@ -45,6 +46,8 @@
 #include "src/bus.h"
 #include "src/mapcontrlconnect.h"
 #include "src/mainshowdialog.h"
+#include "VideoControl/videodecodethread.h"
+#include "VideoControl/streamvideowidget.h"
 //主函数
 #include "VideoControl/myhelper.h"
 #include "VideoControl/frmmain.h"
@@ -161,10 +164,10 @@ int main(int argc, char *argv[])
         myHelper::ShowMessageBoxError(QStringLiteral("打开数据库失败,程序将自动关闭！"));
         return 1;
     }
-//    frmMain w;
-//    w.show();
-//    w.setGeometry(qApp->desktop()->availableGeometry());
-//    qDebug()<<"init file";
+    frmMain w;
+    w.show();
+    //w.setGeometry(qApp->desktop()->availableGeometry());
+    qDebug()<<"init file";
     /*
     QFont font;
     font.setFamily("MicroSoft Yahei");
@@ -191,11 +194,32 @@ int main(int argc, char *argv[])
 //    MyVideoWidget test_video_widget(QUrl(QString("C:/Users/lin/Videos/Captures/2.mp4")));
 //    test_video_widget.show();
 //    test_video_widget.VideoPlay();
+//    QString rtsp_address="rtsp://192.168.137.165:554/test";
+//    qDebug()<<rtsp_address;
+//    VideoDecodeThread* decode=new VideoDecodeThread(rtsp_address);
+//    QSharedPointer<VideoDecodeThread> test_code(decode);
+//    test_code.get()->set_net_stream_address(rtsp_address);
+//    test_code.get()->StartDecode();
+//    MainShowDialog test_dialog;
+//    test_dialog.stacked_widget()->setCurrentIndex(2);
+//    QList<StreamVideoWidget *> video_vidgets=test_dialog.video_widget()->video_widgets();
+//    for(auto temp :video_vidgets){
+//        temp->set_decode_thread(test_code);
+//    }
+//    test_dialog.show();
 
-    MainShowDialog test_dialog;
-    test_dialog.show();
-    //test_dialog.stacked_widget()->setCurrentIndex(2);
-    //qDebug()<<test_dialog.show_map().get();
+//    qDebug()<<test_dialog.show_map().get();
+
+    //设置流媒体地址
+//    QString rtsp_address="rtsp://192.168.137.165:554/test";
+//    qDebug()<<rtsp_address;
+//    VideoDecodeThread* decode=new VideoDecodeThread(rtsp_address);
+//    QSharedPointer<VideoDecodeThread> test_code(decode);
+//    test_code.get()->set_net_stream_address(rtsp_address);
+//    test_code.get()->StartDecode();
+//    StreamVideoWidget test;
+//    test.set_decode_thread(test_code);
+//    test.show();
 
     return app.exec();
 
