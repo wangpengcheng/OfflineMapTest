@@ -19,9 +19,6 @@
   <property name="windowTitle">
    <string>视频监控系统V201412</string>
   </property>
-  <property name="sizeGripEnabled">
-   <bool>false</bool>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QWidget" name="widget_title" native="true">
@@ -327,7 +324,7 @@
    <item>
     <widget class="QTabWidget" name="tab_choose">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="map_control_page">
       <attribute name="title">

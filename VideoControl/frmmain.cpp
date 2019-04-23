@@ -22,8 +22,6 @@ frmMain::frmMain(QWidget *parent) :
     this->InitStyle();
     //初始化表格
     this->InitForm();
-    //初始化右侧按钮
-    this->InitMenu();
     //初始化视频
     this->InitVideo();
     //初始化TabWidget
@@ -32,6 +30,8 @@ frmMain::frmMain(QWidget *parent) :
     this->LoadVideo();
     //初始化NVRIPC
     this->LoadNVRIPC();
+    //初始化右侧按钮
+    this->InitMenu();
     //初始化ShowDialog
     this->InitShowDialog();
 }
@@ -85,6 +85,11 @@ void frmMain::InitStyle()
 //    this->setWindowFlags(Qt::FramelessWindowHint |
 //                         Qt::WindowSystemMenuHint |
 //                         Qt::WindowMinMaxButtonsHint);
+//    this->setModal(Qt::Widget);
+//    Qt::WindowFlags flags = Qt::Dialog;
+//    flags |= Qt::WindowMinMaxButtonsHint;
+//    flags |= Qt::WindowCloseButtonHint;
+//    this->setWindowFlags(flags);
     ui->btnMenu_Close->hide();
     ui->btnMenu_Min->hide();
 
@@ -202,7 +207,7 @@ void frmMain::InitVideo()
     tempLab = 0;
     video_max_ = false;
     video_count_=12;
-    video_type_="1_16";
+    video_type_="1_12";
     //添加QLab
     for(int i=0;i<video_count_;++i){
         QLabel *widget = new QLabel();
@@ -263,23 +268,27 @@ void frmMain::InitMenu()
     menu7->addAction(QStringLiteral("通道6-通道12"), this, SLOT(show_video_7()));
     //设置切换到12画面
     menu->addAction(QStringLiteral("切换到12画面"), this, SLOT(show_video_12()));
+
 }
 void frmMain::LoadVideo()
 {
     //自动应用最后一次的布局配置
     ChangeVideoLayout();
 }
-
+//更改rtsp地址
 void frmMain::ChangeRtspAddr(int ch, QString rtspAddr)
 {
     QStringList rtspAddrs = myApp::RtspAddr12.split("|");
     rtspAddrs[ch] = rtspAddr;
-
+    qDebug()<<rtspAddr;
     QString tempRtspAddr12;
     for (int i = 0; i < 12; ++i) {
         tempRtspAddr12 += rtspAddrs[i] + "|";
     }
+    //更改配置
     myApp::RtspAddr12 = tempRtspAddr12.mid(0, tempRtspAddr12.length() - 1);
+    //点击应用更换画面
+
 }
 //加载vcr表格
 void frmMain::LoadNVRIPC()
@@ -291,10 +300,13 @@ void frmMain::LoadNVRIPC()
     queryNVR.exec(sqlNVR);
 
     while (queryNVR.next()) {
+        //获取NVRID的ID
         QString tempNVRID = queryNVR.value(0).toString();
+        //获取NVRID的名称
         QString tempNVRName = queryNVR.value(1).toString();
+        //获取NVRID的IP
         QString tempNVRIP = queryNVR.value(2).toString();
-
+        //创建新想treewidget
         QTreeWidgetItem *itemNVR = new QTreeWidgetItem
                 (ui->treeMain, QStringList(tempNVRName + "[" + tempNVRIP + "]"));
         itemNVR->setIcon(0, QIcon(":/image/nvr.png"));
@@ -304,6 +316,7 @@ void frmMain::LoadNVRIPC()
         queryIPC.exec(sqlIPC);
 
         while (queryIPC.next()) {
+            QString temp_id=queryIPC.value(0).toString();
             QString tempIPCName = queryIPC.value(1).toString();
             QString rtspAddr = queryIPC.value(2).toString();
 
@@ -313,8 +326,17 @@ void frmMain::LoadNVRIPC()
             QTreeWidgetItem *itemIPC = new QTreeWidgetItem(itemNVR, QStringList(QString(tempIPCName + "[" + ip + "]")));
             itemIPC->setIcon(0, QIcon(":/image/ipc_normal.png"));
             itemNVR->addChild(itemIPC);
+            //根据列表初始化
+            //创建解码线程
+            qDebug()<<rtspAddr;
+            VideoDecodeThread* temp_decode=new VideoDecodeThread(rtspAddr);
+            QSharedPointer<VideoDecodeThread> test_temp(temp_decode);
+            qDebug()<<test_temp.get()->net_stream_address();
+            decode_list_.insert(temp_id,test_temp);
+
         }
     }
+    qDebug()<<decode_list_;
     ui->treeMain->expandAll();
 }
 //初始化显示窗口
@@ -323,20 +345,20 @@ void frmMain::InitShowDialog()
     //初始化显示窗口
     show_dialog_=new MainShowDialog();
     //为显示窗口添加视频源
-    QString rtsp_address="rtsp://192.168.137.165:554/test";
-    qDebug()<<rtsp_address;
-    VideoDecodeThread* decode=new VideoDecodeThread(rtsp_address);
-    QSharedPointer<VideoDecodeThread> test_code(decode);
-    test_code.get()->set_net_stream_address(rtsp_address);
-    test_code.get()->StartDecode();
-    show_dialog_->stacked_widget()->setCurrentIndex(2);
-    QList<StreamVideoWidget *> video_vidgets=show_dialog_->video_widget()->video_widgets();
-    for(auto temp : video_vidgets){
-        temp->set_decode_thread(test_code);//设置视频源
-    }
+//    QString rtsp_address="rtsp://192.168.137.165:554/test";
+//    qDebug()<<rtsp_address;
+//    VideoDecodeThread* decode=new VideoDecodeThread(rtsp_address);
+//    QSharedPointer<VideoDecodeThread> test_code(decode);
+//    test_code.get()->set_net_stream_address(rtsp_address);
+//    test_code.get()->StartDecode();
+//    show_dialog_->stacked_widget()->setCurrentIndex(2);
+//    QList<StreamVideoWidget *> video_vidgets=show_dialog_->video_widget()->video_widgets();
+//    for(auto temp : video_vidgets){
+//        temp->set_decode_thread(test_code);//设置视频源
+//    }
     //设置显示两个窗口位置
     //show_dialog_->setGeometry(QApplication::desktop()->screenGeometry(1));
-    show_dialog_->move(QApplication::desktop()->screenGeometry(1).center());
+    show_dialog_->move(QApplication::desktop()->screenGeometry(0).center());
     show_dialog_->resize(800,600);
 
     //this->setGeometry(QApplication::desktop()->screenGeometry(0));
@@ -429,7 +451,7 @@ void frmMain::keyPressEvent(QKeyEvent *event)
         screen_normal();
         break;
     default:
-        QDialog::keyPressEvent(event);
+        QWidget::keyPressEvent(event);
         break;
     }
 }
@@ -451,8 +473,8 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
             video_max_ = false;
             ChangeVideoLayout();//更改模式为原来的模式
         }
-
         labDouble->setFocus();//设置获得焦点事件
+
         return true;
     } else if (event->type() == QEvent::MouseButtonPress) {//获取简单鼠标点击事件
         if (obj == ui->labFull) {//如果是全屏
@@ -839,9 +861,10 @@ void frmMain::GetRtspAddr(QString NVRID, QString IPCIP, QString &IPCRtspAddrMain
         }
     }
 }
-
+//双击子树
 void frmMain::on_treeMain_doubleClicked(const QModelIndex &index)
 {
+    qDebug()<<"double check";
     //选中的是NVR则不处理
     if (ui->treeMain->currentItem()->parent() == 0) {
         return;
@@ -850,32 +873,40 @@ void frmMain::on_treeMain_doubleClicked(const QModelIndex &index)
     if (tempLab == 0) {
         return;
     }
-
+    qDebug()<<tempLab->text();
     //取出双击摄像机的子码流地址
     //取出NVR编号及IPCID
     QString txt = ui->treeMain->currentItem()->parent()->text(0);
     QString NVRIP = txt.split("[")[1].split("]")[0];
     QString NVRID = GetNVRID(NVRIP);
     QString temp = ui->treeMain->currentIndex().data().toString();
+    QString ipc_id= temp.split("[")[0].right(3);
     QString IPCIP = temp.split("[")[1].split("]")[0];
+    //获取当前解码器序列号；
 
     //根据NVR编号和IP地址查询出该摄像机的子码流
     QString rtspAddr;
     QString IPCRtspAddrMain;
     QString IPCRtspAddrSub;
     GetRtspAddr(NVRID, IPCIP, IPCRtspAddrMain, IPCRtspAddrSub);
+    //检查主码流类型
     rtspAddr = (myApp::RtspType == 0 ? IPCRtspAddrMain : IPCRtspAddrSub);
-
+    qDebug()<<rtspAddr;
     //如果该摄像机不在线
     if (!myHelper::IPCEnable(rtspAddr)) {
         myHelper::ShowMessageBoxError(QStringLiteral("该摄像机不在线!"));
         return;
     }
-
+    //获取templab的文字信息
     QString tempCH = tempLab->text();
     for (int i = 0; i < 12; i++) {
         if (video_labs_[i]->text() == tempCH) {
             ChangeRtspAddr(i, rtspAddr);
+            //连接解码器和显示画面
+            auto get=decode_list_.find(ipc_id).value();
+            qDebug()<<get.get();
+            show_dialog_->video_widget()->video_widgets().at(i)->set_decode_thread(get);
+//            decode_list_.find(IPCIP).value().get()->StartDecode();
             myApp::WriteConfig();
             break;
         }

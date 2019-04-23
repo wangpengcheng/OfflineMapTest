@@ -323,9 +323,11 @@ public:
     static bool IPCEnable(QString rtspAddr) {
         QStringList temp = rtspAddr.split("/");
         QString ip = temp[2].split(":")[0];
+        QString port=temp[2].split(":")[1];
+        qDebug()<<port.toInt();
         QTcpSocket tcpClient;
         tcpClient.abort();
-        tcpClient.connectToHost(ip, 80);
+        tcpClient.connectToHost(ip, port.toInt());
         //100毫秒没有连接上则判断该摄像机不在线
         bool ok = tcpClient.waitForConnected(100);
         return ok;

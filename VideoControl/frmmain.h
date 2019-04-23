@@ -8,11 +8,14 @@
 #include <QQuickWidget>
 #include <QGridLayout>
 #include <QQuickView>
+#include <QSharedPointer>
+#include <QMap>
 class QMenu;
 class QLabel;
 class QModelIndex;
 class MainShowDialog;
 class MapContrlConnect;
+class VideoDecodeThread;
 class BusTest;
 class BusLineTest;
 namespace Ui
@@ -60,6 +63,7 @@ private slots:
 
     void on_tab_choose_currentChanged(int index);
 
+
 private:
     Ui::frmMain *ui;    
     /*视频控制模块变量 start*/
@@ -70,6 +74,7 @@ private:
     QString video_type_;            //当前video的type值
     int video_count_;               //视频总数
     QList<QLabel *> video_labs_;    //通道显示视频lab载体
+    QMap<QString,QSharedPointer<VideoDecodeThread>> decode_list_;//解码线程队列
 
     QVBoxLayout* video_vbox_layout_=nullptr; //视频布局元素
     QWidget* video_control_widget_=nullptr; //视频控制页面的widget
