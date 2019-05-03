@@ -13,6 +13,7 @@ MainShowDialog::MainShowDialog(QWidget *parent) :
 //    flags |= Qt::WindowMinMaxButtonsHint;
 //    flags |= Qt::WindowCloseButtonHint;
 //    this->setWindowFlags(flags);
+    this->showMaximized();
     //初始化选项框
     InitStackWidget();
     on_show_tab_choose_currentChanged(2);
@@ -104,6 +105,11 @@ void MainShowDialog::InitStackWidget()
 
 void MainShowDialog::on_show_tab_choose_currentChanged(int arg1)
 {
+    ui->horizontalLayout_3->removeWidget(map_page_);
+    ui->verticalLayout_3->removeWidget(video_widget_);
+    ui->verticalLayout_4->removeWidget(speed_show_chart_widget_);
+    map_show_vbox_layout_->removeWidget(map_page_);
+    ui->horizontalLayout->removeWidget(video_widget_);
     if(arg1==2){
 //        ui->verticalLayout_2->insertWidget(0,video_widget_);
 //        //ui->verticalLayout_2->addWidget(video_widget_);
@@ -118,6 +124,8 @@ void MainShowDialog::on_show_tab_choose_currentChanged(int arg1)
     }else if (arg1==1) {
         ui->horizontalLayout->addWidget(video_widget_);
     }
+    update();
+    //this->resize(800,600);
     qDebug()<<QString("This current is %1").arg(arg1);
 }
 void MainShowDialog::print_layout(int index){

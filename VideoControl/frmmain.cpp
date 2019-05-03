@@ -358,7 +358,7 @@ void frmMain::InitShowDialog()
 //    }
     //设置显示两个窗口位置
     //show_dialog_->setGeometry(QApplication::desktop()->screenGeometry(1));
-    show_dialog_->move(QApplication::desktop()->screenGeometry(0).center());
+    show_dialog_->move(QApplication::desktop()->screenGeometry(1).center());
     show_dialog_->resize(800,600);
 
     //this->setGeometry(QApplication::desktop()->screenGeometry(0));
