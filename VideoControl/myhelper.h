@@ -324,7 +324,7 @@ public:
         QStringList temp = rtspAddr.split("/");
         QString ip = temp[2].split(":")[0];
         QString port=temp[2].split(":")[1];
-        qDebug()<<port.toInt();
+        qDebug()<<"point "<<port.toInt();
         QTcpSocket tcpClient;
         tcpClient.abort();
         tcpClient.connectToHost(ip, port.toInt());

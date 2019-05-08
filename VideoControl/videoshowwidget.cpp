@@ -10,8 +10,8 @@ VideoShowWidget::VideoShowWidget(QWidget *parent) :
     ui->setupUi(this);
     initForm();
     initMenu();
-    show_video_all();
-    //change_video_4(0);
+    //show_video_all();
+    change_video_4(0);
     QTimer::singleShot(1000, this, SLOT(play_video_all()));
 }
 

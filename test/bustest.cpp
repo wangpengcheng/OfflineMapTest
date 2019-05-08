@@ -5,7 +5,8 @@
 BusTest::BusTest()
 {
     bus_test_=nullptr;
-    bus_test_=new Bus(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));
+    //bus_test_=new Bus(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));//江安
+    bus_test_=new Bus(tool.WPS84ToGCJ02(30.631091622,104.081949595));
 }
 BusTest::~BusTest()
 {
@@ -20,7 +21,8 @@ void BusTest::ShowTest(QDeclarativeGeoMap *qMap)
     tool.TestNoteTool("ShowTest",0);
     if(bus_test_==nullptr)
     {
-        bus_test_=new Bus(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));
+        //bus_test_=new Bus(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));//江安
+        bus_test_=new Bus(tool.WPS84ToGCJ02(30.631091622,104.081949595));
     };
     bus_test_->SetMap(qMap);
     qDebug()<<bus_test_->bus_quick_item()->parentItem();
@@ -42,6 +44,12 @@ void BusTest::UpdataPositionTest()
     tool.TestNoteTool("UpdataPositionTest",0);
     bus_test_->UpdataPosition();
     tool.TestNoteTool("UpdataPositionTest",1);
+}
+void BusTest::UpdataPositionBySocketTest()
+{
+    tool.TestNoteTool("UpdataPositionBySocketTest",0);
+    bus_test_->UpdateCoordinatesBySocket();
+    tool.TestNoteTool("UpdataPositionBySocketTest",1);
 }
 void BusTest::LuShuTest()
 {

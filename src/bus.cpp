@@ -28,6 +28,10 @@ Bus::~Bus()
         delete [] bus_quick_item_;
         bus_quick_item_=nullptr;
     }
+    if(socket_!=nullptr){
+        delete [] socket_;
+        socket_=nullptr;
+    }
 }
 Bus::Bus(QList<QGeoCoordinate> new_path)
 {
@@ -152,7 +156,8 @@ void Bus::Init()
     bus_time_line_=nullptr;
     bus_timer_=nullptr;
     bus_quick_item_=new QDeclarativeGeoMapQuickItem();
-    QGeoCoordinate InitCoordinate(30.5567330000,103.9997920000);
+    //QGeoCoordinate InitCoordinate(30.5567330000,103.9997920000);//江安
+    QGeoCoordinate InitCoordinate(30.631091622,104.081949595);//望江
     this->bus_quick_item_->setCoordinate(InitCoordinate);//设置默认位置
 //    bus_path_coordinates_.append(InitCoordinate);
     bus_iocn_=nullptr;//防止内存分配失败
@@ -160,6 +165,16 @@ void Bus::Init()
     bus_iocn_->setSource(QUrl("qrc:/img/car_up.png"));
     this->bus_quick_item_->setRotation(90);//设置图片旋转90度
     //bus_station_iocn_->setSize(QSize(50,50));//设置默认大小
+}
+void Bus::InitSocket()
+{
+    socket_ = new QTcpSocket();
+    QObject::connect(socket_, &QTcpSocket::readyRead, this, &Bus::SocketReadData);
+    QObject::connect(socket_, &QTcpSocket::disconnected, this, &Bus::SocketDisconnected);
+    //连接信号槽
+    ip_address_="127.0.0.1";
+    port_=8765;
+
 }
 void Bus::Updata()
 {
@@ -182,6 +197,44 @@ void Bus::UpdataPosition()
     bus_timer_=new QTimer(this);
     connect(bus_timer_, SIGNAL(timeout()), this, SLOT(UpdataCoordinatesByNet()));
     bus_timer_->start(5000);//设置更新间隔为5s
+}
+void Bus::UpdateCoordinatesBySocket()
+{
+    //没有初始化成功再次初始化
+    if(socket_==nullptr){
+        InitSocket();
+
+    }
+    //取消已有的连接
+    socket_->abort();
+    //连接服务器
+    socket_->connectToHost(ip_address_, port_);
+    if(!socket_->waitForConnected(30000))
+    {
+        qDebug() << "Connection failed!";
+        return;
+    }
+    qDebug() << "Connect successfully!";
+}
+void Bus::SocketReadData()
+{
+    QByteArray buffer;
+    //读取缓冲区数据
+    buffer = socket_->readLine();
+    //qDebug()<<buffer;
+    QString cout_string;
+    cout_string.prepend(buffer);
+    QString temp_string_1=cout_string.split("\n")[0];
+    qDebug()<<temp_string_1.simplified();
+    QStringList string_list=temp_string_1.simplified().split(" ");
+    QString latitude=string_list[2];//纬度
+    QString longitudinal=string_list[3];//经度
+    this->bus_quick_item_->setCoordinate(QGeoCoordinate(latitude.toDouble(),longitudinal.toDouble()));
+
+}
+void Bus::SocketDisconnected()
+{
+    qDebug() << "Disconnected!";
 }
 void Bus::UpdataCoordinatesByNet()
 {

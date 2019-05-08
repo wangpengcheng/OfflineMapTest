@@ -16,8 +16,8 @@ MainShowDialog::MainShowDialog(QWidget *parent) :
     this->showMaximized();
     //初始化选项框
     InitStackWidget();
-    on_show_tab_choose_currentChanged(2);
-    ui->show_tab_choose->setCurrentIndex(2);
+    on_show_tab_choose_currentChanged(1);
+    ui->show_tab_choose->setCurrentIndex(1);
     connect(this->video_widget_,SIGNAL(play_changed(int)),this,SLOT(print_layout(int)));
 
 }

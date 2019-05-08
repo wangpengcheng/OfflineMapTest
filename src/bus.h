@@ -105,6 +105,13 @@ public:
     void LuShuStart();//开始LuShu
     void LuShuPause();//暂停LuShu
     void LuShuStop();//停止路书
+    void InitSocket();//初始化socket通信
+    //设置ip地址
+    inline void set_ip_address(QString address){ip_address_=address;}
+    inline QString ip_address(){return ip_address_;}
+    inline void set_port(unsigned int i){port_=i;}
+    inline unsigned port(){return port_;}
+
     inline bool is_cricle(){return this->is_cricle_;}
     inline void set_is_cricle(const bool isCricle){this->is_cricle_=isCricle;}
 private:
@@ -134,10 +141,22 @@ private:
     bool is_pause = false;//是否
     bool is_stop = false;//不停止
     bool is_return=false;//是否在返程
+    //socket通信成员
+    QTcpSocket *socket_=nullptr;//socket通信成员变量
+    QString ip_address_=nullptr;//设置ip地址
+    unsigned int port_=NULL;//设置端口号
+
     //相关槽函数
 public slots:
+    /*http 通信 start */
     void UpdataCoordinatesByNet();
     void GetReplyFinished(QNetworkReply *reply);
+    /*http 通信 end */
+    /*socket 通信 start*/
+    void UpdateCoordinatesBySocket();//根据位置更新
+    void SocketReadData();//读取数据
+    void SocketDisconnected();//断开连接
+    /*socket 通信 end*/
     void Move(const double dx,
               const double dy);
     void MoveNextPoint(const QGeoCoordinate coordinate1,

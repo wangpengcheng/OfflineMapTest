@@ -385,7 +385,9 @@ void frmMain::InitShowDialog()
         //添加车辆
         bus_test_=new BusTest();//直接在堆上分配内存
         bus_test_->ShowTest(show_dialog_->show_map().get());
-        bus_test_->LuShuTest();//开始路书
+        //网络测试
+        bus_test_->UpdataPositionBySocketTest();
+        //bus_test_->LuShuTest();//开始路书
 
     }else {
         qDebug()<<"show map is empty!";
@@ -879,8 +881,10 @@ void frmMain::on_treeMain_doubleClicked(const QModelIndex &index)
     QString txt = ui->treeMain->currentItem()->parent()->text(0);
     QString NVRIP = txt.split("[")[1].split("]")[0];
     QString NVRID = GetNVRID(NVRIP);
+    qDebug()<<"IP :"<<NVRID;
     QString temp = ui->treeMain->currentIndex().data().toString();
     QString ipc_id= temp.split("[")[0].right(3);
+    qDebug()<<"ipc_id"<<ipc_id;
     QString IPCIP = temp.split("[")[1].split("]")[0];
     //获取当前解码器序列号；
 

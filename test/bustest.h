@@ -40,6 +40,7 @@ public:
     void ShowTest(QDeclarativeGeoMap *qMap);//显示测试函数
     void MoveTest();//移动测试
     void UpdataPositionTest();//网络更新位置测试
+    void UpdataPositionBySocketTest();//socket更新网络测试
     void LuShuTest();//路书测试
     void ChangePathTest();//路径变换测试
     void AddCoordinateToList(QList<QGeoCoordinate> &temp);//添加路径关键点

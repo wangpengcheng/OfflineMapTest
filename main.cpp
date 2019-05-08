@@ -63,7 +63,6 @@ void MoveTest(QDeclarativeGeoMap *qMap);//公交移动测试
 int VideoControlTest(QApplication app);
 int main(int argc, char *argv[])
 {
-    //QGuiApplication app(argc, argv);
     QApplication app(argc, argv);
     QString path_string=QDir::tempPath();
     //添加字体
@@ -73,59 +72,6 @@ int main(int argc, char *argv[])
 
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
-     /*
-    QQuickView *mainMapBoxWidget = new QQuickView();
-    mainMapBoxWidget->setResizeMode(QQuickView::SizeRootObjectToView);
-    mainMapBoxWidget->setSource(QUrl("qrc:/qml/MainShowWindow.qml"));
-    //get show map
-    std::shared_ptr<QDeclarativeGeoMap> qMap(mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("show_map"));
-    //QDeclarativeGeoMap *qMap=mainMapBoxWidget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
-    //QQuickWindow *show_window=mainMapBoxWidget->rootObject()->findChild<QQuickWindow *>("main_show_window");
-    //show_window->setGeometry(desktop->screenGeometry(1));
-    //mainMapBoxWidget->setGeometry(desktop->screenGeometry(1));
-    //mainMapBoxWidget->show();
-    //QQuickView *map_control_widget= new QQuickView();
-    //map_control_widget->setResizeMode(QQuickView::SizeRootObjectToView);
-        QQuickWidget *map_control_widget= new QQuickWidget();
-        map_control_widget->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    map_control_widget->setSource(QUrl("qrc:/qml/MapControlModel.qml"));
-    std::shared_ptr<QDeclarativeGeoMap> control_map(map_control_widget->rootObject()->findChild<QDeclarativeGeoMap *>("control_show_map"));
-    //QDeclarativeGeoMap *control_map=map_control_widget->rootObject()->findChild<QDeclarativeGeoMap *>("maptest1");
-//    qDebug()<<&qMap;
-//    qDebug()<<&control_map;
-    MapContrlConnect map_connect(qMap,control_map);
-    mainMapBoxWidget->show();
-    map_control_widget->resize(800,600);
-    map_control_widget->show();
-    QWidget *container=QWidget::createWindowContainer(mainMapBoxWidget);
-    container->resize(500,400);
-    container->show();
-    //MainWindow main;
-    //main.show();
-//    //add qucik
-//    QQmlApplicationEngine engine;
-//    //load qml file
-//    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
-//    //qt 获取qml第一个对象：
-//    QObject *pRoot=engine.rootObjects().first();
-//    qDebug()<<pRoot->property("id");
-    //使用测试线路添加数据
-    BusLineTest test;
-    test.MainTest();//主要测试函数
-    test.ShowTest(qMap.get());
-    //BusTest *bus_test;
-    //bus_test->ShowTest(qMap);
-    //bus_test->LuShuTest();
-   // QList<QGeoCoordinate> path;
-   // AddCoordinateToList(path);
-   // Bus test_bus(path);
-   // test_bus.SetMap(qMap);
-    //qMap2->addMapItem(&test_bus);
-    //qMap->addMapItem(&test_bus);
-//    qDebug()<<qMap2;
-//    qMap2->addMapItem(&test_bus2);
-   // test_bus.LuShuStart();
-    */
     app.setApplicationName("VM");         //设置应用程序名称
     app.setApplicationVersion("V201412"); //设置应用程序版本
     app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);//允许使用
@@ -168,60 +114,9 @@ int main(int argc, char *argv[])
     w.show();
     //w.setGeometry(qApp->desktop()->availableGeometry());
     qDebug()<<"init file";
-    /*
-    QFont font;
-    font.setFamily("MicroSoft Yahei");
-    font.setPixelSize(12);
-    app.setFont(font);
-
-#if (QT_VERSION <= QT_VERSION_CHECK(5,0,0))
-#if _MSC_VER
-    QTextCodec *codec = QTextCodec::codecForName("gbk");
-#else
-    QTextCodec *codec = QTextCodec::codecForName("utf-8");
-#endif
-    QTextCodec::setCodecForLocale(codec);
-    QTextCodec::setCodecForCStrings(codec);
-    QTextCodec::setCodecForTr(codec);
-#else
-    QTextCodec *codec = QTextCodec::codecForName("utf-8");
-    QTextCodec::setCodecForLocale(codec);
-#endif
-*/
-//    VideoShowWidget test;
-//    //test.resize(1920,1080);
-//    test.show();
-//    MyVideoWidget test_video_widget(QUrl(QString("C:/Users/lin/Videos/Captures/2.mp4")));
-//    test_video_widget.show();
-//    test_video_widget.VideoPlay();
-//    QString rtsp_address="rtsp://192.168.137.165:554/test";
-//    qDebug()<<rtsp_address;
-//    VideoDecodeThread* decode=new VideoDecodeThread(rtsp_address);
-//    QSharedPointer<VideoDecodeThread> test_code(decode);
-//    test_code.get()->set_net_stream_address(rtsp_address);
-//    test_code.get()->StartDecode();
-//    MainShowDialog test_dialog;
-//    test_dialog.stacked_widget()->setCurrentIndex(2);
-//    QList<StreamVideoWidget *> video_vidgets=test_dialog.video_widget()->video_widgets();
-//    for(auto temp :video_vidgets){
-//        temp->set_decode_thread(test_code);
-//    }
-//    test_dialog.show();
-
-//    qDebug()<<test_dialog.show_map().get();
-
-    //设置流媒体地址
-//    QString rtsp_address="rtsp://192.168.137.165:554/test";
-//    qDebug()<<rtsp_address;
-//    VideoDecodeThread* decode=new VideoDecodeThread(rtsp_address);
-//    QSharedPointer<VideoDecodeThread> test_code(decode);
-//    test_code.get()->set_net_stream_address(rtsp_address);
-//    test_code.get()->StartDecode();
-//    StreamVideoWidget test;
-//    test.set_decode_thread(test_code);
-//    test.show();
 
     return app.exec();
+
 
 }
 
