@@ -30,6 +30,8 @@ include(test/test.pri)
 include(VideoControl/VideoControl.pri)
 
 #add ffmpeg
+#windows
+win32 {
 INCLUDEPATH += $$PWD/3rdpart/ffmpeg/include
 
 LIBS += $$PWD/3rdpart/ffmpeg/lib/avcodec.lib \
@@ -40,7 +42,7 @@ LIBS += $$PWD/3rdpart/ffmpeg/lib/avcodec.lib \
         $$PWD/3rdpart/ffmpeg/lib/postproc.lib \
         $$PWD/3rdpart/ffmpeg/lib/swresample.lib \
         $$PWD/3rdpart/ffmpeg/lib/swscale.lib
-
+}
 
 INCLUDEPATH += \
     QtLocationPlugin \
@@ -68,3 +70,17 @@ RCC_DIR         = temp/rcc
 UI_DIR          = temp/ui
 OBJECTS_DIR     = temp/obj
 DESTDIR         = bin
+
+unix:!macx: {
+    FFMPEGDIR=/usr/lib/x86_64-linux-gnu/
+
+    INCLUDEPATH += $$FFMPEGDIR
+    LIBS += -L$$FFMPEGDIR -lavcodec \
+                          -lavfilter \
+                          -lavformat  \
+                          -lavresample \
+                          -lavutil \
+                          -lpostproc \
+                          -lswresample \
+                          -lswscale
+}

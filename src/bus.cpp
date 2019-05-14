@@ -172,6 +172,8 @@ void Bus::InitSocket()
     QObject::connect(socket_, &QTcpSocket::readyRead, this, &Bus::SocketReadData);
     QObject::connect(socket_, &QTcpSocket::disconnected, this, &Bus::SocketDisconnected);
     //连接信号槽
+
+    //连接ip地址
     ip_address_="127.0.0.1";
     port_=8765;
 
