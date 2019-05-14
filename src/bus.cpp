@@ -176,6 +176,7 @@ void Bus::InitSocket()
     //连接ip地址
     ip_address_="127.0.0.1";
     port_=8765;
+    qDebug()<<"GPS address is"<<ip_address_<<":"<<port_<<";"<<endl;
 
 }
 void Bus::Updata()
