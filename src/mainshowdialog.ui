@@ -59,6 +59,9 @@
        <property name="spacing">
         <number>2</number>
        </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
        <property name="leftMargin">
         <number>2</number>
        </property>
@@ -74,22 +77,6 @@
        <item>
         <widget class="QWidget" name="left_show_widget" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QWidget" name="verticalWidget_2" native="true">
-            <layout class="QVBoxLayout" name="verticalLayout_3"/>
-           </widget>
-          </item>
-          <item>
-           <widget class="QWidget" name="verticalWidget_3" native="true">
-            <layout class="QVBoxLayout" name="verticalLayout_4"/>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QWidget" name="horizontalWidget" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
           <property name="spacing">
            <number>2</number>
           </property>
@@ -105,12 +92,64 @@
           <property name="bottomMargin">
            <number>2</number>
           </property>
+          <item>
+           <widget class="QWidget" name="verticalWidget_2" native="true">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <property name="leftMargin">
+              <number>5</number>
+             </property>
+             <property name="topMargin">
+              <number>5</number>
+             </property>
+             <property name="rightMargin">
+              <number>5</number>
+             </property>
+             <property name="bottomMargin">
+              <number>5</number>
+             </property>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="verticalWidget_3" native="true">
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <property name="leftMargin">
+              <number>5</number>
+             </property>
+             <property name="topMargin">
+              <number>5</number>
+             </property>
+             <property name="rightMargin">
+              <number>5</number>
+             </property>
+             <property name="bottomMargin">
+              <number>5</number>
+             </property>
+            </layout>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
+       <item>
+        <widget class="QWidget" name="horizontalWidget" native="true"/>
+       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="show_tab_choosePage4"/>
+     <widget class="QWidget" name="show_tab_choosePage4">
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255,255, 255)</string>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>

@@ -15,6 +15,8 @@
 #include <QtLocation/private/qdeclarativegeomap_p.h>
 #include "VideoControl/videoshowwidget.h"
 
+#include <QVideoWidget>
+
 namespace Ui {
     class MainShowDialog;
 }
@@ -32,10 +34,12 @@ public:
     inline QStackedWidget* stacked_widget(){return stacked_widget_;}
     inline VideoShowWidget* video_widget(){return video_widget_;}
     inline std::shared_ptr<QDeclarativeGeoMap> show_map(){return show_map_;}
-
+    inline QVideoWidget*  video_review_show_widget(){return video_review_show_widget_;}
 private slots:
     void on_show_tab_choose_currentChanged(int arg1);
     void print_layout(int index);
+    //void on_pushButton_clicked();
+
 private:
     Ui::MainShowDialog *ui;
     //私有成员类
@@ -50,6 +54,9 @@ private:
     QWidget* aggregative_show_page_=nullptr;//综合模式新的page;
     QGridLayout *aggregative_gridLayout_=nullptr;//综合模式的布局，方便设置
     QQuickWidget *speed_show_chart_widget_=nullptr;//仪表盘数据指针，/*ToDo 单独构造它的类，方便复用 */
+    //设置视频回放显示
+    QVBoxLayout* video_review_layout_=nullptr;
+    QVideoWidget* video_review_show_widget_=nullptr;
 };
 
 #endif // MAINSHOWDIALOG_H

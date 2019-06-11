@@ -101,32 +101,44 @@ void MainShowDialog::InitStackWidget()
     speed_show_chart_widget_=new QQuickWidget();
     speed_show_chart_widget_->setResizeMode(QQuickWidget::SizeRootObjectToView);
     speed_show_chart_widget_->setSource(QUrl("qrc:/qml/MyCharts.qml"));
+    ui->verticalLayout_4->addWidget(speed_show_chart_widget_);
+    //设置回放显示
+    video_review_layout_=new QVBoxLayout(ui->show_tab_choosePage4);
+    video_review_show_widget_=new QVideoWidget(ui->show_tab_choosePage4);
+//    ui->show_tab_choosePage4->setLayout(video_review_layout_);
+    video_review_layout_->addWidget(video_review_show_widget_);
+//    video_review_layout_->setMargin(5);//设置边距
+   // video_review_show_widget_->resize(ui->aggregative_show_page->size());
 }
 
 void MainShowDialog::on_show_tab_choose_currentChanged(int arg1)
 {
-    ui->horizontalLayout_3->removeWidget(map_page_);
-    ui->verticalLayout_3->removeWidget(video_widget_);
-    ui->verticalLayout_4->removeWidget(speed_show_chart_widget_);
-    map_show_vbox_layout_->removeWidget(map_page_);
-    ui->horizontalLayout->removeWidget(video_widget_);
     if(arg1==2){
 //        ui->verticalLayout_2->insertWidget(0,video_widget_);
 //        //ui->verticalLayout_2->addWidget(video_widget_);
 //        ui->verticalLayout_2->addWidget(speed_show_chart_widget_);
 //        //综合页面进行布局
 //        ui->aggregative_horizontalLayout->addWidget(map_page_);
-        ui->horizontalLayout_3->addWidget(map_page_);
+        map_page_->setParent(ui->horizontalWidget);
+        map_page_->resize(map_page_->parentWidget()->size());
+        map_page_->show();
         ui->verticalLayout_3->addWidget(video_widget_);
-        ui->verticalLayout_4->addWidget(speed_show_chart_widget_);
-    }else if (arg1==0) {
-        map_show_vbox_layout_->addWidget(map_page_);
-    }else if (arg1==1) {
-        ui->horizontalLayout->addWidget(video_widget_);
+    }else{
+
+        if (arg1==0) {
+            map_show_vbox_layout_->addWidget(map_page_);
+            ui->horizontalLayout->removeWidget(video_widget_);
+        }else if (arg1==1) {
+            ui->horizontalLayout->addWidget(video_widget_);
+            map_show_vbox_layout_->removeWidget(map_page_);
+        }else if(arg1==3){
+            //ui->aggregative_show_page->update();
+
+            video_review_show_widget_->resize(video_review_show_widget_->parentWidget()->size());
+            video_review_show_widget_->show();
+        }
     }
-    update();
-    //this->resize(800,600);
-    qDebug()<<QString("This current is %1").arg(arg1);
+
 }
 void MainShowDialog::print_layout(int index){
 

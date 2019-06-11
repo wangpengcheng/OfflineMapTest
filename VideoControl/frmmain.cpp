@@ -13,6 +13,8 @@
 #include "test/bustest.h"
 #include "videodecodethread.h"
 #include "streamvideowidget.h"
+#include "player/player.h"
+
 frmMain::frmMain(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::frmMain)
@@ -200,6 +202,10 @@ void frmMain::InitTabWidget(){
      speed_chart_widget_=new QQuickWidget();
      speed_chart_widget_->setResizeMode(QQuickWidget::SizeRootObjectToView);
      speed_chart_widget_->setSource(QUrl("qrc:/qml/MyCharts.qml"));
+     //初始化布局
+     video_review_layout_=new QVBoxLayout(ui->video_review);
+     video_review_control_=new Player(ui->video_review);
+     video_review_layout_->addWidget(video_review_control_);
 }
 
 void frmMain::InitVideo()
@@ -403,7 +409,9 @@ void frmMain::InitShowDialog()
     connect(this,SIGNAL(signal_change_video_7(int)),show_dialog_->video_widget(),SLOT(change_video_7(int)));
     connect(this,SIGNAL(signal_change_video_12(int)),show_dialog_->video_widget(),SLOT(change_video_12(int)));
 
-
+    //show_dialog_->video_review_show_widget()->resize(400,800);
+    this->video_review_control()->GetPlyer()->setVideoOutput(show_dialog_->video_review_show_widget());
+    show_dialog_->video_review_show_widget()->show();
 }
 void frmMain::ChangeVideoLayout()
 {
@@ -970,5 +978,9 @@ void frmMain::on_tab_choose_currentChanged(int index)
         ui->treeMain->setVisible(true);
         video_vbox_layout_->addWidget(video_control_widget_);
     }
+    aggregative_gridLayout_->update();
+    this->update();
+    show_dialog_->stacked_widget()->update();
+
 
 }

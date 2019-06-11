@@ -28,7 +28,7 @@ QML_IMPORT_PATH =
 include(QtLocationPlugin/LocationPlugin.pri)
 include(test/test.pri)
 include(VideoControl/VideoControl.pri)
-
+include(player/player.pri)
 #add ffmpeg
 #windows
 win32 {

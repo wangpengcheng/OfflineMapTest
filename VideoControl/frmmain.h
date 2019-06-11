@@ -18,6 +18,7 @@ class MapContrlConnect;
 class VideoDecodeThread;
 class BusTest;
 class BusLineTest;
+class Player;
 namespace Ui
 {
     class frmMain;
@@ -32,7 +33,7 @@ public:
     ~frmMain();
     //返回控制地图
     inline std::shared_ptr<QDeclarativeGeoMap> control_map(){return control_map_;}
-
+    inline Player* video_review_control(){ return video_review_control_;}
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
     void keyPressEvent(QKeyEvent *event);
@@ -95,6 +96,12 @@ private:
     //显示窗口
     MainShowDialog* show_dialog_=nullptr;   //主要显示窗口
     MapContrlConnect* map_connect_=nullptr; //主要地图连接类
+
+
+    //回放控制
+    QVBoxLayout* video_review_layout_=nullptr; //回放布局指针
+    Player* video_review_control_=nullptr;    // 回放控制对象
+
     void InitStyle();               //初始化无边框窗体
     void InitForm();                //初始化窗体数据
     void InitMenu();                //初始化右侧按钮
