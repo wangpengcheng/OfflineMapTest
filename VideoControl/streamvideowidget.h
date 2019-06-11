@@ -33,7 +33,7 @@ class StreamVideoWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit StreamVideoWidget(QWidget *parent=0);
+    explicit StreamVideoWidget(QWidget *parent=nullptr);
     StreamVideoWidget(QSharedPointer<VideoDecodeThread> new_decode);//直接用解码线程初始化
     void set_decode_thread(QSharedPointer<VideoDecodeThread> new_decode);
     inline  QSharedPointer<VideoDecodeThread> decode_thread(){return decode_thread_;}

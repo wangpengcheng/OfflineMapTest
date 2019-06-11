@@ -35,3 +35,12 @@ void tool_test::GetDistanceTest()
      m_tool.TestNoteTool("GetDistanceTest",1);
 
 }
+void tool_test::CreatFileTest(){
+    m_tool.TestNoteTool("Tool CreateFile Test",0);
+    QString file_name="test";
+    QString file_type="mp4";
+    QString director_name="video";
+    QString result=Tool::CreatFile(director_name,file_name,file_type);
+    qDebug()<<"this file full path is"<<result;
+    m_tool.TestNoteTool("Tool CreateFile Test",1);
+}

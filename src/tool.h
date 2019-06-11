@@ -36,20 +36,25 @@
 #include <QDebug>
 #endif
 #include <QObject>
+#define DELETE_OBJECT(obj) {if(obj!=nullptr){delete obj;obj=nullptr;qDebug()<<obj<<" deleted";} }
+
 class Tool: public QObject
 {
     Q_OBJECT
     public:
         explicit Tool(QObject *parent = nullptr);
        // ~Tool();
-        Q_INVOKABLE double TransfromLatToDouble(double x,double y);//将经度转换为数值
-        Q_INVOKABLE double TransfromLonToDouble(double x,double y);//将维度转换为数值
-        Q_INVOKABLE QGeoCoordinate WPS84ToGCJ02(double lat, double lon);//转换坐标系到星火坐标系
-        Q_INVOKABLE double GetDistance(QGeoCoordinate point1,QGeoCoordinate point2);//计算两点之间距离
+        Q_INVOKABLE static double TransfromLatToDouble(double x,double y);//将经度转换为数值
+        Q_INVOKABLE static double TransfromLonToDouble(double x,double y);//将维度转换为数值
+        Q_INVOKABLE static QGeoCoordinate WPS84ToGCJ02(double lat, double lon);//转换坐标系到星火坐标系
+        Q_INVOKABLE static double GetDistance(QGeoCoordinate point1,QGeoCoordinate point2);//计算两点之间距离
         //测试信息工具类
-        Q_INVOKABLE void TestNoteTool(const QString TestName,
+        Q_INVOKABLE static void TestNoteTool(const QString TestName,
                                       const int i);//选择模式1-start，2-end
-
+        static QString CreatFile(QString director_name,//文件夹名字
+                         QString file_name,//文件名称
+                         QString file_type//文件后缀
+                         );//创建文件工具类
 
 };
 

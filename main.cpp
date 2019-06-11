@@ -37,9 +37,14 @@
 #include <QKeyEvent>
 #include "test/screencontroltest.h"
 
-//测试函数
+#define MyTest 1
+#ifdef MyTest
 #include "test/buslinetest.h"
 #include "test/bustest.h"
+#include "test/tool_test.h"
+#include "test/videodecodetheadtest.h"
+#endif
+
 //使用函数
 #include "src/busline.h"
 #include "src/busstation.h"
@@ -63,8 +68,11 @@ void MoveTest(QDeclarativeGeoMap *qMap);//公交移动测试
 int VideoControlTest(QApplication app);
 int main(int argc, char *argv[])
 {
+
     QApplication app(argc, argv);
     QString path_string=QDir::tempPath();
+//方便开启测试模式
+#ifndef MyTest
     //添加字体
     QFontDatabase::addApplicationFont(":/fonts/DejaVuSans.ttf");
     app.setFont(QFont("DejaVu Sans"));
@@ -115,6 +123,16 @@ int main(int argc, char *argv[])
     //w.setGeometry(qApp->desktop()->availableGeometry());
     qDebug()<<"init file";
 
+
+
+#endif
+
+#ifdef MyTest
+    tool_test test;
+    test.CreatFileTest();
+    VideoDecodeTheadTest decode_test;
+    decode_test.MainTest();
+#endif
     return app.exec();
 
 

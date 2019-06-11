@@ -1,13 +1,19 @@
 ﻿#include "videodecodethread.h"
 #include <QtDebug>
+#include <QTime>
+#include <iostream>
+#include <src/tool.h>
 #if defined(__cplusplus) || defined (c_plusplus)
 extern "C"
 {
 #endif
-
+#include <stdio.h>
+#include <stdlib.h>
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libavutil/pixfmt.h"
+#include "libavutil/mathematics.h"
+#include "libavutil/time.h"
 #include "libswscale/swscale.h"
 
 #if defined(__cplusplus) || defined (c_plusplus)
@@ -16,7 +22,7 @@ extern "C"
 #include <stdio.h>
 #include<iostream>
 
-VideoDecodeThread::VideoDecodeThread()
+VideoDecodeThread::VideoDecodeThread(QObject *parent):QThread(parent)
 {
 
 }
@@ -37,10 +43,25 @@ void VideoDecodeThread::StartDecode()
         qDebug()<<"this decode is already running";
     }
 }
-//线程运行状况
+/*
+ * 2019-4-5 16:45:23
+ * 不要问我为什么写这么烂
+ * 老板要求三天搞定，我只有直接copy过来了
+ * 能跑就行了，要啥自行车
+ * 至于修改，估计这个项目，没有下一次修改的机会了
+ *
+ * 2019-6-11 17:26:53
+ * 因为服务器没有搭建好，老板要求本地存储视频，估计之后代码会被弃用
+ * 所以又回来改这块的代码了。。。。
+ * 需求还很多，只有先实现功能了
+ * 重构是不可能重构的，这辈子都不可能重构的
+ * 但愿不会再有打开这个的机会
+*/
+//线程运行,这里在进行解码的同时，将包复制，生成对应的视频流文件
 void VideoDecodeThread::run()
 {
     qDebug()<<"thread start";
+    //------输入解码显示 变量 start------
     AVFormatContext *pFormatCtx;
     AVCodecContext *pCodecCtx;
     AVCodec *pCodec;
@@ -54,20 +75,40 @@ void VideoDecodeThread::run()
     //设定连接初始值
     char *url=NULL;
 
-    avformat_network_init();   ///初始化FFmpeg网络模块
+    avformat_network_init();   //初始化FFmpeg网络模块
     av_register_all();         //初始化FFMPEG  调用了这个才能正常适用编码器和解码器
-    //设置上下文
-    //Allocate an AVFormatContext.
+    //初始化格式转换
     pFormatCtx = avformat_alloc_context();
     //设置其他相关参数
     AVDictionary *avdic=NULL;
+    //选项关键字
     char option_key[]="rtsp_transport";
     char option_value[]="tcp";
     av_dict_set(&avdic,option_key,option_value,0);
     char option_key2[]="max_delay";
-    char option_value2[]="100";
+    char option_value2[]="100";//设置时间间隔
     av_dict_set(&avdic,option_key2,option_value2,0);
-    ///rtsp地址，可根据实际情况修改
+    //------输入解码显示 变量 end-------
+
+    //------视频存储 模块 start------
+        AVOutputFormat* out_stream_format=NULL;
+        AVFormatContext* out_stream_format_context=NULL;
+        AVCodecContext* out_stream_codec_context=NULL;
+        AVCodec*  out_stream_codec=NULL;
+        AVStream *out_stream=NULL;
+        int out_ret;
+        QString video_dir_name="Videos";
+        QString video_file_type="mp4";
+        QDateTime current_date_time =QDateTime::currentDateTime();
+        //文件命名使用时间+当前线程的内存地址前6位作为真实的地址
+        QString fileName=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz-")+QString::number((int)this->currentThreadId()).mid(0,5);
+        qDebug()<<fileName;
+        QString fill_full_path=Tool::CreatFile(video_dir_name,fileName,video_file_type);
+        char* save_file_name=fill_full_path.toLocal8Bit().data();
+    //------视频存储 模块 end------
+
+
+    //rtsp地址，可根据实际情况修改
     //char url[]="rtsp://admin:admin@192.168.1.18:554/h264/ch1/main/av_stream";
     if(net_stream_address_==nullptr){
        qDebug()<<"No file";
@@ -75,8 +116,8 @@ void VideoDecodeThread::run()
        net_stream_address_="http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8";
     }
     QByteArray temp_url=net_stream_address_.toLocal8Bit();
+    //获取字符
     url=temp_url.data();
-    std::cout<<url<<std::endl;
     qDebug()<<url;
     //char url[]="udp://@192.168.5.148/test:1234";
     //char url[]="udp://@:1234";
@@ -84,11 +125,12 @@ void VideoDecodeThread::run()
         qDebug()<<"url is empty";
         return;
     }
+    //打开输入流
     if (avformat_open_input(&pFormatCtx, url, NULL, NULL) != 0) {
         printf("can't open the file. \n");
         return;
     }
-
+    //查找流文件信息
     if (avformat_find_stream_info(pFormatCtx, NULL) < 0) {
         printf("Could't find stream infomation.\n");
         return;
@@ -99,9 +141,10 @@ void VideoDecodeThread::run()
     //循环查找视频中包含的流信息，直到找到视频类型的流
     //便将其记录下来 保存到videoStream变量中
     //这里我们现在只处理视频流  音频流先不管他
+    //nb_streams代表有几路流，一般是2路；即音频和视频
     for (i = 0; i <pFormatCtx->nb_streams; i++) {
         if (pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
-            videoStream = i;
+            videoStream = i;//记录视频流编号
         }
     }
 
@@ -114,7 +157,7 @@ void VideoDecodeThread::run()
     pCodecCtx = pFormatCtx->streams[videoStream]->codec;
     pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
     //设置解码器参数
-    pCodecCtx->bit_rate =0;   //初始化为0
+    pCodecCtx->bit_rate =0;   //字节率初始化为0
     pCodecCtx->time_base.num=1;  //下面两行：一秒钟25帧
     pCodecCtx->time_base.den=25;
     pCodecCtx->frame_number=1;  //每包一个视频帧
@@ -124,7 +167,7 @@ void VideoDecodeThread::run()
         return;
     }
 
-    ///打开解码器
+    //打开解码器
     if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0) {
         printf("Could not open codec.\n");
         return;
@@ -150,20 +193,91 @@ void VideoDecodeThread::run()
     //添加包
     packet = (AVPacket*)malloc(sizeof(AVPacket)); //分配一个packet
     av_new_packet(packet, y_size); //分配packet的数据
+    //------ 根据输入流决定存储参数 start------
+    if(is_save_){
+        //打开输出流
+        avformat_alloc_output_context2(&out_stream_format_context,NULL,NULL,save_file_name);
+        if(!out_stream_format_context)
+        {
+            qDebug()<<"Could not create output context \n";
+            out_ret=AVERROR_UNKNOWN;
+            avformat_free_context(out_stream_format_context);
+        }else {
+            //根据输入创建输出流
+            out_stream=avformat_new_stream(out_stream_format_context,pFormatCtx->streams[videoStream]->codec->codec);
+            if(!out_stream)
+            {
+                qDebug()<<"Failed allocating output stream.\n";
+                out_ret = AVERROR_UNKNOWN;
+                avformat_free_context(out_stream_format_context);
+
+
+            }else {
+                //将输入流的编码信息复制到输出流
+                out_ret=avcodec_copy_context(out_stream->codec,pFormatCtx->streams[videoStream]->codec);
+                if(out_ret<0){
+                    qDebug()<<"Failed to copy context from input to output stream codec context\n";
+                    avformat_free_context(out_stream_format_context);
+                }else {
+                    out_stream->codec->codec_tag = 0;
+                    if(out_stream_format_context->oformat->flags& AVFMT_GLOBALHEADER){
+                         out_stream->codec->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+                    }
+                    //Dump format--------------------
+                   av_dump_format(out_stream_format_context,0,save_file_name,1);
+                   //打开输出文件
+                       if(!(out_stream_format->flags & AVFMT_NOFILE))
+                       {
+                           ret = avio_open(&out_stream_format_context->pb,save_file_name,AVIO_FLAG_WRITE);
+                           if(ret<0)
+                           {
+                               printf("Could not open output URL '%s'",save_file_name);
+                               if(out_stream_format_context&&!(out_stream_format->flags & AVFMT_NOFILE))
+                               {
+                                   avio_close(out_stream_format_context->pb);
+                               }
+                               avformat_free_context(out_stream_format_context);
+                           }else{
+                               //写头文件到输出文件
+                               out_ret=avformat_write_header(out_stream_format_context,NULL);
+                               if(out_ret<0){
+                                   printf("Error occured when opening output URL\n");
+                                   if(out_stream_format_context&&!(out_stream_format->flags & AVFMT_NOFILE))
+                                   {
+                                       avio_close(out_stream_format_context->pb);
+                                   }
+                                   avformat_free_context(out_stream_format_context);
+                               }
+                           }
+                       }
+                }
+            }
+        }
+    }
+
+    //------ 根据输入流决定存储参数 end  ------
+
+
     //持续解包
     while (1)
     {
+        //读取pack包
         if (av_read_frame(pFormatCtx, packet) < 0)
         {
             break; //这里认为视频读取完了
         }
 
         if (packet->stream_index == videoStream) {
+            //将获取的帧解码出来
             ret = avcodec_decode_video2(pCodecCtx, pFrame, &got_picture,packet);
             if (ret < 0) {
                 printf("decode error.\n");
                 return;
             }
+
+            //------ 循环读取和写入帧 start ------
+
+            //------ 循环读取和写入帧 end ------
 
             if (got_picture) {
                 sws_scale(img_convert_ctx,

@@ -180,3 +180,49 @@ void Tool::TestNoteTool(const QString TestName,
     }
 
 }
+
+QString Tool::CreatFile(QString director_name,//文件夹名字
+                    QString file_name,//文件名称
+                    QString file_type//文件后缀
+                    )
+{
+    QString file_full_path;//定义最终结果
+    QString filePath=QDir::currentPath()+"/"+director_name;
+    //QDateTime current_date_time =QDateTime::currentDateTime();
+    //QString fileName=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz")+".txt";
+    QString fileName=file_name+"."+file_type;
+    file_full_path=filePath+"/"+fileName;
+    QDir tempDir;
+    //临时保存程序当前路径
+    QString currentDir = tempDir.currentPath();
+    //如果filePath路径不存在，创建它
+    if(!tempDir.exists(filePath))
+    {
+        qDebug()<<"this path is not exite"<<endl;
+        tempDir.mkpath(filePath);
+    }
+    QFile temp_file(file_full_path);
+    //判断文件是否存在
+    if(temp_file.exists())
+    {
+       qDebug()<<"FIle is aleadt exits";
+        return file_full_path;
+     }else{
+            //存在打开，不存在创建
+        if(!temp_file.open(QIODevice::ReadWrite)){
+            qDebug()<<"creat file fail ";
+            return "error";
+        }else{
+            //提示成功
+            qDebug()<<"creat file success";
+        }
+            //写入内容,这里需要转码，否则报错。
+//            QByteArray str = fileName.toUtf8();
+//            //写入QByteArray格式字符串
+//            temp_file.write(str);
+
+    }
+        //关闭文件
+        temp_file.close();
+        return file_full_path;
+}

@@ -32,6 +32,7 @@ public:
     void WPS84Test();
     void TestNoteToolTest();
     void GetDistanceTest();
+    void CreatFileTest();
     Tool m_tool;//tool指针成员对象
 };
 
