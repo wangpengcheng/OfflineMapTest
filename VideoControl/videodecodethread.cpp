@@ -30,10 +30,11 @@ VideoDecodeThread::VideoDecodeThread(QString url)
 {
     net_stream_address_=url;
 }
-VideoDecodeThread::~VideoDecodeThread()
-{
-
-}
+//VideoDecodeThread::~VideoDecodeThread()
+//{
+//    StopDecode();
+//    this->deleteLater();
+//}
 
 void VideoDecodeThread::StartDecode()
 {
@@ -95,16 +96,20 @@ void VideoDecodeThread::run()
         AVFormatContext* out_stream_format_context=NULL;
         AVCodecContext* out_stream_codec_context=NULL;
         AVCodec*  out_stream_codec=NULL;
-        AVStream *out_stream=NULL;
+        AVStream *out_stream=NULL,*in_stream=NULL;
+        char* save_file_name=NULL;
         int out_ret;
-        QString video_dir_name="Videos";
-        QString video_file_type="mp4";
+        unsigned long long frame_index=0;
+        int I_received = 0;
+        unsigned long long frames_count = 30*save_second_time_;
         QDateTime current_date_time =QDateTime::currentDateTime();
         //文件命名使用时间+当前线程的内存地址前6位作为真实的地址
         QString fileName=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz-")+QString::number((int)this->currentThreadId()).mid(0,5);
         qDebug()<<fileName;
-        QString fill_full_path=Tool::CreatFile(video_dir_name,fileName,video_file_type);
-        char* save_file_name=fill_full_path.toLocal8Bit().data();
+        QString fill_full_path=Tool::CreatFile(video_save_dir_name_,fileName,video_save_type_);
+        QByteArray temp_path_byte=fill_full_path.toLocal8Bit();
+        save_file_name=temp_path_byte.data();
+
     //------视频存储 模块 end------
 
 
@@ -195,6 +200,8 @@ void VideoDecodeThread::run()
     av_new_packet(packet, y_size); //分配packet的数据
     //------ 根据输入流决定存储参数 start------
     if(is_save_){
+        //创建输入流
+        out_stream=pFormatCtx->streams[videoStream];
         //打开输出流
         avformat_alloc_output_context2(&out_stream_format_context,NULL,NULL,save_file_name);
         if(!out_stream_format_context)
@@ -203,6 +210,7 @@ void VideoDecodeThread::run()
             out_ret=AVERROR_UNKNOWN;
             avformat_free_context(out_stream_format_context);
         }else {
+            out_stream_format=out_stream_format_context->oformat;
             //根据输入创建输出流
             out_stream=avformat_new_stream(out_stream_format_context,pFormatCtx->streams[videoStream]->codec->codec);
             if(!out_stream)
@@ -225,6 +233,7 @@ void VideoDecodeThread::run()
                     }
                     //Dump format--------------------
                    av_dump_format(out_stream_format_context,0,save_file_name,1);
+                   qDebug()<<out_stream_format->flags;
                    //打开输出文件
                        if(!(out_stream_format->flags & AVFMT_NOFILE))
                        {
@@ -238,7 +247,7 @@ void VideoDecodeThread::run()
                                }
                                avformat_free_context(out_stream_format_context);
                            }else{
-                               //写头文件到输出文件
+                               //写文件头到输出文件
                                out_ret=avformat_write_header(out_stream_format_context,NULL);
                                if(out_ret<0){
                                    printf("Error occured when opening output URL\n");
@@ -261,6 +270,10 @@ void VideoDecodeThread::run()
     //持续解包
     while (1)
     {
+        if(is_stop_now_){
+            qDebug()<<"jump out while ,stop get pack";
+            break;
+        }
         //读取pack包
         if (av_read_frame(pFormatCtx, packet) < 0)
         {
@@ -275,10 +288,6 @@ void VideoDecodeThread::run()
                 return;
             }
 
-            //------ 循环读取和写入帧 start ------
-
-            //------ 循环读取和写入帧 end ------
-
             if (got_picture) {
                 sws_scale(img_convert_ctx,
                         (uint8_t const * const *) pFrame->data,
@@ -289,15 +298,84 @@ void VideoDecodeThread::run()
                 QImage image = tmpImg.copy(); //把图像复制一份 传递给界面显示
                 emit SendFrame(image);  //发送信号图片
             }
+            //------ 循环读取和写入帧 start ------
+            if(is_save_){//判断是否需要存入
+                in_stream=pFormatCtx->streams[packet->stream_index];
+                out_stream=out_stream_format_context->streams[packet->stream_index];
+                //copy packet
+                //转换 PTS/DTS 时序
+                packet->pts = av_rescale_q_rnd(packet->pts,in_stream->time_base,out_stream->time_base,(enum AVRounding)(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
+                packet->dts = av_rescale_q_rnd(packet->dts, in_stream->time_base, out_stream->time_base, (enum AVRounding)(AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
+                packet->duration=av_rescale_q(packet->duration,in_stream->time_base,out_stream->time_base);
+                packet->pos=-1;
+                //此while循环中并非所有packet都是视频帧，当收到视频帧时记录一下，仅此而已
+                if(packet->stream_index==videoStream)
+                {
+                    if ((packet->flags & AV_PKT_FLAG_KEY) && (I_received == 0)){
+                        I_received = 1;
+                    }
+                    if (I_received == 0){
+                        continue;
+                    }
+                    qDebug()<<"Receive "<<frame_index<<" video frames from input URL\n";
+                    frame_index++;
+                } else {
+                    continue;
+                }
+                //这里可以根据自己需要设置，是否存储定长的视频，一般设置为false
+                if(is_save_by_time_){//正常情况下一班都不开启
+                    if (frame_index == frames_count){
+                        is_save_=false;//设置接下来的帧都不储存
+                        //直接写入文件
+                        av_write_trailer(out_stream_format_context);
+                        qDebug()<<"video saved";
+                        continue;
+                    }
+                }
+                //将包数据写入到文件。
+                out_ret = av_interleaved_write_frame(out_stream_format_context,packet);
+                if(ret < 0)
+                {
+                    /**
+                     * 当网络有问题时，容易出现到达包的先后不一致，pts时序混乱会导致
+                     * av_interleaved_write_frame函数报 -22 错误。暂时先丢弃这些迟来的帧吧
+                     * 若所大部分包都没有pts时序，那就要看情况自己补上时序（比如较前一帧时序+1）再写入。
+                     */
+                    if(ret==-22){
+                        continue;
+                    }else{
+                        qDebug()<<"Error muxing packet.error code"<<out_ret;
+                        break;
+                    }
+                }
+            }
+
+            //------ 循环读取和写入帧 end ------
+
         }
         //释放内存资源
         av_free_packet(packet); //释放资源,否则内存会一直上升
         //msleep(0.02); //停一停  不然放的太快了
     }
+    //写文件尾部
+    av_write_trailer(out_stream_format_context);
+
     //释放内存
     av_free(out_buffer);
     av_free(pFrameRGB);
     avcodec_close(pCodecCtx);
     avformat_close_input(&pFormatCtx);
+    av_dict_free(&avdic);
+    //释放写相关内存
+    if(out_stream_format_context && !(out_stream_format->flags & AVFMT_NOFILE)){
+            avio_close(out_stream_format_context->pb);
+        avformat_free_context(out_stream_format_context);
+        if(out_ret<0 && out_ret != AVERROR_EOF)
+        {
+            qDebug()<<"Free Error occured";
+        }
+     }
+
+
     qDebug()<<"thread end";
 }

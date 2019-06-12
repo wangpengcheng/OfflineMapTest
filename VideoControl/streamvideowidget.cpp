@@ -9,6 +9,9 @@ StreamVideoWidget::StreamVideoWidget(QSharedPointer<VideoDecodeThread> new_decod
 {
     set_decode_thread(new_decode);
 }
+//StreamVideoWidget::~StreamVideoWidget(){
+
+//}
 void StreamVideoWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);

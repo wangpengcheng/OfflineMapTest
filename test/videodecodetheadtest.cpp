@@ -1,4 +1,4 @@
-#include "videodecodetheadtest.h"
+﻿#include "videodecodetheadtest.h"
 #include "VideoControl/streamvideowidget.h"
 #include "VideoControl/videodecodethread.h"
 #include "src/tool.h"
@@ -24,9 +24,12 @@ VideoDecodeTheadTest::~VideoDecodeTheadTest()
 void VideoDecodeTheadTest::MainTest()
 {
     Tool::TestNoteTool("VideoDecodeTheadTest MainTest",0);
-    QString net_address="http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8";
-    test_videocodethead_->set_net_stream_address(net_address);
+    QString net_address1="http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8";
+    QString net_address2="rtsp://10.6.154.66:8554/test2";
+    test_videocodethead_->set_net_stream_address(net_address1);
     test_videocodethead_->set_is_save();
+    test_videocodethead_->set_is_save_by_time();//开启按照播放时长存储
+    qDebug()<<test_videocodethead_->is_save_by_time();
     test_show_label_->set_decode_thread(test_videocodethead_);
     test_show_label_->resize(800,810);
     test_show_label_->show();
