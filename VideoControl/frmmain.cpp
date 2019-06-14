@@ -903,22 +903,33 @@ void frmMain::on_treeMain_doubleClicked(const QModelIndex &index)
     GetRtspAddr(NVRID, IPCIP, IPCRtspAddrMain, IPCRtspAddrSub);
     //检查主码流类型
     rtspAddr = (myApp::RtspType == 0 ? IPCRtspAddrMain : IPCRtspAddrSub);
-    qDebug()<<rtspAddr;
+    qDebug()<<"rtsp adress ::"<<rtspAddr;
     //如果该摄像机不在线
-    if (!myHelper::IPCEnable(rtspAddr)) {
-        myHelper::ShowMessageBoxError(QStringLiteral("该摄像机不在线!"));
-        return;
-    }
+//    if (!myHelper::IPCEnable(rtspAddr)) {
+//        myHelper::ShowMessageBoxError(QStringLiteral("该摄像机不在线!"));
+//        return;
+//    }
     //获取templab的文字信息
     QString tempCH = tempLab->text();
     for (int i = 0; i < 12; i++) {
         if (video_labs_[i]->text() == tempCH) {
             ChangeRtspAddr(i, rtspAddr);
             //连接解码器和显示画面
-            auto get=decode_list_.find(ipc_id).value();
+            QSharedPointer<VideoDecodeThread> get=decode_list_.find(ipc_id).value();
             qDebug()<<get.get();
+
             show_dialog_->video_widget()->video_widgets().at(i)->set_decode_thread(get);
 //            decode_list_.find(IPCIP).value().get()->StartDecode();
+            //添加新按钮控制线程的播放和显示
+            get.get()->set_is_save();
+            get->set_is_save_by_time();//设置按照固定时长来写入视频数据
+            QMenu *menu8=menu->addMenu(QStringLiteral("视频控制"));
+            //视频暂停按钮
+            if(get->is_save()){
+
+                menu8->addAction(QStringLiteral("停止播放"),get.get(),SLOT(StopDecode()));
+                qDebug()<<"add ed";
+            }
             myApp::WriteConfig();
             break;
         }

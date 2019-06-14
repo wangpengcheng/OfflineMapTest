@@ -33,8 +33,9 @@ public:
     inline void set_video_save_dir_name(const QString new_dir_name){video_save_dir_name_=new_dir_name;}
     //----- 视频存取函数 end------
     //
-    inline void StopDecode(){is_stop_now_=true;}//通过直接设置参数，跳出循环
-
+public slots:
+    void StopDecode(){is_stop_now_=true;}//通过直接设置参数，跳出循环,方便内存的销毁和使用
+    //void StopSave(){}
     void StartDecode();//开始解码
     //信号函数
 signals:
