@@ -88,7 +88,7 @@ public:
     /*重要信息存取 end*/
     void Init();//变量初始化
     void Updata();//更新数据
-    void UpdataPosition();//更新车辆位置
+    void UpdataPosition();//动画更新车辆位置
     /*其它函数*/
     double GetPixelDistance(const QGeoCoordinate coordinate1,
                             const QGeoCoordinate coordinate2);//获取像素点上两点距离
@@ -106,6 +106,10 @@ public:
     void LuShuPause();//暂停LuShu
     void LuShuStop();//停止路书
     void InitSocket();//初始化socket通信
+    //----- 位置存储到数据库关键代码 start------
+    void SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id);//将新的位置坐标存储到数据库中
+    //----- 位置存储到数据库关键代码  end ------
+
     //设置ip地址
     inline void set_ip_address(QString address){ip_address_=address;}
     inline QString ip_address(){return ip_address_;}
@@ -123,6 +127,7 @@ private:
     QString bus_diver_;
     Tool tool;
     /*基本信息 end*/
+
     /*重要信息 start*/
     QList<QGeoCoordinate> bus_path_coordinates_;//线路关键点列表
     QQuickImage *bus_iocn_=nullptr;//公交车图标iocn指针

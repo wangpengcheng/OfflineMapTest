@@ -201,6 +201,8 @@ void Bus::UpdataPosition()
     connect(bus_timer_, SIGNAL(timeout()), this, SLOT(UpdataCoordinatesByNet()));
     bus_timer_->start(5000);//设置更新间隔为5s
 }
+
+//通过网络Socket通信指直接跟新位置
 void Bus::UpdateCoordinatesBySocket()
 {
     //没有初始化成功再次初始化
@@ -239,6 +241,7 @@ void Bus::SocketDisconnected()
 {
     qDebug() << "Disconnected!";
 }
+//通过后台ajax更新位置请求
 void Bus::UpdataCoordinatesByNet()
 {
     //设置网络请求
@@ -345,7 +348,8 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
          double pixe_point_x=LinearInterpolation(coordinate1.latitude(),coordinate2.latitude(),value,count);
          double pixe_point_y=LinearInterpolation(coordinate1.longitude(),coordinate2.longitude(),value,count);
          QGeoCoordinate temp_result(pixe_point_x,pixe_point_y);//输出坐标值
-         this->bus_quick_item_->setCoordinate(temp_result);
+         this->bus_quick_item_->setCoordinate(temp_result);//设置临时坐标
+         this->SaveCoordinateToSql(temp_result,5);
     });
     //绑定结束事件
     connect(temp_timeline,&QTimeLine::finished,this,[=]()
@@ -491,4 +495,39 @@ void Bus::LuShuStop()
      this->ChangePath();
     }
 
+}
+/*
+ * input coordinate ,record id
+ *
+*/
+void Bus::SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id)
+{
+    qDebug()<<coordinate;
+    //设置网络请求
+    QNetworkAccessManager *save_manage = new QNetworkAccessManager(this);
+    QNetworkRequest network_request;
+    network_request.setUrl(QUrl(QString("http://localhost/re_save_gps.php")));
+
+    network_request.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/json"));
+    connect(save_manage,&QNetworkAccessManager::finished,this,[=](QNetworkReply *reply)
+    {
+         QJsonObject data = QJsonDocument::fromJson(reply->readAll()).object();
+         qDebug()<<"this result data is:"<<data;
+    });
+
+    //准备发送的数据
+    //获取当前时间
+    QString currt_time=QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
+    QJsonObject send_data;
+    send_data.insert("latitude",coordinate.altitude());
+    send_data.insert("longitude",coordinate.longitude());
+    send_data.insert("record_id",record_id);
+    send_data.insert("gps_time",currt_time); //存储时间
+    qDebug()<<"data"<<send_data;
+    //将Json转化为数据流
+    QByteArray send_data_array=QJsonDocument(send_data).toJson();
+    qDebug()<<"data array"<<send_data_array;
+    //send_data.insert("",);
+    /*发送get网络请求*/
+   save_manage->post(network_request,send_data_array);
 }

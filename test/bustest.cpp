@@ -74,6 +74,16 @@ void BusTest::ChangePathTest()
     tool.TestNoteTool("ChangePathTest",1);
 
 }
+//数据存储测试
+
+void BusTest::SaveCoordinateToSqlTest()
+{
+    Tool::TestNoteTool("SaveCoordinateToSqlTest",0);
+    QGeoCoordinate temp_point(30.5563134000,103.9938400000);
+    bus_test_->SaveCoordinateToSql(temp_point,5);
+    Tool::TestNoteTool("SaveCoordinateToSqlTest",1);
+}
+
 void BusTest::MainTest()
 {
     tool.TestNoteTool("MainTest",0);

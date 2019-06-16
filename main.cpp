@@ -37,7 +37,7 @@
 #include <QKeyEvent>
 #include "test/screencontroltest.h"
 
-//#define MyTest 1
+#define MyTest 1
 #ifdef MyTest
 #include "test/buslinetest.h"
 #include "test/bustest.h"
@@ -128,10 +128,13 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef MyTest
-    tool_test test;
-    test.CreatFileTest();
-    VideoDecodeTheadTest decode_test;
-    decode_test.MainTest();
+//    tool_test test;
+//    test.CreatFileTest();
+//    VideoDecodeTheadTest decode_test;
+//    decode_test.MainTest();
+    BusTest bus_test;
+    bus_test.SaveCoordinateToSqlTest();
+
 #endif
     return app.exec();
 

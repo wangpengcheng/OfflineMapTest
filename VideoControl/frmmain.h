@@ -70,6 +70,7 @@ private:
     /*视频控制模块变量 start*/
     QMenu *menuStyle=nullptr;               //样式菜单
     QMenu *menu=nullptr;                    //鼠标右键菜单对象
+    QMenu *menu8=nullptr;           //视频控制临时按钮
     QLabel *tempLab;                //临时播放视频的标签
     bool video_max_;                //通道是否处于最大化
     QString video_type_;            //当前video的type值

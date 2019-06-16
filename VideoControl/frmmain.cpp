@@ -14,7 +14,7 @@
 #include "videodecodethread.h"
 #include "streamvideowidget.h"
 #include "player/player.h"
-
+#include "src/tool.h"
 frmMain::frmMain(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::frmMain)
@@ -41,42 +41,20 @@ frmMain::frmMain(QWidget *parent) :
 frmMain::~frmMain()
 {
     delete ui;
-    if(menuStyle!=nullptr){
-        delete [] menuStyle;
-    }
-    if(menu!=nullptr){
-        delete [] menu;
-    }
-    if(video_vbox_layout_!=nullptr){
-        delete [] video_vbox_layout_;
-    }
-    if(video_control_widget_!=nullptr){
-        delete [] video_control_widget_;
-    }
-    if(map_control_widget_!=nullptr){
-        delete [] map_control_widget_;
-    }
-    if(map_control_view_!=nullptr){
-        delete [] map_control_view_;
-    }
-    if(map_vbox_layout_!=nullptr){
-        delete [] map_vbox_layout_;
-    }
-    if(aggregative_gridLayout_!=nullptr){
-        delete [] aggregative_gridLayout_;
-    }
-    if(speed_chart_widget_!=nullptr){
-        delete [] speed_chart_widget_;
-    }
-    if(map_connect_!=nullptr){
-        delete [] map_connect_;
-    }
-    if(bus_test_!=nullptr){
-        delete [] bus_test_;
-    }
-    if(bus_line_test_!=nullptr){
-        delete [] bus_line_test_;
-    }
+
+    DELETE_QOBJECT(menuStyle);
+    DELETE_QOBJECT(menu);
+    DELETE_QOBJECT(menu8);
+    DELETE_QOBJECT(video_vbox_layout_);
+    DELETE_QOBJECT(video_control_widget_);
+    DELETE_QOBJECT(map_control_widget_);
+    DELETE_QOBJECT(map_control_view_);
+    DELETE_QOBJECT(map_vbox_layout_);
+    DELETE_QOBJECT(aggregative_gridLayout_);
+    DELETE_QOBJECT(speed_chart_widget_);
+    DELETE_QOBJECT(map_connect_);
+    DELETE_OBJECT(bus_test_);
+    DELETE_OBJECT(bus_line_test_);
 }
 
 void frmMain::InitStyle()
@@ -274,7 +252,7 @@ void frmMain::InitMenu()
     menu7->addAction(QStringLiteral("通道6-通道12"), this, SLOT(show_video_7()));
     //设置切换到12画面
     menu->addAction(QStringLiteral("切换到12画面"), this, SLOT(show_video_12()));
-
+    menu8=menu->addMenu(QStringLiteral("视频控制"));
 }
 void frmMain::LoadVideo()
 {
@@ -335,6 +313,7 @@ void frmMain::LoadNVRIPC()
             //根据列表初始化
             //创建解码线程
             qDebug()<<rtspAddr;
+            qDebug()<<temp_id;
             VideoDecodeThread* temp_decode=new VideoDecodeThread(rtspAddr);
             QSharedPointer<VideoDecodeThread> test_temp(temp_decode);
             qDebug()<<test_temp.get()->net_stream_address();
@@ -392,8 +371,8 @@ void frmMain::InitShowDialog()
         bus_test_=new BusTest();//直接在堆上分配内存
         bus_test_->ShowTest(show_dialog_->show_map().get());
         //网络测试
-        bus_test_->UpdataPositionBySocketTest();
-        //bus_test_->LuShuTest();//开始路书
+        //bus_test_->UpdataPositionBySocketTest();
+        bus_test_->LuShuTest();//开始路书
 
     }else {
         qDebug()<<"show map is empty!";
@@ -921,12 +900,14 @@ void frmMain::on_treeMain_doubleClicked(const QModelIndex &index)
             show_dialog_->video_widget()->video_widgets().at(i)->set_decode_thread(get);
 //            decode_list_.find(IPCIP).value().get()->StartDecode();
             //添加新按钮控制线程的播放和显示
-            get.get()->set_is_save();
-            get->set_is_save_by_time();//设置按照固定时长来写入视频数据
-            QMenu *menu8=menu->addMenu(QStringLiteral("视频控制"));
+            if(!get->is_save()){
+                get.get()->set_is_save();
+                get->set_is_save_by_time();//设置按照固定时长来写入视频数据
+            }
+
+
             //视频暂停按钮
             if(get->is_save()){
-
                 menu8->addAction(QStringLiteral("停止播放"),get.get(),SLOT(StopDecode()));
                 qDebug()<<"add ed";
             }
@@ -990,7 +971,6 @@ void frmMain::on_tab_choose_currentChanged(int index)
         video_vbox_layout_->addWidget(video_control_widget_);
     }
     aggregative_gridLayout_->update();
-    this->update();
     show_dialog_->stacked_widget()->update();
 
 
