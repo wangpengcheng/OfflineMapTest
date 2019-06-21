@@ -36,6 +36,12 @@
 #include <QDebug>
 #endif
 #include <QObject>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QJsonObject>
+#include <QJsonDocument>
+
 #define DELETE_OBJECT(obj) {if(obj!=nullptr){delete obj;obj=nullptr;qDebug()<<obj<<" deleted";} }
 
 #define DELETE_QOBJECT(obj) {if(obj->parent()==nullptr){ delete obj;obj=nullptr;qDebug()<<obj<<" deleted";}}
@@ -56,6 +62,10 @@ class Tool: public QObject
                          QString file_name,//文件名称
                          QString file_type//文件后缀
                          );//创建文件工具类
+        //Json 请求同步函数，通过线程阻塞实现，json的同步请求。
+        static QJsonObject NetWorkGet(QString url,//传输的地址
+                                      QJsonObject send_data//请求的数据
+                                      );
 
 };
 

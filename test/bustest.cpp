@@ -2,7 +2,7 @@
 #ifndef BUS_H
 #include "src/bus.h"
 #endif
-BusTest::BusTest()
+BusTest::BusTest(QObject *parent):QObject(parent)
 {
     bus_test_=nullptr;
     bus_test_=new Bus(tool.WPS84ToGCJ02(30.5563134000,103.9938400000));//江安
@@ -57,6 +57,7 @@ void BusTest::LuShuTest()
     QList<QGeoCoordinate> temp_points;
     AddCoordinateToList(temp_points);
     tool.TestNoteTool("LuShuTest",0);
+    bus_test_->set_is_cricle(false);
     bus_test_->set_bus_path_coordinates(temp_points);
     bus_test_->ChangePath();
     bus_test_->LuShu();
@@ -81,6 +82,23 @@ void BusTest::SaveCoordinateToSqlTest()
     Tool::TestNoteTool("SaveCoordinateToSqlTest",0);
     QGeoCoordinate temp_point(30.5563134000,103.9938400000);
     bus_test_->SaveCoordinateToSql(temp_point,5);
+//    LuShuTest();
+//    //设置定时器；
+//    QTimer *timer=new QTimer(this);
+//    static unsigned int i=0;
+//    this->connect(timer,&QTimer::timeout,this,[&](){
+//        qDebug()<<"is stop:"<<bus_test_->is_stop();
+//        i++;
+//        qDebug()<<i;
+//        if(!bus_test_->is_stop()){//车辆没有停止就持续记录
+//            bus_test_->SaveCoordinateToSql(bus_test_->bus_quick_item()->coordinate(),5);
+//            //qDebug()<<bus_test_->bus_quick_item()->coordinate();
+//        }else{
+//            timer->stop();
+//            timer->destroyed();
+//        }
+//    });
+//    timer->start(1000);
     Tool::TestNoteTool("SaveCoordinateToSqlTest",1);
 }
 

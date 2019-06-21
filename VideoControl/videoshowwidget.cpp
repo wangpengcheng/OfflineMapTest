@@ -1,8 +1,9 @@
 ﻿#include "videoshowwidget.h"
 #include "ui_videoshowwidget.h"
-//#include "myvideowidget.h"
+#include "myvideowidget.h"
 //流媒体播放窗口
 #include "streamvideowidget.h"
+
 VideoShowWidget::VideoShowWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::VideoShowWidget)
@@ -65,7 +66,7 @@ void VideoShowWidget::initForm()
     //初始化并添加视频
     for (int i = 0; i < videoCount; ++i) {
           //MyVideoWidget *widget = new MyVideoWidget(video_path);
-          StreamVideoWidget *widget = new StreamVideoWidget();
+          T *widget = new T();
           widget->setObjectName(QString("video%1").arg(i + 1));
           widget->installEventFilter(this);
           widget->setFocusPolicy(Qt::StrongFocus);

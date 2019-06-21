@@ -226,3 +226,54 @@ QString Tool::CreatFile(QString director_name,//文件夹名字
         temp_file.close();
         return file_full_path;
 }
+//网络请求线程异步失败；将其改为模板类，运行指定函数。
+/*
+input：request url string, post data QJSonObject
+recturn back return QJsonObject
+*/
+QJsonObject Tool::NetWorkGet(QString url,//传输的地址
+                             QJsonObject send_data//请求的数据
+                            )
+{
+    QJsonObject result;
+    QNetworkAccessManager save_manage;
+    QNetworkRequest network_request;
+    //定义阻塞线程，将异步变为同步
+    QEventLoop eventLoop;
+    network_request.setUrl(QUrl(url));
+
+    network_request.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/json"));
+    QByteArray send_data_array=QJsonDocument(send_data).toJson();
+//    qDebug()<<send_data_array;
+    /*发送get网络请求*/
+    connect(&save_manage, SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
+    //获取返回结果
+    QNetworkReply* reply=save_manage.post(network_request,send_data_array);
+    //阻塞结束
+    eventLoop.exec();
+   // connect(&save_manage,&QNetworkAccessManager::finished,this,[=](QNetworkReply *reply){
+    //处理收到的结果
+    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        if(statusCode.isValid()){
+            qDebug() << "status code=" << statusCode.toInt();
+        }
+        QVariant reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+        if(reason.isValid()){
+            qDebug() << "reason=" << reason.toString();
+        }
+        QNetworkReply::NetworkError err = reply->error();
+        if(err != QNetworkReply::NoError) {
+            qDebug() << "Failed: " << reply->errorString();
+        }else {
+            // 获取返回内容
+            result = QJsonDocument::fromJson(reply->readAll()).object();
+            if(result.isEmpty()){
+                qDebug()<<"recive error";
+            }else {
+                qDebug()<<result.isEmpty();
+                qDebug()<<result.value("result").toArray().at(10);
+            }
+        }
+   qDebug()<<result.isEmpty();
+        return  result;
+}

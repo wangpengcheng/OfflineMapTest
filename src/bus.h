@@ -55,7 +55,7 @@ class Bus: public QObject
 {
      Q_OBJECT
 public:
-    Bus();
+    Bus(QObject *parent = nullptr);
     ~Bus();
     Bus(QList<QGeoCoordinate> new_path);
     Bus(const QGeoCoordinate new_coordinate);
@@ -77,6 +77,7 @@ public:
     void set_bus_diver(const QString input_bus_diver);
     inline QDeclarativeGeoMapQuickItem * bus_quick_item(){ return  this->bus_quick_item_;}
     inline void set_bus_quick_item(QDeclarativeGeoMapQuickItem *quick_item){this->bus_quick_item_=quick_item;}
+    inline bool is_stop(){return is_stop_;}
     /*基本信息存取 end*/
     /*重要信息存取 start*/
     QList<QGeoCoordinate> bus_path_coordinates();
@@ -144,7 +145,7 @@ private:
     double bus_speed_=5;//公交车速度(km/s)
     bool is_cricle_=true;//是否循环
     bool is_pause = false;//是否
-    bool is_stop = false;//不停止
+    bool is_stop_ = false;//不停止;是否停止，当为true时，车辆已经停止
     bool is_return=false;//是否在返程
     //socket通信成员
     QTcpSocket *socket_=nullptr;//socket通信成员变量

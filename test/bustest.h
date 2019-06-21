@@ -32,10 +32,11 @@
 #include "src/tool.h"
 #endif
 class Bus;
-class BusTest
+class BusTest:public QObject
 {
+    Q_OBJECT
 public:
-    BusTest();
+    BusTest(QObject *parent=nullptr);
     ~BusTest();
     void ShowTest(QDeclarativeGeoMap *qMap);//显示测试函数
     void MoveTest();//移动测试

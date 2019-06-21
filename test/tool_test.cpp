@@ -44,3 +44,16 @@ void tool_test::CreatFileTest(){
     qDebug()<<"this file full path is"<<result;
     m_tool.TestNoteTool("Tool CreateFile Test",1);
 }
+void tool_test::NetWorkGetTest(){
+    Tool::TestNoteTool("NetWorkGetTest",0);
+    QJsonObject temp_data;
+    temp_data.insert("record_id",5);
+    QString request_url="http://localhost/re_get_gps.php";
+    QJsonObject test=Tool::NetWorkGet(request_url,temp_data);
+    qDebug()<<test.size();
+    qDebug()<<test.isEmpty();
+    QJsonArray result_array=test.value("result").toArray();
+    qDebug()<<result_array.at(10);
+    qDebug()<<result_array.size();
+    Tool::TestNoteTool("NetWorkGetTest",1);
+}

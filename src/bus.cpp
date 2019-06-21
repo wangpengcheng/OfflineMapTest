@@ -2,7 +2,7 @@
 #ifndef QMATH_H
 #include <QtMath>
 #endif
-Bus::Bus()
+Bus::Bus(QObject *parent):QObject(parent)
 {
     Init();
     Updata();
@@ -349,7 +349,7 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
          double pixe_point_y=LinearInterpolation(coordinate1.longitude(),coordinate2.longitude(),value,count);
          QGeoCoordinate temp_result(pixe_point_x,pixe_point_y);//输出坐标值
          this->bus_quick_item_->setCoordinate(temp_result);//设置临时坐标
-         this->SaveCoordinateToSql(temp_result,5);
+         //this->SaveCoordinateToSql(temp_result,5);
     });
     //绑定结束事件
     connect(temp_timeline,&QTimeLine::finished,this,[=]()
@@ -397,6 +397,7 @@ void Bus::MoveNextIndex(const int index)//移动到下一个位置
             //更改信号变量
             this->is_return=!this->is_return;
         }
+        this->is_stop_=true;//确定已经停止。
     }
 }
 double Bus::LinearInterpolation(const double init_pos,
@@ -466,7 +467,7 @@ void Bus::LuShuStart()
         //没按pause再按start不做处理
         if (!this->is_pause) {
                return;
-        }else if(!this->is_stop){
+        }else if(!this->is_stop_){
             //按了pause按钮,并且再按start，直接移动到下一点
             //并且此过程中，没有按stop按钮
             //防止先stop，再pause，然后连续不停的start的异常
@@ -476,7 +477,7 @@ void Bus::LuShuStart()
            //重置状态
         this->MoveNextIndex(0);//移动到1
         this->is_pause = false;
-        this->is_stop = false;
+        this->is_stop_ = false;
     }
 }
 void Bus::LuShuPause()
@@ -487,7 +488,7 @@ void Bus::LuShuPause()
 void Bus::LuShuStop()
 {
 
-    this->is_stop = true;
+    this->is_stop_ = true;
     this->bus_time_line_list_.at(this->line_index_)->stop();//停止动画
     this->line_index_= 0;//重置起点
     if(is_return)//是否在返程
@@ -511,23 +512,37 @@ void Bus::SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id)
     network_request.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/json"));
     connect(save_manage,&QNetworkAccessManager::finished,this,[=](QNetworkReply *reply)
     {
-         QJsonObject data = QJsonDocument::fromJson(reply->readAll()).object();
-         qDebug()<<"this result data is:"<<data;
+
+        // 获取http状态码
+            QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+            if(statusCode.isValid()){
+                qDebug() << "status code=" << statusCode.toInt();
+            }
+            QVariant reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+            if(reason.isValid()){
+                qDebug() << "reason=" << reason.toString();
+            }
+            QNetworkReply::NetworkError err = reply->error();
+            if(err != QNetworkReply::NoError) {
+                qDebug() << "Failed: " << reply->errorString();
+            }else {
+                // 获取返回内容
+                QJsonObject data = QJsonDocument::fromJson(reply->readAll()).object();
+                qDebug()<<data.size();
+                qDebug()<<data.empty();
+            }
     });
 
     //准备发送的数据
     //获取当前时间
     QString currt_time=QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
     QJsonObject send_data;
-    send_data.insert("latitude",coordinate.altitude());
+    send_data.insert("latitude",coordinate.latitude());
     send_data.insert("longitude",coordinate.longitude());
     send_data.insert("record_id",record_id);
     send_data.insert("gps_time",currt_time); //存储时间
-    qDebug()<<"data"<<send_data;
     //将Json转化为数据流
     QByteArray send_data_array=QJsonDocument(send_data).toJson();
-    qDebug()<<"data array"<<send_data_array;
-    //send_data.insert("",);
     /*发送get网络请求*/
    save_manage->post(network_request,send_data_array);
 }

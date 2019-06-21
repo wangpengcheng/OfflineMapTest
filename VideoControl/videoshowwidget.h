@@ -5,7 +5,7 @@
 #include <QMenu>
 #include <QTimer>
 //#include "myvideowidget.h"
-//class MyVideoWidget
+class MyVideoWidget;
 class StreamVideoWidget;
 namespace Ui {
     class VideoShowWidget;
