@@ -1,11 +1,12 @@
-﻿#include "videoshowwidget.h"
+﻿#ifdef USE_TEMPLATE
+#include "videoshowwidget.h"
 #include "ui_videoshowwidget.h"
 #include "myvideowidget.h"
 //流媒体播放窗口
 #include "streamvideowidget.h"
-
-VideoShowWidget::VideoShowWidget(QWidget *parent) :
-    QWidget(parent),
+#include "src/tool.h"
+template < class T>
+VideoShowWidget<T>::VideoShowWidget(QWidget *parent):VideoShowWidgetBase(parent),
     ui(new Ui::VideoShowWidget)
 {
     ui->setupUi(this);
@@ -16,21 +17,19 @@ VideoShowWidget::VideoShowWidget(QWidget *parent) :
     QTimer::singleShot(1000, this, SLOT(play_video_all()));
 }
 
-VideoShowWidget::~VideoShowWidget()
+template < class T>
+VideoShowWidget<T>::~VideoShowWidget()
 {
     delete ui;
-    if(videoMenu!=nullptr)
-    {
-        delete [] videoMenu;
-        videoMenu=nullptr;
-    }
+    DELETE_QOBJECT(videoMenu);
 }
-bool VideoShowWidget::eventFilter(QObject *watched, QEvent *event)
+template < class T>
+bool VideoShowWidget<T>::eventFilter(QObject *watched, QEvent *event)
 {
     //监听全局事件
     if (event->type() == QEvent::MouseButtonDblClick) {
             //MyVideoWidget *widget = qobject_cast<MyVideoWidget *>(watched);//获取双击对象
-            StreamVideoWidget *widget = qobject_cast<StreamVideoWidget *>(watched);
+            T *widget = qobject_cast<T *>(watched);
             if (!videoMax) {//如果没有处于最大模式则，将其设置为最大模式
                 hide_video_all();
                 ui->gridLayout->addWidget(widget, 0, 0,1,1);
@@ -49,7 +48,8 @@ bool VideoShowWidget::eventFilter(QObject *watched, QEvent *event)
 
         return QWidget::eventFilter(watched, event);
 }
-void VideoShowWidget::initForm()
+template < class T>
+void VideoShowWidget<T>::initForm()
 {
     //设置QSS样式
 //    QStringList qss;
@@ -79,8 +79,10 @@ void VideoShowWidget::initForm()
     ui->gridLayout->setMargin(2);
     ui->gridLayout->setSpacing(2);
 }
+
 //初始化右侧按键
-void VideoShowWidget::initMenu()
+template < class T>
+void VideoShowWidget<T>::initMenu()
 {
     videoMenu = new QMenu(this);
     videoMenu->addAction(QStringLiteral("截图当前视频"), this, SLOT(snapshot_video_one()));
@@ -125,7 +127,8 @@ void VideoShowWidget::initMenu()
     videoMenu->addAction(QStringLiteral("切换到12画面"), this, SLOT(show_video_12()));
 
 }
-void VideoShowWidget::play_video_all()
+template <class T>
+void VideoShowWidget<T>::play_video_all()
 {
     if(!widgets.isEmpty()){
         for(int i=0;i<widgets.count();++i)
@@ -134,18 +137,20 @@ void VideoShowWidget::play_video_all()
         }
     }
 }
+template <class T>
+void VideoShowWidget<T>::snapshot_video_one()
+{
 
-void VideoShowWidget::snapshot_video_one()
+}
+template <class T>
+void VideoShowWidget<T>::snapshot_video_all()
 {
 
 }
 
-void VideoShowWidget::snapshot_video_all()
-{
-
-}
 //显示所有视频
-void VideoShowWidget::show_video_all()
+template <class T>
+void VideoShowWidget<T>::show_video_all()
 {
     if (video_type_ == "1_4") {
             change_video_4(0);
@@ -184,7 +189,8 @@ void VideoShowWidget::show_video_all()
         }
 }
 //显示1画面
-void VideoShowWidget::show_video_1()
+template <class T>
+void VideoShowWidget<T>::show_video_1()
 {
     videoMax = false;
     QString videoType;
@@ -236,7 +242,8 @@ void VideoShowWidget::show_video_1()
     }
 }
 //显示4画面
-void VideoShowWidget::show_video_4()
+template <class T>
+void VideoShowWidget<T>::show_video_4()
 {
     videoMax = false;
     QString videoType;
@@ -267,7 +274,8 @@ void VideoShowWidget::show_video_4()
     }
 }
 //显示6视频
-void VideoShowWidget::show_video_6()
+template <class T>
+void VideoShowWidget<T>::show_video_6()
 {
     videoMax = false;
     QString videoType;
@@ -294,7 +302,8 @@ void VideoShowWidget::show_video_6()
     qDebug()<<"video_type is :"<<video_type_;
 }
 //显示7个视频
-void VideoShowWidget::show_video_7()
+template <class T>
+void VideoShowWidget<T>::show_video_7()
 {
     videoMax = false;
     QString videoType;
@@ -363,8 +372,9 @@ void VideoShowWidget::show_video_7()
 //        change_video_9(index);
 //    }
 //}
-//显示16视频
-void VideoShowWidget::show_video_12()
+//显示12视频
+template <class T>
+void VideoShowWidget<T>::show_video_12()
 {
     videoMax = false;
     QString videoType;
@@ -377,7 +387,8 @@ void VideoShowWidget::show_video_12()
     }
 }
 //隐藏所有
-void VideoShowWidget::hide_video_all()
+template <class T>
+void VideoShowWidget<T>::hide_video_all()
 {
     for (int i = 0; i < videoCount; ++i) {
         ui->gridLayout->removeWidget(widgets.at(i));
@@ -388,7 +399,8 @@ void VideoShowWidget::hide_video_all()
 }
 //更改视频函数
 //输入视频起始编号，根据行列决定分布
-void VideoShowWidget::change_video(int index, int v_row,int v_col)
+template <class T>
+void VideoShowWidget<T>::change_video(int index, int v_row,int v_col)
 {
     int count = 0;
     int row = 0;
@@ -412,8 +424,9 @@ void VideoShowWidget::change_video(int index, int v_row,int v_col)
     }
     emit play_changed(0);
 }
-//
-void VideoShowWidget::change_video_1(int index)
+//更改显示函数
+template <class T>
+void VideoShowWidget<T>::change_video_1(int index)
 {
     if(index>=0&&index<12)
     {
@@ -428,7 +441,8 @@ void VideoShowWidget::change_video_1(int index)
     qDebug()<<"row:"<<ui->gridLayout->rowCount();
     emit play_changed(0);
 }
-void VideoShowWidget::change_video_4(int index)
+template <class T>
+void VideoShowWidget<T>::change_video_4(int index)
 {
     hide_video_all();
     //change_video(index,2,2);//2行2列
@@ -463,8 +477,8 @@ void VideoShowWidget::change_video_4(int index)
     qDebug()<<"row:"<<ui->gridLayout->rowCount();
     emit play_changed(0);
 }
-
-void VideoShowWidget::change_video_6(int index)
+template <class T>
+void VideoShowWidget<T>::change_video_6(int index)
 {
     hide_video_all();
     if (index == 0) {
@@ -508,7 +522,8 @@ void VideoShowWidget::change_video_6(int index)
     emit play_changed(0);
 }
 //显示7视频
-void VideoShowWidget::change_video_7(int index)
+template <class T>
+void VideoShowWidget<T>::change_video_7(int index)
 {
     hide_video_all();
     if(index==0){
@@ -578,8 +593,8 @@ void VideoShowWidget::change_video_8(int index)
 //    hide_video_all();
 //    change_video(index, 3,3);//三行三列
 //}
-
-void VideoShowWidget::change_video_12(int index)
+template <class T>
+void VideoShowWidget<T>::change_video_12(int index)
 {
     hide_video_all();
     change_video(index,3,4);//三行四列
@@ -587,3 +602,4 @@ void VideoShowWidget::change_video_12(int index)
     qDebug()<<"row:"<<ui->gridLayout->rowCount();
     emit play_changed(0);
 }
+#endif

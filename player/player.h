@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -67,6 +67,7 @@ class QVideoProbe;
 class VideoWidget;
 class QAudioProbe;
 class VideoWidget;
+#include <QVideoWidget>
 QT_END_NAMESPACE
 
 class PlaylistModel;
@@ -85,7 +86,7 @@ public:
     void addToPlaylist(const QList<QUrl> &urls);
     void setCustomAudioRole(const QString &role);
     //获取显示
-    inline VideoWidget* videoWidget(){return m_videoWidget;}
+    inline QVideoWidget* videoWidget(){return m_videoWidget;}
     inline QMediaPlayer* GetPlyer(){return m_player;}
 
 signals:
@@ -119,10 +120,10 @@ private:
     void handleCursor(QMediaPlayer::MediaStatus status);
     void updateDurationInfo(qint64 currentInfo);
 
-    QMediaPlayer *m_player = nullptr;
-    QMediaPlaylist *m_playlist = nullptr;
-    VideoWidget *m_videoWidget = nullptr;
-    QLabel *m_coverLabel = nullptr;
+    QMediaPlayer *m_player = nullptr;//播放器
+    QMediaPlaylist *m_playlist = nullptr;//播放列表
+    QVideoWidget *m_videoWidget = nullptr;//显示列表
+    QLabel *m_coverLabel = nullptr;//转换列表
     QSlider *m_slider = nullptr;
     QLabel *m_labelDuration = nullptr;
     QPushButton *m_fullScreenButton = nullptr;

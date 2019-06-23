@@ -53,10 +53,13 @@
 #include "src/mainshowdialog.h"
 #include "VideoControl/videodecodethread.h"
 #include "VideoControl/streamvideowidget.h"
+#include "VideoControl/myvideowidget.h"
 //主函数
 #include "VideoControl/myhelper.h"
 #include "VideoControl/frmmain.h"
 #include "VideoControl/myapp.h"
+#include "player/myreviewwidget.h"
+
 //use tool
 Tool tool;
 #include <QLabel>
@@ -71,8 +74,7 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     QString path_string=QDir::tempPath();
-//方便开启测试模式
-#ifndef MyTest
+
     //添加字体
     QFontDatabase::addApplicationFont(":/fonts/DejaVuSans.ttf");
     app.setFont(QFont("DejaVu Sans"));
@@ -82,7 +84,7 @@ int main(int argc, char *argv[])
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     app.setApplicationName("VM");         //设置应用程序名称
     app.setApplicationVersion("V201412"); //设置应用程序版本
-    app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);//允许使用
+    app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);//允许使用qquickwidget
     myHelper::SetUTF8Code();            //设置程序编码为UTF-8
     myHelper::SetChinese();             //设置程序为中文字库
 
@@ -96,7 +98,8 @@ int main(int argc, char *argv[])
 
     //加载和应用样式
     myHelper::SetStyle(myApp::AppStyle);
-
+    //方便开启测试模式
+#ifndef MyTest
     //创建共享内存,判断是否已经运行程序
     QSharedMemory mem("VM");
     if(!mem.create(1)){
@@ -128,10 +131,12 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef MyTest
-    tool_test test;
-   // test.CreatFileTest();
-    test.NetWorkGetTest();
-
+//    tool_test test;
+//   // test.CreatFileTest();
+//    test.NetWorkGetTest();
+    MyReviewWidget test_re;
+    //test_re.resize(800,800);
+    test_re.show();
 //    VideoDecodeTheadTest decode_test;
 //    decode_test.MainTest();
 //    BusTest bus_test;
@@ -230,19 +235,21 @@ void ShowBusLine(QDeclarativeGeoMap *qMap)
 void VideoTest()
 {
     tool.TestNoteTool("video test ",0);
-    for(int i=0;i<10;++i){
+    for(int i=0;i<4;++i){
     QVideoWidget *vw = new QVideoWidget();
     QMediaPlayer *player=new QMediaPlayer();
     QMediaPlaylist *playlist=new QMediaPlaylist();
 
-    QString video_path=QString("C:/Users/lin/Videos/Captures/minieyeone.mp4");
+    QString video_path=QString("C:/Users/lin/Videos/out/chedaoxian.mp4");
 
-//    QFile file(video_path);
+    QFile file(video_path);
 
-//        if(!file.open(QIODevice::ReadOnly)){
+//    if(!file.open(QIODevice::ReadOnly)){
 
 //            qDebug() << "Could not open file";
-//        }else{
+//            break;
+//    }
+    //else{
 //            player->setMedia(QUrl::fromLocalFile(video_path));
 //            playlist->addMedia(QUrl("http://example.com/movie1.mp4"));
 

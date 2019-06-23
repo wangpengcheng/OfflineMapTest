@@ -1,4 +1,4 @@
-#include "frminputbox.h"
+﻿#include "frminputbox.h"
 #include "ui_frminputbox.h"
 #include "myhelper.h"
 #include "iconhelper.h"
@@ -11,6 +11,7 @@ frmInputBox::frmInputBox(QWidget *parent) :
     ui->setupUi(this);
     this->InitStyle();
 }
+
 
 frmInputBox::~frmInputBox()
 {

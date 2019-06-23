@@ -74,41 +74,34 @@ void MainShowDialog::InitStackWidget()
     map_show_vbox_layout_->addWidget(map_page_);//添加到布局中
     //创建video_page_
     //创建video_page布局
-    video_widget_=new VideoShowWidget();
-//    //视频显示布局
-//    video_show_vbox_layout_=new QHBoxLayout(ui->video_show_page);
-//    video_show_vbox_layout_->setMargin(2);
-//    video_show_vbox_layout_->setSpacing(0);
-//    video_show_vbox_layout_->setContentsMargins(2, 2, 2, 2);
-//    video_widget_->change_video_4(0);
-
-//    video_page_=new QWidget();
-//    video_show_vbox_layout_->addWidget(video_page_);
-//    video_vbox_layout_=new QVBoxLayout(video_page_);
-//    video_vbox_layout_->addWidget(video_widget_);
+    video_widget_=new VideoShowWidget<StreamVideoWidget>(this);
     ui->horizontalLayout->setMargin(1);
     ui->horizontalLayout->setSpacing(1);
     //ui->videoshow_v_div->setContentsMargins(2,2,2,2);
     ui->horizontalLayout->addWidget(video_widget_);
 
-//    ui->video_show_page=video_page_;
-//    ui->show_tab_choose->addWidget(video_page_);
-//    aggregative_gridLayout_=new QGridLayout();
-//    aggregative_gridLayout_->setSpacing(0);
-//    aggregative_gridLayout_->setMargin(2);
-//    ui->aggregative_horizontalLayout->addLayout(aggregative_gridLayout_);
     //设置仪表盘面板
     speed_show_chart_widget_=new QQuickWidget();
     speed_show_chart_widget_->setResizeMode(QQuickWidget::SizeRootObjectToView);
     speed_show_chart_widget_->setSource(QUrl("qrc:/qml/MyCharts.qml"));
     ui->verticalLayout_4->addWidget(speed_show_chart_widget_);
     //设置回放显示
-    video_review_layout_=new QVBoxLayout(ui->show_tab_choosePage4);
+    video_review_layout_=new QHBoxLayout(ui->show_tab_choosePage4);
     video_review_show_widget_=new QVideoWidget(ui->show_tab_choosePage4);
-//    ui->show_tab_choosePage4->setLayout(video_review_layout_);
+    //创建回放地图
+    re_map_widget_=new QQuickWidget(ui->show_tab_choosePage4);
+    re_map_widget_->setSource(QUrl("qrc:/qml/MainShowWindow.qml"));
+    re_map_widget_->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    //获取地图参数
+    re_show_map_=std::shared_ptr<QDeclarativeGeoMap>(re_map_widget_->rootObject()->findChild<QDeclarativeGeoMap *>("show_map"));
+//  ui->show_tab_choosePage4->setLayout(video_review_layout_);
     video_review_layout_->addWidget(video_review_show_widget_);
+    video_review_layout_->addWidget(re_map_widget_);
+//    re_map_widget_->show();
 //    video_review_layout_->setMargin(5);//设置边距
-   // video_review_show_widget_->resize(ui->aggregative_show_page->size());
+    video_review_layout_->setSpacing(5);//设置边距
+
+    // video_review_show_widget_->resize(ui->aggregative_show_page->size());
 }
 
 void MainShowDialog::on_show_tab_choose_currentChanged(int arg1)
@@ -134,7 +127,7 @@ void MainShowDialog::on_show_tab_choose_currentChanged(int arg1)
         }else if(arg1==3){
             //ui->aggregative_show_page->update();
 
-            video_review_show_widget_->resize(video_review_show_widget_->parentWidget()->size());
+            //video_review_show_widget_->resize(video_review_show_widget_->parentWidget()->size());
             video_review_show_widget_->show();
         }
     }

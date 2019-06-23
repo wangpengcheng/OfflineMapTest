@@ -33,6 +33,7 @@ class MyVideoWidget: public QWidget
 {
     Q_OBJECT
 public:
+    MyVideoWidget(QWidget *parent = nullptr);
     MyVideoWidget(QUrl video_file_path);
     ~MyVideoWidget();
     //基本存取函数
@@ -42,6 +43,9 @@ public:
     inline void set_video_widget(QVideoWidget* video_widget){ video_widget_=video_widget;}
     inline QMediaPlaylist* play_list(){return play_list_;}
     inline void set_play_list(QMediaPlaylist* play_list){play_list_=play_list;}
+    inline QUrl play_file_path(){return play_file_path_;}
+    inline void set_play_file_path(QUrl new_path){play_file_path_=new_path;}
+    void Init();//初始化相关函数
     void VideoPlay();//播放函数
     void VideoPause();//暂停
     void VideoStop();//播放停止
@@ -50,6 +54,7 @@ private:
     QVideoWidget* video_widget_=nullptr;
     QMediaPlaylist* play_list_=nullptr;
     QVBoxLayout* video_layout_ = nullptr;
+    QUrl play_file_path_;
 
 };
 

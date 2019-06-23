@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -68,6 +68,7 @@ Player::Player(QWidget* parent)
     : QWidget(parent)
 {
 //! [create-objs]
+    //创建媒体播放器
     m_player = new QMediaPlayer(this);
     m_player->setAudioRole(QAudio::VideoRole);
     qInfo() << "Supported audio roles:";
@@ -77,7 +78,7 @@ Player::Player(QWidget* parent)
     m_playlist = new QMediaPlaylist();
     m_player->setPlaylist(m_playlist);
 //! [create-objs]
-
+    //连接信号和槽
     connect(m_player, &QMediaPlayer::durationChanged, this, &Player::durationChanged);
     connect(m_player, &QMediaPlayer::positionChanged, this, &Player::positionChanged);
     connect(m_player, QOverload<>::of(&QMediaPlayer::metaDataChanged), this, &Player::metaDataChanged);
@@ -97,14 +98,15 @@ Player::Player(QWidget* parent)
     m_playlistModel = new PlaylistModel(this);
     m_playlistModel->setPlaylist(m_playlist);
 //! [2]
-
+    //设置队列
     m_playlistView = new QListView(this);
     m_playlistView->setModel(m_playlistModel);
     m_playlistView->setCurrentIndex(m_playlistModel->index(m_playlist->currentIndex(), 0));
 
     connect(m_playlistView, &QAbstractItemView::activated, this, &Player::jump);
-
+    //设置进度条
     m_slider = new QSlider(Qt::Horizontal, this);
+    //设置进度条范围
     m_slider->setRange(0, m_player->duration() / 1000);
 
     m_labelDuration = new QLabel(this);
