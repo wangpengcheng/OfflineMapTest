@@ -54,7 +54,6 @@
 #include <QWidget>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
-
 QT_BEGIN_NAMESPACE
 class QAbstractItemView;
 class QLabel;
@@ -67,6 +66,7 @@ class QVideoProbe;
 class VideoWidget;
 class QAudioProbe;
 class VideoWidget;
+#include <QGeoCoordinate>
 #include <QVideoWidget>
 QT_END_NAMESPACE
 
@@ -91,6 +91,7 @@ public:
 
 signals:
     void fullScreenChanged(bool fullScreen);
+    void SendQGeoCoordinate(QGeoCoordinate);
 
 private slots:
     void open();
@@ -112,7 +113,7 @@ private slots:
     void displayErrorMessage();
 
     void showColorDialog();
-
+    void InitQGeoCoordinates();//从数据库获取坐标信息
 private:
     void clearHistogram();
     void setTrackInfo(const QString &info);
@@ -143,6 +144,7 @@ private:
     QString m_trackInfo;
     QString m_statusInfo;
     qint64 m_duration;
+    QList<QGeoCoordinate> bus_coordinates_list_;//公交的历史坐标点信息
 };
 
 #endif // PLAYER_H

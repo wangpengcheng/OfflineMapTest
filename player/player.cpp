@@ -49,12 +49,11 @@
 ****************************************************************************/
 
 #include "player.h"
-
 #include "playercontrols.h"
 #include "playlistmodel.h"
 #include "histogramwidget.h"
 #include "videowidget.h"
-
+#include "src/tool.h"
 #include <QMediaService>
 #include <QMediaPlaylist>
 #include <QVideoProbe>
@@ -68,6 +67,8 @@ Player::Player(QWidget* parent)
     : QWidget(parent)
 {
 //! [create-objs]
+    //初始化连续坐标点
+    InitQGeoCoordinates();
     //创建媒体播放器
     m_player = new QMediaPlayer(this);
     m_player->setAudioRole(QAudio::VideoRole);
@@ -79,8 +80,8 @@ Player::Player(QWidget* parent)
     m_player->setPlaylist(m_playlist);
 //! [create-objs]
     //连接信号和槽
-    connect(m_player, &QMediaPlayer::durationChanged, this, &Player::durationChanged);
-    connect(m_player, &QMediaPlayer::positionChanged, this, &Player::positionChanged);
+    connect(m_player, &QMediaPlayer::durationChanged, this, &Player::durationChanged);//最终位置更改
+    connect(m_player, &QMediaPlayer::positionChanged, this, &Player::positionChanged);//位置更改
     connect(m_player, QOverload<>::of(&QMediaPlayer::metaDataChanged), this, &Player::metaDataChanged);
     connect(m_playlist, &QMediaPlaylist::currentIndexChanged, this, &Player::playlistPositionChanged);
     connect(m_player, &QMediaPlayer::mediaStatusChanged, this, &Player::statusChanged);
@@ -98,7 +99,7 @@ Player::Player(QWidget* parent)
     m_playlistModel = new PlaylistModel(this);
     m_playlistModel->setPlaylist(m_playlist);
 //! [2]
-    //设置队列
+    //设置显示列表
     m_playlistView = new QListView(this);
     m_playlistView->setModel(m_playlistModel);
     m_playlistView->setCurrentIndex(m_playlistModel->index(m_playlist->currentIndex(), 0));
@@ -110,8 +111,10 @@ Player::Player(QWidget* parent)
     m_slider->setRange(0, m_player->duration() / 1000);
 
     m_labelDuration = new QLabel(this);
+    //当其移动的时候，更改视频位置
     connect(m_slider, &QSlider::sliderMoved, this, &Player::seek);
-
+    //设置连接槽，更改Bus的位置。
+    //热点模块
     m_labelHistogram = new QLabel(this);
     m_labelHistogram->setText("Histogram:");
     m_videoHistogram = new HistogramWidget(this);
@@ -120,33 +123,34 @@ Player::Player(QWidget* parent)
     histogramLayout->addWidget(m_labelHistogram);
     histogramLayout->addWidget(m_videoHistogram, 1);
     histogramLayout->addWidget(m_audioHistogram, 2);
-
+    //视频属性模块
     m_videoProbe = new QVideoProbe(this);
     connect(m_videoProbe, &QVideoProbe::videoFrameProbed, m_videoHistogram, &HistogramWidget::processFrame);
     m_videoProbe->setSource(m_player);
-
+    //音频属性模块
     m_audioProbe = new QAudioProbe(this);
     connect(m_audioProbe, &QAudioProbe::audioBufferProbed, m_audioHistogram, &HistogramWidget::processBuffer);
     m_audioProbe->setSource(m_player);
 
+    //打开文件按钮
     QPushButton *openButton = new QPushButton(tr("Open"), this);
-
+    //连接打开函数库
     connect(openButton, &QPushButton::clicked, this, &Player::open);
-
+    //初始化视频控条
     PlayerControls *controls = new PlayerControls(this);
     controls->setState(m_player->state());
     controls->setVolume(m_player->volume());
     controls->setMuted(controls->isMuted());
 
-    connect(controls, &PlayerControls::play, m_player, &QMediaPlayer::play);
-    connect(controls, &PlayerControls::pause, m_player, &QMediaPlayer::pause);
-    connect(controls, &PlayerControls::stop, m_player, &QMediaPlayer::stop);
-    connect(controls, &PlayerControls::next, m_playlist, &QMediaPlaylist::next);
-    connect(controls, &PlayerControls::previous, this, &Player::previousClicked);
-    connect(controls, &PlayerControls::changeVolume, m_player, &QMediaPlayer::setVolume);
-    connect(controls, &PlayerControls::changeMuting, m_player, &QMediaPlayer::setMuted);
-    connect(controls, &PlayerControls::changeRate, m_player, &QMediaPlayer::setPlaybackRate);
-    connect(controls, &PlayerControls::stop, m_videoWidget, QOverload<>::of(&QVideoWidget::update));
+    connect(controls, &PlayerControls::play, m_player, &QMediaPlayer::play);//播放
+    connect(controls, &PlayerControls::pause, m_player, &QMediaPlayer::pause);//暂停
+    connect(controls, &PlayerControls::stop, m_player, &QMediaPlayer::stop);//停止
+    connect(controls, &PlayerControls::next, m_playlist, &QMediaPlaylist::next);//下一个
+    connect(controls, &PlayerControls::previous, this, &Player::previousClicked);//前一个
+    connect(controls, &PlayerControls::changeVolume, m_player, &QMediaPlayer::setVolume);//声音
+    connect(controls, &PlayerControls::changeMuting, m_player, &QMediaPlayer::setMuted);//播放速度
+    connect(controls, &PlayerControls::changeRate, m_player, &QMediaPlayer::setPlaybackRate);//设置播放速度
+    connect(controls, &PlayerControls::stop, m_videoWidget, QOverload<>::of(&QVideoWidget::update));//设置更新
 
     connect(m_player, &QMediaPlayer::stateChanged, controls, &PlayerControls::setState);
     connect(m_player, &QMediaPlayer::volumeChanged, controls, &PlayerControls::setVolume);
@@ -174,6 +178,7 @@ Player::Player(QWidget* parent)
 
     QBoxLayout *layout = new QVBoxLayout;
     layout->addLayout(displayLayout);
+    //设置进度条
     QHBoxLayout *hLayout = new QHBoxLayout;
     hLayout->addWidget(m_slider);
     hLayout->addWidget(m_labelDuration);
@@ -253,13 +258,13 @@ void Player::setCustomAudioRole(const QString &role)
 {
     m_player->setCustomAudioRole(role);
 }
-
+//持续时间更改
 void Player::durationChanged(qint64 duration)
 {
     m_duration = duration / 1000;
     m_slider->setMaximum(m_duration);
 }
-
+//位置更改
 void Player::positionChanged(qint64 progress)
 {
     if (!m_slider->isSliderDown())
@@ -267,7 +272,7 @@ void Player::positionChanged(qint64 progress)
 
     updateDurationInfo(progress / 1000);
 }
-
+//元数据更改
 void Player::metaDataChanged()
 {
     if (m_player->isMetaDataAvailable()) {
@@ -420,7 +425,7 @@ void Player::displayErrorMessage()
 {
     setStatusInfo(m_player->errorString());
 }
-
+//更新时间信息
 void Player::updateDurationInfo(qint64 currentInfo)
 {
     QString tStr;
@@ -486,4 +491,24 @@ void Player::clearHistogram()
 {
     QMetaObject::invokeMethod(m_videoHistogram, "processFrame", Qt::QueuedConnection, Q_ARG(QVideoFrame, QVideoFrame()));
     QMetaObject::invokeMethod(m_audioHistogram, "processBuffer", Qt::QueuedConnection, Q_ARG(QAudioBuffer, QAudioBuffer()));
+}
+
+void Player::InitQGeoCoordinates()
+{
+    Tool::TestNoteTool("InitQGeoCoordinates",0);
+    QJsonObject temp_data;
+    temp_data.insert("record_id",5);
+    QString request_url="http://localhost/re_get_gps.php";
+    QJsonObject test=Tool::NetWorkGet(request_url,temp_data);
+    QJsonArray result_array=test.value("result").toArray();
+    //便利初始化坐标数组
+    int array_size=result_array.size();
+    for(int i=0;i<array_size;++i){
+        QJsonObject temp=result_array.at(i).toObject();//取得第i组数据
+        double latitude=temp.value("latitude").toString().toDouble();
+        double longitude=temp.value("longitude").toString().toDouble();
+        bus_coordinates_list_.append(QGeoCoordinate(latitude,longitude));
+    }
+    qDebug()<<bus_coordinates_list_.at(10);
+    Tool::TestNoteTool("InitQGeoCoordinates",1);
 }
