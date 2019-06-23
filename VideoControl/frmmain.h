@@ -19,6 +19,7 @@ class VideoDecodeThread;
 class BusTest;
 class BusLineTest;
 class Player;
+class Bus;
 namespace Ui
 {
     class frmMain;
@@ -102,6 +103,7 @@ private:
     //回放控制
     QVBoxLayout* video_review_layout_=nullptr; //回放布局指针
     Player* video_review_control_=nullptr;    // 回放控制对象
+    Bus* review_bus_=nullptr; //回放的车辆
 
     void InitStyle();               //初始化无边框窗体
     void InitForm();                //初始化窗体数据

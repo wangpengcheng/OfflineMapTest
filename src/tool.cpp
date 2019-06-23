@@ -18,7 +18,7 @@
 #ifndef QDEBUG_H
 #include <QDebug>
 #endif
-Tool::Tool(QObject *parent)//:QObject(nullptr)
+Tool::Tool(QObject *parent):QObject(parent)
 {
 
 }
@@ -276,4 +276,8 @@ QJsonObject Tool::NetWorkGet(QString url,//传输的地址
         }
    qDebug()<<result.isEmpty();
         return  result;
+}
+
+void Tool::RunWindowsBat(QString bat_full_path){
+
 }

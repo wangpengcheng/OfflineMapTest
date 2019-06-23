@@ -50,7 +50,6 @@ public:
     inline Bus* bus_test(){return this->bus_test_;}
 private:
     Bus *bus_test_;
-    Tool tool;
 };
 
 #endif // BUSTEST_H

@@ -25,37 +25,14 @@ MainShowDialog::MainShowDialog(QWidget *parent) :
 MainShowDialog::~MainShowDialog()
 {
     delete ui;
-    if(stacked_widget_!=nullptr){
-        delete [] stacked_widget_;
-        stacked_widget_=nullptr;
-    }
-//    if(map_page_!=nullptr){
-//        delete [] map_page_;
-//        map_page_=nullptr;
-//    }
-//    if(video_page_!=nullptr){
-//        delete [] video_page_;
-//    }
-//    if(video_widget_!=nullptr){
-//        delete [] video_widget_;
-//        video_widget_=nullptr;
-//    }
-    if(map_show_vbox_layout_!=nullptr){
-        delete [] map_show_vbox_layout_;
-        map_show_vbox_layout_=nullptr;
-    }
-    if(video_show_vbox_layout_!=nullptr){
-        delete [] video_show_vbox_layout_;
-        video_show_vbox_layout_=nullptr;
-    }
-    if(aggregative_gridLayout_!=nullptr){
-        delete [] aggregative_gridLayout_;
-        aggregative_gridLayout_=nullptr;
-    }
-    if(speed_show_chart_widget_!=nullptr){
-        delete [] speed_show_chart_widget_;
-        speed_show_chart_widget_=nullptr;
-    }
+    DELETE_QOBJECT(stacked_widget_);
+    DELETE_QOBJECT(map_page_);
+    DELETE_QOBJECT(video_page_);
+    DELETE_QOBJECT(video_widget_);
+    DELETE_QOBJECT(map_show_vbox_layout_);
+    DELETE_QOBJECT(video_show_vbox_layout_);
+    DELETE_QOBJECT(aggregative_gridLayout_);
+    DELETE_QOBJECT(speed_show_chart_widget_);
 }
 void MainShowDialog::InitStackWidget()
 {

@@ -61,6 +61,7 @@ private:
     //回放地图显示窗口
     QQuickWidget* re_map_widget_=nullptr;
     std::shared_ptr<QDeclarativeGeoMap> re_show_map_=nullptr;//视频回放的地图
+
 };
 
 #endif // MAINSHOWDIALOG_H

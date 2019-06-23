@@ -15,6 +15,7 @@
 #include "streamvideowidget.h"
 #include "player/player.h"
 #include "src/tool.h"
+#include "src/bus.h"
 frmMain::frmMain(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::frmMain)
@@ -180,7 +181,7 @@ void frmMain::InitTabWidget(){
      speed_chart_widget_=new QQuickWidget();
      speed_chart_widget_->setResizeMode(QQuickWidget::SizeRootObjectToView);
      speed_chart_widget_->setSource(QUrl("qrc:/qml/MyCharts.qml"));
-     //初始化布局
+     //初始化回放布局
      video_review_layout_=new QVBoxLayout(ui->video_review);
      video_review_control_=new Player(ui->video_review);
      video_review_layout_->addWidget(video_review_control_);
@@ -389,8 +390,14 @@ void frmMain::InitShowDialog()
     connect(this,SIGNAL(signal_change_video_12(int)),show_dialog_->video_widget(),SLOT(change_video_12(int)));
 
     //show_dialog_->video_review_show_widget()->resize(400,800);
+    //视频回放，显示设置
     this->video_review_control()->GetPlyer()->setVideoOutput(show_dialog_->video_review_show_widget());
-    show_dialog_->video_review_show_widget()->show();
+    //show_dialog_->video_review_show_widget()->show();
+    //初始化bus
+    review_bus_=new Bus(Tool::WPS84ToGCJ02(30.5563134000,103.9938400000));
+    review_bus_->SetMap(show_dialog_->re_show_map().get());
+    //连接信号更新的槽
+    connect(video_review_control_,&Player::SendQGeoCoordinate,review_bus_,&Bus::SetCoordinate);
 }
 void frmMain::ChangeVideoLayout()
 {
@@ -444,7 +451,7 @@ void frmMain::keyPressEvent(QKeyEvent *event)
         break;
     }
 }
-
+//
 bool frmMain::eventFilter(QObject *obj, QEvent *event)
 {
     //将其转为静态指针
@@ -505,7 +512,11 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
         } else if (obj == ui->labStyle) {//风格按钮
             menuStyle->exec(QPoint(myApp::DeskWidth - 155, 31));
             return true;
-        } else if (MouseEvent->buttons() == Qt::RightButton) {//途观是鼠标右键的话
+        }else if(obj==ui->lab_ReSetScreen){
+            //TODO 重设屏幕
+
+            return true;
+        }else if (MouseEvent->buttons() == Qt::RightButton) {//途观是鼠标右键的话
             tempLab = qobject_cast<QLabel *>(obj);
             menu->exec(QCursor::pos());//鼠标右键位置
             return true;

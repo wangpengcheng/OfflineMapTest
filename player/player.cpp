@@ -113,7 +113,7 @@ Player::Player(QWidget* parent)
     m_labelDuration = new QLabel(this);
     //当其移动的时候，更改视频位置
     connect(m_slider, &QSlider::sliderMoved, this, &Player::seek);
-    //设置连接槽，更改Bus的位置。
+    connect(m_slider,&QSlider::valueChanged,this,&Player::SendCoordinatesToBus);//更新函数
     //热点模块
     m_labelHistogram = new QLabel(this);
     m_labelHistogram->setText("Histogram:");
@@ -162,7 +162,6 @@ Player::Player(QWidget* parent)
     m_colorButton = new QPushButton(tr("Color Options..."), this);
     m_colorButton->setEnabled(false);
     connect(m_colorButton, &QPushButton::clicked, this, &Player::showColorDialog);
-
     QBoxLayout *displayLayout = new QHBoxLayout;
     displayLayout->addWidget(m_videoWidget, 2);
     displayLayout->addWidget(m_playlistView);
@@ -261,7 +260,8 @@ void Player::setCustomAudioRole(const QString &role)
 //持续时间更改
 void Player::durationChanged(qint64 duration)
 {
-    m_duration = duration / 1000;
+    //m_duration = duration / 1000;
+    m_duration = duration/1000;//更改系数，使得更加完整
     m_slider->setMaximum(m_duration);
 }
 //位置更改
@@ -269,8 +269,10 @@ void Player::positionChanged(qint64 progress)
 {
     if (!m_slider->isSliderDown())
         m_slider->setValue(progress / 1000);
-
+    //更新数字信息
     updateDurationInfo(progress / 1000);
+    //更新位置发射
+    //SendCoordinatesToBus(progress/1000);
 }
 //元数据更改
 void Player::metaDataChanged()
@@ -439,7 +441,9 @@ void Player::updateDurationInfo(qint64 currentInfo)
             format = "hh:mm:ss";
         tStr = currentTime.toString(format) + " / " + totalTime.toString(format);
     }
+    //设置更新时间
     m_labelDuration->setText(tStr);
+
 }
 
 void Player::showColorDialog()
@@ -511,4 +515,17 @@ void Player::InitQGeoCoordinates()
     }
     qDebug()<<bus_coordinates_list_.at(10);
     Tool::TestNoteTool("InitQGeoCoordinates",1);
+}
+void Player::SendCoordinatesToBus(int index)
+{
+    int coordinates_size=bus_coordinates_list_.size();
+    //直接写入函数，发射信号
+    int position_index=index*(coordinates_size/m_slider->maximum());
+    qDebug()<<"send positon index:"<<position_index;
+    //发射信号更新位置
+    if(position_index<coordinates_size){
+        emit(SendQGeoCoordinate(bus_coordinates_list_.at(position_index)));
+    }else{
+        qDebug()<<"this over";
+    }
 }

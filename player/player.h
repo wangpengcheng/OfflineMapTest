@@ -114,6 +114,7 @@ private slots:
 
     void showColorDialog();
     void InitQGeoCoordinates();//从数据库获取坐标信息
+    void SendCoordinatesToBus(int index); //抛出信号的函数
 private:
     void clearHistogram();
     void setTrackInfo(const QString &info);

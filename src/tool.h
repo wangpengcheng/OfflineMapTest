@@ -67,6 +67,7 @@ class Tool: public QObject
         static QJsonObject NetWorkGet(QString url,//传输的地址
                                       QJsonObject send_data//请求的数据
                                       );
+        static void RunWindowsBat(QString bat_full_path);
 
 };
 

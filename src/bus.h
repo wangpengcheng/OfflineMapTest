@@ -100,6 +100,7 @@ public:
                                const double target_pos,//终结点
                                const int current_count,//当前帧数
                                const int count);//总帧数
+    //设置车辆的偏转
     void SetRotation(const QGeoCoordinate coordinate1,
                      const QGeoCoordinate coordinate2);
     void ChangePath();//转置路径坐标
@@ -167,6 +168,7 @@ public slots:
               const double dy);
     void MoveNextPoint(const QGeoCoordinate coordinate1,
                        const QGeoCoordinate coordinate2);
+    void SetCoordinate(const QGeoCoordinate new_coordinate);//更新位置信息，带偏转的
 };
 
 #endif // BUS_H

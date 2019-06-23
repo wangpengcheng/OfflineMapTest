@@ -49,6 +49,8 @@ Bus::Bus(const QGeoCoordinate new_coordinate)
     Updata();
     if(new_coordinate.isValid()){
         this->bus_quick_item_->setCoordinate(new_coordinate);
+    }else{
+        qDebug()<<"this input coordinate is empty ";
     }
 }
 Bus::Bus(const QGeoCoordinate new_coordinate,
@@ -259,7 +261,7 @@ void Bus::GetReplyFinished(QNetworkReply *reply)
     QJsonObject data = QJsonDocument::fromJson(reply->readAll()).object();
     double x=data.value(QString("bus_position")).toObject().value("x").toDouble();
     double y=data.value(QString("bus_position")).toObject().value("y").toDouble();
-    this->bus_quick_item_->setCoordinate(QGeoCoordinate(x,y));
+    bus_quick_item_->setCoordinate(QGeoCoordinate(x,y));
    // MoveNextPoint(this->coordinate(),QGeoCoordinate(x,y));
     qDebug()<<this->bus_quick_item_->coordinate();
 }
@@ -545,4 +547,16 @@ void Bus::SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id)
     QByteArray send_data_array=QJsonDocument(send_data).toJson();
     /*发送get网络请求*/
    save_manage->post(network_request,send_data_array);
+}
+void Bus::SetCoordinate(const QGeoCoordinate new_coordinate)
+{
+    if(new_coordinate.isValid()){
+        //设置旋转
+        if(bus_quick_item_->coordinate().isValid()){
+            this->SetRotation(bus_quick_item_->coordinate(),new_coordinate);
+        }
+        //更新坐标位置
+        bus_quick_item_->setCoordinate(new_coordinate);
+
+    }
 }
