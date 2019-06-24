@@ -445,7 +445,7 @@ void Player::updateDurationInfo(qint64 currentInfo)
     m_labelDuration->setText(tStr);
 
 }
-
+//显示色彩控制
 void Player::showColorDialog()
 {
     if (!m_colorDialog) {

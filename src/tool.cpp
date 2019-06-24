@@ -18,6 +18,9 @@
 #ifndef QDEBUG_H
 #include <QDebug>
 #endif
+
+#include <QProcess>
+
 Tool::Tool(QObject *parent):QObject(parent)
 {
 
@@ -265,19 +268,35 @@ QJsonObject Tool::NetWorkGet(QString url,//传输的地址
         if(err != QNetworkReply::NoError) {
             qDebug() << "Failed: " << reply->errorString();
         }else {
+            //qDebug()<<QString::fromLocal8Bit(reply->readAll());
             // 获取返回内容
             result = QJsonDocument::fromJson(reply->readAll()).object();
             if(result.isEmpty()){
                 qDebug()<<"recive error";
+                qDebug()<<QString::fromLocal8Bit(reply->readAll());
             }else {
                 qDebug()<<result.isEmpty();
                 qDebug()<<result.value("result").toArray().at(10);
             }
         }
-   qDebug()<<result.isEmpty();
         return  result;
 }
 
-void Tool::RunWindowsBat(QString bat_full_path){
+void Tool::RunWindowsCommand(QString command){
+    QProcess* cmd_process=new QProcess();
+    QString program = "cmd";
+    QStringList arguments;
 
+    arguments <<"/r"<<command;
+    cmd_process->start(program,arguments);
+    if (cmd_process->waitForStarted())
+    {
+        cmd_process->waitForFinished();
+        qDebug() << QString::fromLocal8Bit(cmd_process->readAllStandardOutput());
+        qDebug() << "ok------";
+    }else{
+        qDebug() << "Failed to start";
+    }
+    //销毁
+    DELETE_QOBJECT(cmd_process);
 }

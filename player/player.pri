@@ -16,7 +16,6 @@ SOURCES += \
     $$PWD/videowidget.cpp \
     $$PWD/histogramwidget.cpp \
     $$PWD/myreviewwidget.cpp
-    #main.cpp \
 
 #target.path = $$[QT_INSTALL_EXAMPLES]/multimediawidgets/player
 #INSTALLS += target

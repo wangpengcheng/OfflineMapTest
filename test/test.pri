@@ -9,7 +9,8 @@ HEADERS += \
     $$PWD/busstationtest.h \
     $$PWD/buslinetest.h \
     $$PWD/bustest.h \
-    $$PWD/videodecodetheadtest.h
+    $$PWD/videodecodetheadtest.h \
+    $$PWD/recordselectdialogtest.h
 
 
 SOURCES += \
@@ -18,7 +19,8 @@ SOURCES += \
     $$PWD/busstationtest.cpp \
     $$PWD/buslinetest.cpp \
     $$PWD/bustest.cpp \
-    $$PWD/videodecodetheadtest.cpp
+    $$PWD/videodecodetheadtest.cpp \
+    $$PWD/recordselectdialogtest.cpp
 
 
 #OTHER_FILES += \

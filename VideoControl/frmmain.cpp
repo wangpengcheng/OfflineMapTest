@@ -108,6 +108,7 @@ void frmMain::change_style()
 
 void frmMain::InitForm()
 {
+    //------ set button listern start ------
     ui->labFull->installEventFilter(this);
     ui->labFull->setProperty("labForm", true);
 
@@ -134,6 +135,11 @@ void frmMain::InitForm()
 
     ui->labStyle->installEventFilter(this);
     ui->labStyle->setProperty("labForm", true);
+
+    ui->labResetScreen->installEventFilter(this);
+    ui->labResetScreen->setProperty("labForm", true);
+
+    //------ set button listern end ------
 
     menuStyle = new QMenu(this);
     menuStyle->addAction(QStringLiteral("淡蓝色"), this, SLOT(change_style()));
@@ -330,18 +336,6 @@ void frmMain::InitShowDialog()
 {
     //初始化显示窗口
     show_dialog_=new MainShowDialog();
-    //为显示窗口添加视频源
-//    QString rtsp_address="rtsp://192.168.137.165:554/test";
-//    qDebug()<<rtsp_address;
-//    VideoDecodeThread* decode=new VideoDecodeThread(rtsp_address);
-//    QSharedPointer<VideoDecodeThread> test_code(decode);
-//    test_code.get()->set_net_stream_address(rtsp_address);
-//    test_code.get()->StartDecode();
-//    show_dialog_->stacked_widget()->setCurrentIndex(2);
-//    QList<StreamVideoWidget *> video_vidgets=show_dialog_->video_widget()->video_widgets();
-//    for(auto temp : video_vidgets){
-//        temp->set_decode_thread(test_code);//设置视频源
-//    }
     //设置显示两个窗口位置
     //show_dialog_->setGeometry(QApplication::desktop()->screenGeometry(1));
     show_dialog_->move(QApplication::desktop()->screenGeometry(1).center());
@@ -512,9 +506,13 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
         } else if (obj == ui->labStyle) {//风格按钮
             menuStyle->exec(QPoint(myApp::DeskWidth - 155, 31));
             return true;
-        }else if(obj==ui->lab_ReSetScreen){
-            //TODO 重设屏幕
-
+        } else if(obj==ui->labResetScreen){
+            if(myHelper::ShowMessageBoxQuesion(QStringLiteral("确定重新设置屏幕？可能需要重新设置"))==1){
+                //执行bat脚本重设屏幕
+                qDebug()<<"start reset screen";
+                QString temp("cd /d F:/GitHub/OfflineMapTest/ScreenControl && Eyefinity.exe e0,3,2 m16,20,8,12,0,4");
+                Tool::RunWindowsCommand(temp);
+            };
             return true;
         }else if (MouseEvent->buttons() == Qt::RightButton) {//途观是鼠标右键的话
             tempLab = qobject_cast<QLabel *>(obj);
@@ -615,15 +613,6 @@ void frmMain::show_video_1()
         index = 11;
         myApp::VideoType = "0_11";
     }
-    /*else if (name == QStringLiteral("通道13")) {
-        index = 12;
-    } else if (name == QStringLiteral("通道14")) {
-        index = 13;
-    } else if (name == QStringLiteral("通道15")) {
-        index = 14;
-    } else if (name == QStringLiteral("通道16")) {
-        index = 15;
-    }*/
     if(this->video_type_!=myApp::VideoType){
         this->video_type_=myApp::VideoType;
         change_video_1(index);
@@ -959,14 +948,6 @@ void frmMain::on_labConfig_linkActivated(const QString &link)
 void frmMain::on_tab_choose_currentChanged(int index)
 {
     if(index==2){
-        //移除原来的video_control_widget_
-//        video_vbox_layout_->removeWidget(video_control_widget_);
-//        //ui->treeMain->setVisible(false);//隐藏侧边面板
-//        //移除地图
-//        map_vbox_layout_->removeWidget(map_control_widget_);
-//        //清除综合模式布局
-//        aggregative_gridLayout_->removeWidget(video_control_widget_);
-//        aggregative_gridLayout_->removeWidget(map_control_widget_);
         aggregative_gridLayout_->removeWidget(speed_chart_widget_);
         //添加布局
         ui->treeMain->setVisible(false);//隐藏侧边面板
@@ -981,8 +962,8 @@ void frmMain::on_tab_choose_currentChanged(int index)
         ui->treeMain->setVisible(true);
         video_vbox_layout_->addWidget(video_control_widget_);
     }
-    aggregative_gridLayout_->update();
-    show_dialog_->stacked_widget()->update();
+//    aggregative_gridLayout_->update();
+//    show_dialog_->stacked_widget()->update();
 
 
 }

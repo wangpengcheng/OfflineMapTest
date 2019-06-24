@@ -92,13 +92,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="lab_ReSetScreen">
-        <property name="text">
-         <string>重设屏幕</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="labFull">
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
@@ -108,6 +101,19 @@
         </property>
         <property name="text">
          <string>进入全屏</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labResetScreen">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: 10pt &quot;微软雅黑&quot;;</string>
+        </property>
+        <property name="text">
+         <string>重设屏幕</string>
         </property>
        </widget>
       </item>

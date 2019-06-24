@@ -37,12 +37,13 @@
 #include <QKeyEvent>
 #include "test/screencontroltest.h"
 
-//#define MyTest 1
+#define MyTest 1
 #ifdef MyTest
 #include "test/buslinetest.h"
 #include "test/bustest.h"
 #include "test/tool_test.h"
 #include "test/videodecodetheadtest.h"
+#include "test/recordselectdialogtest.h"
 #endif
 
 //使用函数
@@ -54,6 +55,7 @@
 #include "VideoControl/videodecodethread.h"
 #include "VideoControl/streamvideowidget.h"
 #include "VideoControl/myvideowidget.h"
+#include "VideoControl/recordselectdialog.h"
 //主函数
 #include "VideoControl/myhelper.h"
 #include "VideoControl/frmmain.h"
@@ -123,25 +125,15 @@ int main(int argc, char *argv[])
     }
     frmMain w;
     w.show();
-    //w.setGeometry(qApp->desktop()->availableGeometry());
-    qDebug()<<"init file";
-
 
 
 #endif
 
 #ifdef MyTest
-//    tool_test test;
-//   // test.CreatFileTest();
-//    test.NetWorkGetTest();
-    MyReviewWidget test_re;
-    //test_re.resize(800,800);
-    test_re.show();
-//    VideoDecodeTheadTest decode_test;
-//    decode_test.MainTest();
-//    BusTest bus_test;
-//    bus_test.SaveCoordinateToSqlTest();
-   // bus_test.LuShuTest();
+    RecordSelectDialog test;
+    test.InitCarList();
+    test.UpdateCarComBox();
+    test.show();
 
 #endif
     return app.exec();

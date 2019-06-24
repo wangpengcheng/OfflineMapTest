@@ -29,7 +29,8 @@ SOURCES += \
     $$PWD/frmpollconfig.cpp \
     $$PWD/excelhelper.cpp \
     $$PWD/videodecodethread.cpp \
-    $$PWD/streamvideowidget.cpp
+    $$PWD/streamvideowidget.cpp \
+    $$PWD/recordselectdialog.cpp
 
 HEADERS  += \
     $$PWD/myhelper.h \
@@ -48,7 +49,8 @@ HEADERS  += \
     $$PWD/frmpollconfig.h \
     $$PWD/frmconfig.h \
     $$PWD/videodecodethread.h \
-    $$PWD/streamvideowidget.h
+    $$PWD/streamvideowidget.h \
+    $$PWD/recordselectdialog.h
 
 
 FORMS    += \
@@ -59,7 +61,8 @@ FORMS    += \
     $$PWD/frmnvr.ui \
     $$PWD/frmipc.ui \
     $$PWD/frmpollconfig.ui \
-    $$PWD/videoshowwidget.ui
+    $$PWD/videoshowwidget.ui \
+    $$PWD/recordselectdialog.ui
 
 INCLUDEPATH 	+= $$PWD
 
