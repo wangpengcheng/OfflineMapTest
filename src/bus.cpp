@@ -236,7 +236,13 @@ void Bus::SocketReadData()
     QStringList string_list=temp_string_1.simplified().split(" ");
     QString latitude=string_list[2];//纬度
     QString longitudinal=string_list[3];//经度
-    this->bus_quick_item_->setCoordinate(QGeoCoordinate(latitude.toDouble(),longitudinal.toDouble()));
+    QGeoCoordinate crrut_coordinate=QGeoCoordinate(latitude.toDouble(),longitudinal.toDouble());
+    this->bus_quick_item_->setCoordinate(crrut_coordinate);
+    if(is_save_gps_&&
+       record_id_!=NULL)
+    {
+        SaveCoordinateToSql(crrut_coordinate,record_id_);
+    }
 
 }
 void Bus::SocketDisconnected()
@@ -559,4 +565,16 @@ void Bus::SetCoordinate(const QGeoCoordinate new_coordinate)
         bus_quick_item_->setCoordinate(new_coordinate);
 
     }
+}
+
+void Bus::StartSaveGPS(int record_id)
+{
+    //更改record id;
+    record_id_=record_id;
+    is_save_gps_=true;
+}
+void Bus::StopSaveGPS()
+{
+    is_save_gps_=false;
+    Tool::TestNoteTool("StopSaveGPS",1);
 }

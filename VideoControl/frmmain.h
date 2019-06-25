@@ -35,6 +35,21 @@ public:
     //返回控制地图
     inline std::shared_ptr<QDeclarativeGeoMap> control_map(){return control_map_;}
     inline Player* video_review_control(){ return video_review_control_;}
+    //------- 数据存储相关函数 start ------
+    inline bool is_save_data(){return is_save_data_;}
+    inline void set_ia_save_data(bool is_save){is_save_data_=is_save;}
+    inline int save_record_id(){return save_record_id_;}
+    int CreateRecord();//创建记录函数，返回mysql中的记录编号
+    //------- 数据存储相关函数 end ------
+    //数据记录的相关信号
+public slots:
+    void StartSaveData();//开始记录数据
+    void StopSaveData();//停止记录数据
+//记录的关键信号
+signals :
+    void signal_send_record_id(int record_id);//发送record_id的信号
+    void signal_send_stop();//发送停止信号
+    //------- 数据存储相关函数 end ------
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
     void keyPressEvent(QKeyEvent *event);
@@ -64,6 +79,7 @@ private slots:
     void on_labConfig_linkActivated(const QString &link);
 
     void on_tab_choose_currentChanged(int index);
+
 
 
 private:
@@ -105,6 +121,11 @@ private:
     Player* video_review_control_=nullptr;    // 回放控制对象
     Bus* review_bus_=nullptr; //回放的车辆
 
+    //------ 存储数据相关变量 start -----
+    bool is_save_data_=false;//是否需要存储数据
+    int save_record_id_=NULL;//记录当前正在存储的记录编号
+    //------ 存储数据相关变量 end -----
+
     void InitStyle();               //初始化无边框窗体
     void InitForm();                //初始化窗体数据
     void InitMenu();                //初始化右侧按钮
@@ -125,7 +146,8 @@ signals:
     void signal_change_video_4(int index); //改变4画面布局
     void signal_change_video_6(int index); //改变6画面布局
     void signal_change_video_7(int index); //改变7画面布局
-    void signal_change_video_12(int index);         //改变12画面布局
+    void signal_change_video_12(int index);//改变12画面布局
+
 public:
     void change_video(int index, int v_row,int col); //更改布局
     QString GetNVRID(QString NVRIP);//获取NVR编号

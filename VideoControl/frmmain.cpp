@@ -323,6 +323,10 @@ void frmMain::LoadNVRIPC()
             qDebug()<<temp_id;
             VideoDecodeThread* temp_decode=new VideoDecodeThread(rtspAddr);
             QSharedPointer<VideoDecodeThread> test_temp(temp_decode);
+            //绑定视频存储的信号函数
+            connect(this,&frmMain::signal_send_record_id,test_temp.get(),&VideoDecodeThread::StartSaveVideo);
+            connect(this,&frmMain::signal_send_stop,test_temp.get(),&VideoDecodeThread::StopSaveVideo);
+
             qDebug()<<test_temp.get()->net_stream_address();
             decode_list_.insert(temp_id,test_temp);
 
@@ -365,6 +369,9 @@ void frmMain::InitShowDialog()
         //添加车辆
         bus_test_=new BusTest();//直接在堆上分配内存
         bus_test_->ShowTest(show_dialog_->show_map().get());
+        //连接车辆的信号和槽
+        connect(this,&frmMain::signal_send_record_id,bus_test_->bus_test(),&Bus::StartSaveGPS);
+        connect(this,&frmMain::signal_send_stop,bus_test_->bus_test(),&Bus::StopSaveGPS);//
         //网络测试
         //bus_test_->UpdataPositionBySocketTest();
         bus_test_->LuShuTest();//开始路书
@@ -899,11 +906,12 @@ void frmMain::on_treeMain_doubleClicked(const QModelIndex &index)
 
             show_dialog_->video_widget()->video_widgets().at(i)->set_decode_thread(get);
 //            decode_list_.find(IPCIP).value().get()->StartDecode();
-            //添加新按钮控制线程的播放和显示
-            if(!get->is_save()){
-                get.get()->set_is_save();
-                get->set_is_save_by_time();//设置按照固定时长来写入视频数据
-            }
+//            //设置开始存储
+//            //添加新按钮控制线程的播放和显示
+//            if(!get->is_save()){
+//                get.get()->set_is_save(true);
+//                get->set_is_save_by_time();//设置按照固定时长来写入视频数据
+//            }
 
 
             //视频暂停按钮
@@ -966,4 +974,38 @@ void frmMain::on_tab_choose_currentChanged(int index)
 //    show_dialog_->stacked_widget()->update();
 
 
+}
+
+int frmMain::CreateRecord()
+{
+    int result=NULL;
+    Tool::TestNoteTool("CreateRecord",0);
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString video_time=current_date_time.toString("yyyy-MM-dd hh:mm:ss:zzz");
+    QJsonObject temp_data;
+    temp_data.insert("record_time",video_time);
+    temp_data.insert("car_id",1);//默认车辆编号为1
+    QString request_url="http://localhost/re_save_record.php";
+    QJsonObject test=Tool::NetWorkGet(request_url,temp_data);
+    qDebug()<<test.size();
+    qDebug()<<test.isEmpty();
+    result=test.value("result").toInt();
+    Tool::TestNoteTool("NetWorkGetTest",1);
+    return result;
+}
+//开始存储数据的信号函数
+void frmMain::StartSaveData()
+{
+    qDebug()<<"------ save data start------";
+    //先创建record记录表
+    this->save_record_id_=CreateRecord();
+    qDebug()<<"This Record id is :"<<save_record_id_;
+    //发射存储信号
+    emit(signal_send_record_id(save_record_id_));
+}
+void frmMain::StopSaveData()
+{
+    //发送停止信号
+    emit(signal_send_stop());
+    qDebug()<<"------ save data end------";
 }

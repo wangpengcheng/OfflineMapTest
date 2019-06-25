@@ -1,4 +1,4 @@
-#ifndef VIDEOCODETHEADTEST_H
+﻿#ifndef VIDEOCODETHEADTEST_H
 #define VIDEOCODETHEADTEST_H
 /****************************************************************************
 ** @projectName   OfflineMapTest
@@ -27,6 +27,7 @@ public:
     VideoDecodeTheadTest();
     ~VideoDecodeTheadTest();
     void MainTest();
+    void LocalFileTest();
     StreamVideoWidget* test_show_label_=nullptr;
     QSharedPointer<VideoDecodeThread> test_videocodethead_=nullptr;
 };

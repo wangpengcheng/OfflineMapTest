@@ -37,7 +37,7 @@
 #include <QKeyEvent>
 #include "test/screencontroltest.h"
 
-#define MyTest 1
+//#define MyTest 1
 #ifdef MyTest
 #include "test/buslinetest.h"
 #include "test/bustest.h"
@@ -130,11 +130,28 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef MyTest
-    RecordSelectDialog test;
-    test.InitCarList();
-    test.UpdateCarComBox();
-    test.show();
+//    RecordSelectDialog test;
+//    test.InitCarList();
+//    test.UpdateCarComBox();
+//    test.show();
+//    test.SelectVideosInfo(5);
+//    VideoDecodeThread test(QString("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
+//    test.start();
+//    test.set_is_save(true);//
+//    while (1) {
+//        if(!test.file_full_path().isEmpty())
+//        {
+//            test.InsertVideoInformToSql(5);
 
+//            break;
+//        }
+//    }
+//    Sleep(5000);
+//    test.StopDecode();
+    frmMain w;
+
+    int test=w.CreateRecord();
+    qDebug()<<test;
 #endif
     return app.exec();
 

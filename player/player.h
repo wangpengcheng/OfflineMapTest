@@ -68,6 +68,7 @@ class QAudioProbe;
 class VideoWidget;
 #include <QGeoCoordinate>
 #include <QVideoWidget>
+#include "VideoControl/recordselectdialog.h"
 QT_END_NAMESPACE
 
 class PlaylistModel;
@@ -113,8 +114,10 @@ private slots:
     void displayErrorMessage();
 
     void showColorDialog();
-    void InitQGeoCoordinates();//从数据库获取坐标信息
+    void InitQGeoCoordinates(int record_id);//从数据库获取坐标信息
     void SendCoordinatesToBus(int index); //抛出信号的函数
+    void GetMainShowMessage(MainSendMessage new_message);//接收查询结果信息
+    //void UpdatePlayInfo();
 private:
     void clearHistogram();
     void setTrackInfo(const QString &info);
@@ -146,6 +149,9 @@ private:
     QString m_statusInfo;
     qint64 m_duration;
     QList<QGeoCoordinate> bus_coordinates_list_;//公交的历史坐标点信息
+    RecordSelectDialog* sql_choose_dialog_;//sql选择框
+
+
 };
 
 #endif // PLAYER_H

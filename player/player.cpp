@@ -67,8 +67,6 @@ Player::Player(QWidget* parent)
     : QWidget(parent)
 {
 //! [create-objs]
-    //初始化连续坐标点
-    InitQGeoCoordinates();
     //创建媒体播放器
     m_player = new QMediaPlayer(this);
     m_player->setAudioRole(QAudio::VideoRole);
@@ -222,17 +220,22 @@ bool Player::isPlayerAvailable() const
 
 void Player::open()
 {
-    QFileDialog fileDialog(this);
-    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    fileDialog.setWindowTitle(tr("Open Files"));
-    QStringList supportedMimeTypes = m_player->supportedMimeTypes();
-    if (!supportedMimeTypes.isEmpty()) {
-        supportedMimeTypes.append("audio/x-m3u"); // MP3 playlists
-        fileDialog.setMimeTypeFilters(supportedMimeTypes);
-    }
-    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath()));
-    if (fileDialog.exec() == QDialog::Accepted)
-        addToPlaylist(fileDialog.selectedUrls());
+//    QFileDialog fileDialog(this);
+//    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+//    fileDialog.setWindowTitle(tr("Open Files"));
+//    QStringList supportedMimeTypes = m_player->supportedMimeTypes();
+//    if (!supportedMimeTypes.isEmpty()) {
+//        supportedMimeTypes.append("audio/x-m3u"); // MP3 playlists
+//        fileDialog.setMimeTypeFilters(supportedMimeTypes);
+//    }
+//    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath()));
+//    if (fileDialog.exec() == QDialog::Accepted){
+//        //将文件添加到播放列表
+//        addToPlaylist(fileDialog.selectedUrls());
+//    }
+    sql_choose_dialog_=new RecordSelectDialog(this);
+    connect(sql_choose_dialog_,&RecordSelectDialog::SendShowMessage,this,&Player::GetMainShowMessage);
+    sql_choose_dialog_->show();
 }
 
 static bool isPlaylist(const QUrl &url) // Check for ".m3u" playlists.
@@ -497,11 +500,11 @@ void Player::clearHistogram()
     QMetaObject::invokeMethod(m_audioHistogram, "processBuffer", Qt::QueuedConnection, Q_ARG(QAudioBuffer, QAudioBuffer()));
 }
 
-void Player::InitQGeoCoordinates()
+void Player::InitQGeoCoordinates(int record_id)
 {
     Tool::TestNoteTool("InitQGeoCoordinates",0);
     QJsonObject temp_data;
-    temp_data.insert("record_id",5);
+    temp_data.insert("record_id",record_id);
     QString request_url="http://localhost/re_get_gps.php";
     QJsonObject test=Tool::NetWorkGet(request_url,temp_data);
     QJsonArray result_array=test.value("result").toArray();
@@ -529,3 +532,18 @@ void Player::SendCoordinatesToBus(int index)
         qDebug()<<"this over";
     }
 }
+void Player::GetMainShowMessage(MainSendMessage new_message)
+{
+    //重新初始化记录
+    InitQGeoCoordinates(new_message.record_id);
+    //添加播放列表
+    m_playlist->clear();
+    QList<QUrl> temp;
+    for(int i=0;i<new_message.video_paths.size();++i){
+        temp.append(QUrl::fromLocalFile(new_message.video_paths.at(i)));
+    }
+    addToPlaylist(temp);
+    qDebug()<<new_message.start_datetime;
+
+}
+

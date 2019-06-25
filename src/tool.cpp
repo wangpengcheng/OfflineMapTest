@@ -268,15 +268,16 @@ QJsonObject Tool::NetWorkGet(QString url,//传输的地址
         if(err != QNetworkReply::NoError) {
             qDebug() << "Failed: " << reply->errorString();
         }else {
-            //qDebug()<<QString::fromLocal8Bit(reply->readAll());
+            QByteArray read_all=reply->readAll();
+            qDebug()<<read_all;
             // 获取返回内容
-            result = QJsonDocument::fromJson(reply->readAll()).object();
+            result = QJsonDocument::fromJson(read_all).object();
             if(result.isEmpty()){
                 qDebug()<<"recive error";
-                qDebug()<<QString::fromLocal8Bit(reply->readAll());
+                qDebug()<<QString::fromLocal8Bit(read_all);
             }else {
                 qDebug()<<result.isEmpty();
-                qDebug()<<result.value("result").toArray().at(10);
+                qDebug()<<result.value("result").toInt();
             }
         }
         return  result;

@@ -43,6 +43,7 @@ public:
     void UpdataPositionTest();//网络更新位置测试
     void UpdataPositionBySocketTest();//socket更新网络测试
     void SaveCoordinateToSqlTest();//数据坐标存储测试
+    void SaveCoordinateToSqlWithLuShuTest();//存储坐标跟随路书
     void LuShuTest();//路书测试
     void ChangePathTest();//路径变换测试
     void AddCoordinateToList(QList<QGeoCoordinate> &temp);//添加路径关键点

@@ -82,24 +82,31 @@ void BusTest::SaveCoordinateToSqlTest()
     Tool::TestNoteTool("SaveCoordinateToSqlTest",0);
     QGeoCoordinate temp_point(30.5563134000,103.9938400000);
     bus_test_->SaveCoordinateToSql(temp_point,5);
-//    LuShuTest();
-//    //设置定时器；
-//    QTimer *timer=new QTimer(this);
-//    static unsigned int i=0;
-//    this->connect(timer,&QTimer::timeout,this,[&](){
-//        qDebug()<<"is stop:"<<bus_test_->is_stop();
-//        i++;
-//        qDebug()<<i;
-//        if(!bus_test_->is_stop()){//车辆没有停止就持续记录
-//            bus_test_->SaveCoordinateToSql(bus_test_->bus_quick_item()->coordinate(),5);
-//            //qDebug()<<bus_test_->bus_quick_item()->coordinate();
-//        }else{
-//            timer->stop();
-//            timer->destroyed();
-//        }
-//    });
-//    timer->start(1000);
     Tool::TestNoteTool("SaveCoordinateToSqlTest",1);
+}
+void BusTest::SaveCoordinateToSqlWithLuShuTest()
+{
+    Tool::TestNoteTool("SaveCoordinateToSqlWithLuShuTest",0);
+    //打开路书
+    LuShuTest();
+    //通过设置定时器来存储视频
+    //设置定时器；
+    QTimer *timer=new QTimer(this);
+    static unsigned int i=0;
+    this->connect(timer,&QTimer::timeout,this,[&](){
+        qDebug()<<"is stop:"<<bus_test_->is_stop();
+        i++;
+        qDebug()<<i;
+        if(!bus_test_->is_stop()){//车辆没有停止就持续记录
+            bus_test_->SaveCoordinateToSql(bus_test_->bus_quick_item()->coordinate(),5);
+            //qDebug()<<bus_test_->bus_quick_item()->coordinate();
+        }else{
+            timer->stop();
+            timer->destroyed();
+        }
+    });
+    timer->start(1000);
+    Tool::TestNoteTool("SaveCoordinateToSqlWithLuShuTest",1);
 }
 
 void BusTest::MainTest()

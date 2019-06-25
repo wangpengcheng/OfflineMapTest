@@ -33,6 +33,7 @@ VideoDecodeThread::VideoDecodeThread(QString url)
 //VideoDecodeThread::~VideoDecodeThread()
 //{
 //    StopDecode();
+//    this->thread()->quit();
 //    this->deleteLater();
 //}
 
@@ -43,6 +44,20 @@ void VideoDecodeThread::StartDecode()
     }else {
         qDebug()<<"this decode is already running";
     }
+}
+//强制重新启动线程
+void VideoDecodeThread::RestartDecode()
+{
+    //如果线程正在运行
+    if(this->isRunning()){
+        qDebug()<<"Is Stopping Thread : "<<(int)this->currentThreadId();
+        //跳出解码
+        StopDecode();
+        //等待线程结束
+        this->wait();
+        qDebug()<<"Is Stopped Thread : "<<(int)this->currentThreadId();
+    }
+    StartDecode();//重新开始线程
 }
 /*
  * 2019-4-5 16:45:23
@@ -104,10 +119,10 @@ void VideoDecodeThread::run()
         unsigned long long frames_count = 30*save_second_time_;
         QDateTime current_date_time =QDateTime::currentDateTime();
         //文件命名使用时间+当前线程的内存地址前6位作为真实的地址
-        QString fileName=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz-")+QString::number((int)this->currentThreadId()).mid(0,5);
-        qDebug()<<fileName;
-        QString fill_full_path=Tool::CreatFile(video_save_dir_name_,fileName,video_save_type_);
-        QByteArray temp_path_byte=fill_full_path.toLocal8Bit();
+        video_save_name_=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz-")+QString::number((int)this->currentThreadId()).mid(0,5);
+        qDebug()<<video_save_name_;
+        file_full_path_=Tool::CreatFile(video_save_dir_name_,video_save_name_,video_save_type_);
+        QByteArray temp_path_byte=file_full_path_.toLocal8Bit();
         save_file_name=temp_path_byte.data();
 
     //------视频存储 模块 end------
@@ -118,7 +133,8 @@ void VideoDecodeThread::run()
     if(net_stream_address_==nullptr){
        qDebug()<<"No file";
        //使用默认源设置
-       net_stream_address_="http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8";
+       //net_stream_address_="http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8";
+       return;
     }
     QByteArray temp_url=net_stream_address_.toLocal8Bit();
     //获取字符
@@ -378,4 +394,46 @@ void VideoDecodeThread::run()
 
 
     qDebug()<<"thread end";
+}
+//将当前视频存储到数据库中。
+void VideoDecodeThread::InsertVideoInformToSql(int record_id)
+{
+    if(record_id!=NULL&&
+       !file_full_path_.isEmpty()&&
+            !video_save_name_.isEmpty()){
+    Tool::TestNoteTool("InsertVideoInformToSql",0);
+    QJsonObject temp_data;
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    //文件命名使用时间+当前线程的内存地址前6位作为真实的地址
+    QString video_time=current_date_time.toString("yyyy-MM-dd hh:mm:ss:zzz");
+    temp_data.insert("record_id",record_id);
+    temp_data.insert("video_path",file_full_path_);
+    temp_data.insert("video_name",video_save_name_);
+    temp_data.insert("start_time",video_time);
+    QString request_url="http://localhost/re_save_video.php";
+    QJsonObject test=Tool::NetWorkGet(request_url,temp_data);
+    qDebug()<<test.size();
+    qDebug()<<test.isEmpty();
+    QJsonArray result_array=test.value("result").toArray();
+    qDebug()<<result_array.at(0);
+    qDebug()<<result_array.size();
+    }else{
+        qDebug()<<"input is empty()";
+    }
+    Tool::TestNoteTool("InsertVideoInformToSql",1);
+}
+void VideoDecodeThread::StartSaveVideo(int record_id)
+{
+        //开始解码
+        StartDecode();
+        is_save_=true;//设置开始存储
+        //连续等待，直到文件名字不为空即开始解码
+        while (1) {
+            if((!file_full_path_.isEmpty()))
+            {
+                InsertVideoInformToSql(record_id);
+                break;
+            }
+        }
+        qDebug()<<"------ start save video with recod_id "<<record_id<<"------";
 }

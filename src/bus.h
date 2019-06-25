@@ -109,6 +109,10 @@ public:
     void LuShuStop();//停止路书
     void InitSocket();//初始化socket通信
     //----- 位置存储到数据库关键代码 start------
+    inline bool is_save_gps(){return is_save_gps_;}
+    inline void set_is_save_gps(bool is_save){is_save_gps_=is_save;}
+    inline int record_id(){return record_id_;}
+    inline void set_record_id(int new_record_id){record_id_=new_record_id;}
     void SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id);//将新的位置坐标存储到数据库中
     //----- 位置存储到数据库关键代码  end ------
 
@@ -141,18 +145,20 @@ private:
     /*位置更新信息 end*/
     /*路书动画 start*/
     QList<QTimeLine *> bus_time_line_list_;
-    /*路书动画 end*/
     int line_index_=0;//当前点索引初始化为0
     double bus_speed_=5;//公交车速度(km/s)
     bool is_cricle_=true;//是否循环
     bool is_pause = false;//是否
     bool is_stop_ = false;//不停止;是否停止，当为true时，车辆已经停止
     bool is_return=false;//是否在返程
+    /*路书动画 end*/
     //socket通信成员
     QTcpSocket *socket_=nullptr;//socket通信成员变量
     QString ip_address_=nullptr;//设置ip地址
     unsigned int port_=NULL;//设置端口号
-
+    //存储坐标相关信息
+    bool is_save_gps_=false;
+    int record_id_=NULL;//存储时的记忆编号
     //相关槽函数
 public slots:
     /*http 通信 start */
@@ -164,11 +170,17 @@ public slots:
     void SocketReadData();//读取数据
     void SocketDisconnected();//断开连接
     /*socket 通信 end*/
+    /*LuShu槽函数 start*/
     void Move(const double dx,
               const double dy);
     void MoveNextPoint(const QGeoCoordinate coordinate1,
                        const QGeoCoordinate coordinate2);
     void SetCoordinate(const QGeoCoordinate new_coordinate);//更新位置信息，带偏转的
+    /*LuShu槽函数 end*/
+    /*存储gps的槽函数 start*/
+    void StartSaveGPS(int record_id);
+    void StopSaveGPS();
+    /*存储gps的槽函数 end*/
 };
 
 #endif // BUS_H
