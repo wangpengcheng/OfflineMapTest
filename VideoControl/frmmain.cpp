@@ -260,6 +260,12 @@ void frmMain::InitMenu()
     //设置切换到12画面
     menu->addAction(QStringLiteral("切换到12画面"), this, SLOT(show_video_12()));
     menu8=menu->addMenu(QStringLiteral("视频控制"));
+
+    //设置线程控制选项菜单
+    thread_menu=new QMenu(this);
+    thread_menu->setStyleSheet(QStringLiteral("font: 10pt \"微软雅黑\";"));
+//    QAction
+//    thread_menu->addAction();
 }
 void frmMain::LoadVideo()
 {
@@ -318,11 +324,11 @@ void frmMain::LoadNVRIPC()
             itemIPC->setIcon(0, QIcon(":/image/ipc_normal.png"));
             itemNVR->addChild(itemIPC);
             //根据列表初始化
-            //创建解码线程
-            qDebug()<<rtspAddr;
-            qDebug()<<temp_id;
+
+            qDebug()<<"Map temp_id: "<<temp_id;
             VideoDecodeThread* temp_decode=new VideoDecodeThread(rtspAddr);
             QSharedPointer<VideoDecodeThread> test_temp(temp_decode);
+            test_temp->setParent(this);
             //绑定视频存储的信号函数
             connect(this,&frmMain::signal_send_record_id,test_temp.get(),&VideoDecodeThread::StartSaveVideo);
             connect(this,&frmMain::signal_send_stop,test_temp.get(),&VideoDecodeThread::StopSaveVideo);
@@ -334,6 +340,8 @@ void frmMain::LoadNVRIPC()
     }
     qDebug()<<decode_list_;
     ui->treeMain->expandAll();
+    ui->treeMain->setContextMenuPolicy(Qt::CustomContextMenu);//右键 不可少否则右键无反应
+    connect(ui->treeMain,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(showrightMenu(QPoint)));
 }
 //初始化显示窗口
 void frmMain::InitShowDialog()
@@ -523,9 +531,10 @@ bool frmMain::eventFilter(QObject *obj, QEvent *event)
             return true;
         }else if (MouseEvent->buttons() == Qt::RightButton) {//途观是鼠标右键的话
             tempLab = qobject_cast<QLabel *>(obj);
+            qDebug()<<tempLab->parent();
             menu->exec(QCursor::pos());//鼠标右键位置
             return true;
-        } else {
+        } else {//左键位置
             tempLab = qobject_cast<QLabel *>(obj);
             //设置当前选中
             ui->lab_Title->setText(QStringLiteral("%1  当前选中[%2]").arg(myApp::AppTitle).arg(tempLab->text()));
@@ -873,12 +882,14 @@ void frmMain::on_treeMain_doubleClicked(const QModelIndex &index)
     //取出双击摄像机的子码流地址
     //取出NVR编号及IPCID
     QString txt = ui->treeMain->currentItem()->parent()->text(0);
+
     QString NVRIP = txt.split("[")[1].split("]")[0];
     QString NVRID = GetNVRID(NVRIP);
-    qDebug()<<"IP :"<<NVRID;
+    qDebug()<<"doubleClicked IP :"<<NVRID;
     QString temp = ui->treeMain->currentIndex().data().toString();
+
     QString ipc_id= temp.split("[")[0].right(3);
-    qDebug()<<"ipc_id"<<ipc_id;
+    qDebug()<<"doubleClicked ipc_id"<<ipc_id;
     QString IPCIP = temp.split("[")[1].split("]")[0];
     //获取当前解码器序列号；
 
@@ -889,7 +900,7 @@ void frmMain::on_treeMain_doubleClicked(const QModelIndex &index)
     GetRtspAddr(NVRID, IPCIP, IPCRtspAddrMain, IPCRtspAddrSub);
     //检查主码流类型
     rtspAddr = (myApp::RtspType == 0 ? IPCRtspAddrMain : IPCRtspAddrSub);
-    qDebug()<<"rtsp adress ::"<<rtspAddr;
+    qDebug()<<"doubleClicked rtsp adress ::"<<rtspAddr;
     //如果该摄像机不在线
 //    if (!myHelper::IPCEnable(rtspAddr)) {
 //        myHelper::ShowMessageBoxError(QStringLiteral("该摄像机不在线!"));
@@ -1032,4 +1043,19 @@ void frmMain::on_save_data_button_clicked()
         qDebug()<<"start save";
     }
     is_save_data_=!is_save_data_;
+}
+void frmMain::showrightMenu(QPoint point)
+{
+    thread_menu->clear();
+    //获取当前的右键树条目
+    QTreeWidgetItem *item = ui->treeMain->itemAt(point); //可得到右键条目
+    qDebug()<<item->childCount();
+    QString temp_string=item->text(0);
+    QString ipc_id= temp_string.split("[")[0].right(3);
+    //查找对应的解码线程
+    QSharedPointer<VideoDecodeThread> crrut_thead=decode_list_.find(ipc_id).value();
+    thread_menu->addAction(QStringLiteral("开始解码"),crrut_thead.get(),SLOT(StartDecode()));
+    thread_menu->addAction(QStringLiteral("停止解码"),crrut_thead.get(),SLOT(StopDecode()));
+    thread_menu->addAction(QStringLiteral("重新解码"),crrut_thead.get(),SLOT(RestartDecode()));
+    thread_menu->exec(QCursor::pos());
 }

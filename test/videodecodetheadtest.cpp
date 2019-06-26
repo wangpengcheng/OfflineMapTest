@@ -24,8 +24,8 @@ VideoDecodeTheadTest::~VideoDecodeTheadTest()
 void VideoDecodeTheadTest::MainTest()
 {
     Tool::TestNoteTool("VideoDecodeTheadTest MainTest",0);
-    QString net_address1="http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8";
-    QString net_address2="rtsp://10.6.154.66:8554/test2";
+    QString net_address1="http://192.168.12.1:8080/?action=stream";
+    //QString net_address2="rtsp://10.6.154.66:8554/test2";
     test_videocodethead_->set_net_stream_address(net_address1);
     test_videocodethead_->set_is_save(true);
     test_videocodethead_->set_is_save_by_time();//开启按照播放时长存储

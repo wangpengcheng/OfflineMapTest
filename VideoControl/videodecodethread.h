@@ -53,20 +53,19 @@ private ://私有成员变量
     unsigned int stream_type_=0;//视频流方式，0是rtsp,1是mjpg
     bool is_stop_now_=false;//用来在while中控制视屏播放；当设置为true时，直接停止播放。线程结束，防止因为意外中断，内存释放失败
     //ffmpeg 解码变量
+    bool is_free=false; //释放完成内存释放
     // 视频流存储相关变量
     bool is_save_=false;//是否将视频存储为mp4。
     bool is_save_stop_=false;//停止存储
     QString video_save_dir_name_="Videos";
     QString video_save_name_=nullptr;//设置视频存储的名字
-    QString video_save_type_="mp4";//设置默认存储的文件后缀名，默认为mp4
+    QString video_save_type_="flv";//设置默认存储的文件后缀名，默认为mp4
     bool is_save_by_time_=false;//是否按照固定时长来设置存储视频长度，默认按照播放时长来存储
     unsigned long save_second_time_=50;//设置默认的时间 以秒为单位
     QString file_full_path_;
-//------ ffmpeg 解码所需中间变量 start ------
-private:
-
-//------ ffmpeg 解码所需中间变量 end ------
-
+    bool is_save_free=false; //视频存储释放变量，防止二次释放内存
+    int video_save_times_=0;//记录存储视频次数信息
+    bool is_resave_=false; //是否重新存储
 
 };
 

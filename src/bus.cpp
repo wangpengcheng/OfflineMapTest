@@ -516,7 +516,6 @@ void Bus::LuShuStop()
 */
 void Bus::SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id)
 {
-    qDebug()<<coordinate;
     //设置网络请求
     QNetworkAccessManager *save_manage = new QNetworkAccessManager(this);
     QNetworkRequest network_request;
@@ -528,6 +527,7 @@ void Bus::SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id)
 
         // 获取http状态码
             QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+#ifdef MyTest
             if(statusCode.isValid()){
                 qDebug() << "status code=" << statusCode.toInt();
             }
@@ -535,14 +535,13 @@ void Bus::SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id)
             if(reason.isValid()){
                 qDebug() << "reason=" << reason.toString();
             }
+#endif
             QNetworkReply::NetworkError err = reply->error();
             if(err != QNetworkReply::NoError) {
                 qDebug() << "Failed: " << reply->errorString();
             }else {
                 // 获取返回内容
                 QJsonObject data = QJsonDocument::fromJson(reply->readAll()).object();
-                qDebug()<<data.size();
-                qDebug()<<data.empty();
             }
     });
 
@@ -575,6 +574,7 @@ void Bus::SetCoordinate(const QGeoCoordinate new_coordinate)
 void Bus::StartSaveGPS(int record_id)
 {
     //更改record id;
+    Tool::TestNoteTool("StartSaveGPS",0);
     record_id_=record_id;
     is_save_gps_=true;
 }

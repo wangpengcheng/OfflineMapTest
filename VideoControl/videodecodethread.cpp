@@ -33,13 +33,13 @@ VideoDecodeThread::VideoDecodeThread(QString url)
 //VideoDecodeThread::~VideoDecodeThread()
 //{
 //    StopDecode();
-//    this->thread()->quit();
-//    this->deleteLater();
 //}
 
 void VideoDecodeThread::StartDecode()
 {
     if(!this->isRunning()){
+        //重置现在跳出
+        is_stop_now_=false;
         this->start();//开始线程
     }else {
         qDebug()<<"this decode is already running";
@@ -90,7 +90,7 @@ void VideoDecodeThread::run()
     AVPacket *packet;
     uint8_t *out_buffer;
 
-    static struct SwsContext *img_convert_ctx;
+    struct SwsContext *img_convert_ctx;
     int videoStream, i, numBytes;
     int ret, got_picture;
     //设定连接初始值
@@ -110,29 +110,6 @@ void VideoDecodeThread::run()
     char option_value2[]="100";//设置时间间隔
     av_dict_set(&avdic,option_key2,option_value2,0);
     //------输入解码显示 变量 end-------
-
-    //------视频存储 模块 start------
-        AVOutputFormat* out_stream_format=NULL;
-        AVFormatContext* out_stream_format_context=NULL;
-        AVCodecContext* out_stream_codec_context=NULL;
-        AVCodec*  out_stream_codec=NULL;
-        AVStream *out_stream=NULL,*in_stream=NULL;
-        char* save_file_name=NULL;
-        int out_ret;
-        unsigned long long frame_index=0;
-        int I_received = 0;
-        unsigned long long frames_count = 30*save_second_time_;
-        QDateTime current_date_time =QDateTime::currentDateTime();
-        //文件命名使用时间+当前线程的内存地址前6位作为真实的地址
-        video_save_name_=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz-")+QString::number((int)this->currentThreadId()).mid(0,5);
-        qDebug()<<video_save_name_;
-        file_full_path_=Tool::CreatFile(video_save_dir_name_,video_save_name_,video_save_type_);
-        QByteArray temp_path_byte=file_full_path_.toLocal8Bit();
-        save_file_name=temp_path_byte.data();
-
-    //------视频存储 模块 end------
-
-
     //rtsp地址，可根据实际情况修改
     //char url[]="rtsp://admin:admin@192.168.1.18:554/h264/ch1/main/av_stream";
     if(net_stream_address_==nullptr){
@@ -223,6 +200,28 @@ void VideoDecodeThread::run()
     //因为需要动态决定是否存储视频，因此所有变量必须在循环开始前准备好。
     // if(is_save_){
 
+init_save://goto 语句帮助重复存储
+    //------视频存储 模块 start------
+
+        AVOutputFormat* out_stream_format=NULL;//输出格式
+        AVFormatContext* out_stream_format_context=NULL;//
+        AVCodecContext* out_stream_codec_context=NULL;
+        AVCodec*  out_stream_codec=NULL;
+        AVStream *out_stream=NULL,*in_stream=NULL;
+        char* save_file_name=NULL;
+        int out_ret;
+        unsigned long long frame_index=0;
+        int I_received = 0;
+        unsigned long long frames_count = 30*save_second_time_;
+        QDateTime current_date_time =QDateTime::currentDateTime();
+        //文件命名使用时间+当前线程的内存地址前6位作为真实的地址
+        video_save_name_=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz-")+QString::number((int)this->currentThreadId()).mid(0,5);
+        file_full_path_=Tool::CreatFile(video_save_dir_name_,video_save_name_,video_save_type_);
+        QByteArray temp_path_byte=file_full_path_.toLocal8Bit();
+        save_file_name=temp_path_byte.data();
+
+    //------视频存储 模块 end------
+
         //创建输入流
         out_stream=pFormatCtx->streams[videoStream];
         //打开输出流
@@ -233,6 +232,7 @@ void VideoDecodeThread::run()
             out_ret=AVERROR_UNKNOWN;
             avformat_free_context(out_stream_format_context);
         }else {
+            //设置输出流格式
             out_stream_format=out_stream_format_context->oformat;
             //根据输入创建输出流
             out_stream=avformat_new_stream(out_stream_format_context,pFormatCtx->streams[videoStream]->codec->codec);
@@ -293,7 +293,7 @@ void VideoDecodeThread::run()
     //持续解包
     while (1)
     {
-        if(is_stop_now_){
+        if(is_stop_now_){//针对整个线程的
             qDebug()<<"jump out while ,stop get pack";
             break;
         }
@@ -312,6 +312,7 @@ void VideoDecodeThread::run()
             }
 
             if (got_picture) {
+                //转换图片格式
                 sws_scale(img_convert_ctx,
                         (uint8_t const * const *) pFrame->data,
                         pFrame->linesize, 0, pCodecCtx->height, pFrameRGB->data,
@@ -323,6 +324,13 @@ void VideoDecodeThread::run()
             }
             //------ 循环读取和写入帧 start ------
             if(is_save_){//判断是否需要存入
+                //如果是再次存储
+                if(is_resave_){//注意这里一定要先停止在重新存储
+                    //重置 重复存储选项
+                    is_resave_=false;
+                    goto init_save;
+
+                }
                 in_stream=pFormatCtx->streams[packet->stream_index];
                 out_stream=out_stream_format_context->streams[packet->stream_index];
                 //copy packet
@@ -377,7 +385,21 @@ void VideoDecodeThread::run()
                     av_write_trailer(out_stream_format_context);
                     qDebug()<<"video saved";
                     is_save_=false;//设置接下来的帧都不储存
+                        //释放写相关内存
+                        if(out_stream_format_context && !(out_stream_format->flags & AVFMT_NOFILE)){
+                                avio_close(out_stream_format_context->pb);
+                            avformat_free_context(out_stream_format_context);
+                            if(out_ret<0 && out_ret != AVERROR_EOF)
+                            {
+                                qDebug()<<"Free Error occured";
+                            }
+                        }else{
+                            qDebug()<<"save file delected";
+                        }
+
                 }
+                //使用完之后重置is_save_stop;
+                is_save_stop_=false;
             }
 
             //------ 循环读取和写入帧 end ------
@@ -387,27 +409,29 @@ void VideoDecodeThread::run()
         av_free_packet(packet); //释放资源,否则内存会一直上升
         //msleep(0.02); //停一停  不然放的太快了
     }
-    //写文件尾部
-    av_write_trailer(out_stream_format_context);
-
+free_code://释放跳转语句
     //释放内存
     av_free(out_buffer);
     av_free(pFrameRGB);
     avcodec_close(pCodecCtx);
     avformat_close_input(&pFormatCtx);
     av_dict_free(&avdic);
+free_save://free_save 跳转语句
+    //写文件尾部
+    av_write_trailer(out_stream_format_context);
     //释放写相关内存
-    if(out_stream_format_context && !(out_stream_format->flags & AVFMT_NOFILE)){
-            avio_close(out_stream_format_context->pb);
-        avformat_free_context(out_stream_format_context);
-        if(out_ret<0 && out_ret != AVERROR_EOF)
-        {
-            qDebug()<<"Free Error occured";
-        }
-     }
+        //释放写相关内存
+        if(out_stream_format_context && !(out_stream_format->flags & AVFMT_NOFILE)){
+                avio_close(out_stream_format_context->pb);
+            avformat_free_context(out_stream_format_context);
+            if(out_ret<0 && out_ret != AVERROR_EOF)
+            {
+                qDebug()<<"Free Error occured";
+            }
+         }
 
 
-    qDebug()<<"thread end";
+    qDebug()<<"------ thread end ------";
 }
 //将当前视频存储到数据库中。
 void VideoDecodeThread::InsertVideoInformToSql(int record_id)
@@ -439,7 +463,16 @@ void VideoDecodeThread::InsertVideoInformToSql(int record_id)
 void VideoDecodeThread::StartSaveVideo(int record_id)
 {
     //如果线程正在运行
+
     if(this->isRunning()){
+        //判断是否为第一次存储
+        if(video_save_times_>0){
+//            //清除相关数据
+//            file_full_path_.clear();
+//            video_save_name_.clear();
+            //设置信号量
+            is_resave_=true;
+        }
         is_save_=true;//设置开始存储
         //连续等待，直到文件名字不为空即开始解码
         while (1) {
@@ -450,8 +483,10 @@ void VideoDecodeThread::StartSaveVideo(int record_id)
             }
         }
         qDebug()<<"------ start save video with recod_id "<<record_id<<"------";
+        ++video_save_times_;//存储次数+1
+        qDebug()<<"This Save time is: "<<video_save_times_;
     } else {
-        qDebug()<<"------ Thread : "<<this->thread()->currentThreadId()<<"is not Running ,Please  Start it ------";
+        qDebug()<<"------ Thread : "<<this->thread()->currentThreadId()<<"is not Running Or Saving,Please  Start it ------";
     }
 
 }
@@ -461,6 +496,8 @@ void VideoDecodeThread::StopSaveVideo()
         if(!is_save_stop_){
             is_save_stop_=true;
         }
+        //is_save_=false;//设置是否存储为假
+        qDebug()<<"------ Thread : "<<this->thread()->currentThreadId()<<"stoped ------";
     } else {
         qDebug()<<"------ Thread : "<<this->thread()->currentThreadId()<<"is not Running ,Please  Start it ------";
     }

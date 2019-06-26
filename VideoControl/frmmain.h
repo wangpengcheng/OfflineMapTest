@@ -45,11 +45,18 @@ public:
 public slots:
     void StartSaveData();//开始记录数据
     void StopSaveData();//停止记录数据
+    void showrightMenu(QPoint point);//子树的右键槽
+//    //------- 解码线程相关槽函数 start ------
+//    void decode_thead_stop(QString thread_key);//停止解码
+//    void decode_thead_start(QString thread_key);//开始解码
+//    void decode_thead_restart(QString thread_key);//重新开始解码
+//    void decode_thead_destory(QString thread_key);//销毁线程
+    //------- 解码线程相关槽函数 end ------
+
 //记录的关键信号
 signals :
     void signal_send_record_id(int record_id);//发送record_id的信号
-    void signal_send_stop();//发送停止信号
-    //------- 数据存储相关函数 end ------
+    void signal_send_stop();//发送停止信号   
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
     void keyPressEvent(QKeyEvent *event);
@@ -91,6 +98,7 @@ private:
     /*视频控制模块变量 start*/
     QMenu *menuStyle=nullptr;               //样式菜单
     QMenu *menu=nullptr;                    //鼠标右键菜单对象
+    QMenu *thread_menu=nullptr;      //线程管理的右键菜单
     QMenu *menu8=nullptr;           //视频控制临时按钮
     QLabel *tempLab;                //临时播放视频的标签
     bool video_max_;                //通道是否处于最大化

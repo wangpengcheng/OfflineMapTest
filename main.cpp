@@ -37,7 +37,7 @@
 #include <QKeyEvent>
 #include "test/screencontroltest.h"
 
-//#define MyTest 1
+#define MyTest 1
 #ifdef MyTest
 #include "test/buslinetest.h"
 #include "test/bustest.h"
@@ -148,10 +148,9 @@ int main(int argc, char *argv[])
 //    }
 //    Sleep(5000);
 //    test.StopDecode();
-    frmMain w;
+    VideoDecodeTheadTest test;
+    test.MainTest();
 
-    int test=w.CreateRecord();
-    qDebug()<<test;
 #endif
     return app.exec();
 
