@@ -42,11 +42,21 @@ LIBS += $$PWD/3rdpart/ffmpeg/lib/avcodec.lib \
         $$PWD/3rdpart/ffmpeg/lib/postproc.lib \
         $$PWD/3rdpart/ffmpeg/lib/swresample.lib \
         $$PWD/3rdpart/ffmpeg/lib/swscale.lib
+
+INCLUDEPATH += $$PWD/3rdpart/QtAV/include \
+
+
+LIBS += $$PWD/3rdpart/QtAV/lib/Qt5AVd.lib \
+        $$PWD/3rdpart/QtAV/lib/Qt5AVWidgetsd.lib \
+        $$PWD/3rdpart/QtAV/lib/QtAVd1.lib \
+        $$PWD/3rdpart/QtAV/lib/QtAVWidgetsd1.lib
+
+
 }
 
 INCLUDEPATH += \
     QtLocationPlugin \
-
+#地图相关插件
 LOCATION_PLUGIN_DESTDIR = $${OUT_PWD}/QtLocationPlugin
 LOCATION_PLUGIN_NAME    = GeoServiceProviderFactory
 

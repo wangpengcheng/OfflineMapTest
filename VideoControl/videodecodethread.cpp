@@ -203,8 +203,8 @@ void VideoDecodeThread::run()
 init_save://goto 语句帮助重复存储
     //------视频存储 模块 start------
 
-        AVOutputFormat* out_stream_format=NULL;//输出格式
-        AVFormatContext* out_stream_format_context=NULL;//
+        AVOutputFormat* out_stream_format=NULL;
+        AVFormatContext* out_stream_format_context=NULL;
         AVCodecContext* out_stream_codec_context=NULL;
         AVCodec*  out_stream_codec=NULL;
         AVStream *out_stream=NULL,*in_stream=NULL;
@@ -216,6 +216,7 @@ init_save://goto 语句帮助重复存储
         QDateTime current_date_time =QDateTime::currentDateTime();
         //文件命名使用时间+当前线程的内存地址前6位作为真实的地址
         video_save_name_=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz-")+QString::number((int)this->currentThreadId()).mid(0,5);
+        qDebug()<<video_save_name_;
         file_full_path_=Tool::CreatFile(video_save_dir_name_,video_save_name_,video_save_type_);
         QByteArray temp_path_byte=file_full_path_.toLocal8Bit();
         save_file_name=temp_path_byte.data();
@@ -232,7 +233,6 @@ init_save://goto 语句帮助重复存储
             out_ret=AVERROR_UNKNOWN;
             avformat_free_context(out_stream_format_context);
         }else {
-            //设置输出流格式
             out_stream_format=out_stream_format_context->oformat;
             //根据输入创建输出流
             out_stream=avformat_new_stream(out_stream_format_context,pFormatCtx->streams[videoStream]->codec->codec);

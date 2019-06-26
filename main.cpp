@@ -44,6 +44,7 @@
 #include "test/tool_test.h"
 #include "test/videodecodetheadtest.h"
 #include "test/recordselectdialogtest.h"
+#include "test/qtavtest.h"
 #endif
 
 //使用函数
@@ -65,6 +66,8 @@
 //use tool
 Tool tool;
 #include <QLabel>
+#include "QtAVWidgets/QtAVWidgets.h"
+
 //设置内部函数
 void AddCoordinateToList(QList<QGeoCoordinate> &temp);
 void VideoTest();//test video
@@ -73,7 +76,7 @@ void MoveTest(QDeclarativeGeoMap *qMap);//公交移动测试
 int VideoControlTest(QApplication app);
 int main(int argc, char *argv[])
 {
-
+    QtAV::Widgets::registerRenderers();
     QApplication app(argc, argv);
     QString path_string=QDir::tempPath();
 
@@ -148,9 +151,12 @@ int main(int argc, char *argv[])
 //    }
 //    Sleep(5000);
 //    test.StopDecode();
-    VideoDecodeTheadTest test;
-    test.MainTest();
+//    VideoDecodeTheadTest test;
+//    test.MainTest();
 
+        QtAVTest player;
+        player.show();
+        player.resize(800, 600);
 #endif
     return app.exec();
 

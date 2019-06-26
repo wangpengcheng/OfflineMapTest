@@ -10,7 +10,8 @@ HEADERS += \
     $$PWD/buslinetest.h \
     $$PWD/bustest.h \
     $$PWD/videodecodetheadtest.h \
-    $$PWD/recordselectdialogtest.h
+    $$PWD/recordselectdialogtest.h \
+    $$PWD/qtavtest.h
 
 
 SOURCES += \
@@ -20,7 +21,8 @@ SOURCES += \
     $$PWD/buslinetest.cpp \
     $$PWD/bustest.cpp \
     $$PWD/videodecodetheadtest.cpp \
-    $$PWD/recordselectdialogtest.cpp
+    $$PWD/recordselectdialogtest.cpp \
+    $$PWD/qtavtest.cpp
 
 
 #OTHER_FILES += \
