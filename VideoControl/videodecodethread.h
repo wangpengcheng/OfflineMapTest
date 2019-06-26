@@ -23,6 +23,7 @@ public:
     inline bool is_save(){return is_save_;}
     inline bool is_stop_now(){return is_stop_now_;}
     inline void set_is_stop_now(bool is_stop){is_stop_now_=is_stop;}
+    inline bool is_save_stop(){return is_save_stop_;}
     inline QString video_save_type(){return video_save_type_;}
     inline void set_video_save_type(QString new_type){video_save_type_=new_type;}
     inline bool is_save_by_time(){return  is_save_by_time_;}
@@ -33,7 +34,7 @@ public:
     inline void set_video_save_dir_name(const QString new_dir_name){video_save_dir_name_=new_dir_name;}
     inline QString file_full_path(){return this->file_full_path_;}
     //----- 视频存取函数 end------
-    //
+    //----- ffmpeg解码的中间函数变化
 public slots:
     void StopDecode(){is_stop_now_=true;}//通过直接设置参数，跳出循环,方便内存的销毁和使用
     //void StopSave(){}
@@ -41,7 +42,7 @@ public slots:
     void RestartDecode(); //重新开始解码
     void InsertVideoInformToSql(int record_id);//将生成的视频信息存储到数据库
     void StartSaveVideo(int record_id);//开始存储视频
-    void StopSaveVideo(){if(is_save_){is_save_=false;}}//如果正在存储就停止存储
+    void StopSaveVideo();//如果正在存储就停止存储
     //信号函数
 signals:
     void SendFrame(QImage);//信号函数，发送图片帧
@@ -54,14 +55,17 @@ private ://私有成员变量
     //ffmpeg 解码变量
     // 视频流存储相关变量
     bool is_save_=false;//是否将视频存储为mp4。
+    bool is_save_stop_=false;//停止存储
     QString video_save_dir_name_="Videos";
     QString video_save_name_=nullptr;//设置视频存储的名字
     QString video_save_type_="mp4";//设置默认存储的文件后缀名，默认为mp4
     bool is_save_by_time_=false;//是否按照固定时长来设置存储视频长度，默认按照播放时长来存储
     unsigned long save_second_time_=50;//设置默认的时间 以秒为单位
     QString file_full_path_;
+//------ ffmpeg 解码所需中间变量 start ------
+private:
 
-
+//------ ffmpeg 解码所需中间变量 end ------
 
 
 };

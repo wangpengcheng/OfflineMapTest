@@ -1009,3 +1009,27 @@ void frmMain::StopSaveData()
     emit(signal_send_stop());
     qDebug()<<"------ save data end------";
 }
+
+void frmMain::on_pushButton_clicked()
+{
+
+}
+void frmMain::on_save_data_button_clicked()
+{
+    //如果已经在开始录制
+    if(is_save_data_)
+    {
+        //停止录制
+        StopSaveData();
+        //更改按钮
+        ui->save_data_button->setText(QStringLiteral("开始录制"));
+        qDebug()<<"stop save";
+    }else{
+        //开始录制
+        StartSaveData();
+        //更改按钮
+        ui->save_data_button->setText(QStringLiteral("停止录制"));
+        qDebug()<<"start save";
+    }
+    is_save_data_=!is_save_data_;
+}

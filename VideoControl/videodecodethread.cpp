@@ -72,6 +72,11 @@ void VideoDecodeThread::RestartDecode()
  * 需求还很多，只有先实现功能了
  * 重构是不可能重构的，这辈子都不可能重构的
  * 但愿不会再有打开这个的机会
+ *
+ * 2019-6-26 9:48:54
+ * 我又回来了，真香......
+ * 添加一个随时自启动的选择存储功能
+ *
 */
 //线程运行,这里在进行解码的同时，将包复制，生成对应的视频流文件
 void VideoDecodeThread::run()
@@ -215,7 +220,9 @@ void VideoDecodeThread::run()
     packet = (AVPacket*)malloc(sizeof(AVPacket)); //分配一个packet
     av_new_packet(packet, y_size); //分配packet的数据
     //------ 根据输入流决定存储参数 start------
-    if(is_save_){
+    //因为需要动态决定是否存储视频，因此所有变量必须在循环开始前准备好。
+    // if(is_save_){
+
         //创建输入流
         out_stream=pFormatCtx->streams[videoStream];
         //打开输出流
@@ -278,7 +285,7 @@ void VideoDecodeThread::run()
                 }
             }
         }
-    }
+    //}
 
     //------ 根据输入流决定存储参数 end  ------
 
@@ -348,6 +355,7 @@ void VideoDecodeThread::run()
                         continue;
                     }
                 }
+
                 //将包数据写入到文件。
                 out_ret = av_interleaved_write_frame(out_stream_format_context,packet);
                 if(ret < 0)
@@ -363,6 +371,12 @@ void VideoDecodeThread::run()
                         qDebug()<<"Error muxing packet.error code"<<out_ret;
                         break;
                     }
+                }
+                if(is_save_stop_)
+                {
+                    av_write_trailer(out_stream_format_context);
+                    qDebug()<<"video saved";
+                    is_save_=false;//设置接下来的帧都不储存
                 }
             }
 
@@ -424,8 +438,8 @@ void VideoDecodeThread::InsertVideoInformToSql(int record_id)
 }
 void VideoDecodeThread::StartSaveVideo(int record_id)
 {
-        //开始解码
-        StartDecode();
+    //如果线程正在运行
+    if(this->isRunning()){
         is_save_=true;//设置开始存储
         //连续等待，直到文件名字不为空即开始解码
         while (1) {
@@ -436,4 +450,18 @@ void VideoDecodeThread::StartSaveVideo(int record_id)
             }
         }
         qDebug()<<"------ start save video with recod_id "<<record_id<<"------";
+    } else {
+        qDebug()<<"------ Thread : "<<this->thread()->currentThreadId()<<"is not Running ,Please  Start it ------";
+    }
+
+}
+void VideoDecodeThread::StopSaveVideo()
+{
+    if(this->isRunning()){
+        if(!is_save_stop_){
+            is_save_stop_=true;
+        }
+    } else {
+        qDebug()<<"------ Thread : "<<this->thread()->currentThreadId()<<"is not Running ,Please  Start it ------";
+    }
 }

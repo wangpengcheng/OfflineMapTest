@@ -92,6 +92,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="save_data_button">
+        <property name="text">
+         <string>开始录制</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="labFull">
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>

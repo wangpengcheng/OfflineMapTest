@@ -82,6 +82,10 @@ private slots:
 
 
 
+    void on_pushButton_clicked();
+
+    void on_save_data_button_clicked();
+
 private:
     Ui::frmMain *ui;    
     /*视频控制模块变量 start*/

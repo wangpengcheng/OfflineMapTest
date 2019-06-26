@@ -358,6 +358,11 @@ void Bus::MoveNextPoint(const QGeoCoordinate coordinate1,
          QGeoCoordinate temp_result(pixe_point_x,pixe_point_y);//输出坐标值
          this->bus_quick_item_->setCoordinate(temp_result);//设置临时坐标
          //this->SaveCoordinateToSql(temp_result,5);
+         if(is_save_gps_&&
+            record_id_!=NULL)
+         {
+             SaveCoordinateToSql(temp_result,record_id_);
+         }
     });
     //绑定结束事件
     connect(temp_timeline,&QTimeLine::finished,this,[=]()
