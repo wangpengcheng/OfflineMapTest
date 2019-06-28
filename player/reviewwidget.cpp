@@ -1,7 +1,6 @@
 ﻿#include "reviewwidget.h"
-#include "playercontrols.h"
-#include "playlistmodel.h"
-#include "histogramwidget.h"
+#include "ui_reviewwidget.h"
+
 #include "videowidget.h"
 #include "src/tool.h"
 #include <QMediaService>
@@ -15,129 +14,43 @@
 #include <player/videowidget.h>
 #include "player/qtavplayercontrols.h"
 #include "QtAVWidgets/QtAVWidgets.h"
-ReviewWidget::ReviewWidget(QWidget *parent) : QWidget(parent)
+
+ReviewWidget::ReviewWidget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::ReviewWidget)
 {
-    //! [create-objs]
-        //创建媒体播放器
-        m_player = new QtAV::AVPlayer(this);
-
-        // owned by PlaylistModel
-//        m_playlist = new QMediaPlaylist();
-//        m_player->setPlaylist(m_playlist);
-    //! [create-objs]
-        //连接信号和槽
-        connect(m_player, &QtAV::AVPlayer::durationChanged, this, &ReviewWidget::durationChanged);//最终位置更改
-        connect(m_player, &QtAV::AVPlayer::positionChanged, this, &ReviewWidget::positionChanged);//位置更改
-        //connect(m_player, QOverload<>::of(&QMediaPlayer::metaDataChanged), this, &ReviewWidget::metaDataChanged);
-
-        //connect(m_playlist, &QMediaPlaylist::currentIndexChanged, this, &ReviewWidget::playlistPositionChanged);
-
-        //connect(m_player, &QtAV::AVPlayer::mediaStatusChanged, this, &ReviewWidget::statusChanged);
-//        connect(m_player, &QtAV::AVPlayer::bufferStatusChanged, this, &ReviewWidget::bufferingProgress);
-//        connect(m_player, &QtAV::AVPlayer::videoAvailableChanged, this, &ReviewWidget::videoAvailableChanged);
-        //connect(m_player, QOverload<QtAV::AVError>::of(&QtAV::AVPlayer::error), this, &ReviewWidget::displayErrorMessage);
-        connect(m_player, &QtAV::AVPlayer::stateChanged, this, &ReviewWidget::stateChanged);
-
-    //! [2]
-        //添加默认的输出窗口
-        m_videoWidget = new QtAVVideoWidget(this);
-
-        m_player->addVideoRenderer(m_videoWidget->video_render());
-        //----播放
-//        m_playlistModel = new PlaylistModel(this);
-//        m_playlistModel->setPlaylist(m_playlist);
-    //! [2]
-        //设置显示列表
-//        m_playlistView = new QListView(this);
-//        m_playlistView->setModel(m_playlistModel);
-//        m_playlistView->setCurrentIndex(m_playlistModel->index(m_playlist->currentIndex(), 0));
-
-        connect(m_playlistView, &QAbstractItemView::activated, this, &ReviewWidget::jump);
-        //设置进度条
-        m_slider = new QSlider(Qt::Horizontal, this);
-        //设置进度条范围
-        m_slider->setRange(0, m_player->duration() / 1000);
-
-        m_labelDuration = new QLabel(this);
-        //当其移动的时候，更改视频位置
-        connect(m_slider, &QSlider::sliderMoved, this, &ReviewWidget::seek);
-        connect(m_slider,&QSlider::valueChanged,this,&ReviewWidget::SendCoordinatesToBus);//更新函数坐标位置
-
-        QHBoxLayout *histogramLayout = new QHBoxLayout;
-
-
-        //打开文件按钮
-        QPushButton *openButton = new QPushButton(tr("Open"), this);
-        //连接打开函数库
-        connect(openButton, &QPushButton::clicked, this, &ReviewWidget::open);
-        //初始化视频控条
-        QtAVPlayerControls *controls = new QtAVPlayerControls(this);
-        controls->setState(m_player->state());
-        controls->setVolume(m_player->audio()->volume());
-
-        //controls->setMuted(controls->isMuted());
-
-        connect(controls, &QtAVPlayerControls::play,this, &ReviewWidget::play);//播放
-        connect(controls, &QtAVPlayerControls::pause, this, &ReviewWidget::pause);//暂停
-        connect(controls, &QtAVPlayerControls::stop, this, &ReviewWidget::stop);//停止
-        //QMediaPlaylist
-        //connect(controls, &PlayerControls::next, m_playlist, &QMediaPlaylist::next);//下一个
-        connect(controls, &QtAVPlayerControls::previous, this, &ReviewWidget::previousClicked);//前一个
-        connect(controls, &QtAVPlayerControls::changeRate, m_player, &QtAV::AVPlayer::setSpeed);//设置播放速度
-
-        connect(controls, &QtAVPlayerControls::stop, m_videoWidget, QOverload<>::of(&QVideoWidget::update));//设置更新
-
-        connect(m_player, SIGNAL(stateChanged(QtAV::AVPlayer::State)), controls, SLOT(setState(QtAV::AVPlayer::State)));//装调转变
-//        connect(m_player->audio(), SIGNAL(volumeChanged), controls, SLOT(setVolume));//设置音量
-        //connect(m_player, &QMediaPlayer::mutedChanged, controls, &PlayerControls::setMuted);//设置静音
-        //将播放列表和显示添加到水平布局
-        QBoxLayout *displayLayout = new QHBoxLayout;
-        displayLayout->addWidget(m_videoWidget, 2);
-        displayLayout->addWidget(m_playlistView);
-
-        QBoxLayout *controlLayout = new QHBoxLayout;
-        controlLayout->setMargin(0);
-        controlLayout->addWidget(openButton);
-        controlLayout->addStretch(1);
-        controlLayout->addWidget(controls);
-        controlLayout->addStretch(1);
-
-        QBoxLayout *layout = new QVBoxLayout;
-        layout->addLayout(displayLayout);
-        //设置进度条
-        QHBoxLayout *hLayout = new QHBoxLayout;
-        hLayout->addWidget(m_slider);
-        hLayout->addWidget(m_labelDuration);
-        layout->addLayout(hLayout);
-        layout->addLayout(controlLayout);
-        layout->addLayout(histogramLayout);
-    #if defined(Q_OS_QNX)
-        // On QNX, the main window doesn't have a title bar (or any other decorations).
-        // Create a status bar for the status information instead.
-        m_statusLabel = new QLabel;
-        m_statusBar = new QStatusBar;
-        m_statusBar->addPermanentWidget(m_statusLabel);
-        m_statusBar->setSizeGripEnabled(false); // Without mouse grabbing, it doesn't work very well.
-        layout->addWidget(m_statusBar);
-    #endif
-
-        setLayout(layout);
-
-//        if (!isPlayerAvailable()) {
-//            QMessageBox::warning(this, tr("Service not available"),
-//                                 tr("The QMediaPlayer object does not have a valid service.\n"\
-//                                    "Please check the media service plugins are installed."));
-
-//            controls->setEnabled(false);
-//            m_playlistView->setEnabled(false);
-//            openButton->setEnabled(false);
-//        }
-
-        metaDataChanged();
+    ui->setupUi(this);
+    //创建媒体播放器
+    m_player = new QtAV::AVPlayer(this);
+    //连接信号和槽
+    connect(m_player, &QtAV::AVPlayer::durationChanged, this, &ReviewWidget::durationChanged);//最终位置更改
+    connect(m_player, &QtAV::AVPlayer::positionChanged, this, &ReviewWidget::positionChanged);//位置更改
+    connect(m_player, &QtAV::AVPlayer::stateChanged, this, &ReviewWidget::stateChanged);//状态更改
+    //添加默认的输出窗口
+    m_videoWidget = new QtAVVideoWidget(this);
+    m_player->addVideoRenderer(m_videoWidget->video_render());
+    //将显示窗口添加到ui布局
+    ui->verticalLayout_2->addWidget(m_videoWidget);
+    //初始化进度条范围
+    ui->m_slider->setRange(0, m_player->duration() / 1000);
+    connect(ui->m_slider, &QSlider::sliderMoved, this, &ReviewWidget::seek);
+    connect(ui->m_slider,&QSlider::valueChanged,this,&ReviewWidget::SendCoordinatesToBus);//更新函数坐标位置
+    connect(ui->openButton, &QPushButton::clicked, this, &ReviewWidget::open);
+    ui->controls->setState(m_player->state());
+    ui->controls->setVolume(m_player->audio()->volume());
+    connect(ui->controls, &QtAVPlayerControls::play,this, &ReviewWidget::play);//播放
+    connect(ui->controls, &QtAVPlayerControls::pause, this, &ReviewWidget::pause);//暂停
+    connect(ui->controls, &QtAVPlayerControls::stop, this, &ReviewWidget::stop);//停止
+    connect(ui->controls, &QtAVPlayerControls::previous, this, &ReviewWidget::previousClicked);//前一个
+    connect(ui->controls, &QtAVPlayerControls::changeRate, m_player, &QtAV::AVPlayer::setSpeed);//设置播放速度
+    connect(ui->controls, &QtAVPlayerControls::stop, m_videoWidget, QOverload<>::of(&QVideoWidget::update));//设置更新
+    connect(m_player, SIGNAL(stateChanged(QtAV::AVPlayer::State)), ui->controls, SLOT(setState(QtAV::AVPlayer::State)));//转变函数
+    metaDataChanged();
 }
+
 ReviewWidget::~ReviewWidget()
 {
-
+    delete ui;
 }
 bool ReviewWidget::isPlayerAvailable() const
 {
@@ -198,13 +111,13 @@ void ReviewWidget::durationChanged(qint64 duration)
 {
     //m_duration = duration / 1000;
     m_duration = duration/1000;//更改系数，使得更加完整
-    m_slider->setMaximum(m_duration);
+    ui->m_slider->setMaximum(m_duration);
 }
 //位置更改
 void ReviewWidget::positionChanged(qint64 progress)
 {
-    if (!m_slider->isSliderDown())
-        m_slider->setValue(progress / 1000);
+    if (!ui->m_slider->isSliderDown())
+        ui->m_slider->setValue(progress / 1000);
     //更新数字信息
     updateDurationInfo(progress / 1000);
     //更新位置发射
@@ -320,32 +233,32 @@ void ReviewWidget::videoAvailableChanged(bool available)
 //设置相关信息
 void ReviewWidget::setTrackInfo(const QString &info)
 {
-    m_trackInfo = info;
+//    m_trackInfo = info;
 
-    if (m_statusBar) {
-        m_statusBar->showMessage(m_trackInfo);
-        m_statusLabel->setText(m_statusInfo);
-    } else {
-        if (!m_statusInfo.isEmpty())
-            setWindowTitle(QString("%1 | %2").arg(m_trackInfo).arg(m_statusInfo));
-        else
-            setWindowTitle(m_trackInfo);
-    }
+//    if (m_statusBar) {
+//        m_statusBar->showMessage(m_trackInfo);
+//        m_statusLabel->setText(m_statusInfo);
+//    } else {
+//        if (!m_statusInfo.isEmpty())
+//            setWindowTitle(QString("%1 | %2").arg(m_trackInfo).arg(m_statusInfo));
+//        else
+//            setWindowTitle(m_trackInfo);
+//    }
 }
 //
 void ReviewWidget::setStatusInfo(const QString &info)
 {
     m_statusInfo = info;
 
-    if (m_statusBar) {
-        m_statusBar->showMessage(m_trackInfo);
-        m_statusLabel->setText(m_statusInfo);
-    } else {
-        if (!m_statusInfo.isEmpty())
-            setWindowTitle(QString("%1 | %2").arg(m_trackInfo).arg(m_statusInfo));
-        else
-            setWindowTitle(m_trackInfo);
-    }
+//    if (m_statusBar) {
+//        m_statusBar->showMessage(m_trackInfo);
+//        m_statusLabel->setText(m_statusInfo);
+//    } else {
+//        if (!m_statusInfo.isEmpty())
+//            setWindowTitle(QString("%1 | %2").arg(m_trackInfo).arg(m_statusInfo));
+//        else
+//            setWindowTitle(m_trackInfo);
+//    }
 }
 //显示错误信息
 void ReviewWidget::displayErrorMessage()
@@ -367,7 +280,7 @@ void ReviewWidget::updateDurationInfo(qint64 currentInfo)
         tStr = currentTime.toString(format) + " / " + totalTime.toString(format);
     }
     //设置更新时间
-    m_labelDuration->setText(tStr);
+    ui->m_labelDuration->setText(tStr);
 
 }
 
@@ -397,8 +310,8 @@ void ReviewWidget::SendCoordinatesToBus(int index)
     //注意这里要检查m_slider的值，应为停止播放的时候可能值为0
     //直接写入函数，发射信号
     int position_index=0;
-    if(m_slider->maximum()>0){
-        position_index=index*(coordinates_size/m_slider->maximum());
+    if(ui->m_slider->maximum()>0){
+        position_index=index*(coordinates_size/ui->m_slider->maximum());
     }else{
         qDebug()<<"this video max slider is 0";
         return;
@@ -435,7 +348,5 @@ void ReviewWidget::pause()
 void ReviewWidget::stop()
 {
     this->m_player->stop();
-    qDebug()<<"------- start stop ------";
-    qDebug()<<"------- state ----"<<m_player->state();
 
 }

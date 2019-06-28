@@ -134,7 +134,7 @@ void RecordSelectDialog::UpDateRecordId(int car_id,QString record_date,QString s
     record_id=result_array.at(0).toObject().value("record_id").toString().toInt();
     ui->boxRecordNumber->setValue(record_id);
     if(record_id!=NULL){
-        myHelper::ShowMessageBoxError(QStringLiteral("查询成功"));
+        myHelper::ShowMessageBoxInfo(QStringLiteral("查询成功"));
     }else{
          myHelper::ShowMessageBoxError(QStringLiteral("查询失败，请检查错误信息"));
     }

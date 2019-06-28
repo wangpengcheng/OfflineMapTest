@@ -21,10 +21,15 @@ SOURCES += \
     $$PWD/qtavplayercontrols.cpp \
     $$PWD/reviewwidget.cpp
 
+
 #target.path = $$[QT_INSTALL_EXAMPLES]/multimediawidgets/player
 #INSTALLS += target
 
 INCLUDEPATH 	+= $$PWD
 
 FORMS += \
-    $$PWD/myreviewwidget.ui
+    $$PWD/myreviewwidget.ui \
+    $$PWD/reviewwidget.ui
+
+SOURCES += \
+    $$PWD/reviewwidget.cpp
