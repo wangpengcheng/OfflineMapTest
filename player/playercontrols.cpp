@@ -111,26 +111,27 @@ PlayerControls::PlayerControls(QWidget *parent)
     setLayout(layout);
 }
 
-QtAV::AVPlayer::State PlayerControls::state() const
+QMediaPlayer::State PlayerControls::state() const
 {
     return m_playerState;
 }
 
-void PlayerControls::setState(QtAV::AVPlayer::State state)
+void PlayerControls::setState(QMediaPlayer::State state)
 {
     if (state != m_playerState) {
         m_playerState = state;
 
         switch (state) {
-        case QtAV::AVPlayer::State::StoppedState:
+        case QMediaPlayer::State::StoppedState:
             m_stopButton->setEnabled(false);
             m_playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
             break;
-        case QtAV::AVPlayer::State::PlayingState:
+        case QMediaPlayer::State::PlayingState:
             m_stopButton->setEnabled(true);
             m_playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
             break;
-        case QtAV::AVPlayer::State::PausedState:
+        case QMediaPlayer::State::PausedState:
+            qDebug()<<"------- PausedState";
             m_stopButton->setEnabled(true);
             m_playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
             break;
@@ -176,11 +177,11 @@ void PlayerControls::setMuted(bool muted)
 void PlayerControls::playClicked()
 {
     switch (m_playerState) {
-    case QtAV::AVPlayer::State::StoppedState:
-    case QtAV::AVPlayer::State::PausedState:
+    case QMediaPlayer::State::StoppedState:
+    case QMediaPlayer::State::PausedState:
         emit play();
         break;
-    case QtAV::AVPlayer::State::PlayingState:
+    case QMediaPlayer::State::PlayingState:
         emit pause();
         break;
     }
@@ -213,7 +214,7 @@ void PlayerControls::updateRate()
 {
     emit changeRate(playbackRate());
 }
-//发送声音变量
+//
 void PlayerControls::onVolumeSliderValueChanged()
 {
     emit changeVolume(volume());

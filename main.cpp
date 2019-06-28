@@ -64,7 +64,7 @@
 #include "VideoControl/myapp.h"
 #include "player/myreviewwidget.h"
 #include "player/player.h"
-
+#include "player/reviewwidget.h"
 //use tool
 Tool tool;
 #include <QLabel>
@@ -183,8 +183,11 @@ int main(int argc, char *argv[])
 //    test_video_show_widget.show();
 //    MyReviewWidget test;
 //    test.show();
-    Player test_player;
-    test_player.show();
+//    Player test_player;
+//    test_player.show();
+    ReviewWidget test;
+    test.resize(800,600);
+    test.show();
 
 #endif
     return app.exec();

@@ -53,7 +53,7 @@
 
 #include <QMediaPlayer>
 #include <QWidget>
-#include "QtAV/AVPlayer.h"
+
 QT_BEGIN_NAMESPACE
 class QAbstractButton;
 class QAbstractSlider;
@@ -66,14 +66,14 @@ class PlayerControls : public QWidget
 
 public:
     explicit PlayerControls(QWidget *parent = nullptr);
-    //记录当前的播放状态
-    QtAV::AVPlayer::State state() const;
+
+    QMediaPlayer::State state() const;
     int volume() const;
     bool isMuted() const;
     qreal playbackRate() const;
 
 public slots:
-    void setState(QtAV::AVPlayer::State state);
+    void setState(QMediaPlayer::State state);
     void setVolume(int volume);
     void setMuted(bool muted);
     void setPlaybackRate(float rate);
@@ -95,7 +95,7 @@ private slots:
     void onVolumeSliderValueChanged();
 
 private:
-    QtAV::AVPlayer::State m_playerState = QtAV::AVPlayer::State::StoppedState;
+    QMediaPlayer::State m_playerState = QMediaPlayer::StoppedState;
     bool m_playerMuted = false;
     QAbstractButton *m_playButton = nullptr;//播放按钮
     QAbstractButton *m_stopButton = nullptr;//停止按钮
@@ -103,7 +103,7 @@ private:
     QAbstractButton *m_previousButton = nullptr;//播放前一个
     QAbstractButton *m_muteButton = nullptr;//声音按钮
     QAbstractSlider *m_volumeSlider = nullptr;//声音滑块
-    QComboBox *m_rateBox = nullptr;//播放速度模块
+    QComboBox *m_rateBox = nullptr;//播放速度
 };
 
 #endif // PLAYERCONTROLS_H

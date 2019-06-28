@@ -93,7 +93,7 @@ Player::Player(QWidget* parent)
     m_videoWidget = new VideoWidget(this);
 
     m_player->setVideoOutput(m_videoWidget);
-    //----播放列表
+    //----播放
     m_playlistModel = new PlaylistModel(this);
     m_playlistModel->setPlaylist(m_playlist);
 //! [2]
@@ -160,6 +160,7 @@ Player::Player(QWidget* parent)
     m_colorButton = new QPushButton(tr("Color Options..."), this);
     m_colorButton->setEnabled(false);
     connect(m_colorButton, &QPushButton::clicked, this, &Player::showColorDialog);
+    //将播放列表和显示添加到水平布局
     QBoxLayout *displayLayout = new QHBoxLayout;
     displayLayout->addWidget(m_videoWidget, 2);
     displayLayout->addWidget(m_playlistView);
