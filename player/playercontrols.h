@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -53,7 +53,7 @@
 
 #include <QMediaPlayer>
 #include <QWidget>
-
+#include "QtAV/AVPlayer.h"
 QT_BEGIN_NAMESPACE
 class QAbstractButton;
 class QAbstractSlider;
@@ -66,14 +66,14 @@ class PlayerControls : public QWidget
 
 public:
     explicit PlayerControls(QWidget *parent = nullptr);
-
-    QMediaPlayer::State state() const;
+    //记录当前的播放状态
+    QtAV::AVPlayer::State state() const;
     int volume() const;
     bool isMuted() const;
     qreal playbackRate() const;
 
 public slots:
-    void setState(QMediaPlayer::State state);
+    void setState(QtAV::AVPlayer::State state);
     void setVolume(int volume);
     void setMuted(bool muted);
     void setPlaybackRate(float rate);
@@ -95,15 +95,15 @@ private slots:
     void onVolumeSliderValueChanged();
 
 private:
-    QMediaPlayer::State m_playerState = QMediaPlayer::StoppedState;
+    QtAV::AVPlayer::State m_playerState = QtAV::AVPlayer::State::StoppedState;
     bool m_playerMuted = false;
-    QAbstractButton *m_playButton = nullptr;
-    QAbstractButton *m_stopButton = nullptr;
-    QAbstractButton *m_nextButton = nullptr;
-    QAbstractButton *m_previousButton = nullptr;
-    QAbstractButton *m_muteButton = nullptr;
-    QAbstractSlider *m_volumeSlider = nullptr;
-    QComboBox *m_rateBox = nullptr;
+    QAbstractButton *m_playButton = nullptr;//播放按钮
+    QAbstractButton *m_stopButton = nullptr;//停止按钮
+    QAbstractButton *m_nextButton = nullptr;//播放下一个
+    QAbstractButton *m_previousButton = nullptr;//播放前一个
+    QAbstractButton *m_muteButton = nullptr;//声音按钮
+    QAbstractSlider *m_volumeSlider = nullptr;//声音滑块
+    QComboBox *m_rateBox = nullptr;//播放速度模块
 };
 
 #endif // PLAYERCONTROLS_H

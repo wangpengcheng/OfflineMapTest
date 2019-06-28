@@ -33,6 +33,7 @@ MainShowDialog::~MainShowDialog()
     DELETE_QOBJECT(video_show_vbox_layout_);
     DELETE_QOBJECT(aggregative_gridLayout_);
     DELETE_QOBJECT(speed_show_chart_widget_);
+    DELETE_QOBJECT(review_widget_);
 }
 void MainShowDialog::InitStackWidget()
 {
@@ -64,21 +65,12 @@ void MainShowDialog::InitStackWidget()
     ui->verticalLayout_4->addWidget(speed_show_chart_widget_);
     //设置回放显示
     video_review_layout_=new QHBoxLayout(ui->show_tab_choosePage4);
-    video_review_show_widget_=new QVideoWidget(ui->show_tab_choosePage4);
-    //创建回放地图
-    re_map_widget_=new QQuickWidget(ui->show_tab_choosePage4);
-    re_map_widget_->setSource(QUrl("qrc:/qml/MainShowWindow.qml"));
-    re_map_widget_->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    //获取地图参数
-    re_show_map_=std::shared_ptr<QDeclarativeGeoMap>(re_map_widget_->rootObject()->findChild<QDeclarativeGeoMap *>("show_map"));
-//  ui->show_tab_choosePage4->setLayout(video_review_layout_);
-    video_review_layout_->addWidget(video_review_show_widget_);
-    video_review_layout_->addWidget(re_map_widget_);
-//    re_map_widget_->show();
-//    video_review_layout_->setMargin(5);//设置边距
-    video_review_layout_->setSpacing(5);//设置边距
+    review_widget_=new MyReviewWidget(this);
+    video_review_layout_->addWidget(review_widget_);
 
-    // video_review_show_widget_->resize(ui->aggregative_show_page->size());
+    video_review_layout_->setMargin(1);//设置边距
+    video_review_layout_->setSpacing(1);//设置边距
+
 }
 
 void MainShowDialog::on_show_tab_choose_currentChanged(int arg1)
@@ -102,10 +94,7 @@ void MainShowDialog::on_show_tab_choose_currentChanged(int arg1)
             ui->horizontalLayout->addWidget(video_widget_);
             map_show_vbox_layout_->removeWidget(map_page_);
         }else if(arg1==3){
-            //ui->aggregative_show_page->update();
-
-            //video_review_show_widget_->resize(video_review_show_widget_->parentWidget()->size());
-            video_review_show_widget_->show();
+            review_widget_->show();
         }
     }
 

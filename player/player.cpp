@@ -93,7 +93,7 @@ Player::Player(QWidget* parent)
     m_videoWidget = new VideoWidget(this);
 
     m_player->setVideoOutput(m_videoWidget);
-
+    //----播放列表
     m_playlistModel = new PlaylistModel(this);
     m_playlistModel->setPlaylist(m_playlist);
 //! [2]
@@ -150,9 +150,9 @@ Player::Player(QWidget* parent)
     connect(controls, &PlayerControls::changeRate, m_player, &QMediaPlayer::setPlaybackRate);//设置播放速度
     connect(controls, &PlayerControls::stop, m_videoWidget, QOverload<>::of(&QVideoWidget::update));//设置更新
 
-    connect(m_player, &QMediaPlayer::stateChanged, controls, &PlayerControls::setState);
-    connect(m_player, &QMediaPlayer::volumeChanged, controls, &PlayerControls::setVolume);
-    connect(m_player, &QMediaPlayer::mutedChanged, controls, &PlayerControls::setMuted);
+    connect(m_player, &QMediaPlayer::stateChanged, controls, &PlayerControls::setState);//装调转变
+    connect(m_player, &QMediaPlayer::volumeChanged, controls, &PlayerControls::setVolume);//设置音量
+    connect(m_player, &QMediaPlayer::mutedChanged, controls, &PlayerControls::setMuted);//设置静音
 
     m_fullScreenButton = new QPushButton(tr("FullScreen"), this);
     m_fullScreenButton->setCheckable(true);
@@ -395,7 +395,7 @@ void Player::videoAvailableChanged(bool available)
     }
     m_colorButton->setEnabled(available);
 }
-
+//设置相关信息
 void Player::setTrackInfo(const QString &info)
 {
     m_trackInfo = info;
@@ -410,7 +410,7 @@ void Player::setTrackInfo(const QString &info)
             setWindowTitle(m_trackInfo);
     }
 }
-
+//
 void Player::setStatusInfo(const QString &info)
 {
     m_statusInfo = info;
@@ -425,7 +425,7 @@ void Player::setStatusInfo(const QString &info)
             setWindowTitle(m_trackInfo);
     }
 }
-
+//显示错误信息
 void Player::displayErrorMessage()
 {
     setStatusInfo(m_player->errorString());

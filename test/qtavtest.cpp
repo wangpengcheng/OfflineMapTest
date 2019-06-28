@@ -46,6 +46,7 @@ QtAVTest::QtAVTest(QWidget *parent) : QWidget(parent)
 void QtAVTest::openMedia()
 {
     QString file = QFileDialog::getOpenFileName(0, tr("Open a video"));
+    qDebug()<<"---------------:"<<file;
     if (file.isEmpty())
         return;
     m_player->play(file);

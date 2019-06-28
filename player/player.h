@@ -79,6 +79,7 @@ class Player : public QWidget
     Q_OBJECT
 
 public:
+    //基本构造函数
     Player(QWidget* parent=nullptr);
     ~Player();
 
@@ -96,8 +97,8 @@ signals:
 
 private slots:
     void open();
-    void durationChanged(qint64 duration);
-    void positionChanged(qint64 progress);
+    void durationChanged(qint64 duration);//最后信号更改
+    void positionChanged(qint64 progress);//
     void metaDataChanged();
 
     void previousClicked();
@@ -124,24 +125,23 @@ private:
     void setStatusInfo(const QString &info);
     void handleCursor(QMediaPlayer::MediaStatus status);
     void updateDurationInfo(qint64 currentInfo);
-
     QMediaPlayer *m_player = nullptr;//播放器
     QMediaPlaylist *m_playlist = nullptr;//播放列表
     QVideoWidget *m_videoWidget = nullptr;//显示列表
     QLabel *m_coverLabel = nullptr;//转换列表
-    QSlider *m_slider = nullptr;
-    QLabel *m_labelDuration = nullptr;
-    QPushButton *m_fullScreenButton = nullptr;
-    QPushButton *m_colorButton = nullptr;
-    QDialog *m_colorDialog = nullptr;
-    QLabel *m_statusLabel = nullptr;
-    QStatusBar *m_statusBar = nullptr;
+    QSlider *m_slider = nullptr; //进度条
+    QLabel *m_labelDuration = nullptr;//
+    QPushButton *m_fullScreenButton = nullptr;//全屏按钮
+    QPushButton *m_colorButton = nullptr;//色彩按钮
+    QDialog *m_colorDialog = nullptr;//色彩选框
+    QLabel *m_statusLabel = nullptr;//状态标签
+    QStatusBar *m_statusBar = nullptr;//状态条
 
-    QLabel *m_labelHistogram = nullptr;
-    HistogramWidget *m_videoHistogram = nullptr;
-    HistogramWidget *m_audioHistogram = nullptr;
-    QVideoProbe *m_videoProbe = nullptr;
-    QAudioProbe *m_audioProbe = nullptr;
+    QLabel *m_labelHistogram = nullptr;//频率条
+    HistogramWidget *m_videoHistogram = nullptr;//视频
+    HistogramWidget *m_audioHistogram = nullptr;//音频
+    QVideoProbe *m_videoProbe = nullptr;//视频属性
+    QAudioProbe *m_audioProbe = nullptr;//音频属性
 
     PlaylistModel *m_playlistModel = nullptr;
     QAbstractItemView *m_playlistView = nullptr;

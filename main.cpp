@@ -37,7 +37,7 @@
 #include <QKeyEvent>
 #include "test/screencontroltest.h"
 
-#define MyTest 1
+#define MyTest
 #ifdef MyTest
 #include "test/buslinetest.h"
 #include "test/bustest.h"
@@ -57,11 +57,13 @@
 #include "VideoControl/streamvideowidget.h"
 #include "VideoControl/myvideowidget.h"
 #include "VideoControl/recordselectdialog.h"
+#include "VideoControl/qtavvideowidget.h"
 //主函数
 #include "VideoControl/myhelper.h"
 #include "VideoControl/frmmain.h"
 #include "VideoControl/myapp.h"
 #include "player/myreviewwidget.h"
+#include "player/player.h"
 
 //use tool
 Tool tool;
@@ -154,9 +156,36 @@ int main(int argc, char *argv[])
 //    VideoDecodeTheadTest test;
 //    test.MainTest();
 
-        QtAVTest player;
-        player.show();
-        player.resize(800, 600);
+//        QtAVTest player;
+//        player.show();
+//       player.resize(800, 600);
+//    QString video_path("F:/GitHub/build-OfflineMapTest-Desktop_Qt_5_11_3_MSVC2015_64bit-Debug/bin/Videos/2019-06-26-12-34-44-735-21880.mp4");
+//    QtAV::AVPlayer test;
+//    QtAVVideoWidget test_widgets;
+//    test.addVideoRenderer(test_widgets.video_render());
+////   test.setRenderer(test_widgets.video_render());
+//    test.play(video_path);
+//    test_widgets.show();
+//    test_widgets.resize(800,600);
+
+//    QSharedPointer<QtAV::AVPlayer> test1(new QtAV::AVPlayer());
+//    VideoShowWidget<QtAVVideoWidget> test_video_show_widget;
+//    QtAVVideoWidget test_widgets1(test1);
+
+//    test_widgets1.show();
+//    test_widgets1.resize(800,600);
+//    //
+//    foreach(auto temp,test_video_show_widget.video_widgets())
+//    {
+//        temp->ChangeAVPlayer(test1);
+//    }
+//    test1->play(video_path);
+//    test_video_show_widget.show();
+//    MyReviewWidget test;
+//    test.show();
+    Player test_player;
+    test_player.show();
+
 #endif
     return app.exec();
 

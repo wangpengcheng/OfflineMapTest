@@ -43,7 +43,7 @@ LIBS += $$PWD/3rdpart/ffmpeg/lib/avcodec.lib \
         $$PWD/3rdpart/ffmpeg/lib/swresample.lib \
         $$PWD/3rdpart/ffmpeg/lib/swscale.lib
 
-INCLUDEPATH += $$PWD/3rdpart/QtAV/include \
+INCLUDEPATH += $$PWD/3rdpart/QtAV/include
 
 
 LIBS += $$PWD/3rdpart/QtAV/lib/Qt5AVd.lib \

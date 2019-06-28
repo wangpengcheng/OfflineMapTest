@@ -30,7 +30,8 @@ SOURCES += \
     $$PWD/excelhelper.cpp \
     $$PWD/videodecodethread.cpp \
     $$PWD/streamvideowidget.cpp \
-    $$PWD/recordselectdialog.cpp
+    $$PWD/recordselectdialog.cpp \
+    $$PWD/qtavvideowidget.cpp
 
 HEADERS  += \
     $$PWD/myhelper.h \
@@ -50,7 +51,8 @@ HEADERS  += \
     $$PWD/frmconfig.h \
     $$PWD/videodecodethread.h \
     $$PWD/streamvideowidget.h \
-    $$PWD/recordselectdialog.h
+    $$PWD/recordselectdialog.h \
+    $$PWD/qtavvideowidget.h
 
 
 FORMS    += \

@@ -24,7 +24,7 @@ public:
 public slots:
     virtual void initForm()=0;
     virtual void initMenu()=0;
-    virtual void play_video_all()=0;
+    //virtual void play_video_all()=0;
     virtual void snapshot_video_one()=0;
     virtual void snapshot_video_all()=0;
 
@@ -61,6 +61,7 @@ public:
     //获取视频列表
     //inline QList<MyVideoWidget *> video_widgets(){return widgets;}
     //inline QList<StreamVideoWidget *> video_widgets(){return widgets;}
+    inline QMenu* VideoMenu(){return videoMenu;}
     inline QList<T *> video_widgets(){return widgets;}
     inline bool is_videomax(){return videoMax;}
     inline int  video_count(){return videoCount;}
@@ -75,7 +76,7 @@ public:
 //signals:
 //void   play_changed(int index);
 //public slots:
-    void play_video_all();
+//    void play_video_all();
     void snapshot_video_one();
     void snapshot_video_all();
 
@@ -83,17 +84,13 @@ public:
     void show_video_1();
     void show_video_4();
     void show_video_6();
-//    void show_video_8();
-//    void show_video_9();
     void show_video_7();
     void show_video_12();
     void hide_video_all();
     void change_video(int index, int v_row,int col);
-    void change_video_1(int index);//1视频改变
+    void change_video_1(int index);
     void change_video_4(int index);
     void change_video_6(int index);
-   // void change_video_8(int index);
-  //  void change_video_9(int index);
     void change_video_7(int index);
     void change_video_12(int index);
 private:
@@ -121,7 +118,7 @@ VideoShowWidget<T>::VideoShowWidget(QWidget *parent):VideoShowWidgetBase(parent)
     initMenu();
     //show_video_all();
     change_video_4(0);
-    QTimer::singleShot(1000, this, SLOT(play_video_all()));
+    //QTimer::singleShot(1000, this, SLOT(play_video_all()));
 }
 
 template < class T>
@@ -183,8 +180,8 @@ void VideoShowWidget<T>::initForm()
           widgets.append(widget);
       }
     //设置边距
-    ui->gridLayout->setMargin(2);
-    ui->gridLayout->setSpacing(2);
+    ui->gridLayout->setMargin(1);
+    ui->gridLayout->setSpacing(1);
 }
 
 //初始化右侧按键
@@ -192,6 +189,7 @@ template < class T>
 void VideoShowWidget<T>::initMenu()
 {
     videoMenu = new QMenu(this);
+    videoMenu->setStyleSheet(QStringLiteral("font: 10pt \"微软雅黑\";"));
     videoMenu->addAction(QStringLiteral("截图当前视频"), this, SLOT(snapshot_video_one()));
     videoMenu->addAction(QStringLiteral("截图所有视频"), this, SLOT(snapshot_video_all()));
     videoMenu->addSeparator();
@@ -214,35 +212,16 @@ void VideoShowWidget<T>::initMenu()
     menu4->addAction(QStringLiteral("通道1-通道4"), this, SLOT(show_video_4()));
     menu4->addAction(QStringLiteral("通道5-通道8"), this, SLOT(show_video_4()));
     menu4->addAction(QStringLiteral("通道9-通道12"), this, SLOT(show_video_4()));
-   // menu4->addAction("通道13-通道16", this, SLOT(show_video_4()));
 
     QMenu *menu6 = videoMenu->addMenu(QStringLiteral("切换到6画面"));
     menu6->addAction(QStringLiteral("通道1-通道6"), this, SLOT(show_video_6()));
     menu6->addAction(QStringLiteral("通道7-通道12"), this, SLOT(show_video_6()));
-    //menu6->addAction("通道11-通道16", this, SLOT(show_video_6()));
     QMenu *menu7=videoMenu->addMenu(QStringLiteral("切换到7画面"));
     menu7->addAction(QStringLiteral("通道1-通道7"), this, SLOT(show_video_7()));
     menu7->addAction(QStringLiteral("通道6-通道12"), this, SLOT(show_video_7()));
-//    QMenu *menu8 = videoMenu->addMenu("切换到8画面");
-//    menu8->addAction("通道1-通道8", this, SLOT(show_video_8()));
-//    menu8->addAction("通道9-通道16", this, SLOT(show_video_8()));
-
-//    QMenu *menu9 = videoMenu->addMenu("切换到9画面");
-//    menu9->addAction("通道1-通道9", this, SLOT(show_video_9()));
-//    menu9->addAction("通道8-通道16", this, SLOT(show_video_9()));
 
     videoMenu->addAction(QStringLiteral("切换到12画面"), this, SLOT(show_video_12()));
 
-}
-template <class T>
-void VideoShowWidget<T>::play_video_all()
-{
-    if(!widgets.isEmpty()){
-        for(int i=0;i<widgets.count();++i)
-        {
-            widgets.at(i)->VideoPlay();
-        }
-    }
 }
 template <class T>
 void VideoShowWidget<T>::snapshot_video_one()
@@ -265,33 +244,15 @@ void VideoShowWidget<T>::show_video_all()
             change_video_4(4);
         } else if (video_type_ == "9_12") {
             change_video_4(8);
-        }/*
-        else if (videoType == "13_16") {
-            change_video_4(12);
-        }*/
-        else if (video_type_ == "1_6") {
+        } else if (video_type_ == "1_6") {
             change_video_6(0);
         } else if (video_type_ == "7_12") {
             change_video_6(6);
-        }
-//        else if (videoType == "11_16") {
-//            change_video_6(10);
-//        }
-//        else if (videoType == "1_8") {
-//            change_video_8(0);
-//        } else if (videoType == "9_16") {
-//            change_video_8(8);
-//        } else if (videoType == "1_9") {
-//            change_video_9(0);
-//        } else if (videoType == "8_16") {
-//            change_video_9(7);
-//        }
-        else if(video_type_ == "1_7"){
+        } else if(video_type_ == "1_7"){
             change_video_7(0);
-        }else if (video_type_=="6_12") {
+        } else if (video_type_=="6_12") {
             change_video_7(5);
-        }
-        else if (video_type_ == "1_12") {
+        } else if (video_type_ == "1_12") {
             change_video_12(0);
         }
 }
@@ -368,11 +329,7 @@ void VideoShowWidget<T>::show_video_4()
     } else if (name == QStringLiteral("通道9-通道12")) {
         index = 8;
         videoType = "9_12";
-    } /*else if (name == "通道13-通道16") {
-        index = 12;
-        videoType = "13_16";
-    }*/
-
+    }
     if (this->video_type_ != videoType) {
         this->video_type_ = videoType;
         change_video_4(index);
@@ -397,11 +354,7 @@ void VideoShowWidget<T>::show_video_6()
     } else if (name == QStringLiteral("通道7-通道12")) {
         index = 6;
         videoType = "7_12";
-    } /*else if (name == "通道11-通道16") {
-        index = 10;
-        videoType = "11_16";
-    }*/
-
+    }
     if (this->video_type_ != videoType) {
         this->video_type_ = videoType;
         change_video_6(index);
@@ -433,52 +386,6 @@ void VideoShowWidget<T>::show_video_7()
     }
     qDebug()<<"video_type is :"<<video_type_;
 }
-//显示8视频
-//void VideoShowWidget::show_video_8()
-//{
-//    videoMax = false;
-//    QString videoType;
-//    int index = 0;
-
-//    QAction *action = (QAction *)sender();
-//    QString name = action->text();
-
-//    if (name == "通道1-通道8") {
-//        index = 0;
-//        videoType = "1_8";
-//    } else if (name == "通道9-通道16") {
-//        index = 8;
-//        videoType = "9_16";
-//    }
-
-//    if (this->videoType != videoType) {
-//        this->videoType = videoType;
-//        change_video_8(index);
-//    }
-//}
-//显示9视频
-//void VideoShowWidget::show_video_9()
-//{
-//    videoMax = false;
-//    QString videoType;
-//    int index = 0;
-
-//    QAction *action = (QAction *)sender();
-//    QString name = action->text();
-
-//    if (name == "通道1-通道9") {
-//        index = 0;
-//        videoType = "1_9";
-//    } else if (name == "通道8-通道16") {
-//        index = 7;
-//        videoType = "8_16";
-//    }
-
-//    if (this->videoType != videoType) {
-//        this->videoType = videoType;
-//        change_video_9(index);
-//    }
-//}
 //显示12视频
 template <class T>
 void VideoShowWidget<T>::show_video_12()
@@ -661,45 +568,6 @@ void VideoShowWidget<T>::change_video_7(int index)
     qDebug()<<"row:"<<ui->gridLayout->rowCount();
     emit play_changed(0);
 }
-/*
-void VideoShowWidget::change_video_8(int index)
-{
-    hide_video_all();
-    if (index == 0) {
-        ui->gridLayout->addWidget(widgets.at(0), 0, 0, 3, 3);
-        ui->gridLayout->addWidget(widgets.at(1), 0, 3, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(2), 1, 3, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(3), 2, 3, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(4), 3, 3, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(5), 3, 2, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(6), 3, 1, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(7), 3, 0, 1, 1);
-
-        for (int i = 0; i < 8; ++i) {
-            widgets.at(i)->setVisible(true);
-        }
-    } else if (index == 8) {
-        ui->gridLayout->addWidget(widgets.at(8), 0, 0, 3, 3);
-        ui->gridLayout->addWidget(widgets.at(9), 0, 3, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(10), 1, 3, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(11), 2, 3, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(12), 3, 3, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(13), 3, 2, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(14), 3, 1, 1, 1);
-        ui->gridLayout->addWidget(widgets.at(15), 3, 0, 1, 1);
-
-        for (int i = 8; i < 16; ++i) {
-            widgets.at(i)->setVisible(true);
-        }
-    }
-}
-*/
-//9视频变化
-//void VideoShowWidget::change_video_9(int index)
-//{
-//    hide_video_all();
-//    change_video(index, 3,3);//三行三列
-//}
 template <class T>
 void VideoShowWidget<T>::change_video_12(int index)
 {

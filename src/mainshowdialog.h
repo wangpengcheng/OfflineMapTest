@@ -14,6 +14,7 @@
 //地图类
 #include <QtLocation/private/qdeclarativegeomap_p.h>
 #include "VideoControl/videoshowwidget.h"
+#include "player/myreviewwidget.h"
 
 #include <QVideoWidget>
 
@@ -34,8 +35,10 @@ public:
     inline QStackedWidget* stacked_widget(){return stacked_widget_;}
     inline VideoShowWidget<StreamVideoWidget>* video_widget(){return video_widget_;}
     inline std::shared_ptr<QDeclarativeGeoMap> show_map(){return show_map_;}
-    inline std::shared_ptr<QDeclarativeGeoMap> re_show_map(){return re_show_map_;}
-    inline QVideoWidget*  video_review_show_widget(){return video_review_show_widget_;}
+    inline MyReviewWidget* review_widget(){return review_widget_;}
+    //回放地图
+    inline std::shared_ptr<QDeclarativeGeoMap> re_show_map(){return review_widget_->re_show_map();}
+//    inline QVideoWidget*  video_review_show_widget(){return video_review_show_widget_;}
 private slots:
     void on_show_tab_choose_currentChanged(int arg1);
     void print_layout(int index);
@@ -57,10 +60,7 @@ private:
     QQuickWidget *speed_show_chart_widget_=nullptr;//仪表盘数据指针，/*ToDo 单独构造它的类，方便复用 */
     //设置视频回放显示
     QHBoxLayout* video_review_layout_=nullptr;
-    QVideoWidget* video_review_show_widget_=nullptr;
-    //回放地图显示窗口
-    QQuickWidget* re_map_widget_=nullptr;
-    std::shared_ptr<QDeclarativeGeoMap> re_show_map_=nullptr;//视频回放的地图
+    MyReviewWidget* review_widget_=nullptr;
 
 };
 

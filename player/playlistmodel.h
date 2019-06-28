@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -53,11 +53,10 @@
 
 #include <QAbstractItemModel>
 #include <QScopedPointer>
-
 QT_BEGIN_NAMESPACE
 class QMediaPlaylist;
 QT_END_NAMESPACE
-
+//列表模式
 class PlaylistModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -71,10 +70,10 @@ public:
 
     explicit PlaylistModel(QObject *parent = nullptr);
     ~PlaylistModel();
-
+    //行计数
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-
+    //下标
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex &child) const override;
 
@@ -86,13 +85,19 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::DisplayRole) override;
 
 private slots:
+    //开始插入元素
     void beginInsertItems(int start, int end);
+    //尾部插入元素
     void endInsertItems();
+    //开始移除
     void beginRemoveItems(int start, int end);
+    //尾部移除
     void endRemoveItems();
+    //更改元素
     void changeItems(int start, int end);
 
 private:
+    //播放列表元素
     QScopedPointer<QMediaPlaylist> m_playlist;
     QMap<QModelIndex, QVariant> m_data;
 };

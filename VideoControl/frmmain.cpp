@@ -400,7 +400,7 @@ void frmMain::InitShowDialog()
 
     //show_dialog_->video_review_show_widget()->resize(400,800);
     //视频回放，显示设置
-    this->video_review_control()->GetPlyer()->setVideoOutput(show_dialog_->video_review_show_widget());
+    //this->video_review_control()->GetPlyer()->setVideoOutput(show_dialog_->video_review_show_widget());
     //show_dialog_->video_review_show_widget()->show();
     //初始化bus
     review_bus_=new Bus(Tool::WPS84ToGCJ02(30.5563134000,103.9938400000));

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -111,26 +111,26 @@ PlayerControls::PlayerControls(QWidget *parent)
     setLayout(layout);
 }
 
-QMediaPlayer::State PlayerControls::state() const
+QtAV::AVPlayer::State PlayerControls::state() const
 {
     return m_playerState;
 }
 
-void PlayerControls::setState(QMediaPlayer::State state)
+void PlayerControls::setState(QtAV::AVPlayer::State state)
 {
     if (state != m_playerState) {
         m_playerState = state;
 
         switch (state) {
-        case QMediaPlayer::StoppedState:
+        case QtAV::AVPlayer::State::StoppedState:
             m_stopButton->setEnabled(false);
             m_playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
             break;
-        case QMediaPlayer::PlayingState:
+        case QtAV::AVPlayer::State::PlayingState:
             m_stopButton->setEnabled(true);
             m_playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
             break;
-        case QMediaPlayer::PausedState:
+        case QtAV::AVPlayer::State::PausedState:
             m_stopButton->setEnabled(true);
             m_playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
             break;
@@ -149,6 +149,7 @@ int PlayerControls::volume() const
 
 void PlayerControls::setVolume(int volume)
 {
+
     qreal logarithmicVolume = QAudio::convertVolume(volume / qreal(100),
                                                     QAudio::LinearVolumeScale,
                                                     QAudio::LogarithmicVolumeScale);
@@ -175,11 +176,11 @@ void PlayerControls::setMuted(bool muted)
 void PlayerControls::playClicked()
 {
     switch (m_playerState) {
-    case QMediaPlayer::StoppedState:
-    case QMediaPlayer::PausedState:
+    case QtAV::AVPlayer::State::StoppedState:
+    case QtAV::AVPlayer::State::PausedState:
         emit play();
         break;
-    case QMediaPlayer::PlayingState:
+    case QtAV::AVPlayer::State::PlayingState:
         emit pause();
         break;
     }
@@ -189,7 +190,7 @@ void PlayerControls::muteClicked()
 {
     emit changeMuting(!m_playerMuted);
 }
-
+//回调函数
 qreal PlayerControls::playbackRate() const
 {
     return m_rateBox->itemData(m_rateBox->currentIndex()).toDouble();
@@ -207,12 +208,12 @@ void PlayerControls::setPlaybackRate(float rate)
     m_rateBox->addItem(QString("%1x").arg(rate), QVariant(rate));
     m_rateBox->setCurrentIndex(m_rateBox->count() - 1);
 }
-
+//发送播放速度
 void PlayerControls::updateRate()
 {
     emit changeRate(playbackRate());
 }
-
+//发送声音变量
 void PlayerControls::onVolumeSliderValueChanged()
 {
     emit changeVolume(volume());
