@@ -41,11 +41,13 @@ void QtAVVideoWidget::Init()
     QtAV::VideoDecoderId v=QtAV::VideoRendererId_Widget;
     if (vid == QLatin1String("gl")){
             v = QtAV::VideoRendererId_GLWidget2;
-     }else if (vid == QLatin1String("d2d")){
+    }else if(vid==QLatin1String("wg")){
+            v=QtAV::VideoRendererId_Widget;
+    }else if (vid == QLatin1String("d2d")){
             v = QtAV::VideoRendererId_Direct2D;
-     }else if (vid == QLatin1String("gdi")){
+    }else if (vid == QLatin1String("gdi")){
             v = QtAV::VideoRendererId_GDI;
-     }else if (vid == QLatin1String("xv")){
+    }else if (vid == QLatin1String("xv")){
             v = QtAV::VideoRendererId_XV;
     }
     //创建渲染器
@@ -92,6 +94,7 @@ void QtAVVideoWidget::ChangeVideoRender(QtAV::VideoRenderer* new_render)
 //注意一定要先有再改
 void QtAVVideoWidget::ChangeAVPlayer(QSharedPointer<QtAV::AVPlayer> new_player)
 {
+    qDebug()<<"start av player change";
     if(!av_player_.isNull()){
         av_player_->removeVideoRenderer(this->video_render_);
     }

@@ -45,8 +45,14 @@ public slots:
   //  void change_video_9(int index);
     virtual void change_video_7(int index)=0;
     virtual void change_video_12(int index)=0;
+
 signals:
-void play_changed(int index);
+    void play_changed(int index);
+    void signal_change_video_1(int index); //改变1画面布局
+    void signal_change_video_4(int index); //改变4画面布局
+    void signal_change_video_6(int index); //改变6画面布局
+    void signal_change_video_7(int index); //改变7画面布局
+    void signal_change_video_12(int index);//改变12画面布局
 
 };
 
@@ -453,7 +459,7 @@ void VideoShowWidget<T>::change_video_1(int index)
     }
     qDebug()<<"col:"<<ui->gridLayout->columnCount();
     qDebug()<<"row:"<<ui->gridLayout->rowCount();
-    emit play_changed(0);
+    emit signal_change_video_1(index);
 }
 template <class T>
 void VideoShowWidget<T>::change_video_4(int index)
@@ -487,9 +493,7 @@ void VideoShowWidget<T>::change_video_4(int index)
     }else {
         qDebug()<<"input error";
     }
-    qDebug()<<"col:"<<ui->gridLayout->columnCount();
-    qDebug()<<"row:"<<ui->gridLayout->rowCount();
-    emit play_changed(0);
+    emit signal_change_video_4(index);
 }
 template <class T>
 void VideoShowWidget<T>::change_video_6(int index)
@@ -518,22 +522,7 @@ void VideoShowWidget<T>::change_video_6(int index)
             widgets.at(i)->setVisible(true);
         }
     }
-    //编号11之后的东西--已经注释掉了
-//    else if (index == 10) {
-//        ui->gridLayout->addWidget(widgets.at(10), 0, 0, 1, 2);
-//        ui->gridLayout->addWidget(widgets.at(11), 0, 2, 1, 2);
-//        ui->gridLayout->addWidget(widgets.at(12), 1, 0, 1, 2);
-//        ui->gridLayout->addWidget(widgets.at(13), 1, 2, 1, 2);
-//        ui->gridLayout->addWidget(widgets.at(14), 2, 0, 1, 2);
-//        ui->gridLayout->addWidget(widgets.at(15), 2, 2, 1, 2);
-
-//        for (int i = 10; i < 16; ++i) {
-//            widgets.at(i)->setVisible(true);
-//        }
-//    }
-    qDebug()<<"col:"<<ui->gridLayout->columnCount();
-    qDebug()<<"row:"<<ui->gridLayout->rowCount();
-    emit play_changed(0);
+    emit signal_change_video_6(index);
 }
 //显示7视频
 template <class T>
@@ -564,18 +553,14 @@ void VideoShowWidget<T>::change_video_7(int index)
             widgets.at(i)->setVisible(true);
         }
     }
-    qDebug()<<"col:"<<ui->gridLayout->columnCount();
-    qDebug()<<"row:"<<ui->gridLayout->rowCount();
-    emit play_changed(0);
+    emit signal_change_video_7(index);
 }
 template <class T>
 void VideoShowWidget<T>::change_video_12(int index)
 {
     hide_video_all();
     change_video(index,3,4);//三行四列
-    qDebug()<<"col:"<<ui->gridLayout->columnCount();
-    qDebug()<<"row:"<<ui->gridLayout->rowCount();
-    emit play_changed(0);
+    emit signal_change_video_12(index);
 }
 
 //---------- template realize end ---------

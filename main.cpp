@@ -37,7 +37,7 @@
 #include <QKeyEvent>
 #include "test/screencontroltest.h"
 
-#define MyTest
+//#define MyTest
 #ifdef MyTest
 #include "test/buslinetest.h"
 #include "test/bustest.h"

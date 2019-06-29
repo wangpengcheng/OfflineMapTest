@@ -20,6 +20,7 @@ class BusTest;
 class BusLineTest;
 class Player;
 class Bus;
+class ReviewWidget;
 namespace Ui
 {
     class frmMain;
@@ -34,7 +35,7 @@ public:
     ~frmMain();
     //返回控制地图
     inline std::shared_ptr<QDeclarativeGeoMap> control_map(){return control_map_;}
-    inline Player* video_review_control(){ return video_review_control_;}
+    inline ReviewWidget* video_review_control(){ return review_control_;}
     //------- 数据存储相关函数 start ------
     inline bool is_save_data(){return is_save_data_;}
     inline void set_ia_save_data(bool is_save){is_save_data_=is_save;}
@@ -46,7 +47,7 @@ public slots:
     void StartSaveData();//开始记录数据
     void StopSaveData();//停止记录数据
     void showrightMenu(QPoint point);//子树的右键槽
-//    //------- 解码线程相关槽函数 start ------
+    //------- 解码线程相关槽函数 start ------
 //    void decode_thead_stop(QString thread_key);//停止解码
 //    void decode_thead_start(QString thread_key);//开始解码
 //    void decode_thead_restart(QString thread_key);//重新开始解码
@@ -55,30 +56,35 @@ public slots:
 
 //记录的关键信号
 signals :
-    void signal_send_record_id(int record_id);//发送record_id的信号
-    void signal_send_stop();//发送停止信号   
+    void signal_send_record_id(int record_id);  //发送record_id的信号
+    void signal_send_stop();                    //发送停止信号
+    void signal_change_video_1(int index);      //改变1画面布局
+    void signal_change_video_4(int index);      //改变4画面布局
+    void signal_change_video_6(int index);      //改变6画面布局
+    void signal_change_video_7(int index);      //改变7画面布局
+    void signal_change_video_12(int index);     //改变12画面布局
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
     void keyPressEvent(QKeyEvent *event);
 private slots:
-    void change_style();            //切换样式
+    void change_style();                //切换样式
 
-    void screen_full();             //全屏模式
-    void screen_normal();           //普通模式
+    void screen_full();                 //全屏模式
+    void screen_normal();               //普通模式
 
-    void delete_video_one();        //删除当前视频
-    void delete_video_all();        //删除所有视频
-    void snapshot_video_one();      //截图当前视频
-    void snapshot_video_all();      //截图所有视频
+    void delete_video_one();            //删除当前视频
+    void delete_video_all();            //删除所有视频
+    void snapshot_video_one();          //截图当前视频
+    void snapshot_video_all();          //截图所有视频
 
-    void show_video_1();            //切换到1画面
-    void show_video_4();            //切换到4画面
-    void show_video_6();            //切换到6画面
-    void show_video_7();            //切换到7画面
-    void show_video_12();           //切换到16画面
+    void show_video_1();                //切换到1画面
+    void show_video_4();                //切换到4画面
+    void show_video_6();                //切换到6画面
+    void show_video_7();                //切换到7画面
+    void show_video_12();               //切换到16画面
 
-    void on_btnMenu_Close_clicked();//关闭按钮
-    void on_btnMenu_Min_clicked();//最小化按钮
+    void on_btnMenu_Close_clicked();    //关闭按钮
+    void on_btnMenu_Min_clicked();      //最小化按钮
     void on_treeMain_doubleClicked(const QModelIndex &index);
 
     void on_labStart_linkActivated(const QString &link);
@@ -92,7 +98,8 @@ private slots:
     void on_pushButton_clicked();
 
     void on_save_data_button_clicked();
-
+    void review_player_connect_changed(const int av_player_index,const int show_widget_index);//回放播放更改
+    void re_label_changed(QString label_id);//
 private:
     Ui::frmMain *ui;    
     /*视频控制模块变量 start*/
@@ -112,7 +119,7 @@ private:
     /*视频控制模块变量 end*/
     /*地图控制模块变量 start*/
     QWidget* map_control_widget_=nullptr; //地图控制widget
-    QQuickView* map_control_view_=nullptr;
+    QQuickView* map_control_view_=nullptr;  // qml地图bug不得已而为之
     QVBoxLayout* map_vbox_layout_=nullptr; //地图分配指针
     std::shared_ptr<QDeclarativeGeoMap> control_map_=nullptr; //控制地图显示
     //地图添加覆盖物，方便管理，防止内存泄漏//ToDo 更改成static函数
@@ -130,8 +137,9 @@ private:
 
     //回放控制
     QVBoxLayout* video_review_layout_=nullptr; //回放布局指针
-    Player* video_review_control_=nullptr;    // 回放控制对象
+    ReviewWidget* review_control_=nullptr;    // 回放控制对象
     Bus* review_bus_=nullptr; //回放的车辆
+    MapContrlConnect* review_map_connect_=nullptr; //回放地图控制链接
 
     //------ 存储数据相关变量 start -----
     bool is_save_data_=false;//是否需要存储数据
@@ -154,24 +162,22 @@ private:
     void change_video_12();         //改变12画面布局
     //改变布局的对应信号函数
 signals:
-    void signal_change_video_1(int index); //改变1画面布局
-    void signal_change_video_4(int index); //改变4画面布局
-    void signal_change_video_6(int index); //改变6画面布局
-    void signal_change_video_7(int index); //改变7画面布局
-    void signal_change_video_12(int index);//改变12画面布局
+
 
 public:
     void change_video(int index, int v_row,int col); //更改布局
     QString GetNVRID(QString NVRIP);//获取NVR编号
 
     void ChangeVideoLayout();       //改变通道布局    
-
     //对应改变通道rtsp地址
-    void ChangeRtspAddr(int ch, QString rtspAddr);
+    void ChangeRtspAddr(int ch,
+                        QString rtspAddr);
 
     //获取摄像机主码流子码流地址
-    void GetRtspAddr(QString NVRID, QString IPCIP,
-                     QString &IPCRtspAddrMain, QString &IPCRtspAddrSub);
+    void GetRtspAddr(QString NVRID,
+                     QString IPCIP,
+                     QString &IPCRtspAddrMain,
+                     QString &IPCRtspAddrSub);
 
 };
 

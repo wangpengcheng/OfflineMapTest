@@ -38,23 +38,23 @@ public:
     inline QtAV::VideoRenderer* video_render(){return video_render_;}
     //inline void set_video_render(QtAV::VideoRenderer* new_render){video_render_=new_render;}
     inline bool is_play(){return is_play_;}
-    void ChangeVideoRender(QtAV::VideoRenderer* new_render);//更改渲染器函数
-    void ChangeAVPlayer(QSharedPointer<QtAV::AVPlayer> new_player);//更改播放器函数
+    void ChangeVideoRender(QtAV::VideoRenderer* new_render);        //更改渲染器函数
+    void ChangeAVPlayer(QSharedPointer<QtAV::AVPlayer> new_player); //更改播放器函数
 
     ~QtAVVideoWidget();
-    void Init();//初始化函数
-    void VideoPlay();//播放视频
-    void VideoPause();//暂停视频
+    void Init();                                                    //初始化函数
+    void VideoPlay();                                               //播放视频
+    void VideoPause();                                              //暂停视频
 signals:
 
 public slots:
 
 private:
-    QSharedPointer<QtAV::AVPlayer> av_player_;//指向播放器的指针
-    QtAV::VideoRenderer* video_render_=nullptr;//渲染器
-    QHBoxLayout* video_layer_out_=nullptr;
-    QString vid="gl";//显示的渲染方式,默认使用openGL渲染
-    bool is_play_=false;//记录是否正在播放状态
+    QSharedPointer<QtAV::AVPlayer> av_player_;              //指向播放器的指针
+    QtAV::VideoRenderer* video_render_=nullptr;             //渲染器
+    QHBoxLayout* video_layer_out_=nullptr;                  //视频显示布局
+    QString vid="wg";                                       //显示的渲染方式,默认使用wg渲染；注意如果要与OpenGL或者QML一起使用，必须选择wg模式。
+    bool is_play_=false;                                    //记录是否正在播放状态
 };
 
 #endif // QTAVVIDEOWIDGET_H

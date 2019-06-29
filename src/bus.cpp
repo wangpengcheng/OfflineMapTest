@@ -176,8 +176,8 @@ void Bus::InitSocket()
     //连接信号槽
 
     //连接ip地址
-    ip_address_="127.0.0.1";
-    port_=8765;
+    ip_address_="112.74.188.50";
+    port_=20721;
     qDebug()<<"GPS address is"<<ip_address_<<":"<<port_<<";"<<endl;
 
 }
@@ -567,7 +567,6 @@ void Bus::SetCoordinate(const QGeoCoordinate new_coordinate)
         }
         //更新坐标位置
         bus_quick_item_->setCoordinate(new_coordinate);
-
     }
 }
 

@@ -13,6 +13,7 @@
 #include "test/bustest.h"
 #include "videodecodethread.h"
 #include "streamvideowidget.h"
+#include "player/reviewwidget.h"
 #include "player/player.h"
 #include "src/tool.h"
 #include "src/bus.h"
@@ -86,7 +87,6 @@ void frmMain::change_style()
     QString style = action->text();
     qDebug()<<style;
     if (style==QStringLiteral("淡蓝色")) {
-        qDebug()<<style;
         myApp::AppStyle = QStringLiteral(":/image/blue.css");
     } else if (style == QStringLiteral("蓝色")) {
         myApp::AppStyle = QStringLiteral(":/image/dev.css");
@@ -189,13 +189,15 @@ void frmMain::InitTabWidget(){
      speed_chart_widget_->setSource(QUrl("qrc:/qml/MyCharts.qml"));
      //初始化回放布局
      video_review_layout_=new QVBoxLayout(ui->video_review);
-     video_review_control_=new Player(ui->video_review);
-     video_review_layout_->addWidget(video_review_control_);
+     review_control_=new ReviewWidget(ui->video_review);
+     video_review_layout_->addWidget(review_control_);
+     //连接回放布局控制器
+
 }
 
 void frmMain::InitVideo()
 {
-    tempLab = 0;
+    tempLab = nullptr;
     video_max_ = false;
     video_count_=12;
     video_type_="1_12";
@@ -406,7 +408,23 @@ void frmMain::InitShowDialog()
     review_bus_=new Bus(Tool::WPS84ToGCJ02(30.5563134000,103.9938400000));
     review_bus_->SetMap(show_dialog_->re_show_map().get());
     //连接信号更新的槽
-    connect(video_review_control_,&Player::SendQGeoCoordinate,review_bus_,&Bus::SetCoordinate);
+    connect(review_control_,&ReviewWidget::SendQGeoCoordinate,review_bus_,&Bus::SetCoordinate);
+
+    //连接改变的相关函数
+    connect(review_control_->video_choose_widget(),SIGNAL(signal_change_video_1(int)),show_dialog_->review_widget()->re_video_show_widgets(),SLOT(change_video_1(int)));
+    connect(review_control_->video_choose_widget(),SIGNAL(signal_change_video_4(int)),show_dialog_->review_widget()->re_video_show_widgets(),SLOT(change_video_4(int)));
+    connect(review_control_->video_choose_widget(),SIGNAL(signal_change_video_6(int)),show_dialog_->review_widget()->re_video_show_widgets(),SLOT(change_video_6(int)));
+    connect(review_control_->video_choose_widget(),SIGNAL(signal_change_video_7(int)),show_dialog_->review_widget()->re_video_show_widgets(),SLOT(change_video_7(int)));
+    connect(review_control_->video_choose_widget(),SIGNAL(signal_change_video_12(int)),show_dialog_->review_widget()->re_video_show_widgets(),SLOT(change_video_12(int)));
+    //连接播放转换
+    connect(review_control_,SIGNAL(SendConnect(int,int)),this,SLOT(review_player_connect_changed(const int ,const int)));
+    //连接标题更改提示
+    connect(review_control_,SIGNAL(SendLabelId(QString)),this,SLOT(re_label_changed(QString)));//连接更改信号
+#ifdef ADD_MAP_CONTROL
+    //连接地图
+    review_map_connect_=new  MapContrlConnect(show_dialog_->review_widget()->re_show_map(),
+                                             review_control_->re_view_control_map());
+#endif
 }
 void frmMain::ChangeVideoLayout()
 {
@@ -419,12 +437,7 @@ void frmMain::ChangeVideoLayout()
     } else if (myApp::VideoType == "9_12") {
         removelayout();
         change_video_4(8);
-    }
-    /*else if (myApp::VideoType == "13_16") {
-        removelayout();
-        change_video_4(12);
-    }*/
-    else if (myApp::VideoType == "1_6") {
+    } else if (myApp::VideoType == "1_6") {
         removelayout();
         change_video_6(0);
     } else if (myApp::VideoType == "7_12") {
@@ -871,11 +884,11 @@ void frmMain::on_treeMain_doubleClicked(const QModelIndex &index)
 {
     qDebug()<<"double check";
     //选中的是NVR则不处理
-    if (ui->treeMain->currentItem()->parent() == 0) {
+    if (ui->treeMain->currentItem()->parent() == nullptr) {
         return;
     }
     //当前还没有选择通道
-    if (tempLab == 0) {
+    if (tempLab == nullptr) {
         return;
     }
     qDebug()<<tempLab->text();
@@ -1058,4 +1071,24 @@ void frmMain::showrightMenu(QPoint point)
     thread_menu->addAction(QStringLiteral("停止解码"),crrut_thead.get(),SLOT(StopDecode()));
     thread_menu->addAction(QStringLiteral("重新解码"),crrut_thead.get(),SLOT(RestartDecode()));
     thread_menu->exec(QCursor::pos());
+}
+void frmMain::review_player_connect_changed(const int av_player_index,const int show_widget_index)
+{
+    qDebug()<<" change connect player index:"<<av_player_index<<"show widget index:"<<show_widget_index;
+    if((av_player_index<0)||(av_player_index>review_control_->player_list().size()))
+    {
+        myHelper::ShowMessageBoxError("player index is error");
+        return;
+    }
+    if((show_widget_index<0)||(show_widget_index>show_dialog_->review_widget()->re_video_show_widgets()->video_widgets().size()))
+    {
+        myHelper::ShowMessageBoxError("review show widget index is error");
+        return;
+    }
+    show_dialog_->review_widget()->re_video_show_widgets()->video_widgets().at(show_widget_index)->ChangeAVPlayer(review_control_->player_list().at(av_player_index));
+
+}
+void frmMain::re_label_changed(QString label_id)
+{
+    ui->lab_Title->setText(QStringLiteral("%1  当前选中[ 回放通道 %2]").arg(myApp::AppTitle).arg(label_id));
 }

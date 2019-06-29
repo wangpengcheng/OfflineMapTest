@@ -141,7 +141,7 @@ void QtAVPlayerControls::muteClicked()
 {
     emit changeMuting(!m_playerMuted);
 }
-//回调函数
+
 qreal QtAVPlayerControls::playbackRate() const
 {
     return m_rateBox->itemData(m_rateBox->currentIndex()).toDouble();
@@ -159,12 +159,12 @@ void QtAVPlayerControls::setPlaybackRate(float rate)
     m_rateBox->addItem(QString("%1x").arg(rate), QVariant(rate));
     m_rateBox->setCurrentIndex(m_rateBox->count() - 1);
 }
-//发送播放速度
+
 void QtAVPlayerControls::updateRate()
 {
     emit changeRate(playbackRate());
 }
-//发送声音变量
+
 void QtAVPlayerControls::onVolumeSliderValueChanged()
 {
     emit changeVolume(volume());

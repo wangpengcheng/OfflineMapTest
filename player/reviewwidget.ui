@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>557</width>
+    <width>702</width>
     <height>416</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <property name="styleSheet">
       <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,4">
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,5,5">
       <property name="spacing">
        <number>9</number>
       </property>
@@ -49,6 +49,12 @@
           <height>0</height>
          </size>
         </property>
+        <property name="columnCount">
+         <number>1</number>
+        </property>
+        <attribute name="headerVisible">
+         <bool>false</bool>
+        </attribute>
         <column>
          <property name="text">
           <string notr="true">1</string>
@@ -69,6 +75,9 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2"/>
        </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="re_map_control_widget" native="true"/>
       </item>
      </layout>
     </widget>
