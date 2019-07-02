@@ -31,7 +31,6 @@ public:
     explicit QtAVVideoWidget(QWidget *parent = nullptr);
     QtAVVideoWidget(QSharedPointer<QtAV::AVPlayer> new_player,QString new_vid="gl");
     QtAVVideoWidget(const QtAVVideoWidget &);
-    QtAVVideoWidget &operator=(const QtAVVideoWidget &);
     //基本的存取函数
     inline QSharedPointer<QtAV::AVPlayer> av_player(){return av_player_;}
     //inline void set_av_player(QSharedPointer<QtAV::AVPlayer*> new_player){av_player_=new_player;}

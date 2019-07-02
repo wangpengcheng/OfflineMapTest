@@ -1,20 +1,11 @@
 ﻿#include "busstation.h"
 
-#ifndef  QSTRING_H
-#include <QString>
-#endif
-#ifndef QGEOCOORDINATE_H
-#include <QGeoCoordinate>
-#endif
-#ifndef  QQUICKIMAGE_P_H
 #include <QtQuick/private/qquickimage_p.h>
-#endif
-#ifndef QQUICKTEXT_P_H
 #include <QtQuick/private/qquicktext_p.h>
-#endif
-#ifndef QURL_H
+#include <QString>
+#include <QGeoCoordinate>
 #include <QUrl>
-#endif
+#include "src/tool.h"
 
 BusStation::BusStation()
 {
@@ -23,16 +14,8 @@ BusStation::BusStation()
 }
 BusStation::~BusStation()
 {
-    if(bus_station_iocn_!=NULL)
-    {
-        delete[] bus_station_iocn_;//防止产生指针数组时，没有调用析构函数
-        bus_station_iocn_=NULL;
-    }
-    if(bus_station_information_!=NULL)
-    {
-        delete[] bus_station_information_;
-        bus_station_information_=NULL;
-    }
+    DELETE_QOBJECT(bus_station_iocn_);
+    DELETE_QOBJECT(bus_station_information_);
 }
 BusStation:: BusStation(const QGeoCoordinate coordinate)
 {

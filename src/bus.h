@@ -48,8 +48,8 @@
  * 1.指向地图 2.储存线路 3.公交车图标 4.信息关键点（停靠关键点） 5.小车转动角度,6.时间定时器
  * 实现重要功能：
  * 请求网络得出车辆位置，并在地图中显示位置
- * 2019-3-17 21:23:00 发现bug  QDeclarativeGeoMapQuickItem 没有虚析构函数在使用销毁时容易产生内存泄漏
- *初步拟解决方案，将QDeclarativeGeoMapQuickItem转变为private成员，尽量修改函数
+ * 2019-3-17 21:23:00 发现bug  QDeclarativeGeoMapQuickItem 没有虚析构函数在使用销毁时容易产生内存泄漏,将其转变为成员变量修复
+ *
 */
 class Bus: public QObject
 {
@@ -64,37 +64,42 @@ public:
     Bus(const QGeoCoordinate new_coordinate,
         QList<QGeoCoordinate> new_path,
         const QUrl iocn_path);
+
      /*基本信息存取 start*/
-    QString bus_id();
-    void set_bus_id(const QString input_bus_id);
-    QString bus_name();
-    void set_bus_name(const QString input_name);
-    QString bus_line_number();
-    void set_bus_line_number(const QString input_bus_number);
-    QString bus_information();
-    void set_bus_information(const QString input_bus_information);
-    QString bus_diver();
-    void set_bus_diver(const QString input_bus_diver);
+    inline QString bus_id(){return bus_id_;}
+    inline void set_bus_id(const QString input_bus_id){bus_id_=input_bus_id;}
+    inline QString bus_name(){return bus_name_;}
+    inline void set_bus_name(const QString input_name){bus_name_=input_name;}
+    inline QString bus_line_number(){return bus_line_number_; }
+    inline void set_bus_line_number(const QString input_bus_number){bus_line_number_=input_bus_number;}
+    inline QString bus_information(){return bus_information_;}
+    inline void set_bus_information(const QString input_bus_information){bus_information_=input_bus_information;}
+    inline QString bus_diver(){return bus_diver_;}
+    inline void set_bus_diver(const QString input_bus_diver){bus_diver_=input_bus_diver;}
     inline QDeclarativeGeoMapQuickItem * bus_quick_item(){ return  this->bus_quick_item_;}
     inline void set_bus_quick_item(QDeclarativeGeoMapQuickItem *quick_item){this->bus_quick_item_=quick_item;}
     inline bool is_stop(){return is_stop_;}
+    inline bool is_cricle(){return is_cricle_;}
+    inline void set_is_cricle(const bool isCricle){is_cricle_=isCricle;}
     /*基本信息存取 end*/
+
     /*重要信息存取 start*/
-    QList<QGeoCoordinate> bus_path_coordinates();
-    void set_bus_path_coordinates(QList<QGeoCoordinate> new_path);
-    QQuickImage *bus_iocn();
-    void set_bus_iocn(QQuickImage *iocn_image);
+    inline QList<QGeoCoordinate> bus_path_coordinates(){return bus_path_coordinates_;}
+    inline void set_bus_path_coordinates(QList<QGeoCoordinate> new_path){bus_path_coordinates_=new_path;}
+    inline QQuickImage *bus_iocn(){return bus_iocn_;}
+    inline void set_bus_iocn(QQuickImage *iocn_image){bus_iocn_=iocn_image;}
     void set_bus_iocn(const QUrl iocn_source_url);
     void SetBusIocnScale(double Scale);//更改icon缩放
+    void SetMap(QDeclarativeGeoMap *qMap);    //更改Bus的所属map
     /*重要信息存取 end*/
+    /* 更新函数 start */
     void Init();//变量初始化
     void Updata();//更新数据
     void UpdataPosition();//动画更新车辆位置
-    /*其它函数*/
+    /* 更新函数 end */
+    /*路书相关函数  start */
     double GetPixelDistance(const QGeoCoordinate coordinate1,
                             const QGeoCoordinate coordinate2);//获取像素点上两点距离
-    void LuShu();
-    void SetMap(QDeclarativeGeoMap *qMap);
     void MoveNextIndex(const int index);//移动到下一个关键点
     double LinearInterpolation(const double init_pos, //起始点
                                const double target_pos,//终结点
@@ -104,10 +109,14 @@ public:
     void SetRotation(const QGeoCoordinate coordinate1,
                      const QGeoCoordinate coordinate2);
     void ChangePath();//转置路径坐标
-    void LuShuStart();//开始LuShu
-    void LuShuPause();//暂停LuShu
-    void LuShuStop();//停止路书
-    void InitSocket();//初始化socket通信
+    // ------ 路书常用控制函数 ------
+    void LuShu();                       //路书开始函数
+    void LuShuStart();                  //开始LuShu
+    void LuShuPause();                  //暂停LuShu
+    void LuShuStop();                   //停止路书
+    void InitSocket();                  //初始化socket通信
+    /* 路书相关函数 end  */
+
     //----- 位置存储到数据库关键代码 start------
     inline bool is_save_gps(){return is_save_gps_;}
     inline void set_is_save_gps(bool is_save){is_save_gps_=is_save;}
@@ -122,8 +131,33 @@ public:
     inline void set_port(unsigned int i){port_=i;}
     inline unsigned port(){return port_;}
 
-    inline bool is_cricle(){return this->is_cricle_;}
-    inline void set_is_cricle(const bool isCricle){this->is_cricle_=isCricle;}
+    //相关槽函数
+public slots:
+    /*http 通信 start */
+    void UpdataCoordinatesByNet();
+    void GetReplyFinished(QNetworkReply *reply);
+    /*http 通信 end */
+
+    /*socket 通信 start*/
+    void UpdateCoordinatesBySocket();//根据位置更新
+    void SocketReadData();//读取数据
+    void SocketDisconnected();//断开连接
+    /*socket 通信 end*/
+
+    /*LuShu槽函数 start*/
+    void Move(const double dx,
+              const double dy);
+    void MoveNextPoint(const QGeoCoordinate coordinate1,
+                       const QGeoCoordinate coordinate2);
+    void SetCoordinate(const QGeoCoordinate new_coordinate);//更新位置信息，带偏转的
+    void SetCoordinateFromWPS84(const QGeoCoordinate new_coordinate); //从标准坐标更新位置信息
+    /*LuShu槽函数 end*/
+
+    /*存储gps的槽函数 start*/
+    void StartSaveGPS(int record_id);
+    void StopSaveGPS();
+    /*存储gps的槽函数 end*/
+
 private:
     /*基本信息 start*/
     QString bus_id_;
@@ -154,33 +188,11 @@ private:
     /*路书动画 end*/
     //socket通信成员
     QTcpSocket *socket_=nullptr;//socket通信成员变量
-    QString ip_address_=nullptr;//设置ip地址
-    unsigned int port_=NULL;//设置端口号
+    QString ip_address_="112.74.188.50";//设置ip地址，默认IP地址 "112.74.188.50"
+    unsigned int port_=20721;           //设置端口号，默认端口号 为 20721
     //存储坐标相关信息
     bool is_save_gps_=false;
     int record_id_=NULL;//存储时的记忆编号
-    //相关槽函数
-public slots:
-    /*http 通信 start */
-    void UpdataCoordinatesByNet();
-    void GetReplyFinished(QNetworkReply *reply);
-    /*http 通信 end */
-    /*socket 通信 start*/
-    void UpdateCoordinatesBySocket();//根据位置更新
-    void SocketReadData();//读取数据
-    void SocketDisconnected();//断开连接
-    /*socket 通信 end*/
-    /*LuShu槽函数 start*/
-    void Move(const double dx,
-              const double dy);
-    void MoveNextPoint(const QGeoCoordinate coordinate1,
-                       const QGeoCoordinate coordinate2);
-    void SetCoordinate(const QGeoCoordinate new_coordinate);//更新位置信息，带偏转的
-    /*LuShu槽函数 end*/
-    /*存储gps的槽函数 start*/
-    void StartSaveGPS(int record_id);
-    void StopSaveGPS();
-    /*存储gps的槽函数 end*/
 };
 
 #endif // BUS_H

@@ -28,15 +28,15 @@ class MainShowDialog : public QWidget
 public:
     explicit MainShowDialog(QWidget *parent = nullptr);
     ~MainShowDialog();
+    //变量初始化
     void InitStackWidget();
-    //简单的存取函数
+
     inline QQuickWidget* map_page(){return map_page_;}
     inline QWidget* video_page(){return video_page_;}
     inline QStackedWidget* stacked_widget(){return stacked_widget_;}
     inline VideoShowWidget<StreamVideoWidget>* video_widget(){return video_widget_;}
     inline std::shared_ptr<QDeclarativeGeoMap> show_map(){return show_map_;}
     inline MyReviewWidget* review_widget(){return review_widget_;}
-    //回放地图
     inline std::shared_ptr<QDeclarativeGeoMap> re_show_map(){return review_widget_->re_show_map();}
 //    inline QVideoWidget*  video_review_show_widget(){return video_review_show_widget_;}
 private slots:
@@ -47,20 +47,18 @@ private slots:
 private:
     Ui::MainShowDialog *ui;
     //私有成员类
-    QStackedWidget* stacked_widget_=nullptr;//中间间隔类
-    QQuickWidget* map_page_=nullptr;//qml地图
-    QWidget* video_page_=nullptr;//自定义视频展示页
-    VideoShowWidget<StreamVideoWidget>* video_widget_=nullptr; //自定义视频展示widget
-    QVBoxLayout* map_show_vbox_layout_=nullptr;// 地图水平布局
-    QHBoxLayout* video_show_vbox_layout_=nullptr;// 视频水平布局
-    QVBoxLayout* video_vbox_layout_=nullptr;//视频水平布局
-    std::shared_ptr<QDeclarativeGeoMap> show_map_=nullptr;//地图指针方便获取地图
-    QWidget* aggregative_show_page_=nullptr;//综合模式新的page;
-    QGridLayout *aggregative_gridLayout_=nullptr;//综合模式的布局，方便设置
-    QQuickWidget *speed_show_chart_widget_=nullptr;//仪表盘数据指针，/*ToDo 单独构造它的类，方便复用 */
-    //设置视频回放显示
-    QHBoxLayout* video_review_layout_=nullptr;
-    MyReviewWidget* review_widget_=nullptr;
+    QStackedWidget* stacked_widget_=nullptr;                            //中间间隔类
+    QQuickWidget* map_page_=nullptr;                                    //qml地图
+    QWidget* video_page_=nullptr;                                       //自定义视频展示页
+    VideoShowWidget<StreamVideoWidget>* video_widget_=nullptr;          //自定义视频展示widget
+    QVBoxLayout* map_show_vbox_layout_=nullptr;                         //地图水平布局
+    QHBoxLayout* video_show_vbox_layout_=nullptr;                       //视频水平布局
+    std::shared_ptr<QDeclarativeGeoMap> show_map_=nullptr;              //地图指针方便获取地图
+    QWidget* aggregative_show_page_=nullptr;                            //综合模式新的page;
+    QGridLayout *aggregative_gridLayout_=nullptr;                       //综合模式的布局，方便设置
+    QQuickWidget *speed_show_chart_widget_=nullptr;                     //仪表盘数据指针，/*ToDo 单独构造它的类，方便复用 */
+    QHBoxLayout* video_review_layout_=nullptr;                          //设置视频回放布局
+    MyReviewWidget* review_widget_=nullptr;                             //回放界面
 
 };
 

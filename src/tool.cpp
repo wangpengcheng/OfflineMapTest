@@ -81,6 +81,10 @@ QGeoCoordinate Tool::WPS84ToGCJ02(const double lat,
     QGeoCoordinate result(mgLat, mgLon);
     return  result;
 }
+QGeoCoordinate Tool::WPS84ToGCJ02FromCoord(QGeoCoordinate temp)
+{
+    return WPS84ToGCJ02(temp.latitude(),temp.longitude());
+}
     /**
     * 将度转化为弧度
     * @param {degree} Number 度

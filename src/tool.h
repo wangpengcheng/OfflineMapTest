@@ -41,7 +41,7 @@
 #include <QNetworkReply>
 #include <QJsonObject>
 #include <QJsonDocument>
-
+#include <math.h>
 #define DELETE_OBJECT(obj) {if(obj!=nullptr){delete obj;obj=nullptr;qDebug()<<obj<<" deleted";} }
 
 #define DELETE_QOBJECT(obj) {if(obj->parent()==nullptr){ delete obj;obj=nullptr;qDebug()<<obj<<" deleted";}}
@@ -55,6 +55,7 @@ class Tool: public QObject
         Q_INVOKABLE static double TransfromLatToDouble(double x,double y);//将经度转换为数值
         Q_INVOKABLE static double TransfromLonToDouble(double x,double y);//将维度转换为数值
         Q_INVOKABLE static QGeoCoordinate WPS84ToGCJ02(double lat, double lon);//转换坐标系到星火坐标系
+        Q_INVOKABLE static QGeoCoordinate WPS84ToGCJ02FromCoord(QGeoCoordinate temp);//转换坐标系到星火坐标系
         Q_INVOKABLE static double GetDistance(QGeoCoordinate point1,QGeoCoordinate point2);//计算两点之间距离
         //测试信息工具类
         Q_INVOKABLE static void TestNoteTool(const QString TestName,

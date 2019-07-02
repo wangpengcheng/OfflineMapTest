@@ -19,6 +19,7 @@
 **
 ** 详见test/screencontroltest.h 中的ScreenControlTest 类
 ** ------2018-12-4 更新；完善测试类，添加自动分屏模块；根据屏幕大小和窗口排列自动排列计算窗口大小------
+** ------2019-7-2 更新；使用新的模板布局类，此类已经弃用；可以考虑作为显卡显示控制类 ------
 ** 使用方法：
 ** ScreenControl screen_control;
 ** screen_control.SetScreenSize(1920,1080);
@@ -37,28 +38,20 @@
  * 五： 1*2 1行2列，每个窗口分辨率为（1920*2）*（1080*3）共计2个坐标点，每个窗口dx=1920*2;dy=1080*3 num=2
  * 六： 1*1 1行1列，每个窗口分辨率为（1920*4）*（1080*3）共计1个坐标点，每个串口dx=1920*4;dy=1080*3
 */
-#ifndef QLIST_H
+
+
 #include <QList>
-#endif
-#ifndef QDESKTOPWIDGET_H
 #include <QDesktopWidget>
-#endif
-#ifndef  QVIDEOWIDGET_H
 #include <QVideoWidget>
-#endif
-#ifndef QMEDIAPLAYER_H
 #include <QMediaPlayer>
-#endif
-#ifndef QMEDIAPLAYLIST_H
 #include <QMediaPlaylist>
-#endif
 #include <QDebug>
 class ScreenControl
 {
 public:
     ScreenControl();
     ScreenControl(QDesktopWidget *desktop);
-  //  ~ScreenControl();
+    ~ScreenControl()=default;
     QDesktopWidget* desktop();
     int screen_count();
     int virtual_screen_count();

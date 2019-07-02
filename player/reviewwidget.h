@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
-#include "QtAV/AVPlayer.h"
 QT_BEGIN_NAMESPACE
 class QAbstractItemView;
 class QLabel;
@@ -21,11 +20,14 @@ class VideoWidget;
 #include <QVideoWidget>
 #include <QQuickView>
 #include <QLabel>
+
 #include <QtLocation/private/qdeclarativegeomap_p.h>
 #include "VideoControl/recordselectdialog.h"
 #include "QtAVWidgets/QtAVWidgets.h"
 #include "VideoControl/qtavvideowidget.h"
 #include "VideoControl/videoshowwidget.h"
+#include "QtAV/AVPlayer.h"
+
 #define ADD_MAP_CONTROL //设置添加地图控制
 QT_END_NAMESPACE
 

@@ -17,21 +17,11 @@
 ** 示例代码
 **
 *****************************************************************************/
-#ifndef QDECLARATIVEGEOMAPITEMGROUP_P_H
 #include <QtLocation/private/qdeclarativegeomapitemgroup_p.h>
-#endif
-#ifndef QQUICKITEM_H
-#include <QQuickItem>
-#endif
-#ifndef QDECLARATIVEPOLYLINEMAPITEM
 #include <QtLocation/private/qdeclarativepolylinemapitem_p.h>
-#endif
-#ifndef QGEOPATH_H
+#include <QQuickItem>
 #include <QGeoPath>
-#endif
-#ifndef TOOL_H
 #include "src/tool.h"
-#endif
 class BusStation;
 class BusLine : public QDeclarativeGeoMapItemGroup
 {
@@ -41,23 +31,24 @@ public:
     BusLine(QList<QGeoCoordinate> line_coordinates,
             QList<QGeoCoordinate> station_coordinates);//线路坐标和站点坐标构造函数
     ~BusLine();//析构函数
-    QList<QGeoCoordinate> line_coordinate_list();//获取线路坐标列表
+    inline QList<QGeoCoordinate> line_coordinate_list(){return line_coordinate_list_;}
    // QGeoPath bus_polyline_path();//获取线段关键路径
-    void set_bus_polyline_path(QList<QGeoCoordinate> new_path);//更改路径坐标点
-    QList<BusStation *> bus_station_list();//获取站点队列
+    inline void set_bus_polyline_path(QList<QGeoCoordinate> new_path){line_coordinate_list_.clear();line_coordinate_list_=new_path;}//更改路径坐标点
+    inline QList<BusStation *> bus_station_list(){return bus_station_list_;}//获取站点队列
     void set_bus_stations_fromcoordinate(const QList<QGeoCoordinate> station_coordinates);//坐标列表更改站点
     void set_bus_station_list(QList<BusStation *> stations);//直接拷贝设置站点
     /*基本信息变量存取-start*/
-    QString bus_line_id();
-    void set_bus_line_id(const QString line_id);
-    QString bus_line_name();
-    void set_bus_line_name(const QString line_name);
-    QString bus_line_information();
-    void set_bus_line_information(const QString line_information);
-    QDeclarativePolylineMapItem *bus_poly_line();
+    inline QString bus_line_id(){return bus_line_id_;}
+    inline void set_bus_line_id(const QString line_id){bus_line_id_=line_id;}
+    inline QString bus_line_name(){return bus_line_name_;}
+    inline void set_bus_line_name(const QString line_name){bus_line_name_=line_name;}
+    inline QString bus_line_information(){return bus_line_information_;}
+    inline void set_bus_line_information(const QString line_information){ bus_line_information_=line_information;}
+    QDeclarativePolylineMapItem *bus_poly_line(){return bus_poly_line_;}
      /*基本信息变量存取-end*/
-    void Updata();//更新数据
-    void Init();//初始化数据
+
+    void Updata();              //更新数据
+    void Init();                //初始化数据
 private: //设置私有变量
      QList<QGeoCoordinate> line_coordinate_list_;//线路坐标列表
     // QGeoPath bus_polyline_path_;

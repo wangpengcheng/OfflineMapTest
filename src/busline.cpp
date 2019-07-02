@@ -23,15 +23,7 @@ BusLine::BusLine(QList<QGeoCoordinate> line_coordinates,
 }
 BusLine::~BusLine()
 {
-    if(bus_poly_line_!=nullptr)
-    {
-        delete bus_poly_line_;
-        bus_poly_line_=nullptr;
-    }
-}
-QList<QGeoCoordinate> BusLine::line_coordinate_list()
-{
-    return line_coordinate_list_;
+    DELETE_QOBJECT(bus_poly_line_);
 }
 //QGeoPath BusLine::bus_polyline_path()
 //{
@@ -41,14 +33,6 @@ QList<QGeoCoordinate> BusLine::line_coordinate_list()
 //{
 //    bus_polyline_path_.setPath(new_path);
 //}
-QList<BusStation *> BusLine::bus_station_list()
-{
-    return bus_station_list_;
-}
-void BusLine::set_bus_station_list(QList<BusStation *> stations)
-{
-    bus_station_list_=stations;
-}
 void BusLine::set_bus_stations_fromcoordinate(const QList<QGeoCoordinate> station_coordinates)
 {
     if(station_coordinates.isEmpty())
@@ -66,35 +50,6 @@ void BusLine::set_bus_stations_fromcoordinate(const QList<QGeoCoordinate> statio
             bus_station_list_.append(temp_station);
         }
     }
-}
-
-QString BusLine::bus_line_id()
-{
-    return bus_line_id_;
-}
-void BusLine::set_bus_line_id(const QString line_id)
-{
-    bus_line_id_=line_id;
-}
-QString BusLine::bus_line_name()
-{
-    return bus_line_name_;
-}
-void BusLine::set_bus_line_name(const QString temp_string)
-{
-    bus_line_name_=temp_string;
-}
-QString BusLine::bus_line_information()
-{
-    return bus_line_information_;
-}
-void BusLine::set_bus_line_information(const QString line_information)
-{
-    bus_line_information_=line_information;
-}
-QDeclarativePolylineMapItem *BusLine::bus_poly_line()
-{
-    return bus_poly_line_;
 }
 void BusLine::Updata()//更新数据
 {
@@ -121,7 +76,7 @@ void BusLine::Init()//初始化数据
     }
     if(line_coordinate_list_.isEmpty())
     {
-        line_coordinate_list_.append(tool.WPS84ToGCJ02(30.5594483655,103.9976232481));
+        line_coordinate_list_.append(Tool::WPS84ToGCJ02(30.5594483655,103.9976232481));
     }
   //  bus_polyline_path_.setPath(line_coordinate_list_);
   //  bus_polyline_path_.setWidth(3.5);

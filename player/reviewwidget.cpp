@@ -44,13 +44,10 @@ ReviewWidget::ReviewWidget(QWidget *parent) :
     //初始化地图
     re_map_control_view_=new QQuickView();
     re_map_control_view_->setSource(QUrl("qrc:/qml/MapControlModel.qml"));
-    re_map_control_view_->setResizeMode(QQuickView::SizeRootObjectToView);
     re_map_control_widget_=QWidget::createWindowContainer(re_map_control_view_);
     re_map_vbox_layout_->addWidget(re_map_control_widget_);
-    //ui->re_map_control_widget->setParent(ui->main_widget);
     //获取地图
     re_view_control_map_=std::shared_ptr<QDeclarativeGeoMap>(re_map_control_view_->rootObject()->findChild<QDeclarativeGeoMap *>("control_show_map"));
-    qDebug()<<&re_view_control_map_;
 #endif
 }
 

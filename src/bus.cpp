@@ -9,29 +9,10 @@ Bus::Bus(QObject *parent):QObject(parent)
 }
 Bus::~Bus()
 {
-    if(bus_iocn_!=nullptr)
-    {
-        delete[] bus_iocn_;
-        bus_iocn_=nullptr;
-    };
-    if(bus_time_line_!=nullptr)
-    {
-        delete[] bus_time_line_;
-        bus_time_line_=nullptr;
-    };
-    if(bus_timer_!=nullptr)
-    {
-        delete[] bus_timer_;
-        bus_timer_=nullptr;
-    };
-    if(bus_quick_item_!=nullptr){
-        delete [] bus_quick_item_;
-        bus_quick_item_=nullptr;
-    }
-    if(socket_!=nullptr){
-        delete [] socket_;
-        socket_=nullptr;
-    }
+    DELETE_QOBJECT(bus_iocn_);
+    DELETE_QOBJECT(bus_time_line_);
+    DELETE_QOBJECT(bus_timer_);
+    DELETE_QOBJECT(socket_);
 }
 Bus::Bus(QList<QGeoCoordinate> new_path)
 {
@@ -82,63 +63,10 @@ Bus::Bus(const QGeoCoordinate new_coordinate,
         qDebug()<<"input object is empty ,please check again";
     }
 }
-QString Bus::bus_id()
-{
-    return bus_id_;
-}
-void Bus::set_bus_id(const QString input_bus_id)
-{
-    bus_id_=input_bus_id;
-}
-QString Bus::bus_name()
-{
-    return bus_name_;
-}
-void Bus::set_bus_name(const QString input_name)
-{
-    bus_name_=input_name;
-}
-QString Bus::bus_line_number()
-{
-    return bus_line_number_;
-}
-void Bus::set_bus_line_number(const QString input_bus_number)
-{
-    bus_line_number_=input_bus_number;
-}
-QString Bus::bus_information()
-{
-    return bus_information_;
-}
-void Bus::set_bus_information(const QString input_bus_information)
-{
-    bus_information_=input_bus_information;
-}
-QString Bus::bus_diver()
-{
-    return bus_diver_;
-}
-void Bus::set_bus_diver(const QString input_bus_diver)
-{
-    bus_diver_=input_bus_diver;
-}
 
-QList<QGeoCoordinate> Bus::bus_path_coordinates()
-{
-    return bus_path_coordinates_;
-}
-void Bus::set_bus_path_coordinates(QList<QGeoCoordinate> new_path)
-{
-    this->bus_path_coordinates_=new_path;
-}
-QQuickImage *Bus::bus_iocn()
-{
-    return bus_iocn_;
-}
-void Bus::set_bus_iocn(QQuickImage *iocn_image)
-{
-    bus_iocn_=iocn_image;
-}
+
+
+
 void Bus::set_bus_iocn(const QUrl iocn_source_url)
 {
     bus_iocn_->setSource(iocn_source_url);
@@ -158,15 +86,19 @@ void Bus::Init()
     bus_time_line_=nullptr;
     bus_timer_=nullptr;
     bus_quick_item_=new QDeclarativeGeoMapQuickItem();
-    //QGeoCoordinate InitCoordinate(30.5567330000,103.9997920000);//江安
+#ifdef JANGAN //判断是否为江安
+    QGeoCoordinate InitCoordinate(30.5567330000,103.9997920000);//江安
+#else
     QGeoCoordinate InitCoordinate(30.631091622,104.081949595);//望江
+#endif
     this->bus_quick_item_->setCoordinate(InitCoordinate);//设置默认位置
-//    bus_path_coordinates_.append(InitCoordinate);
+
     bus_iocn_=nullptr;//防止内存分配失败
     bus_iocn_=new QQuickImage();
     bus_iocn_->setSource(QUrl("qrc:/img/car_up.png"));
     this->bus_quick_item_->setRotation(90);//设置图片旋转90度
     //bus_station_iocn_->setSize(QSize(50,50));//设置默认大小
+    InitSocket();
 }
 void Bus::InitSocket()
 {
@@ -174,10 +106,6 @@ void Bus::InitSocket()
     QObject::connect(socket_, &QTcpSocket::readyRead, this, &Bus::SocketReadData);
     QObject::connect(socket_, &QTcpSocket::disconnected, this, &Bus::SocketDisconnected);
     //连接信号槽
-
-    //连接ip地址
-    ip_address_="112.74.188.50";
-    port_=20721;
     qDebug()<<"GPS address is"<<ip_address_<<":"<<port_<<";"<<endl;
 
 }
@@ -237,7 +165,8 @@ void Bus::SocketReadData()
     QString latitude=string_list[2];//纬度
     QString longitudinal=string_list[3];//经度
     QGeoCoordinate crrut_coordinate=QGeoCoordinate(latitude.toDouble(),longitudinal.toDouble());
-    this->bus_quick_item_->setCoordinate(crrut_coordinate);
+    //注意坐标转换
+    this->bus_quick_item_->setCoordinate(Tool::WPS84ToGCJ02FromCoord(crrut_coordinate));
     if(is_save_gps_&&
        record_id_!=NULL)
     {
@@ -290,12 +219,9 @@ void Bus::Move(const double dx,
     QGeoCoordinate old_point,new_point;
     double temp_rotation=NULL;//转动角度;-180~180,
     old_point=this->bus_quick_item_->coordinate();//获取中心点
-    //qDebug()<<old_point;
     double x,y;
     x=old_point.latitude()+dx;
     y=old_point.longitude()+dy;
-    //qDebug()<<"x:"<<x<<"y:"<<y;
-    //qDebug()<<"dx:"<<dx<<"dy:"<<dy;
     new_point=QGeoCoordinate(x,y);
     qDebug()<<new_point;
     this->bus_quick_item_->setCoordinate(new_point);
@@ -382,7 +308,7 @@ void Bus::LuShu()
 void Bus::SetMap(QDeclarativeGeoMap *qMap)
 {
     if(qMap!=nullptr){
-        qMap->addMapItem(this->bus_quick_item_);
+        qMap->addMapItem(bus_quick_item_);
     }else {
         qDebug()<<"this Map point is empty!";
     }
@@ -391,26 +317,19 @@ void Bus::MoveNextIndex(const int index)//移动到下一个位置
 {
     if (index <this->bus_path_coordinates_.size()-1&&index>=0)
     {
-        QGeoCoordinate frist_point=this->bus_path_coordinates_.at(index);
-        QGeoCoordinate last_point=this->bus_path_coordinates_.at(index+1);
-        this->MoveNextPoint(frist_point,last_point);
-    }else if(index==this->bus_path_coordinates().size()-1)//如果到达最后一个点
+        QGeoCoordinate frist_point=bus_path_coordinates_.at(index);
+        QGeoCoordinate last_point=bus_path_coordinates_.at(index+1);
+        MoveNextPoint(frist_point,last_point);
+    }else if(index==bus_path_coordinates().size()-1)//如果到达最后一个点
     {
-        if(this->is_cricle_){//如果确定循环
+        if(is_cricle_){//如果确定循环
               //console.log(f.i);
-            this->line_index_=0;
-            this->ChangePath();//更改路径
-            this->LuShuStart();//再次运行；
-//            //更改车辆iocn使得车辆翻转
-//            if(this->is_return){
-//               this->bus_iocn_->setSource(QUrl("qrc:/img/car_up1.png"));
-//            }else {
-//                this->bus_iocn_->setSource(QUrl("qrc:/img/car_up.png"));
-//            }
-            //更改信号变量
-            this->is_return=!this->is_return;
+            line_index_=0;
+            ChangePath();//更改路径
+            LuShuStart();//再次运行；
+            is_return=!is_return; //更改信号变量
         }
-        this->is_stop_=true;//确定已经停止。
+        is_stop_=true;//确定已经停止。
     }
 }
 double Bus::LinearInterpolation(const double init_pos,
@@ -568,6 +487,10 @@ void Bus::SetCoordinate(const QGeoCoordinate new_coordinate)
         //更新坐标位置
         bus_quick_item_->setCoordinate(new_coordinate);
     }
+}
+void Bus::SetCoordinateFromWPS84(const QGeoCoordinate new_coordinate)
+{
+    SetCoordinate(Tool::WPS84ToGCJ02FromCoord(new_coordinate));
 }
 
 void Bus::StartSaveGPS(int record_id)

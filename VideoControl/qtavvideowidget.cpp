@@ -23,13 +23,6 @@ QtAVVideoWidget::QtAVVideoWidget(const QtAVVideoWidget &rhs)
     }
 }
 
-QtAVVideoWidget &QtAVVideoWidget::operator=(const QtAVVideoWidget &rhs)
-{
-    if (this != &rhs)
-           //this=&rhs;
-    return *this;
-}
-
 QtAVVideoWidget::~QtAVVideoWidget()
 {
     DELETE_OBJECT(video_render_);

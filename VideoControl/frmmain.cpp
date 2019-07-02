@@ -408,7 +408,7 @@ void frmMain::InitShowDialog()
     review_bus_=new Bus(Tool::WPS84ToGCJ02(30.5563134000,103.9938400000));
     review_bus_->SetMap(show_dialog_->re_show_map().get());
     //连接信号更新的槽
-    connect(review_control_,&ReviewWidget::SendQGeoCoordinate,review_bus_,&Bus::SetCoordinate);
+    connect(review_control_,&ReviewWidget::SendQGeoCoordinate,review_bus_,&Bus::SetCoordinateFromWPS84);
 
     //连接改变的相关函数
     connect(review_control_->video_choose_widget(),SIGNAL(signal_change_video_1(int)),show_dialog_->review_widget()->re_video_show_widgets(),SLOT(change_video_1(int)));

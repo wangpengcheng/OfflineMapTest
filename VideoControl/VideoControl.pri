@@ -31,7 +31,8 @@ SOURCES += \
     $$PWD/videodecodethread.cpp \
     $$PWD/streamvideowidget.cpp \
     $$PWD/recordselectdialog.cpp \
-    $$PWD/qtavvideowidget.cpp
+    $$PWD/qtavvideowidget.cpp \
+    $$PWD/videosavethread.cpp
 
 HEADERS  += \
     $$PWD/myhelper.h \
@@ -52,7 +53,8 @@ HEADERS  += \
     $$PWD/videodecodethread.h \
     $$PWD/streamvideowidget.h \
     $$PWD/recordselectdialog.h \
-    $$PWD/qtavvideowidget.h
+    $$PWD/qtavvideowidget.h \
+    $$PWD/videosavethread.h
 
 
 FORMS    += \
