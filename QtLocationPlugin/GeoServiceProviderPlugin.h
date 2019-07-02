@@ -1,10 +1,10 @@
-#ifndef GEOSERVICEPROVIDER_H
+﻿#ifndef GEOSERVICEPROVIDER_H
 #define GEOSERVICEPROVIDER_H
 
 #include <QtCore/QObject>
 #include <QtLocation/QGeoServiceProviderFactory>
 #include <QtPlugin>
-
+//地体瓦片服务类
 class GeoServiceProviderFactory: public QObject, public QGeoServiceProviderFactory
 {
     Q_OBJECT

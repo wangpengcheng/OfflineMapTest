@@ -1,4 +1,4 @@
-#ifndef MAP_ENGINE_DATA_H
+﻿#ifndef MAP_ENGINE_DATA_H
 #define MAP_ENGINE_DATA_H
 
 #include <QObject>
@@ -17,14 +17,15 @@
 #endif
 
 //-----------------------------------------------------------------------------
+//任务相关接口
 class MapTask : public QObject
 {
     Q_OBJECT
 public:
 
     enum TaskType {
-        taskInit,
-        taskFetchTile,
+        taskInit,//初始化
+        taskFetchTile,//适配瓦片
     };
 
     MapTask(TaskType type)
@@ -34,20 +35,21 @@ public:
     {}
 
     virtual TaskType    type            () { return _type; }
-
+    //发生错误时，抛出错误信号
     void setError(QString errorString)
     {
         emit error(_type, errorString);
     }
 
 signals:
-    void error          (MapTask::TaskType type, QString errorString);
+    void error          (MapTask::TaskType type, QString errorString);//错误信号
 
 private:
     TaskType    _type;
 };
 
 //-----------------------------------------------------------------------------
+//瓦片匹配接口类
 class FetchTileTask : public MapTask
 {
     Q_OBJECT

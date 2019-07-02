@@ -1,4 +1,4 @@
-#ifndef GEOTILEDMAPPINGMANAGERENGINE_H
+﻿#ifndef GEOTILEDMAPPINGMANAGERENGINE_H
 #define GEOTILEDMAPPINGMANAGERENGINE_H
 
 #include <QtLocation/QGeoServiceProvider>
@@ -8,6 +8,7 @@
 #include <QtLocation/private/qgeotiledmappingmanagerengine_p.h>
 
 #if QT_VERSION >= 0x050500
+//瓦片地图管理相关类
 class GeoTiledMap : public QGeoTiledMap
 {
     Q_OBJECT

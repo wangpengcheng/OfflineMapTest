@@ -1,4 +1,4 @@
-#ifndef MAP_URL_ENGINE_H
+﻿#ifndef MAP_URL_ENGINE_H
 #define MAP_URL_ENGINE_H
 
 #include <QString>
@@ -16,13 +16,13 @@ public:
 
     enum MapType
     {
-        Invalid                ,
-        GaodeStreet                ,
-        GaodeSatellite          ,
+        Invalid, //不存在
+        GaodeStreet,//接景
+        GaodeSatellite,//街景瓦片
     };
 
-    UrlFactory      ();
-    ~UrlFactory     ();
+    UrlFactory();
+    ~UrlFactory();
 
     QNetworkRequest getTileURL          (MapType type, int x, int y, int zoom);
     QString         getImageFormat      (MapType type, const QByteArray& image);

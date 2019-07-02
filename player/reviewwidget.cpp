@@ -44,6 +44,7 @@ ReviewWidget::ReviewWidget(QWidget *parent) :
     //初始化地图
     re_map_control_view_=new QQuickView();
     re_map_control_view_->setSource(QUrl("qrc:/qml/MapControlModel.qml"));
+    re_map_control_view_->setResizeMode(QQuickView::SizeRootObjectToView);
     re_map_control_widget_=QWidget::createWindowContainer(re_map_control_view_);
     re_map_vbox_layout_->addWidget(re_map_control_widget_);
     //获取地图

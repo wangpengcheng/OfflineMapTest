@@ -1,4 +1,4 @@
-#ifndef GEOMAPREPLY_H
+﻿#ifndef GEOMAPREPLY_H
 #define GEOMAPREPLY_H
 
 #include <QtNetwork/QNetworkReply>
@@ -21,11 +21,11 @@ private slots:
     void cacheError             (MapTask::TaskType type, QString errorString);
 
 private:
-    QNetworkReply*          _reply;
-    QNetworkRequest         _request;
-    QNetworkAccessManager*  _networkManager;
-    QByteArray              _badMapBox;
-    QByteArray              _badTile;
+    QNetworkReply*          _reply;                         //请求返回函数
+    QNetworkRequest         _request;                       //请求函数
+    QNetworkAccessManager*  _networkManager;                //网络请求管理
+    QByteArray              _badMapBox;                     //坏Map管理
+    QByteArray              _badTile;                       //坏瓦片
 };
 
 #endif

@@ -1,4 +1,4 @@
-#include <math.h>
+﻿#include <math.h>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QDir>
@@ -12,7 +12,7 @@ Q_DECLARE_METATYPE(MapTask::TaskType)
 
 //-----------------------------------------------------------------------------
 // Singleton
-static MapEngine* kMapEngine = NULL;
+static MapEngine* kMapEngine = nullptr;                //声明全局的Map引擎
 MapEngine*
 getMapEngine()
 {
@@ -27,28 +27,32 @@ destroyMapEngine()
 {
     if(kMapEngine) {
         delete kMapEngine;
-        kMapEngine = NULL;
+        kMapEngine = nullptr;
     }
 }
 
 //-----------------------------------------------------------------------------
+//MapEngine 构造函数的注册类
 MapEngine::MapEngine()
     : _urlFactory(new UrlFactory())
 {
-    qRegisterMetaType<MapTask::TaskType>();
+    qRegisterMetaType<MapTask::TaskType>();         //将类型注册到QML
 }
 
 //-----------------------------------------------------------------------------
 MapEngine::~MapEngine()
 {
-    _worker.quit();
+    _worker.quit();                                 //开始结束瓦片请求进程
     _worker.wait();
-    if(_urlFactory)
+    if(_urlFactory){
         delete _urlFactory;
+        _urlFactory=nullptr;
+    }
 }
 
 
 //-----------------------------------------------------------------------------
+//向缓冲任务队列添加任务
 void
 MapEngine::addTask(MapTask* task)
 {
@@ -58,6 +62,8 @@ MapEngine::addTask(MapTask* task)
 
 
 //-----------------------------------------------------------------------------
+//获取瓦片Has值，这里主要是为了和qml的hash值相对应
+
 QString
 MapEngine::getTileHash(UrlFactory::MapType type, int x, int y, int z)
 {
@@ -65,6 +71,8 @@ MapEngine::getTileHash(UrlFactory::MapType type, int x, int y, int z)
 }
 
 //-----------------------------------------------------------------------------
+//从Hash值获取瓦片的类型
+
 UrlFactory::MapType
 MapEngine::hashToType(const QString& hash)
 {
@@ -73,6 +81,7 @@ MapEngine::hashToType(const QString& hash)
 }
 
 //-----------------------------------------------------------------------------
+//根据x,y,z创建相关资料
 FetchTileTask*
 MapEngine::createFetchTileTask(UrlFactory::MapType type, int x, int y, int z)
 {
@@ -83,12 +92,13 @@ MapEngine::createFetchTileTask(UrlFactory::MapType type, int x, int y, int z)
 
 
 //-----------------------------------------------------------------------------
+//转换位置
 int
 MapEngine::long2tileX(double lon, int z)
 {
     return (int)(floor((lon + 180.0) / 360.0 * pow(2.0, z)));
 }
-
+//转化位置
 //-----------------------------------------------------------------------------
 int
 MapEngine::lat2tileY(double lat, int z)
