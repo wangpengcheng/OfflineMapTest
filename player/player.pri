@@ -30,6 +30,3 @@ INCLUDEPATH 	+= $$PWD
 FORMS += \
     $$PWD/myreviewwidget.ui \
     $$PWD/reviewwidget.ui
-
-SOURCES += \
-    $$PWD/reviewwidget.cpp

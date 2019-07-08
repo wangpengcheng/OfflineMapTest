@@ -1,4 +1,3 @@
-
 TEMPLATE = app
 QT += qml  quick
 QT += location positioning
@@ -29,7 +28,7 @@ include(QtLocationPlugin/LocationPlugin.pri)
 include(test/test.pri)
 include(VideoControl/VideoControl.pri)
 include(player/player.pri)
-#add ffmpeg
+#add ffmpeg and QtAV
 #windows
 win32 {
 INCLUDEPATH += $$PWD/3rdpart/ffmpeg/include
@@ -53,6 +52,27 @@ LIBS += $$PWD/3rdpart/QtAV/lib/Qt5AVd.lib \
 
 
 }
+#linux
+unix:!macx: {
+    FFMPEGDIR=$$PWD/3rdpart/ffmpeg-linux
+
+    INCLUDEPATH += $$FFMPEGDIR/include
+
+    LIBS += -L$$FFMPEGDIR/lib -lavcodec \
+                          -lavfilter \
+                          -lavformat  \
+                          -lavresample \
+                          -lavutil \
+                          -lpostproc \
+                          -lswresample \
+                          -lswscale
+
+    INCLUDEPATH += $$PWD/3rdpart/QtAV-linux/include
+
+    LIBS += -L$$PWD/3rdpart/QtAV-linux/lib/ -lQmlAV -lQtAV -lQtAVWidgets
+
+}
+
 
 INCLUDEPATH += \
     QtLocationPlugin \
@@ -80,17 +100,3 @@ RCC_DIR         = temp/rcc
 UI_DIR          = temp/ui
 OBJECTS_DIR     = temp/obj
 DESTDIR         = bin
-
-unix:!macx: {
-    FFMPEGDIR=/usr/lib/x86_64-linux-gnu/
-
-    INCLUDEPATH += $$FFMPEGDIR
-    LIBS += -L$$FFMPEGDIR -lavcodec \
-                          -lavfilter \
-                          -lavformat  \
-                          -lavresample \
-                          -lavutil \
-                          -lpostproc \
-                          -lswresample \
-                          -lswscale
-}

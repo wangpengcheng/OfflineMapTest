@@ -1,4 +1,4 @@
-﻿#include "videodecodethread.h"
+#include "videodecodethread.h"
 #include <QtDebug>
 #include <QTime>
 #include <iostream>
@@ -50,12 +50,12 @@ void VideoDecodeThread::RestartDecode()
 {
     //如果线程正在运行
     if(this->isRunning()){
-        qDebug()<<"Is Stopping Thread : "<<(int)this->currentThreadId();
+        qDebug()<<"Is Stopping Thread : "<<QString::number(quintptr(this->currentThreadId()));
         //跳出解码
         StopDecode();
         //等待线程结束
         this->wait();
-        qDebug()<<"Is Stopped Thread : "<<(int)this->currentThreadId();
+        qDebug()<<"Is Stopped Thread : "<<QString::number(quintptr(this->currentThreadId()));
     }
     StartDecode();//重新开始线程
 }
@@ -215,7 +215,7 @@ init_save://goto 语句帮助重复存储
         unsigned long long frames_count = 30*save_second_time_;
         QDateTime current_date_time =QDateTime::currentDateTime();
         //文件命名使用时间+当前线程的内存地址前6位作为真实的地址
-        video_save_name_=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz-")+QString::number((int)this->currentThreadId()).mid(0,5);
+        video_save_name_=current_date_time.toString("yyyy-MM-dd-hh-mm-ss-zzz-")+QString::number(quintptr(this->currentThreadId())).mid(0,5);
         qDebug()<<video_save_name_;
         file_full_path_=Tool::CreatFile(video_save_dir_name_,video_save_name_,video_save_type_);
         QByteArray temp_path_byte=file_full_path_.toLocal8Bit();
