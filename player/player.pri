@@ -3,20 +3,20 @@
 
 
 HEADERS += \
-    $$PWD/player.h \
-    $$PWD/playercontrols.h \
-    $$PWD/playlistmodel.h \
+   # $$PWD/player.h \
+    #$$PWD/playercontrols.h \
+   # $$PWD/playlistmodel.h \
     $$PWD/videowidget.h \
-    $$PWD/histogramwidget.h \
+   # $$PWD/histogramwidget.h \
     $$PWD/myreviewwidget.h \
     $$PWD/qtavplayercontrols.h \
     $$PWD/reviewwidget.h
 SOURCES += \
-    $$PWD/player.cpp \
-    $$PWD/playercontrols.cpp \
-    $$PWD/playlistmodel.cpp \
+   # $$PWD/player.cpp \
+   # $$PWD/playercontrols.cpp \
+   # $$PWD/playlistmodel.cpp \
     $$PWD/videowidget.cpp \
-    $$PWD/histogramwidget.cpp \
+  #  $$PWD/histogramwidget.cpp \
     $$PWD/myreviewwidget.cpp \
     $$PWD/qtavplayercontrols.cpp \
     $$PWD/reviewwidget.cpp
