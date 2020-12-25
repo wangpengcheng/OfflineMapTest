@@ -1,4 +1,4 @@
-﻿#include "frmmain.h"
+#include "frmmain.h"
 #include "ui_frmmain.h"
 #include "iconhelper.h"
 #include "myhelper.h"
@@ -14,7 +14,6 @@
 #include "videodecodethread.h"
 #include "streamvideowidget.h"
 #include "player/reviewwidget.h"
-#include "player/player.h"
 #include "src/tool.h"
 #include "src/bus.h"
 frmMain::frmMain(QWidget *parent) :

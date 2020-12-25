@@ -1,4 +1,4 @@
-﻿#include "reviewwidget.h"
+#include "reviewwidget.h"
 #include "ui_reviewwidget.h"
 
 #include <QMediaService>
@@ -10,11 +10,9 @@
 #include <QMediaMetaData>
 #include <QtWidgets>
 #include <QQuickView>
-#include <player/videowidget.h>
 #include "player/qtavplayercontrols.h"
 #include "QtAVWidgets/QtAVWidgets.h"
 #include "VideoControl/myhelper.h"
-#include "videowidget.h"
 #include "src/tool.h"
 
 ReviewWidget::ReviewWidget(QWidget *parent) :

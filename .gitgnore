@@ -8,3 +8,7 @@
 # 文档
 
 ./docs/doxy
+
+# 用户配置文档
+
+./OfflineMapTest.pro.user
