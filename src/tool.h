@@ -1,4 +1,4 @@
-﻿#ifndef TOOL_H
+#ifndef TOOL_H
 #define TOOL_H
 /****************************************************************************
 ** @projectName   OfflineMapTest
@@ -44,7 +44,7 @@
 #include <math.h>
 #define DELETE_OBJECT(obj) {if(obj!=nullptr){delete obj;obj=nullptr;qDebug()<<obj<<" deleted";} }
 
-#define DELETE_QOBJECT(obj) {if(obj->parent()==nullptr){ delete obj;obj=nullptr;qDebug()<<obj<<" deleted";}}
+#define DELETE_QOBJECT(obj) {if(obj&&obj->parent()){ delete obj;obj=nullptr;qDebug()<<obj<<" deleted";}}
 
 class Tool: public QObject
 {

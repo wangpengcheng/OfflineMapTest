@@ -1,7 +1,6 @@
 ﻿#include "bus.h"
-#ifndef QMATH_H
 #include <QtMath>
-#endif
+#include <algorithm>
 Bus::Bus(QObject *parent):QObject(parent)
 {
     Init();
@@ -14,16 +13,7 @@ Bus::~Bus()
     DELETE_QOBJECT(bus_timer_);
     DELETE_QOBJECT(socket_);
 }
-Bus::Bus(QList<QGeoCoordinate> new_path)
-{
-    Init();
-    Updata();
-    if(!new_path.isEmpty()){
-        set_bus_path_coordinates(new_path);
-    }else {
-        qDebug()<<"input object is empty ,please chech again";
-    }
-}
+
 Bus::Bus(const QGeoCoordinate new_coordinate)
 {
     Init();
@@ -35,18 +25,6 @@ Bus::Bus(const QGeoCoordinate new_coordinate)
     }
 }
 Bus::Bus(const QGeoCoordinate new_coordinate,
-         QList<QGeoCoordinate> new_path)
-{
-    Init();
-    Updata();
-    if(new_coordinate.isValid()&&!new_path.isEmpty()){
-        this->bus_quick_item_->setCoordinate(new_coordinate);
-        set_bus_path_coordinates(new_path);
-    }else {
-        qDebug()<<"input object is empty ,please check again";
-    }
-}
-Bus::Bus(const QGeoCoordinate new_coordinate,
          QList<QGeoCoordinate> new_path,
          const QUrl iocn_path)
 {
@@ -54,7 +32,8 @@ Bus::Bus(const QGeoCoordinate new_coordinate,
     Updata();
     if(new_coordinate.isValid()
        &&!new_path.isEmpty()
-       &&!iocn_path.isEmpty())
+       &&!iocn_path.isEmpty()
+       )
     {
         this->bus_quick_item_->setCoordinate(new_coordinate);
         set_bus_path_coordinates(new_path);
@@ -389,6 +368,7 @@ void Bus::ChangePath()//转置队列
     {
         this->bus_path_coordinates_.swap(i,temp_size-i-1);
     }
+    
 }
 void Bus::LuShuStart()
 {

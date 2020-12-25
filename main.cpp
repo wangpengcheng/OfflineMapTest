@@ -135,56 +135,56 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef MyTest
-//    RecordSelectDialog test;
-//    test.InitCarList();
-//    test.UpdateCarComBox();
-//    test.show();
-//    test.SelectVideosInfo(5);
-//    VideoDecodeThread test(QString("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
-//    test.start();
-//    test.set_is_save(true);//
-//    while (1) {
-//        if(!test.file_full_path().isEmpty())
-//        {
-//            test.InsertVideoInformToSql(5);
+   RecordSelectDialog test;
+   test.InitCarList();
+   test.UpdateCarComBox();
+   test.show();
+   test.SelectVideosInfo(5);
+   VideoDecodeThread test(QString("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
+   test.start();
+   test.set_is_save(true);//
+   while (1) {
+       if(!test.file_full_path().isEmpty())
+       {
+           test.InsertVideoInformToSql(5);
 
-//            break;
-//        }
-//    }
-//    Sleep(5000);
-//    test.StopDecode();
-//    VideoDecodeTheadTest test;
-//    test.MainTest();
+           break;
+       }
+   }
+   Sleep(5000);
+   test.StopDecode();
+   VideoDecodeTheadTest test;
+   test.MainTest();
 
-//        QtAVTest player;
-//        player.show();
-//       player.resize(800, 600);
-//    QString video_path("F:/GitHub/build-OfflineMapTest-Desktop_Qt_5_11_3_MSVC2015_64bit-Debug/bin/Videos/2019-06-26-12-34-44-735-21880.mp4");
-//    QtAV::AVPlayer test;
-//    QtAVVideoWidget test_widgets;
-//    test.addVideoRenderer(test_widgets.video_render());
-////   test.setRenderer(test_widgets.video_render());
-//    test.play(video_path);
-//    test_widgets.show();
-//    test_widgets.resize(800,600);
+       QtAVTest player;
+       player.show();
+      player.resize(800, 600);
+   QString video_path("F:/GitHub/build-OfflineMapTest-Desktop_Qt_5_11_3_MSVC2015_64bit-Debug/bin/Videos/2019-06-26-12-34-44-735-21880.mp4");
+   QtAV::AVPlayer test;
+   QtAVVideoWidget test_widgets;
+   test.addVideoRenderer(test_widgets.video_render());
+//   test.setRenderer(test_widgets.video_render());
+   test.play(video_path);
+   test_widgets.show();
+   test_widgets.resize(800,600);
 
-//    QSharedPointer<QtAV::AVPlayer> test1(new QtAV::AVPlayer());
-//    VideoShowWidget<QtAVVideoWidget> test_video_show_widget;
-//    QtAVVideoWidget test_widgets1(test1);
+   QSharedPointer<QtAV::AVPlayer> test1(new QtAV::AVPlayer());
+   VideoShowWidget<QtAVVideoWidget> test_video_show_widget;
+   QtAVVideoWidget test_widgets1(test1);
 
-//    test_widgets1.show();
-//    test_widgets1.resize(800,600);
-//    //
-//    foreach(auto temp,test_video_show_widget.video_widgets())
-//    {
-//        temp->ChangeAVPlayer(test1);
-//    }
-//    test1->play(video_path);
-//    test_video_show_widget.show();
-//    MyReviewWidget test;
-//    test.show();
-//    Player test_player;
-//    test_player.show();
+   test_widgets1.show();
+   test_widgets1.resize(800,600);
+   //
+   foreach(auto temp,test_video_show_widget.video_widgets())
+   {
+       temp->ChangeAVPlayer(test1);
+   }
+   test1->play(video_path);
+   test_video_show_widget.show();
+   MyReviewWidget test;
+   test.show();
+   Player test_player;
+   test_player.show();
     ReviewWidget test;
     test.resize(800,600);
     test.show();
