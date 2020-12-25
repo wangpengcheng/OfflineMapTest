@@ -1,14 +1,14 @@
 # 瓦片数据
-./_allayers
+_allayers
 
 # 第三方包
 
-./3rdpart
+3rdpart
 
 # 文档
 
-./docs/doxy
+docs/doxy
 
 # 用户配置文档
 
-./OfflineMapTest.pro.user
+OfflineMapTest.pro.user
