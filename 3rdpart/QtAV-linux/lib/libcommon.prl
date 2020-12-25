@@ -1,0 +1,6 @@
+QMAKE_PRL_BUILD_DIR = /media/wangpengcheng/文档/GitHub/build-QtAV-Desktop_Qt_5_11_2_GCC_64bit-Debug/examples/common
+QMAKE_PRO_INPUT = common.pro
+QMAKE_PRL_TARGET = libcommon.a
+QMAKE_PRL_CONFIG = lex yacc debug exceptions depend_includepath testcase_targets import_qpa_plugin file_copies qmake_use qt warn_on link_prl incremental linux unix posix gcc enable_new_dtags x86_64 mmx sse sse2 config_gl done_config_gl config_avutil done_config_avutil config_avcodec done_config_avcodec config_avformat done_config_avformat config_swscale done_config_swscale config_swresample done_config_swresample done_config_avresample done_config_avfilter done_config_avdevice config_sse4_1 done_config_sse4_1 done_config_openal config_libass done_config_libass done_config_uchardet config_pulseaudio done_config_pulseaudio config_x11 done_config_x11 config_xv done_config_xv config_vaapi done_config_vaapi done_config_libcedarv debug qml_debug common-buildlib staticlib profile depend_includepath create_prl have_target static staticlib debug_info c++11 thread opengl moc resources
+QMAKE_PRL_VERSION = 1.12.0
+QMAKE_PRL_LIBS = -L/opt/Qt5.11.2/5.11.2/gcc_64/lib -lQt5Gui -lQt5Sql -lQt5Core -lGL -lpthread
