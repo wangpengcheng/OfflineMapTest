@@ -39,12 +39,12 @@ public:
     inline std::shared_ptr<QDeclarativeGeoMap> re_show_map(){return re_show_map_;}
     ~MyReviewWidget();
 private:
-    VideoShowWidget<QtAVVideoWidget>* re_video_show_widgets_=nullptr;       //主要视频显示窗口
-    QQuickWidget* re_map_show_widget_=nullptr;                              //主要地图窗口
-    QQuickWidget* re_speed_show_widget_=nullptr;                            //主要速度显示，ToDo 与数据库联动，完成后添加到界面上
-    QHBoxLayout* review_layout_=nullptr;                                    //主要布局元素
-    std::shared_ptr<QDeclarativeGeoMap> re_show_map_=nullptr;               //主要地图
-    BusLineTest* re_bus_line_test_=nullptr;                                 //主要地图
+    VideoShowWidget<QtAVVideoWidget>* re_video_show_widgets_=nullptr;       ///< 主要视频显示窗口
+    QQuickWidget* re_map_show_widget_=nullptr;                              ///< 主要地图窗口
+    QQuickWidget* re_speed_show_widget_=nullptr;                            ///< 主要速度显示，ToDo 与数据库联动，完成后添加到界面上
+    QHBoxLayout* review_layout_=nullptr;                                    ///< 主要布局元素
+    std::shared_ptr<QDeclarativeGeoMap> re_show_map_=nullptr;               ///< 主要地图
+    BusLineTest* re_bus_line_test_=nullptr;                                 ///< 主要地图
 };
 
 #endif // MYREVIEWWIDGET_H
