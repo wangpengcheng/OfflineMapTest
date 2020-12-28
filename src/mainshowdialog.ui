@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>视频监控系统V201412</string>
+   <string>视频监控系统V201812</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">

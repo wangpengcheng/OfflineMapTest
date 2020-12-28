@@ -58,7 +58,7 @@
  * bus对应功能代码过重，应该将其拆解为LuShu类和位置更新类,以及基础信息类、UI函数类四个类，避免耦合 \n
  *
  */
-class Bus: public QObject
+class Bus : public QObject
 {
     Q_OBJECT
 public:
@@ -75,7 +75,7 @@ public:
      * @brief Bus 其构造
      * @param new_coordinate
      */
-    Bus (const QGeoCoordinate new_coordinate);
+    Bus(const QGeoCoordinate new_coordinate);
     /**
      * @brief Construct a new Bus object
      * @param  new_coordinate   初始化位置坐标
@@ -90,99 +90,99 @@ public:
      * @brief bus_id bus对应编号，方便快速查找
      * @return 当前bus对应编号
      */
-    inline QString bus_id(){return bus_id_;}
+    inline QString bus_id() { return bus_id_; }
     /**
      * @brief Set the bus id object
      * @param  input_bus_id     bus id
      */
-    inline void set_bus_id(const QString input_bus_id){bus_id_=input_bus_id;}
+    inline void set_bus_id(const QString input_bus_id) { bus_id_ = input_bus_id; }
     /**
      * @brief  获取当前车辆的名称
      * @return QString  车辆名称QString 字符串
      */
-    inline QString bus_name(){return bus_name_;}
+    inline QString bus_name() { return bus_name_; }
     /**
      * @brief Set the bus name object
      * @param  input_name      输入名称
      */
-    inline void set_bus_name(const QString input_name){bus_name_=input_name;}
+    inline void set_bus_name(const QString input_name) { bus_name_ = input_name; }
     /**
      * @brief  获取公交线路编号
      * @return QString 
      */
-    inline QString bus_line_number(){return bus_line_number_; }
+    inline QString bus_line_number() { return bus_line_number_; }
     /**
      * @brief Set the bus line number object
      * @param  input_bus_number 新的公交线路编号
      */
-    inline void set_bus_line_number(const QString input_bus_number){bus_line_number_=input_bus_number;}
+    inline void set_bus_line_number(const QString input_bus_number) { bus_line_number_ = input_bus_number; }
     /**
      * @brief  额外的描述信息
      * @return QString 描述信息字符串
      */
-    inline QString bus_information(){return bus_information_;}
+    inline QString bus_information() { return bus_information_; }
     /**
      * @brief Set the bus information object
      * @param  input_bus_information bus的额外描述信息
      */
-    inline void set_bus_information(const QString input_bus_information){bus_information_=input_bus_information;}
+    inline void set_bus_information(const QString input_bus_information) { bus_information_ = input_bus_information; }
     /**
      * @brief  驾驶员信息
      * @return QString 
      */
-    inline QString bus_diver(){return bus_diver_;}
+    inline QString bus_diver() { return bus_diver_; }
     /**
      * @brief Set the bus diver object 
      * @param  input_bus_diver  新的驾驶员信息
      */
-    inline void set_bus_diver(const QString input_bus_diver){bus_diver_=input_bus_diver;}
+    inline void set_bus_diver(const QString input_bus_diver) { bus_diver_ = input_bus_diver; }
     /**
      * @brief  bus对应的地图抽象图标类，主要是用于绘图和相关坐标操作,属于地图插件中的必要绘图类
      * @return QDeclarativeGeoMapQuickItem* 
      */
-    inline QDeclarativeGeoMapQuickItem * bus_quick_item(){ return  this->bus_quick_item_;}
+    inline QDeclarativeGeoMapQuickItem *bus_quick_item() { return this->bus_quick_item_; }
     /**
      * @brief Set the bus quick item object
      * @param  quick_item       车辆图标类
      */
-    inline void set_bus_quick_item(QDeclarativeGeoMapQuickItem *quick_item){this->bus_quick_item_=quick_item;}
+    inline void set_bus_quick_item(QDeclarativeGeoMapQuickItem *quick_item) { this->bus_quick_item_ = quick_item; }
     /**
      * @brief 车辆运行是否已经停止
      * @return true  已经停止
      * @return false 没有停止
      */
-    inline bool is_stop(){return is_stop_;}
+    inline bool is_stop() { return is_stop_; }
     /**
      * @brief 是否处于循环线路中
      * @return true     处于循环线路中
      * @return false    没有处于循环线路中
      */
-    inline bool is_cricle(){return is_cricle_;}
+    inline bool is_cricle() { return is_cricle_; }
     /**
      * @brief Set the is cricle object
      * @param  isCricle         车辆行驶是否循环
      */
-    inline void set_is_cricle(const bool isCricle){is_cricle_=isCricle;}
+    inline void set_is_cricle(const bool isCricle) { is_cricle_ = isCricle; }
     /**
      * @brief  车辆行驶路径关键点，主要用于路书操作
      * @return QList<QGeoCoordinate> 
      */
-    inline QList<QGeoCoordinate> bus_path_coordinates(){return bus_path_coordinates_;}
+    inline QList<QGeoCoordinate> bus_path_coordinates() { return bus_path_coordinates_; }
     /**
      * @brief Set the bus path coordinates object
      * @param  new_path         新的行驶路径
      */
-    inline void set_bus_path_coordinates(QList<QGeoCoordinate> new_path){bus_path_coordinates_=new_path;}
+    inline void set_bus_path_coordinates(QList<QGeoCoordinate> new_path) { bus_path_coordinates_ = new_path; }
     /**
      * @brief  车辆图标图片类指针，用于获取车辆绘图使用的图片数据指针
      * @return QQuickImage* 图片数据指针
      */
-    inline QQuickImage *bus_iocn(){return bus_iocn_;}
+    inline QQuickImage *bus_iocn() { return bus_iocn_; }
     /**
      * @brief Set the bus iocn object
      * @param  iocn_image       My Param doc
      */
-    inline void set_bus_iocn(QQuickImage *iocn_image){bus_iocn_=iocn_image;}
+    inline void set_bus_iocn(QQuickImage *iocn_image) { bus_iocn_ = iocn_image; }
     /**
      * @brief Set the bus iocn 图标图片，所在路径，一般是qrc路径
      * @param  iocn_source_url  qrc图片路径
@@ -197,10 +197,10 @@ public:
      * @brief bus所属的map对象指针，用于进行map的相关操作
      * @param  qMap             QQuickMap的数据指针
      */
-    void SetMap(QDeclarativeGeoMap *qMap);    //更改Bus的所属map
+    void SetMap(QDeclarativeGeoMap *qMap); //更改Bus的所属map
 
     /* 更新函数 start */
-    
+
     /**
      * @brief 变量初始化和重置函数，主要用于初始化各种参数
      */
@@ -244,7 +244,7 @@ public:
                                const int current_count,
                                const int count);
     //设置车辆的偏转
-    
+
     /**
      * @brief 设置车辆图标偏转
      * @details 为了让车辆在运行过程中，可以根据行驶路线进行动态的转向变化 设置的车辆转向函数 \n 
@@ -284,7 +284,7 @@ public:
      * 1. 增加车辆远程socket地址通信配置界面，可以直接在操作界面中更改对应的远程地址 \n
      * 2. 添加配置文件载入和写入函数和界面，实现车辆的可配置化 \n
      */
-    void InitSocket();                  //初始化socket通信
+    void InitSocket(); //初始化socket通信
     /* 路书相关函数 end  */
 
     //----- 位置存储到数据库关键代码 start------
@@ -293,50 +293,50 @@ public:
      * @return false/true 正在/不在存储
      *
      */
-    inline bool is_save_gps(){return is_save_gps_;}
+    inline bool is_save_gps() { return is_save_gps_; }
     /**
      * @brief 是否存储GPS坐标 
      * @param  is_save         是否存储
      */
-    inline void set_is_save_gps(bool is_save){is_save_gps_=is_save;}
+    inline void set_is_save_gps(bool is_save) { is_save_gps_ = is_save; }
     /**
      * @brief record_id 查看当前的记录Id
      * @return  数据库中的记录ID
      */
-    inline int record_id(){return record_id_;}
+    inline int record_id() { return record_id_; }
     /**
      * @brief set_record_id 设置数据库记录Id
      * @param new_record_id 新的记录Id
      */
-    inline void set_record_id(int new_record_id){record_id_=new_record_id;}
+    inline void set_record_id(int new_record_id) { record_id_ = new_record_id; }
     /**
      * @brief 将新的位置坐标存储到数据库中
      * @param coordinate 坐标数据点
      * @param record_id  对应的历史记录编号
      */
-    void SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id);
+    void SaveCoordinateToSql(const QGeoCoordinate coordinate, int record_id);
     //----- 位置存储到数据库关键代码  end ------
 
     /**
      * @brief set_ip_address 设置记录服务器对应的ip地址
      * @param address IP地址的字符串形式
      */
-    inline void set_ip_address(QString address){ip_address_=address;}
+    inline void set_ip_address(QString address) { ip_address_ = address; }
     /**
      * @brief 获取对应的ip地址
      * @return 返回ip地址字符串
      */
-    inline QString ip_address(){return ip_address_;}
+    inline QString ip_address() { return ip_address_; }
     /**
      * @brief set_port 设置网络请求对应的端口
      * @param i         网络请求端口号
      */
-    inline void set_port(unsigned int i){port_=i;}
+    inline void set_port(unsigned int i) { port_ = i; }
     /**
      * @brief port 端口号查询请求函数
      * @return 对应的端口号
      */
-    inline unsigned port(){return port_;}
+    inline unsigned port() { return port_; }
 
     //相关槽函数
 public slots:
@@ -374,57 +374,77 @@ public slots:
     /*LuShu槽函数 start*/
     /**
      * @brief  LuShu的相关槽函数，主要是移动到指定位置
-     * @param  dx               My Param doc
-     * @param  dy               My Param doc
+     * @param  dx               x方向上的增量
+     * @param  dy               y方向上的增量
      */
     void Move(const double dx,
               const double dy);
+    /**
+     * @brief  移动到下一个坐标点
+     * @param  coordinate1      原来的坐标点
+     * @param  coordinate2      新的坐标点
+     */
     void MoveNextPoint(const QGeoCoordinate coordinate1,
                        const QGeoCoordinate coordinate2);
-    void SetCoordinate(const QGeoCoordinate new_coordinate);//更新位置信息，带偏转的
+    /**
+     * @brief 设置新的坐标位置带偏转的
+     * @details 会根据当前位置和目标位置设置偏转
+     * @param  new_coordinate   新坐标参数
+     */
+    void SetCoordinate(const QGeoCoordinate new_coordinate);
+    /**
+     * @brief 使用WPS84坐标体系，来实现位置更新
+     * @details 和 @link Bus::SetCoordinate 功能相同 \n 
+     * 增加了WPS84的坐标体系的转换
+     * @param  new_coordinate   My Param doc
+     */
     void SetCoordinateFromWPS84(const QGeoCoordinate new_coordinate); //从标准坐标更新位置信息
     /*LuShu槽函数 end*/
 
     /*存储gps的槽函数 start*/
+    /**
+     * @brief  gps存储槽函数，主要是存储当前的GPS信息
+     * @param  record_id      当前记录对应的主键，方便查找
+     */
     void StartSaveGPS(int record_id);
+    /**
+     * @brief 停止存储GPS
+     */
     void StopSaveGPS();
     /*存储gps的槽函数 end*/
 
 private:
     /*基本信息 start*/
-    QString bus_id_;
-    QString bus_name_;
-    QString bus_line_number_;
-    QString bus_information_;
-    QString bus_diver_;
-    Tool tool;
+    QString bus_id_;          ///< bus 编号
+    QString bus_name_;        ///< bus 名称
+    QString bus_line_number_; ///< 对应公交线路编号
+    QString bus_information_; ///< 额外的附加信息
+    QString bus_diver_;       ///< 对应的驾驶员信息
     /*基本信息 end*/
 
     /*重要信息 start*/
-    QList<QGeoCoordinate> bus_path_coordinates_;//线路关键点列表
-    QQuickImage *bus_iocn_=nullptr;//公交车图标iocn指针
-    QDeclarativeGeoMapQuickItem *bus_quick_item_=nullptr;
+    QList<QGeoCoordinate> bus_path_coordinates_;            ///< 线路关键点列表
+    QQuickImage *bus_iocn_ = nullptr;                       ///< 公交车图标iocn指针
+    QDeclarativeGeoMapQuickItem *bus_quick_item_ = nullptr; ///< 所属地图指针
     /*重要信息 end*/
     /*位置更新信息 start*/
-    QTimeLine *bus_time_line_=nullptr;
-    QTimer *bus_timer_=nullptr;
+    QTimeLine *bus_time_line_ = nullptr; ///< 位置更新动画时间线
+    QTimer *bus_timer_ = nullptr;        ///< 位置更新时间指针
     /*位置更新信息 end*/
     /*路书动画 start*/
-    QList<QTimeLine *> bus_time_line_list_;
-    int line_index_=0;//当前点索引初始化为0
-    double bus_speed_=5;//公交车速度(km/s)
-    bool is_cricle_=true;//是否循环
-    bool is_pause = false;//是否
-    bool is_stop_ = false;//不停止;是否停止，当为true时，车辆已经停止
-    bool is_return=false;//是否在返程
+    QList<QTimeLine *> bus_time_line_list_; ///< 路书时间计时器列表，主要用来实现动画平滑化
+    int line_index_ = 0;                    ///< 当前点索引初始化为0
+    double bus_speed_ = 5;                  ///< 公交车速度(km/s)
+    bool is_cricle_ = true;                 ///< 动画路书是否循环
+    bool is_pause = false;                  ///< 是否暂停
+    bool is_stop_ = false;                  ///< 是否停止，不停止;是否停止，当为true时，车辆已经停止
+    bool is_return = false;                 ///< 是否正在返程
     /*路书动画 end*/
-    //socket通信成员
-    QTcpSocket *socket_=nullptr;//socket通信成员变量
-    QString ip_address_="112.74.188.50";//设置ip地址，默认IP地址 "112.74.188.50"
-    unsigned int port_=20721;           //设置端口号，默认端口号 为 20721
-    //存储坐标相关信息
-    bool is_save_gps_=false;
-    int record_id_=NULL;//存储时的记忆编号
+    QTcpSocket *socket_ = nullptr;         ///< socket通信成员变量
+    QString ip_address_ = "112.74.188.50"; ///< 设置ip地址，默认IP地址 "112.74.188.50"
+    unsigned int port_ = 20721;            ///< 设置端口号，默认端口号 为 20721
+    bool is_save_gps_ = false;             ///< 存储坐标相关信息
+    int record_id_ = NULL;                 ///< 存储时的记忆编号
 };
 
 #endif // BUS_H

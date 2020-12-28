@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
     //use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     app.setApplicationName("VM");         //设置应用程序名称
-    app.setApplicationVersion("V201412"); //设置应用程序版本
+    app.setApplicationVersion("V201812"); //设置应用程序版本
     app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);//允许使用qquickwidget
     myHelper::SetUTF8Code();            //设置程序编码为UTF-8
     myHelper::SetChinese();             //设置程序为中文字库
