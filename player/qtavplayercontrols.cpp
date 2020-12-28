@@ -67,9 +67,11 @@ QtAV::AVPlayer::State QtAVPlayerControls::state() const
 
 void QtAVPlayerControls::setState(QtAV::AVPlayer::State state)
 {
-    if (state != m_playerState) {
+    if (state != m_playerState)
+    {
         m_playerState = state;
-        switch (state) {
+        switch (state)
+        {
         case QtAV::AVPlayer::State::StoppedState:
             m_stopButton->setEnabled(false);
             m_playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
@@ -88,9 +90,9 @@ void QtAVPlayerControls::setState(QtAV::AVPlayer::State state)
 
 int QtAVPlayerControls::volume() const
 {
-    qreal linearVolume =  QAudio::convertVolume(m_volumeSlider->value() / qreal(100),
-                                                QAudio::LogarithmicVolumeScale,
-                                                QAudio::LinearVolumeScale);
+    qreal linearVolume = QAudio::convertVolume(m_volumeSlider->value() / qreal(100),
+                                               QAudio::LogarithmicVolumeScale,
+                                               QAudio::LinearVolumeScale);
 
     return qRound(linearVolume * 100);
 }
@@ -112,27 +114,29 @@ bool QtAVPlayerControls::isMuted() const
 
 void QtAVPlayerControls::setMuted(bool muted)
 {
-    if (muted != m_playerMuted) {
+    if (muted != m_playerMuted)
+    {
         m_playerMuted = muted;
 
         m_muteButton->setIcon(style()->standardIcon(muted
-                ? QStyle::SP_MediaVolumeMuted
-                : QStyle::SP_MediaVolume));
+                                                        ? QStyle::SP_MediaVolumeMuted
+                                                        : QStyle::SP_MediaVolume));
     }
 }
 
 void QtAVPlayerControls::playClicked()
 {
-    qDebug()<<m_playerState;
-    switch (m_playerState) {
+    qDebug() << m_playerState;
+    switch (m_playerState)
+    {
     case QtAV::AVPlayer::State::StoppedState:
     case QtAV::AVPlayer::State::PausedState:
-        qDebug()<<"send start";
+        qDebug() << "send start";
         emit play();
         break;
     case QtAV::AVPlayer::State::PlayingState:
         emit pause();
-        qDebug()<<"send pause";
+        qDebug() << "send pause";
         break;
     }
 }
@@ -149,8 +153,10 @@ qreal QtAVPlayerControls::playbackRate() const
 
 void QtAVPlayerControls::setPlaybackRate(float rate)
 {
-    for (int i = 0; i < m_rateBox->count(); ++i) {
-        if (qFuzzyCompare(rate, float(m_rateBox->itemData(i).toDouble()))) {
+    for (int i = 0; i < m_rateBox->count(); ++i)
+    {
+        if (qFuzzyCompare(rate, float(m_rateBox->itemData(i).toDouble())))
+        {
             m_rateBox->setCurrentIndex(i);
             return;
         }
