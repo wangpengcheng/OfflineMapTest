@@ -1,4 +1,4 @@
-﻿#ifndef BUSTEST_H
+#ifndef BUSTEST_H
 #define BUSTEST_H
 /****************************************************************************
 ** @projectName   OfflineMapTest
@@ -25,6 +25,7 @@
 **  bus_test.ChangePathTest();
 **
 *****************************************************************************/
+
 #ifndef QDECLARATIVEGEOMAP_H
 #include <QtLocation/private/qdeclarativegeomap_p.h>
 #endif
@@ -32,6 +33,7 @@
 #include "src/tool.h"
 #endif
 class Bus;
+
 class BusTest:public QObject
 {
     Q_OBJECT

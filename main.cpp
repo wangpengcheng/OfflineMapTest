@@ -1,4 +1,4 @@
-﻿#include <QGuiApplication>
+#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QApplication>
 #include <QtPlugin>
@@ -22,7 +22,7 @@
 #include <QtLocation/private/qdeclarativegeomapquickitem_p.h>
 #include <QtLocation/private/qdeclarativepolylinemapitem_p.h>
 #include <QtLocation/private/qdeclarativegeomapitemgroup_p.h>
-#include <QGeoPath>//geoPath
+#include <QGeoPath>
 //引入tool类
 #include <QtQuick/private/qquickimage_p.h>
 #include <QtQuick/private/qquickwindow_p.h>
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 
     //程序加载时先加载所有配置信息
     myApp::ReadConfig();
-
+    //
     //加载和应用样式
     myHelper::SetStyle(myApp::AppStyle);
     //方便开启测试模式
