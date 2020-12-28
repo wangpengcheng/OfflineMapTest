@@ -53,6 +53,10 @@
  * 1.指向地图 2.储存线路 3.公交车图标 4.信息关键点（停靠关键点） 5.小车转动角度,6.时间定时器 \n
  * 实现重要功能： \n
  * 请求网络得出车辆位置，并在地图中显示位置 \n
+ * 
+ * @todo 代码解耦 \n
+ * bus对应功能代码过重，应该将其拆解为LuShu类和位置更新类,以及基础信息类、UI函数类四个类，避免耦合 \n
+ *
  */
 class Bus: public QObject
 {
@@ -263,11 +267,11 @@ public:
     /**
      * @brief 路书开始
      */
-    void LuShuStart();                  //开始LuShu
+    void LuShuStart();
     /**
      * @brief 路书暂停
      */
-    void LuShuPause();                  //暂停LuShu
+    void LuShuPause();
     /**
      * @brief 路书停止
      */
@@ -284,33 +288,95 @@ public:
     /* 路书相关函数 end  */
 
     //----- 位置存储到数据库关键代码 start------
+    /**
+     * @brief is_save_gps 是否正在存储GPS数据
+     * @return false/true 正在/不在存储
+     *
+     */
     inline bool is_save_gps(){return is_save_gps_;}
+    /**
+     * @brief 是否存储GPS坐标 
+     * @param  is_save         是否存储
+     */
     inline void set_is_save_gps(bool is_save){is_save_gps_=is_save;}
+    /**
+     * @brief record_id 查看当前的记录Id
+     * @return  数据库中的记录ID
+     */
     inline int record_id(){return record_id_;}
+    /**
+     * @brief set_record_id 设置数据库记录Id
+     * @param new_record_id 新的记录Id
+     */
     inline void set_record_id(int new_record_id){record_id_=new_record_id;}
-    void SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id);//将新的位置坐标存储到数据库中
+    /**
+     * @brief 将新的位置坐标存储到数据库中
+     * @param coordinate 坐标数据点
+     * @param record_id  对应的历史记录编号
+     */
+    void SaveCoordinateToSql(const QGeoCoordinate coordinate,int record_id);
     //----- 位置存储到数据库关键代码  end ------
 
-    //设置ip地址
+    /**
+     * @brief set_ip_address 设置记录服务器对应的ip地址
+     * @param address IP地址的字符串形式
+     */
     inline void set_ip_address(QString address){ip_address_=address;}
+    /**
+     * @brief 获取对应的ip地址
+     * @return 返回ip地址字符串
+     */
     inline QString ip_address(){return ip_address_;}
+    /**
+     * @brief set_port 设置网络请求对应的端口
+     * @param i         网络请求端口号
+     */
     inline void set_port(unsigned int i){port_=i;}
+    /**
+     * @brief port 端口号查询请求函数
+     * @return 对应的端口号
+     */
     inline unsigned port(){return port_;}
 
     //相关槽函数
 public slots:
     /*http 通信 start */
+    /**
+     * @brief  槽函数--车辆坐标定位模拟更新函数
+     * @details 当模式处于远程接受网络位置信息时，调用函数 \n
+     * 请求后端并，更新位置,现有的请求脚本是php的模拟脚本函数 \n
+     *  主要使用的协议是HTTP协议 \n
+     * @note 此接口仅仅在测试中使用
+     */
     void UpdataCoordinatesByNet();
+    /**
+     * @brief  槽函数--Http请求回复后的网络位置更新响应函数
+     * @param  reply            响应网络消息
+     */
     void GetReplyFinished(QNetworkReply *reply);
     /*http 通信 end */
 
     /*socket 通信 start*/
-    void UpdateCoordinatesBySocket();//根据位置更新
-    void SocketReadData();//读取数据
-    void SocketDisconnected();//断开连接
+    /**
+     * @brief 槽函数--socket通信更新位置函数，直接使用socket进行位置更新
+     */
+    void UpdateCoordinatesBySocket();
+    /**
+     * @brief 槽函数--当有消息过来时，进行数据的读取
+     */
+    void SocketReadData();
+    /**
+     * @brief 槽函数--socket关闭时的连接处理函数
+     */
+    void SocketDisconnected();
     /*socket 通信 end*/
 
     /*LuShu槽函数 start*/
+    /**
+     * @brief  LuShu的相关槽函数，主要是移动到指定位置
+     * @param  dx               My Param doc
+     * @param  dy               My Param doc
+     */
     void Move(const double dx,
               const double dy);
     void MoveNextPoint(const QGeoCoordinate coordinate1,

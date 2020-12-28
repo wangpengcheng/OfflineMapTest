@@ -163,12 +163,13 @@ void Bus::UpdataCoordinatesByNet()
     //设置网络请求
     QNetworkAccessManager *manage = new QNetworkAccessManager(this);
     QNetworkRequest network_request;
+    //注意这里的请求是模拟的请求数据
     network_request.setUrl(QUrl(QString("http://118.24.113.233/location_point_simulation.php")));
     /*建立connect，ReplyFinished为自定义槽函数,*/
     connect(manage,SIGNAL(finished(QNetworkReply *)),this,SLOT(GetReplyFinished(QNetworkReply *)));
 
     /*发送get网络请求*/
-   manage->get(network_request);
+    manage->get(network_request);
 }
 void Bus::GetReplyFinished(QNetworkReply *reply)
 {
