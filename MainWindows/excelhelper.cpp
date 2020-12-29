@@ -2,8 +2,7 @@
 #include "myhelper.h"
 
 ExcelHelper *ExcelHelper::_instance = 0;
-ExcelHelper::ExcelHelper(QObject *parent) :
-    QObject(parent)
+ExcelHelper::ExcelHelper(QObject *parent) : QObject(parent)
 {
 }
 
@@ -77,7 +76,8 @@ void ExcelHelper::ToExcel(QString fileName, QString sheetName, QString title, QS
     html.append("   x:FullRows=\"1\" ss:DefaultColumnWidth=\"54\" ss:DefaultRowHeight=\"18\">\n");
 
     //设置字段宽度
-    for (int i = 0; i < columnCount; i++) {
+    for (int i = 0; i < columnCount; i++)
+    {
         html.append(QString("   <Column ss:AutoFitWidth=\"0\" ss:Width=\"%1\"/>\n").arg(QString::number(columnWidths[i])));
     }
 
@@ -88,17 +88,20 @@ void ExcelHelper::ToExcel(QString fileName, QString sheetName, QString title, QS
 
     //逐个添加字段名称
     html.append("   <Row ss:AutoFitHeight=\"0\">\n");
-    for (int i = 0; i < columnCount; i++) {
+    for (int i = 0; i < columnCount; i++)
+    {
         html.append("    <Cell ss:StyleID=\"s91\"><Data ss:Type=\"String\">" + columnNames[i] + "</Data></Cell>\n");
     }
     html.append("   </Row>\n");
 
     //逐个添加数据
-    for (int i = 0; i < rowCount; i++) {
+    for (int i = 0; i < rowCount; i++)
+    {
         html.append("   <Row ss:AutoFitHeight=\"0\">\n");
         QString temp = content[i];
         QStringList value = temp.split(";");
-        foreach (QString str, value) {
+        foreach (QString str, value)
+        {
             html.append("    <Cell ss:StyleID=\"s91\"><Data ss:Type=\"String\">" + str + "</Data></Cell>\n");
         }
         html.append("   </Row>\n");
@@ -122,7 +125,8 @@ void ExcelHelper::ToExcel(QString fileName, QString sheetName, QString title, QS
 
     //写入文件
     QFile file(fileName);
-    if (file.open(QFile::WriteOnly | QIODevice::Text)) {
+    if (file.open(QFile::WriteOnly | QIODevice::Text))
+    {
         QTextStream text(&file);
         text.setCodec("UTF-8");
         text << html.join("");

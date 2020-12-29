@@ -4,9 +4,8 @@
 #include "iconhelper.h"
 #include "myapp.h"
 
-frmConfig::frmConfig(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::frmConfig)
+frmConfig::frmConfig(QWidget *parent) : QDialog(parent),
+                                        ui(new Ui::frmConfig)
 {
     ui->setupUi(this);
 
@@ -21,7 +20,8 @@ frmConfig::~frmConfig()
 
 void frmConfig::mouseMoveEvent(QMouseEvent *e)
 {
-    if (mousePressed && (e->buttons() && Qt::LeftButton)) {
+    if (mousePressed && (e->buttons() && Qt::LeftButton))
+    {
         this->move(e->globalPos() - mousePoint);
         e->accept();
     }
@@ -29,7 +29,8 @@ void frmConfig::mouseMoveEvent(QMouseEvent *e)
 
 void frmConfig::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::LeftButton) {
+    if (e->button() == Qt::LeftButton)
+    {
         mousePressed = true;
         mousePoint = e->globalPos() - this->pos();
         e->accept();
@@ -68,12 +69,14 @@ void frmConfig::InitForm()
     ui->txtIPCType->setCursorPosition(0);
 
     ui->btnUseVideoOffLineCheck->SetCheck(myApp::UseVideoOffLineCheck);
-    for (int i = 5; i <= 60; i = i + 5) {
+    for (int i = 5; i <= 60; i = i + 5)
+    {
         ui->cboxVideoOffLineCheckInterval->addItem(QString("%1").arg(i));
     }
     ui->cboxVideoOffLineCheckInterval->setCurrentIndex(ui->cboxVideoOffLineCheckInterval->findText(QString("%1").arg(myApp::VideoOffLineCheckInterval)));
 
-    for (int i = 100; i <= 3000; i = i + 100) {
+    for (int i = 100; i <= 3000; i = i + 100)
+    {
         ui->cboxDelayTime->addItem(QString("%1").arg(i));
     }
     ui->cboxDelayTime->setCurrentIndex(ui->cboxDelayTime->findText(QString("%1").arg(myApp::VideoDelayTime)));
@@ -84,12 +87,14 @@ void frmConfig::InitForm()
     ui->cboxPollType->setCurrentIndex(myApp::PollType);
 
     ui->cboxPollSleep->addItem("0");
-    for (int i = 100; i <= 2000; i = i + 100) {
+    for (int i = 100; i <= 2000; i = i + 100)
+    {
         ui->cboxPollSleep->addItem(QString("%1").arg(i));
     }
     ui->cboxPollSleep->setCurrentIndex(ui->cboxPollSleep->findText(QString("%1").arg(myApp::PollSleep)));
 
-    for (int i = 10; i <= 120; i = i + 10) {
+    for (int i = 10; i <= 120; i = i + 10)
+    {
         ui->cboxPollInterval->addItem(QString("%1").arg(i));
     }
     ui->cboxPollInterval->setCurrentIndex(ui->cboxPollInterval->findText(QString("%1").arg(myApp::PollInterval)));
@@ -114,9 +119,12 @@ void frmConfig::on_btnOk_clicked()
 #ifdef Q_OS_WIN
     QString strPath = QApplication::applicationFilePath();
     strPath = strPath.replace("/", "\\");
-    if (myApp::AutoRun) {
+    if (myApp::AutoRun)
+    {
         myHelper::AutoRunWithSystem(true, "VM", strPath);
-    } else {
+    }
+    else
+    {
         myHelper::AutoRunWithSystem(false, "VM", strPath);
     }
 #endif
@@ -129,7 +137,8 @@ void frmConfig::on_btnOk_clicked()
 
 void frmConfig::on_btnClearNVR_clicked()
 {
-    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("确定要清空NVR数据吗?")) == 1) {
+    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("确定要清空NVR数据吗?")) == 1)
+    {
         QSqlQuery query;
         QString sql = "delete from [NVRInfo] where [NVRID]!='000255'";
         query.exec(sql);
@@ -139,7 +148,8 @@ void frmConfig::on_btnClearNVR_clicked()
 
 void frmConfig::on_btnClearIPC_clicked()
 {
-    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("确定要清空IPC数据吗?")) == 1) {
+    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("确定要清空IPC数据吗?")) == 1)
+    {
         QSqlQuery query;
         QString sql = "delete from [IPCInfo]";
         query.exec(sql);
@@ -149,7 +159,8 @@ void frmConfig::on_btnClearIPC_clicked()
 
 void frmConfig::on_btnClearPoll_clicked()
 {
-    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("确定要清空轮询数据吗?")) == 1) {
+    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("确定要清空轮询数据吗?")) == 1)
+    {
         QSqlQuery query;
         QString sql = "delete from [PollInfo]";
         query.exec(sql);
@@ -159,7 +170,8 @@ void frmConfig::on_btnClearPoll_clicked()
 
 void frmConfig::on_btnClearAll_clicked()
 {
-    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("确定要恢复出厂值吗?")) == 1) {
+    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("确定要恢复出厂值吗?")) == 1)
+    {
         QSqlQuery query;
         QString sql = "delete from [NVRInfo] where [NVRID]!='000255'";
         query.exec(sql);

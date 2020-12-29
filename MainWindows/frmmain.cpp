@@ -7,7 +7,7 @@
 #include "frmnvr.h"
 #include "frmipc.h"
 #include "frmpollconfig.h"
-#include "MapItems/mainshowdialog.h"
+#include "MainWindows/mainshowdialog.h"
 #include "MapItems/mapcontrlconnect.h"
 #include "test/buslinetest.h"
 #include "test/bustest.h"

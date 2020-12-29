@@ -4,14 +4,12 @@
 #include "iconhelper.h"
 #include "myapp.h"
 
-frmInputBox::frmInputBox(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::frmInputBox)
+frmInputBox::frmInputBox(QWidget *parent) : QDialog(parent),
+                                            ui(new Ui::frmInputBox)
 {
     ui->setupUi(this);
     this->InitStyle();
 }
-
 
 frmInputBox::~frmInputBox()
 {
@@ -20,7 +18,8 @@ frmInputBox::~frmInputBox()
 
 void frmInputBox::mouseMoveEvent(QMouseEvent *e)
 {
-    if (mousePressed && (e->buttons() && Qt::LeftButton)) {
+    if (mousePressed && (e->buttons() && Qt::LeftButton))
+    {
         this->move(e->globalPos() - mousePoint);
         e->accept();
     }
@@ -28,7 +27,8 @@ void frmInputBox::mouseMoveEvent(QMouseEvent *e)
 
 void frmInputBox::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::LeftButton) {
+    if (e->button() == Qt::LeftButton)
+    {
         mousePressed = true;
         mousePoint = e->globalPos() - this->pos();
         e->accept();

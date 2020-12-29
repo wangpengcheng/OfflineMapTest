@@ -1,8 +1,7 @@
 #include "iconhelper.h"
 
 IconHelper *IconHelper::_instance = 0;
-IconHelper::IconHelper(QObject *):
-    QObject(qApp)
+IconHelper::IconHelper(QObject *) : QObject(qApp)
 {
     int fontId = QFontDatabase::addApplicationFont(":/image/fontawesome-webfont.ttf");
     QString fontName = QFontDatabase::applicationFontFamilies(fontId).at(0);

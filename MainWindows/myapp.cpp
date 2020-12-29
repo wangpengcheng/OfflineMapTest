@@ -33,7 +33,8 @@ void myApp::ReadConfig()
 {
     QString fileName = myApp::AppPath + "config.txt";
     //如果配置文件不存在,则以初始值继续运行
-    if (!myHelper::FileIsExist(fileName)) {
+    if (!myHelper::FileIsExist(fileName))
+    {
         //对应中文转成正确的编码
         myApp::AppTitle = myApp::AppTitle.toLatin1();
         myApp::NVRType = myApp::NVRType.toLatin1();

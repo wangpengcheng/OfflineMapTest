@@ -8,17 +8,13 @@ SOURCES += \
     $$PWD/busstation.cpp \
     $$PWD/busline.cpp \
     $$PWD/bus.cpp \
-    $$PWD/mapcontrlconnect.cpp \
-    $$PWD/mainshowdialog.cpp
+    $$PWD/mapcontrlconnect.cpp 
 
 HEADERS += \
     $$PWD/tool.h \
     $$PWD/busstation.h \
     $$PWD/busline.h \
     $$PWD/bus.h \
-    $$PWD/mapcontrlconnect.h \
-    $$PWD/mainshowdialog.h \
+    $$PWD/mapcontrlconnect.h 
 
 
-FORMS += \
-    $$PWD/mainshowdialog.ui

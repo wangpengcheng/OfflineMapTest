@@ -28,7 +28,8 @@ SOURCES += \
     $$PWD/switchbutton.cpp \
     $$PWD/frmpollconfig.cpp \
     $$PWD/excelhelper.cpp \
-    $$PWD/recordselectdialog.cpp
+    $$PWD/recordselectdialog.cpp \
+    $$PWD/mainshowdialog.cpp
 
 HEADERS  += \
     $$PWD/myhelper.h \
@@ -45,8 +46,8 @@ HEADERS  += \
     $$PWD/switchbutton.h \
     $$PWD/frmpollconfig.h \
     $$PWD/frmconfig.h \
-    $$PWD/recordselectdialog.h
-
+    $$PWD/recordselectdialog.h \
+    $$PWD/mainshowdialog.h
 
 FORMS    += \
     $$PWD/frmmessagebox.ui \
@@ -58,15 +59,11 @@ FORMS    += \
     $$PWD/frmpollconfig.ui \
     $$PWD/myreviewwidget.ui \
     $$PWD/recordselectdialog.ui \
-    $$PWD/reviewwidget.ui
+    $$PWD/reviewwidget.ui \ 
+    $$PWD/mainshowdialog.ui
 
 INCLUDEPATH 	+= $$PWD
 
-#MOC_DIR         = temp/moc
-#RCC_DIR         = temp/rcc
-#UI_DIR          = temp/ui
-#OBJECTS_DIR     = temp/obj
-#DESTDIR         = bin
 
 win32:RC_FILE=$$PWD/main.rc
 

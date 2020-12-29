@@ -1,4 +1,28 @@
-﻿#ifndef FRMCONFIG_H
+﻿/**
+ * @file frmconfig.h
+ * @brief 系统配置界面类，主要是配置系统参数
+ * @author wangpengcheng  (wangpengcheng2018@gmail.com)
+ * @version 1.0
+ * @date 2020-12-29 23:08:22
+ * @copyright Copyright (c) 2020  IRLSCU
+ * 
+ * @par 修改日志:
+ * <table>
+ * <tr>
+ *    <th> Commit date</th>
+ *    <th> Version </th> 
+ *    <th> Author </th>  
+ *    <th> Description </th>
+ * </tr>
+ * <tr>
+ *    <td> 2020-12-29 23:08:22 </td>
+ *    <td> 1.0 </td>
+ *    <td> wangpengcheng </td>
+ *    <td> 添加文档 </td>
+ * </tr>
+ * </table>
+ */
+#ifndef FRMCONFIG_H
 #define FRMCONFIG_H
 
 #include <QDialog>
@@ -7,7 +31,10 @@ namespace Ui
 {
     class frmConfig;
 }
-
+/**
+ * @brief 统配置界面类，主要是配置系统参数
+ * @details 主界面系统设置按钮弹出界面
+ */
 class frmConfig : public QDialog
 {
     Q_OBJECT

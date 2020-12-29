@@ -52,7 +52,7 @@
 #include "MapItems/busstation.h"
 #include "MapItems/bus.h"
 #include "MapItems/mapcontrlconnect.h"
-#include "MapItems/mainshowdialog.h"
+#include "MainWindows/mainshowdialog.h"
 
 #include "VideoPlayer/videodecodethread.h"
 #include "VideoPlayer/streamvideowidget.h"

@@ -5,9 +5,8 @@
 #include "myapp.h"
 #include "excelhelper.h"
 
-frmPollConfig::frmPollConfig(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::frmPollConfig)
+frmPollConfig::frmPollConfig(QWidget *parent) : QDialog(parent),
+                                                ui(new Ui::frmPollConfig)
 {
     ui->setupUi(this);
 
@@ -73,7 +72,8 @@ void frmPollConfig::InitForm()
     columnWidths[5] = width * 0.23;
 
     //依次设置列标题列宽
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
         queryModule->setHeaderData(i, Qt::Horizontal, columnNames[i]);
         ui->tableMain->setColumnWidth(i, columnWidths[i]);
     }
@@ -87,13 +87,13 @@ void frmPollConfig::LoadNVRIPC()
     QString sqlNVR = "select [NVRID],[NVRName],[NVRIP] from [NVRInfo] where [NVRUse]='启用'";
     queryNVR.exec(sqlNVR);
 
-    while (queryNVR.next()) {
+    while (queryNVR.next())
+    {
         QString tempNVRID = queryNVR.value(0).toString();
         QString tempNVRName = queryNVR.value(1).toString();
         QString tempNVRIP = queryNVR.value(2).toString();
 
-        QTreeWidgetItem *itemNVR = new QTreeWidgetItem
-        (ui->treeMain, QStringList(tempNVRName + "[" + tempNVRIP + "]"));
+        QTreeWidgetItem *itemNVR = new QTreeWidgetItem(ui->treeMain, QStringList(tempNVRName + "[" + tempNVRIP + "]"));
         itemNVR->setIcon(0, QIcon(":/image/nvr.png"));
 
         //查询没有添加在轮询表中的摄像机信息
@@ -104,11 +104,13 @@ void frmPollConfig::LoadNVRIPC()
         sqlIPC += " order by [IPCID] asc";
         queryIPC.exec(sqlIPC);
 
-        while (queryIPC.next()) {
+        while (queryIPC.next())
+        {
             QString tempIPCID = queryIPC.value(0).toString();
 
             //如果该摄像机已经存在轮询表,则跳过
-            if (IsExistIPCID(tempIPCID)) {
+            if (IsExistIPCID(tempIPCID))
+            {
                 continue;
             }
 
@@ -175,11 +177,13 @@ void frmPollConfig::GetIPCInfo(QString NVRID, QStringList &IPCID, QStringList &I
     sql += " from [IPCInfo] where [NVRID]='" + NVRID;
     sql += "' and [IPCUse]='启用'";
     query.exec(sql);
-    while(query.next()) {
+    while (query.next())
+    {
         QString tempIPCID = query.value(0).toString();
 
         //如果该摄像机已经存在轮询表,则跳过
-        if (IsExistIPCID(tempIPCID)) {
+        if (IsExistIPCID(tempIPCID))
+        {
             continue;
         }
 
@@ -198,11 +202,13 @@ void frmPollConfig::GetIPCInfo(QStringList &IPCID, QStringList &IPCName,
     QString sql = "select [IPCID],[IPCName],[NVRID],[NVRName],[IPCRtspAddrMain],[IPCRtspAddrSub]";
     sql += " from [IPCInfo] where [IPCUse]='启用'";
     query.exec(sql);
-    while(query.next()) {
+    while (query.next())
+    {
         QString tempIPCID = query.value(0).toString();
 
         //如果该摄像机已经存在轮询表,则跳过
-        if (IsExistIPCID(tempIPCID)) {
+        if (IsExistIPCID(tempIPCID))
+        {
             continue;
         }
 
@@ -235,15 +241,18 @@ void frmPollConfig::AddPollInfo(QString IPCID, QString IPCName,
 void frmPollConfig::on_btnAddOne_clicked()
 {
     QString temp = ui->treeMain->currentIndex().data().toString();
-    if (temp == "") {
+    if (temp == "")
+    {
         myHelper::ShowMessageBoxError(QStringLiteral("请选择要添加的摄像机!"));
         return;
     }
 
     //判断选择的是NVR还是IPC,NVR的话则将该NVR的所有IPC添加过去
-    if (ui->treeMain->currentItem()->parent() == 0) {
+    if (ui->treeMain->currentItem()->parent() == 0)
+    {
         //如果该NVR没有摄像机,则无需添加
-        if (ui->treeMain->currentItem()->childCount() == 0) {
+        if (ui->treeMain->currentItem()->childCount() == 0)
+        {
             return;
         }
         //选择的是NVR,将该NVR下的所有IPC添加过去
@@ -260,11 +269,14 @@ void frmPollConfig::on_btnAddOne_clicked()
 
         //启用事务机制加快添加速度,循环添加摄像机信息到轮询表
         QSqlDatabase::database().transaction();
-        for(int i = 0; i < IPCID.count(); i++) {
+        for (int i = 0; i < IPCID.count(); i++)
+        {
             AddPollInfo(IPCID[i], IPCName[i], NVRID, NVRName, IPCRtspAddrMain[i], IPCRtspAddrSub[i]);
         }
         QSqlDatabase::database().commit();
-    } else {
+    }
+    else
+    {
         //取出NVR编号及IPCID
         QString txt = ui->treeMain->currentItem()->parent()->text(0);
         QString NVRIP = txt.split("[")[1].split("]")[0];
@@ -293,7 +305,8 @@ void frmPollConfig::on_btnAddAll_clicked()
     GetIPCInfo(IPCID, IPCName, NVRID, NVRName, IPCRtspAddrMain, IPCRtspAddrSub);
 
     QSqlDatabase::database().transaction();
-    for (int i = 0; i < IPCID.count(); i++) {
+    for (int i = 0; i < IPCID.count(); i++)
+    {
         AddPollInfo(IPCID[i], IPCName[i], NVRID[i], NVRName[i], IPCRtspAddrMain[i], IPCRtspAddrSub[i]);
     }
     QSqlDatabase::database().commit();
@@ -305,8 +318,9 @@ void frmPollConfig::on_btnAddAll_clicked()
 void frmPollConfig::on_btnRemoveOne_clicked()
 {
     QString tempIPCID = queryModule->record(
-                            ui->tableMain->currentIndex().row())
-                        .value(0).toString();
+                                       ui->tableMain->currentIndex().row())
+                            .value(0)
+                            .toString();
     QSqlQuery query;
     QString sql = "delete from [PollInfo] where [IPCID]='" + tempIPCID + "'";
     query.exec(sql);
@@ -351,9 +365,11 @@ void frmPollConfig::on_btnExcel_clicked()
     int columnCount = query.record().count();
 
     //循环遍历数据,存储到QStringList中
-    while (query.next()) {
+    while (query.next())
+    {
         QString temp = "";
-        for (int i = 0; i < columnCount; i++) {
+        for (int i = 0; i < columnCount; i++)
+        {
             temp += query.value(i).toString() + ";";
         }
         content << temp.mid(0, temp.length() - 1); //去掉末尾的分号
@@ -363,7 +379,8 @@ void frmPollConfig::on_btnExcel_clicked()
     QString title = QStringLiteral("轮询摄像机信息");
     ExcelHelper::Instance()->ToExcel(myApp::AppPath + "DB/" + title + ".xls", title, title, columnNames, columnWidths, columnCount, content);
 
-    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("导出数据到Excel成功,现在就打开吗？")) == 1) {
+    if (myHelper::ShowMessageBoxQuesion(QStringLiteral("导出数据到Excel成功,现在就打开吗？")) == 1)
+    {
         QDesktopServices::openUrl(QUrl::fromLocalFile(myApp::AppPath + "DB/" + title + ".xls"));
     }
 }

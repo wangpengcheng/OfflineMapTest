@@ -4,9 +4,8 @@
 #include "myhelper.h"
 #include "myapp.h"
 
-frmMessageBox::frmMessageBox(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::frmMessageBox)
+frmMessageBox::frmMessageBox(QWidget *parent) : QDialog(parent),
+                                                ui(new Ui::frmMessageBox)
 {
     ui->setupUi(this);
     this->InitStyle();
@@ -19,7 +18,8 @@ frmMessageBox::~frmMessageBox()
 
 void frmMessageBox::mouseMoveEvent(QMouseEvent *e)
 {
-    if (mousePressed && (e->buttons() && Qt::LeftButton)) {
+    if (mousePressed && (e->buttons() && Qt::LeftButton))
+    {
         this->move(e->globalPos() - mousePoint);
         e->accept();
     }
@@ -27,7 +27,8 @@ void frmMessageBox::mouseMoveEvent(QMouseEvent *e)
 
 void frmMessageBox::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::LeftButton) {
+    if (e->button() == Qt::LeftButton)
+    {
         mousePressed = true;
         mousePoint = e->globalPos() - this->pos();
         e->accept();
@@ -57,14 +58,19 @@ void frmMessageBox::InitStyle()
 
 void frmMessageBox::SetMessage(QString msg, int type)
 {
-    if (type == 0) {
+    if (type == 0)
+    {
         ui->labIcoMain->setStyleSheet("border-image: url(:/image/info.png);");
         ui->btnCancel->setVisible(false);
         ui->lab_Title->setText(QStringLiteral("提示"));
-    } else if (type == 1) {
+    }
+    else if (type == 1)
+    {
         ui->labIcoMain->setStyleSheet("border-image: url(:/image/question.png);");
         ui->lab_Title->setText(QStringLiteral("询问"));
-    } else if (type == 2) {
+    }
+    else if (type == 2)
+    {
         ui->labIcoMain->setStyleSheet("border-image: url(:/image/error.png);");
         ui->btnCancel->setVisible(false);
         ui->lab_Title->setText(QStringLiteral("错误"));
