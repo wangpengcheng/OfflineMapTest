@@ -4,25 +4,25 @@
         <file>img/6.png</file>
         <file>img/car_up.png</file>
         <file>img/car_up1.png</file>
-        <file>qml/DashBoard.qml</file>
-        <file>qml/DashboardGaugeStyle.qml</file>
-        <file>qml/IconGaugeStyle.qml</file>
-        <file>qml/main.qml</file>
-        <file>qml/MainForm.ui.qml</file>
-        <file>qml/MyMap.qml</file>
-        <file>qml/TachometerStyle.qml</file>
-        <file>qml/Test.qml</file>
-        <file>qml/TurnIndicator.qml</file>
-        <file>qml/ValueSource.qml</file>
+        <file>QmlMap/DashBoard.qml</file>
+        <file>QmlMap/DashboardGaugeStyle.qml</file>
+        <file>QmlMap/IconGaugeStyle.qml</file>
+        <file>QmlMap/main.qml</file>
+        <file>QmlMap/MainForm.ui.qml</file>
+        <file>QmlMap/MyMap.qml</file>
+        <file>QmlMap/TachometerStyle.qml</file>
+        <file>QmlMap/Test.qml</file>
+        <file>QmlMap/TurnIndicator.qml</file>
+        <file>QmlMap/ValueSource.qml</file>
         <file>fonts/DejaVuSans.ttf</file>
         <file>fonts/LICENSE</file>
         <file>img/temperature-icon.png</file>
         <file>img/fuel-icon.png</file>
-        <file>qml/MainShowWindow.qml</file>
-        <file>qml/VideoPlay.qml</file>
-        <file>qml/SpeedChart.qml</file>
-        <file>qml/SpeedsXml.qml</file>
-        <file>qml/MyTool.qml</file>
+        <file>QmlMap/MainShowWindow.qml</file>
+        <file>QmlMap/VideoPlay.qml</file>
+        <file>QmlMap/SpeedChart.qml</file>
+        <file>QmlMap/SpeedsXml.qml</file>
+        <file>QmlMap/MyTool.qml</file>
         <file>img/Control/dingwei.png</file>
         <file>img/Control/fangda.png</file>
         <file>img/Control/fangxiang.png</file>
@@ -31,9 +31,9 @@
         <file>img/Control/fangda_1.png</file>
         <file>img/Control/fangxiang_1.png</file>
         <file>img/Control/suoxiao_1.png</file>
-        <file>qml/MapControlModel.qml</file>
-        <file>qml/VideoItem.qml</file>
-        <file>qml/VideoShowWindow.qml</file>
-        <file>qml/MyCharts.qml</file>
+        <file>QmlMap/MapControlModel.qml</file>
+        <file>QmlMap/VideoItem.qml</file>
+        <file>QmlMap/VideoShowWindow.qml</file>
+        <file>QmlMap/MyCharts.qml</file>
     </qresource>
 </RCC>

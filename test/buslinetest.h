@@ -1,4 +1,4 @@
-﻿#ifndef BUSLINETEST_H
+#ifndef BUSLINETEST_H
 #define BUSLINETEST_H
 /****************************************************************************
 ** @projectName   OfflineMapTest
@@ -30,17 +30,12 @@
 **
 **
 *****************************************************************************/
-#ifndef QLIST_H
 #include <QList>
-#endif
-#ifndef QGEOCOORDINATE_H
 #include <QGeoCoordinate>
-#endif
-#ifndef QDECLARATIVEGEOMAP_H
 #include <QtLocation/private/qdeclarativegeomap_p.h>
-#endif
-#include "src/busline.h"
-class Tool;
+#include "MapItems/busline.h"
+#include "MapItems/tool.h"
+
 class BusLineTest
 {
 public:
@@ -52,7 +47,6 @@ public:
     void ShowTest(QDeclarativeGeoMap *qMap);//显示测试
 private:
     BusLine *bus_line_;
-    Tool tool;
 
 };
 

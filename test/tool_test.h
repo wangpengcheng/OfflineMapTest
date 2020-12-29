@@ -24,7 +24,7 @@
 ** QT Version    5.11.1
 *****************************************************************************/
 
-#include "src/tool.h"
+#include "MapItems/tool.h"
 class tool_test
 {
 public:

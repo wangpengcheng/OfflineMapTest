@@ -2,7 +2,7 @@
 #define RECORDSELECTDIALOGTEST_H
 
 #include <QObject>
-#include "VideoControl/recordselectdialog.h"
+#include "MainWindows/recordselectdialog.h"
 
 class RecordSelectDialogTest : public QObject
 {

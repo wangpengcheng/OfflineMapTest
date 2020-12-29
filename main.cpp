@@ -27,7 +27,7 @@
 #include <QtQuick/private/qquickimage_p.h>
 #include <QtQuick/private/qquickwindow_p.h>
 #include <QtQuick/private/qquickitem_p.h>
-#include "src/tool.h"
+#include "MapItems/tool.h"
 //video
 #include <QVideoWidget>
 #include <QMediaPlayer>
@@ -48,23 +48,23 @@
 #endif
 
 //使用函数
-#include "src/busline.h"
-#include "src/busstation.h"
-#include "src/bus.h"
-#include "src/mapcontrlconnect.h"
-#include "src/mainshowdialog.h"
+#include "MapItems/busline.h"
+#include "MapItems/busstation.h"
+#include "MapItems/bus.h"
+#include "MapItems/mapcontrlconnect.h"
+#include "MapItems/mainshowdialog.h"
 
-#include "VideoControl/videodecodethread.h"
-#include "VideoControl/streamvideowidget.h"
-#include "VideoControl/myvideowidget.h"
-#include "VideoControl/recordselectdialog.h"
-#include "VideoControl/qtavvideowidget.h"
+#include "VideoPlayer/videodecodethread.h"
+#include "VideoPlayer/streamvideowidget.h"
+#include "VideoPlayer/myvideowidget.h"
+#include "MainWindows/recordselectdialog.h"
+#include "VideoPlayer/qtavvideowidget.h"
 //主函数
-#include "VideoControl/myhelper.h"
-#include "VideoControl/frmmain.h"
-#include "VideoControl/myapp.h"
-#include "player/myreviewwidget.h"
-#include "player/reviewwidget.h"
+#include "MainWindows/myhelper.h"
+#include "MainWindows/frmmain.h"
+#include "MainWindows/myapp.h"
+#include "MainWindows/myreviewwidget.h"
+#include "MainWindows/reviewwidget.h"
 #include "QtAVWidgets/QtAVWidgets.h"
 
 //设置内部函数

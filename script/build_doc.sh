@@ -1,3 +1,3 @@
 #!/bin/bash
-mkdir -p ./docs/doxygen
+mkdir -p ./docs/doxy
 doxygen Doxyfile

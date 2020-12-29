@@ -30,7 +30,7 @@
 #include <QtLocation/private/qdeclarativegeomap_p.h>
 #endif
 #ifndef TOOL_H
-#include "src/tool.h"
+#include "MapItems/tool.h"
 #endif
 class Bus;
 
