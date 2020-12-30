@@ -30,7 +30,6 @@
  * </table>
  * @example myvideowidget.h
  * 显示基本信息和内容
- * 
  * @code{.cpp}
  *    QString video_path=QString("C:/Users/lin/Videos/Captures/minieyeone.mp4");
  *    MyVideoWidget test(QUrl::fromLocalFile(video_path));

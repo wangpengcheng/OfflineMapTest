@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file frmpollconfig.h
  * @brief frmPollConfig 类实现头文件
  * @author wangpengcheng  (wangpengcheng2018@gmail.com)
@@ -109,6 +109,11 @@ private:
      * @return QString id字符串
      */
     QString GetNVRID(QString NVRIP);
+    /**
+     * @brief 检查PCID是否存在
+     * @param IPCID
+     * @return 存在/存在
+     */
     bool IsExistIPCID(QString IPCID);
     /**
      * @brief  在VM.db中查询摄像头的相关数据,主要根据NVRID查询

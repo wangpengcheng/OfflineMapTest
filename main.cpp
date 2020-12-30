@@ -37,15 +37,6 @@
 #include <QKeyEvent>
 #include "test/screencontroltest.h"
 
-//#define MyTest
-#ifdef MyTest
-#include "test/buslinetest.h"
-#include "test/bustest.h"
-#include "test/tool_test.h"
-#include "test/videodecodetheadtest.h"
-#include "test/recordselectdialogtest.h"
-#include "test/qtavtest.h"
-#endif
 
 //使用函数
 #include "MapItems/busline.h"
@@ -67,14 +58,6 @@
 #include "MainWindows/reviewwidget.h"
 #include "QtAVWidgets/QtAVWidgets.h"
 
-//设置内部函数
-#ifdef MyTest
-void AddCoordinateToList(QList<QGeoCoordinate> &temp);
-void VideoTest();//test video
-void ShowBusLine(QDeclarativeGeoMap *qMap);//显示公交线路
-void MoveTest(QDeclarativeGeoMap *qMap);//公交移动测试
-int VideoControlTest(QApplication app);
-#endif
 
 int main(int argc, char *argv[])
 {
@@ -85,9 +68,7 @@ int main(int argc, char *argv[])
     //添加字体
     QFontDatabase::addApplicationFont(":/fonts/DejaVuSans.ttf");
     app.setFont(QFont("DejaVu Sans"));
-    //VideoTest();
-
-    //use Plugin
+    //开启地图插件 use Plugin
     Q_IMPORT_PLUGIN(GeoServiceProviderFactory);
     app.setApplicationName("VM");         //设置应用程序名称
     app.setApplicationVersion("V201812"); //设置应用程序版本
@@ -102,11 +83,8 @@ int main(int argc, char *argv[])
 
     //程序加载时先加载所有配置信息
     myApp::ReadConfig();
-    //
     //加载和应用样式
     myHelper::SetStyle(myApp::AppStyle);
-    //方便开启测试模式
-#ifndef MyTest
     //创建共享内存,判断是否已经运行程序
     QSharedMemory mem("VM");
     if(!mem.create(1)){
@@ -130,202 +108,5 @@ int main(int argc, char *argv[])
     }
     frmMain w;
     w.show();
-
-
-#endif
-
-#ifdef MyTest
-   RecordSelectDialog test;
-   test.InitCarList();
-   test.UpdateCarComBox();
-   test.show();
-   test.SelectVideosInfo(5);
-   VideoDecodeThread test(QString("http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"));
-   test.start();
-   test.set_is_save(true);//
-   while (1) {
-       if(!test.file_full_path().isEmpty())
-       {
-           test.InsertVideoInformToSql(5);
-
-           break;
-       }
-   }
-   Sleep(5000);
-   test.StopDecode();
-   VideoDecodeTheadTest test;
-   test.MainTest();
-
-       QtAVTest player;
-       player.show();
-      player.resize(800, 600);
-   QString video_path("F:/GitHub/build-OfflineMapTest-Desktop_Qt_5_11_3_MSVC2015_64bit-Debug/bin/Videos/2019-06-26-12-34-44-735-21880.mp4");
-   QtAV::AVPlayer test;
-   QtAVVideoWidget test_widgets;
-   test.addVideoRenderer(test_widgets.video_render());
-//   test.setRenderer(test_widgets.video_render());
-   test.play(video_path);
-   test_widgets.show();
-   test_widgets.resize(800,600);
-
-   QSharedPointer<QtAV::AVPlayer> test1(new QtAV::AVPlayer());
-   VideoShowWidget<QtAVVideoWidget> test_video_show_widget;
-   QtAVVideoWidget test_widgets1(test1);
-
-   test_widgets1.show();
-   test_widgets1.resize(800,600);
-   //
-   foreach(auto temp,test_video_show_widget.video_widgets())
-   {
-       temp->ChangeAVPlayer(test1);
-   }
-   test1->play(video_path);
-   test_video_show_widget.show();
-   MyReviewWidget test;
-   test.show();
-   Player test_player;
-   test_player.show();
-    ReviewWidget test;
-    test.resize(800,600);
-    test.show();
-
-#endif
     return app.exec();
-
-
 }
-#ifdef MyTesT
-void AddCoordinateToList(QList<QGeoCoordinate> &temp)
-{
-    temp.append(Tool::WPS84ToGCJ02(30.5563134000,103.9938400000));//体育学院站
-    temp.append(Tool::WPS84ToGCJ02(30.5571043000,103.9934402500));
-    temp.append(Tool::WPS84ToGCJ02(30.5573103000,103.9932192500));
-    temp.append(Tool::WPS84ToGCJ02(30.5584908100,103.9922940300));//艺术学院站
-    temp.append(Tool::WPS84ToGCJ02(30.5586408100,103.9922160300));
-    temp.append(Tool::WPS84ToGCJ02(30.5588028100,103.9921570300));
-    temp.append(Tool::WPS84ToGCJ02(30.5590498100,103.9921060300));//
-    temp.append(Tool::WPS84ToGCJ02(30.5598418100,103.9922780300));
-    temp.append(Tool::WPS84ToGCJ02(30.5609897200,103.9926928200));//
-    temp.append(Tool::WPS84ToGCJ02(30.5613687200,103.9929398200));
-    temp.append(Tool::WPS84ToGCJ02(30.5616037200,103.9931808200));
-    temp.append(Tool::WPS84ToGCJ02(30.5618997200,103.9935998200));
-    temp.append(Tool::WPS84ToGCJ02(30.5620887200,103.9940178200));//土木实验室
-    temp.append(Tool::WPS84ToGCJ02(30.5622367200,103.9944358200));
-    temp.append(Tool::WPS84ToGCJ02(30.5622917200,103.9950048200));
-    temp.append(Tool::WPS84ToGCJ02(30.5623057200,103.9958828200));//制造实验室
-    temp.append(Tool::WPS84ToGCJ02(30.5624307200,103.9966978200));
-    temp.append(Tool::WPS84ToGCJ02(30.5627307200,103.9977438200));//
-    temp.append(Tool::WPS84ToGCJ02(30.5628877200,103.9982558200));
-    temp.append(Tool::WPS84ToGCJ02(30.5629197200,103.9985078200));
-    temp.append(Tool::WPS84ToGCJ02(30.5628927200,103.9986898200));
-    temp.append(Tool::WPS84ToGCJ02(30.5628807200,103.9988478200));
-    temp.append(Tool::WPS84ToGCJ02(30.5628077200,103.9990678200));
-    temp.append(Tool::WPS84ToGCJ02(30.5626867200,103.9992878200));
-    temp.append(Tool::WPS84ToGCJ02(30.5625027200,103.9995348200));
-    temp.append(Tool::WPS84ToGCJ02(30.5622527200,103.9998078200));
-    temp.append(Tool::WPS84ToGCJ02(30.5616847200,104.0002318200));
-    temp.append(Tool::WPS84ToGCJ02(30.5615377200,104.0003298200));//
-    temp.append(Tool::WPS84ToGCJ02(30.5611987200,104.0006108200));
-    temp.append(Tool::WPS84ToGCJ02(30.5610907200,104.0008778200));//计算机学院
-    temp.append(Tool::WPS84ToGCJ02(30.5606957200,104.0017388200));
-    temp.append(Tool::WPS84ToGCJ02(30.5604837200,104.0021948200));
-    temp.append(Tool::WPS84ToGCJ02(30.5602867200,104.0023988200));//
-    temp.append(Tool::WPS84ToGCJ02(30.5601718900,104.0025398400));
-    temp.append(Tool::WPS84ToGCJ02(30.5594968900,104.0031678400));//一号运动场
-    temp.append(Tool::WPS84ToGCJ02(30.5590118900,104.0036178400));
-    temp.append(Tool::WPS84ToGCJ02(30.5583098900,104.0042138400));//东南门
-}
-void ShowBusLine(QDeclarativeGeoMap *qMap)
-{
-
-    QList<QGeoCoordinate> coordinate_list,coordinate_list2;
-    AddCoordinateToList(coordinate_list);//添加关键路径点
-    //定义GeoPath路径
-    QGeoPath bus_path;
-    bus_path.setPath(coordinate_list);
-    bus_path.setWidth(0.5);
-    //创建线段对象
-    QDeclarativePolylineMapItem *BusLine1=new QDeclarativePolylineMapItem();
-//    BusLine->setPath(coordinate_list);
-    BusLine1->setPath(bus_path);
-    BusLine1->line()->setColor("red");
-   // BusLine->line()->setWidth(3.5);
-
-    //测试QDeclarativeGeoMapItemGroup
-    QDeclarativeGeoMapItemGroup *test=new QDeclarativeGeoMapItemGroup();
-    //QQuickWindow *qWindow=engine.findChild<QQuickWindow *>("main");
-   // qDebug()<<qWindow->width();
-        if(qMap!=0){
-            //添加线路
-            //qMap->addMapItem(BusLine);
-            int station_array[]={0,3,12,16,29,34,36};
-            for(int i=0;i<7;++i)//添加站点
-            {
-                BusStation *temp_station=new BusStation();
-                temp_station->setCoordinate(coordinate_list.value(station_array[i]));
-               // qMap->addMapItem(temp_station);
-                temp_station->setParentItem(test);
-                coordinate_list2.append(coordinate_list.value(station_array[i]));
-            }
-
-           }else {
-               qDebug("Can not get this Object");
-           }
-       // BusLine->setParentItem(test);
-       // qDebug()<<BusLine->parentItem();
-        //test();
-        BusLine *bus_line_test=new BusLine(coordinate_list,coordinate_list2);
-        //qMap->addMapItemGroup(test);
-        qMap->addMapItemGroup(bus_line_test);
-}
-void VideoTest()
-{
-    tool.TestNoteTool("video test ",0);
-    for(int i=0;i<4;++i){
-    QVideoWidget *vw = new QVideoWidget();
-    QMediaPlayer *player=new QMediaPlayer();
-    QMediaPlaylist *playlist=new QMediaPlaylist();
-
-    QString video_path=QString("C:/Users/lin/Videos/out/chedaoxian.mp4");
-
-    QFile file(video_path);
-
-//    if(!file.open(QIODevice::ReadOnly)){
-
-//            qDebug() << "Could not open file";
-//            break;
-//    }
-    //else{
-//            player->setMedia(QUrl::fromLocalFile(video_path));
-//            playlist->addMedia(QUrl("http://example.com/movie1.mp4"));
-
-//            vw->show();
-//            player->play();
-//        }
-       // playlist->addMedia(QUrl("file:///D:/minieyeone.mp4"));
-        playlist->addMedia(QUrl::fromLocalFile(video_path));
-       // playlist->addMedia(QUrl::fromLocalFile(video_path));
-        playlist->setCurrentIndex(1);
-        playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-        player->setPlaylist(playlist);
-        player->setVideoOutput(vw);
-        vw->resize(400,400);
-        vw->setGeometry(QRect(400*(i%4),20+400*(i/4),400,400));
-        vw->show();
-        player->play();
-    }
-    tool.TestNoteTool("video test ",1);
-}
-void MoveTest(QDeclarativeGeoMap *qMap)
-{
-    BusStation *bus_station_test=new BusStation();
-    bus_station_test->setCoordinate(Tool::WPS84ToGCJ02(30.5595483655,103.9976232481));
-    qMap->addMapItem(bus_station_test);
-    //QQuickImage temp_image=new QQuickImage("qrc:/img/car_up.png");
-    bus_station_test->SetBusStationIocn(QUrl("qrc:/img/car_up.png"));
-   // QTimeLine timeline=new QTimeLine(1000);
-    // Construct a 1-second timeline with a frame range of 0 - 100
-   bus_station_test->setCoordinate(Tool::WPS84ToGCJ02(30.5697483655,103.9976232481));
-
-}
-#endif
