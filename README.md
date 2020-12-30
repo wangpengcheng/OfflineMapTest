@@ -16,3 +16,4 @@ this need you have doxygen;if not ，you can install it from [doxygen](https://w
 ```shell 
 ./script/build_doc.sh
 ```
+then you can find doc in `./docs/doxy/html/index.html`.Then get more message.
