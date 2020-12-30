@@ -30,7 +30,7 @@ GeoTiledMap::GeoTiledMap(QGeoTiledMappingManagerEngine *engine, QObject *parent)
 GeoTiledMappingManagerEngine::GeoTiledMappingManagerEngine(const QVariantMap &parameters,
                                                            QGeoServiceProvider::Error *error,
                                                            QString *errorString)
-:   QGeoTiledMappingManagerEngine()
+    : QGeoTiledMappingManagerEngine()
 {
     QGeoCameraCapabilities cameraCaps;
     cameraCaps.setMinimumZoomLevel(2.0);
@@ -44,8 +44,6 @@ GeoTiledMappingManagerEngine::GeoTiledMappingManagerEngine(const QVariantMap &pa
 
     *error = QGeoServiceProvider::NoError;
     errorString->clear();
-
-
 }
 
 //-----------------------------------------------------------------------------
@@ -64,11 +62,10 @@ QGeoMapData *GeoTiledMappingManagerEngine::createMapData()
 #else
 
 //-----------------------------------------------------------------------------
-QGeoMap*
+QGeoMap *
 GeoTiledMappingManagerEngine::createMap()
 {
     return new GeoTiledMap(this);
 }
 
 #endif
-

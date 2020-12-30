@@ -8,54 +8,13 @@
 #include <QDesktopWidget>
 #include <QDialog>
 #include <QStandardPaths>
-#include <QtQuickWidgets/QQuickWidget>
-#include <QtQuick/QQuickWindow>
-#include <QtQuick/QQuickView>
-#include <QtQuick/QQuickWindow>
 #include <QFontDatabase>
 #include <QSharedPointer>
-#include <QTimer>
-#include <QTimeLine>
-//使用location 注册类
-#include <QtLocation/private/qdeclarativegeomap_p.h>
-#include <QtLocation/private/qdeclarativecirclemapitem_p.h>
-#include <QtLocation/private/qdeclarativegeomapquickitem_p.h>
-#include <QtLocation/private/qdeclarativepolylinemapitem_p.h>
-#include <QtLocation/private/qdeclarativegeomapitemgroup_p.h>
-#include <QGeoPath>
-//引入tool类
-#include <QtQuick/private/qquickimage_p.h>
-#include <QtQuick/private/qquickwindow_p.h>
-#include <QtQuick/private/qquickitem_p.h>
-#include "MapItems/tool.h"
-//video
-#include <QVideoWidget>
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
 
-//键盘监听
-#include <QKeyEvent>
-#include "test/screencontroltest.h"
-
-
-//使用函数
-#include "MapItems/busline.h"
-#include "MapItems/busstation.h"
-#include "MapItems/bus.h"
-#include "MapItems/mapcontrlconnect.h"
-#include "MainWindows/mainshowdialog.h"
-
-#include "VideoPlayer/videodecodethread.h"
-#include "VideoPlayer/streamvideowidget.h"
-#include "VideoPlayer/myvideowidget.h"
-#include "MainWindows/recordselectdialog.h"
-#include "VideoPlayer/qtavvideowidget.h"
 //主函数
 #include "MainWindows/myhelper.h"
 #include "MainWindows/frmmain.h"
 #include "MainWindows/myapp.h"
-#include "MainWindows/myreviewwidget.h"
-#include "MainWindows/reviewwidget.h"
 #include "QtAVWidgets/QtAVWidgets.h"
 
 
