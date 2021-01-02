@@ -1,6 +1,6 @@
 ﻿#include "bustest.h"
 #ifndef BUS_H
-#include "src/bus.h"
+#include "MapItems/bus.h"
 #endif
 BusTest::BusTest(QObject *parent):QObject(parent)
 {

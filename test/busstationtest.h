@@ -1,4 +1,4 @@
-﻿#ifndef BUSSTATIONTEST_H
+#ifndef BUSSTATIONTEST_H
 #define BUSSTATIONTEST_H
 
 /****************************************************************************
@@ -32,10 +32,9 @@
 **
 *****************************************************************************/
 
-#include "src/busstation.h"
-#ifndef  TOOL_H
-#include "src/tool.h"
-#endif
+#include "MapItems/busstation.h"
+#include "MapItems/tool.h"
+
 class BusStationTest
 {
 public:
@@ -50,7 +49,6 @@ public:
     void ShowTest(QDeclarativeGeoMap *qMap);
     void MainTest();//主要测试类
     BusStation *bus_station_test_;//成员类
-    Tool tool;
 };
 
 #endif // BUSSTATIONTEST_H

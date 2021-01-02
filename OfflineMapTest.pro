@@ -10,14 +10,7 @@ QT += charts
 QT += qml-private quick-private gui-private core-private
 CONFIG += c++11
 
-SOURCES += main.cpp \
-    src/tool.cpp \
-    src/busstation.cpp \
-    src/screencontrol.cpp \
-    src/busline.cpp \
-    src/bus.cpp \
-    src/mapcontrlconnect.cpp \
-    src/mainshowdialog.cpp
+SOURCES += main.cpp 
 
 RESOURCES += qml.qrc
 
@@ -26,8 +19,10 @@ QML_IMPORT_PATH =
 
 include(QtLocationPlugin/LocationPlugin.pri)
 include(test/test.pri)
-include(VideoControl/VideoControl.pri)
-include(player/player.pri)
+include(MainWindows/MainWindows.pri)
+include(VideoPlayer/VideoPlayer.pri)
+include(MapItems/MapItems.pri)
+
 #add ffmpeg and QtAV
 #windows
 win32 {
@@ -76,23 +71,16 @@ unix:!macx: {
 
 INCLUDEPATH += \
     QtLocationPlugin \
+    MainWindows \
+    MapItems \
+    VideoPlayer \
+    test
+
 #地图相关插件
 LOCATION_PLUGIN_DESTDIR = $${OUT_PWD}/QtLocationPlugin
 LOCATION_PLUGIN_NAME    = GeoServiceProviderFactory
 
-HEADERS += \
-    src/tool.h \
-    src/screencontrol.h \
-    src/busstation.h \
-    src/busline.h \
-    src/bus.h \
-    src/mapcontrlconnect.h \
-    src/mainshowdialog.h
 
-DISTFILES +=
-
-FORMS += \
-    src/mainshowdialog.ui
 
 
 MOC_DIR         = temp/moc

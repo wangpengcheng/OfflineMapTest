@@ -1,5 +1,6 @@
-﻿#include "busstationtest.h"
+#include "busstationtest.h"
 #include <QtQuick/private/qquickimage_p.h>
+
 BusStationTest::BusStationTest()
 {
     bus_station_test_=NULL;
@@ -24,7 +25,7 @@ void BusStationTest::ConstructFunctionTest()
     BusStation station4(coordinate,"4","station4",img_path);//construct4
     QQuickImage *test_image;
     test_image=station4.bus_station_iocn();
-    tool.TestNoteTool("ConstructFunctionTest",0);
+    Tool::TestNoteTool("ConstructFunctionTest",0);
     qDebug()<<"This img_path is "<<img_path.toString();
     if(station0.bus_station_id()==""
        &&station0.bus_station_iocn()!=NULL
@@ -59,13 +60,13 @@ void BusStationTest::ConstructFunctionTest()
     }else {
         qDebug()<<"This construct4 function is error";
     }
-    tool.TestNoteTool("ConstructFunctionTest",1);
+    Tool::TestNoteTool("ConstructFunctionTest",1);
    // delete station0;//station1,station2,station3,station4;
 
 }
 void BusStationTest::SetBusStationIdTest()
 {
-    tool.TestNoteTool("SetBusStationIdTest",0);
+    Tool::TestNoteTool("SetBusStationIdTest",0);
     bus_station_test_->SetBusStationId("station1");
     if(bus_station_test_->bus_station_id()=="station1")
     {
@@ -73,11 +74,11 @@ void BusStationTest::SetBusStationIdTest()
     }else {
         qDebug()<<"This SetBusStationId() function is error";
     }
-    tool.TestNoteTool("SetBusStationIdTest",1);
+    Tool::TestNoteTool("SetBusStationIdTest",1);
 }
 void BusStationTest::SetBusStationNameTest()//设置站点名称测试
 {
-    tool.TestNoteTool("SetBusStationNameTest",0);
+    Tool::TestNoteTool("SetBusStationNameTest",0);
     bus_station_test_->SetBusStationName("station1");
     if(bus_station_test_->bus_station_name()=="station1")
     {
@@ -85,12 +86,12 @@ void BusStationTest::SetBusStationNameTest()//设置站点名称测试
     }else {
         qDebug()<<"This SetBusStationNameTest() function is error";
     }
-    tool.TestNoteTool("SetBusStationNameTest",1);
+    Tool::TestNoteTool("SetBusStationNameTest",1);
 
 }
 void BusStationTest::SetBusStationIocnTest()
 {
-    tool.TestNoteTool("SetBusStationIocnTest",0);
+    Tool::TestNoteTool("SetBusStationIocnTest",0);
     QQuickImage *test_image=new QQuickImage();
     test_image->setSource(QUrl("qrc:/img/6.png"));
     test_image->setHeight(100);
@@ -102,17 +103,17 @@ void BusStationTest::SetBusStationIocnTest()
     }else {
         qDebug()<<"This SetBusStationIocnTest() function is error";
     }
-    tool.TestNoteTool("SetBusStationIocnTest",1);
+    Tool::TestNoteTool("SetBusStationIocnTest",1);
 }
 void BusStationTest::SetBusStationInformationTest()
 {
-    tool.TestNoteTool("SetBusStationInformationTest",0);
+    Tool::TestNoteTool("SetBusStationInformationTest",0);
     //TO-DO
-    tool.TestNoteTool("SetBusStationInformationTest",2);
+    Tool::TestNoteTool("SetBusStationInformationTest",2);
 }
 void BusStationTest::SetIocnScaleTest()
 {
-    tool.TestNoteTool("SetIocnScaleTest",0);
+    Tool::TestNoteTool("SetIocnScaleTest",0);
     bus_station_test_->SetIocnScale(0.5);
     /*
     if(bus_station_test_->bus_station_iocn()->size()==QSize(25,25))
@@ -122,7 +123,7 @@ void BusStationTest::SetIocnScaleTest()
         qDebug()<<"This SetIocnScaleTest() function is error";
         qDebug()<<"The Height is"<<bus_station_test_->bus_station_iocn()->size();
     }
-    tool.TestNoteTool("SetBusStationIdTest",1);
+    Tool::TestNoteTool("SetBusStationIdTest",1);
     */
 }
 void BusStationTest::ShowTest(QDeclarativeGeoMap *qMap)
@@ -137,22 +138,22 @@ void BusStationTest::ShowTest(QDeclarativeGeoMap *qMap)
     //找到map节点
     QDeclarativeGeoMap *qMap=pRoot->findChild<QDeclarativeGeoMap *>("maptest1");
     */
-     tool.TestNoteTool("ShowTest",0);
+     Tool::TestNoteTool("ShowTest",0);
     if(qMap!=NULL)
     {
         qMap->addMapItem(bus_station_test_);
     }else {
         qDebug()<<"Please give the right inputs";
     }
-    tool.TestNoteTool("ShowTest",1);
+    Tool::TestNoteTool("ShowTest",1);
 }
 void BusStationTest::MainTest()
 {
-    tool.TestNoteTool("MainTest",0);
+    Tool::TestNoteTool("MainTest",0);
     ConstructFunctionTest();
     SetBusStationIdTest();
     SetBusStationNameTest();
     SetBusStationIocnTest();
     SetIocnScaleTest();
-    tool.TestNoteTool("MainTest",1);
+    Tool::TestNoteTool("MainTest",1);
 }

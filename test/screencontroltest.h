@@ -1,4 +1,4 @@
-﻿
+
 /****************************************************************************
 ** @projectName   OfflineMapTest
 ** QT Version     5.11.1
@@ -25,10 +25,8 @@
 *****************************************************************************/
 #ifndef SCREENCONTROLTEST_H
 #define SCREENCONTROLTEST_H
-#include "src/screencontrol.h"
-#ifndef  TOOL_H
-#include "src/tool.h"
-#endif
+#include "VideoPlayer/screencontrol.h"
+#include "MapItems/tool.h"
 
 class ScreenControlTest
 {

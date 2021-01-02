@@ -1,5 +1,5 @@
 ﻿#include "recordselectdialogtest.h"
-#include "src/tool.h"
+#include "MapItems/tool.h"
 
 RecordSelectDialogTest::RecordSelectDialogTest(QObject *parent) : QObject(parent)
 {

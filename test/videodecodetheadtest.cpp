@@ -1,7 +1,7 @@
-﻿#include "videodecodetheadtest.h"
-#include "VideoControl/streamvideowidget.h"
-#include "VideoControl/videodecodethread.h"
-#include "src/tool.h"
+#include "videodecodetheadtest.h"
+#include "VideoPlayer/streamvideowidget.h"
+#include "VideoPlayer/videodecodethread.h"
+#include "MapItems/tool.h"
 
 VideoDecodeTheadTest::VideoDecodeTheadTest()
 {
