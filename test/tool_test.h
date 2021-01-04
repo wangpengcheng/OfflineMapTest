@@ -34,7 +34,6 @@ public:
     void GetDistanceTest();
     void CreatFileTest();
     void NetWorkGetTest();
-    Tool m_tool;//tool指针成员对象
 };
 
 #endif // TOOL_TEST_H
