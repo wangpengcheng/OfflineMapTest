@@ -40,7 +40,6 @@ public:
     void MainTest();
 private:
     ScreenControl m_screencontrol;
-     Tool tool;
 };
 
 #endif // SCREENCONTROLTEST_H

@@ -1,15 +1,9 @@
-﻿#ifndef QWIDGET_H
+﻿
 #include<QWidget>
-#endif
-#ifndef QWINDOW_H
 #include <QWindow>
-#endif
-#ifndef QLIST_H
 #include <QList>
-#endif
-#ifndef QDEBUG_H
 #include <QDebug>
-#endif
+
 
 #include "test/screencontroltest.h"
 ScreenControlTest::ScreenControlTest()
@@ -22,18 +16,18 @@ ScreenControlTest::ScreenControlTest(QDesktopWidget *desktop):m_screencontrol(de
 }
 void ScreenControlTest::ConstructFunctionTest()
 {
-    tool.TestNoteTool("ConstructFunctionTest ",0);
+    Tool::TestNoteTool("ConstructFunctionTest ",0);
     //ToDo
     if(m_screencontrol.video_player_list_.size()==m_screencontrol.video_player_list_.size()
      &&m_screencontrol.video_player_list_.size()==m_screencontrol.video_widget_list_.size())
     {
         qDebug()<<"Init test is ok";
     }
-    tool.TestNoteTool("ConstructFunctionTest ",1);
+    Tool::TestNoteTool("ConstructFunctionTest ",1);
 }
 void ScreenControlTest::SetWindowTest()
 {
-    tool.TestNoteTool("SetWindowTest ",0);
+    Tool::TestNoteTool("SetWindowTest ",0);
     QList<QWidget*> test_widget_list;
     int temp_count=this->m_screencontrol.screen_count();
     qDebug()<<"this screen numbers  is "<<temp_count;
@@ -48,24 +42,24 @@ void ScreenControlTest::SetWindowTest()
            qDebug()<<temp_string;
            test_widget_list.append(temp);
     }
-    tool.TestNoteTool("SetWindowTest ",1);
+    Tool::TestNoteTool("SetWindowTest ",1);
 }
 void ScreenControlTest::InitTest()
 {
 
-    tool.TestNoteTool("InitTest",0);
+    Tool::TestNoteTool("InitTest",0);
     m_screencontrol.Init();
     if(m_screencontrol.video_player_list_.size()==m_screencontrol.video_player_list_.size()
      &&m_screencontrol.video_player_list_.size()==m_screencontrol.video_widget_list_.size())
     {
         qDebug()<<"Init test is ok";
     }
-    tool.TestNoteTool("IniTest",1);
+    Tool::TestNoteTool("IniTest",1);
 
 }
 void ScreenControlTest::SetModelTest()
 {
-    tool.TestNoteTool("SetModelTest ",0);
+    Tool::TestNoteTool("SetModelTest ",0);
     int model_x=3;
     int model_y=4;
     m_screencontrol.SetModel(model_x,model_y);
@@ -73,14 +67,14 @@ void ScreenControlTest::SetModelTest()
     {
         qDebug()<<"This Test is OK";
     }
-    tool.TestNoteTool("SetModelTest ",1);
+    Tool::TestNoteTool("SetModelTest ",1);
 }
 void ScreenControlTest::MainTest()
 {
-    tool.TestNoteTool("MainTest ",0);
+    Tool::TestNoteTool("MainTest ",0);
     //SetWindowTest();
    // InitTest();
     ConstructFunctionTest();
     SetModelTest();
-    tool.TestNoteTool("MainTest ",1);
+    Tool::TestNoteTool("MainTest ",1);
 }

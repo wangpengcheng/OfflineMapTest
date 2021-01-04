@@ -9,9 +9,9 @@ tool_test::tool_test():m_tool()
 
 //测试wps84ToGejTest()
 void tool_test::WPS84Test(){
-   double lat_test=m_tool.TransfromLatToDouble(30.5594483655-105.0, 103.9976232481 - 35.0);
-   double lon_test=m_tool.TransfromLatToDouble(30.5594483655-105.0, 103.9976232481 - 35.0);
-   QGeoCoordinate coordinate=m_tool.WPS84ToGCJ02(30.5594483655,103.9976232481);
+   double lat_test=Tool::TransfromLatToDouble(30.5594483655-105.0, 103.9976232481 - 35.0);
+   double lon_test=Tool::TransfromLatToDouble(30.5594483655-105.0, 103.9976232481 - 35.0);
+   QGeoCoordinate coordinate=Tool::WPS84ToGCJ02(30.5594483655,103.9976232481);
    qDebug()<<"--------This test start--------";
    qDebug()<<"This test lat is <<"<<lat_test;
    qDebug()<<"This test lon is <<"<<lon_test;
@@ -23,26 +23,26 @@ void tool_test::WPS84Test(){
 }
 void tool_test::TestNoteToolTest()
 {
-    m_tool.TestNoteTool("TestToolTest Function",0);
-    m_tool.TestNoteTool("TestToolTest Function",1);
+    Tool::TestNoteTool("TestToolTest Function",0);
+    Tool::TestNoteTool("TestToolTest Function",1);
 }
 void tool_test::GetDistanceTest()
 {
-    m_tool.TestNoteTool("GetDistanceTest",0);
-    double test_1=m_tool.GetDistance(QGeoCoordinate(39.923423,116.368904),
+    Tool::TestNoteTool("GetDistanceTest",0);
+    double test_1=Tool::GetDistance(QGeoCoordinate(39.923423,116.368904),
                                      QGeoCoordinate(39.922501,116.387271));
     qDebug()<<QString::number(test_1,'f',10);
-     m_tool.TestNoteTool("GetDistanceTest",1);
+     Tool::TestNoteTool("GetDistanceTest",1);
 
 }
 void tool_test::CreatFileTest(){
-    m_tool.TestNoteTool("Tool CreateFile Test",0);
+    Tool::TestNoteTool("Tool CreateFile Test",0);
     QString file_name="test";
     QString file_type="mp4";
     QString director_name="video";
     QString result=Tool::CreatFile(director_name,file_name,file_type);
     qDebug()<<"this file full path is"<<result;
-    m_tool.TestNoteTool("Tool CreateFile Test",1);
+    Tool::TestNoteTool("Tool CreateFile Test",1);
 }
 void tool_test::NetWorkGetTest(){
     Tool::TestNoteTool("NetWorkGetTest",0);
