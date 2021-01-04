@@ -257,7 +257,7 @@ private:
 
     /*地图控制模块变量 start*/
     QWidget *map_control_widget_ = nullptr;                     ///< 地图控制widget
-    QQuickView *map_control_view_ = nullptr;                    ///< qml地图bug不得已而为之
+    QQuickView *map_control_view_ = nullptr;                    ///< qml地图控制bug不得已而为之
     QVBoxLayout *map_vbox_layout_ = nullptr;                    ///< 地图分配指针
     std::shared_ptr<QDeclarativeGeoMap> control_map_ = nullptr; ///< 控制地图显示
     BusTest *bus_test_ = nullptr;                               ///< bus测试对象，实现路书
