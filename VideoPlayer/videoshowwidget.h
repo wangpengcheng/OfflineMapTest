@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file videoshowwidget.h
  * @brief 视频显示控制模板类，主要是公共布局函数的变化
  * @details 因为直播实时视频类和回放中的播放视频类在布局上存在相同的布局操作； \n
@@ -22,7 +22,7 @@
  *    <td> 2020-12-29 21:51:10 </td>
  *    <td> 1.0 </td>
  *    <td> wangpengcheng </td>
- *    <td>内容</td>
+ *    <td> 添加注释文档 </td>
  * </tr>
  * </table>
  */
@@ -34,7 +34,6 @@
 #include <QTimer>
 
 //模板类
-#include "videoshowwidget.h"
 #include "ui_videoshowwidget.h"
 #include "myvideowidget.h"
 #include "MapItems/tool.h"

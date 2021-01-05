@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file GeoMapReply.h
  * @brief GeoTiledMapReply类定义头文件
  * @author wangpengcheng  (wangpengcheng2018@gmail.com)

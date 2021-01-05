@@ -41,15 +41,16 @@ class QVideoProbe;
 class VideoWidget;
 class QAudioProbe;
 class VideoWidget;
-#include <QGeoCoordinate>
-#include <QVideoWidget>
-#include <QQuickView>
-#include <QLabel>
+
 #include "MainWindows/recordselectdialog.h"
 #include "QtAVWidgets/QtAVWidgets.h"
 #include "VideoPlayer/qtavvideowidget.h"
 #include "VideoPlayer/videoshowwidget.h"
 #include "QtAV/AVPlayer.h"
+#include <QGeoCoordinate>
+#include <QVideoWidget>
+#include <QQuickView>
+#include <QLabel>
 #include <QtLocation/private/qdeclarativegeomap_p.h>
 
 /**
@@ -74,6 +75,9 @@ public:
      * @param  parent           父类指针
      */
     explicit ReviewWidget(QWidget *parent = nullptr);
+    /**
+     * @brief Destroy the Review Widget object
+     */
     ~ReviewWidget();
     /**
      * @brief Get the Plyer object

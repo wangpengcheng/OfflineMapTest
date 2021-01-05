@@ -1,8 +1,8 @@
-﻿#include "test/tool_test.h"
+#include "test/tool_test.h"
 #include <qdebug.h>
 #include <QGeoCoordinate>
 
-tool_test::tool_test():m_tool()
+tool_test::tool_test()
 {
 
 }
