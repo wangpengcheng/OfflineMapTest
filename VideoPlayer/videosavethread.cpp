@@ -1,4 +1,4 @@
-﻿#include "videosavethread.h"
+#include "videosavethread.h"
 
 VideoSaveThread::VideoSaveThread(QObject *parent) : QThread(parent)
 {

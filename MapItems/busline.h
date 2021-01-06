@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file busline.h
  * @brief Busline class to draw the busline in this map;inhert  QDeclarativeGeoMapItemGroup
  * @details 主要包含线路关键点和，线路上的站点关键点  \n

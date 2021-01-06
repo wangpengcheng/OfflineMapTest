@@ -1,4 +1,4 @@
-﻿#include "busstation.h"
+#include "busstation.h"
 #include "MapItems/tool.h"
 
 #include <QtQuick/private/qquickimage_p.h>

@@ -1,4 +1,4 @@
-﻿#include "excelhelper.h"
+#include "excelhelper.h"
 #include "myhelper.h"
 
 ExcelHelper *ExcelHelper::_instance = 0;

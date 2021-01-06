@@ -1,4 +1,4 @@
-﻿#include "frmpollconfig.h"
+#include "frmpollconfig.h"
 #include "ui_frmpollconfig.h"
 #include "myhelper.h"
 #include "iconhelper.h"

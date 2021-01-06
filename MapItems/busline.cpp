@@ -1,4 +1,4 @@
-﻿#include "busline.h"
+#include "busline.h"
 #include "MapItems/busstation.h"
 #include "MapItems/tool.h"
 BusLine::BusLine()

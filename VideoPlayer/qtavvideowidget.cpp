@@ -1,4 +1,4 @@
-﻿#include "qtavvideowidget.h"
+#include "qtavvideowidget.h"
 #include "QtAVWidgets/QtAVWidgets.h"
 #include "QtAV/AudioOutput.h"
 #include "MapItems/tool.h"

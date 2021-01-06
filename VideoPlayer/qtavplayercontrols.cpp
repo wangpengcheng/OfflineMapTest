@@ -1,4 +1,4 @@
-﻿#include "qtavplayercontrols.h"
+#include "qtavplayercontrols.h"
 
 #include <QBoxLayout>
 #include <QSlider>

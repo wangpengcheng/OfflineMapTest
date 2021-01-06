@@ -1,4 +1,4 @@
-﻿#include "frmnvr.h"
+#include "frmnvr.h"
 #include "ui_frmnvr.h"
 #include "myhelper.h"
 #include "iconhelper.h"

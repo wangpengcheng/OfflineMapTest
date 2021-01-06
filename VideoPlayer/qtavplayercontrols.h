@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 
  * @file qtavplayercontrols.h
  * @brief QtAVPlayerControls 类主要与ReviewWidget相结合，控制播放

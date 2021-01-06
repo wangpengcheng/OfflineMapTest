@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file busstation.h
  * @brief BusStation class inhert QDeclarativeGeoMapQuickItem;
  * @details it can be used in the QDeclarativeGeoMap to add bus station  \n

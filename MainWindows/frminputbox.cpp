@@ -1,4 +1,4 @@
-﻿#include "frminputbox.h"
+#include "frminputbox.h"
 #include "ui_frminputbox.h"
 #include "myhelper.h"
 #include "iconhelper.h"

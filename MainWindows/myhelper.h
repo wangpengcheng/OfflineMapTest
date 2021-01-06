@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file myhelper.h
  * @brief myHelper 类实现头文件
  * @todo 将实现和接口进行分离，实现写入myHelper.cpp文件中
@@ -35,13 +35,6 @@
 #include <QtSql>
 #include "frmmessagebox.h"
 #include "frminputbox.h"
-
-/* 说明:
- * 功能:窗体显示/编码设置/开机启动/文件选择与复制/对话框等
- * 作者:刘典武  QQ:517216493
- * 时间:2013-12-30  检查:2014-1-10
- */
-
 /**
  * @brief 全局辅助操作类,均为静态函数
  * @details 主要实现:

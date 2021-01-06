@@ -1,4 +1,4 @@
-﻿#include "myvideowidget.h"
+#include "myvideowidget.h"
 #include "MapItems/tool.h"
 MyVideoWidget::MyVideoWidget(QWidget *parent) : QWidget(parent)
 {   // test

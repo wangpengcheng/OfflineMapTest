@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file qtavvideowidget.h
  * @brief qtavvideowidget 类的头文件 
  * @details 主要实现播放类的封装成widget \n

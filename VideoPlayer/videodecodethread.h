@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file videodecodethread.h
  * @brief VideoDecodeThread类头部文件 主要实现VideoDecodeThread 相关功能
  * @details VideoDecodeThread 主要实现rtsp各种流的解码和存储操作 \n

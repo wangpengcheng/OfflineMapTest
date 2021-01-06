@@ -1,4 +1,4 @@
-﻿#include "streamvideowidget.h"
+#include "streamvideowidget.h"
 
 StreamVideoWidget::StreamVideoWidget(QWidget *parent) : QWidget(parent)
 {

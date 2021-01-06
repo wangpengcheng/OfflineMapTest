@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file streamvideowidget.h
  * @brief StreamVideoWidget类头文件；主要是接收网络流
  * @details       接收Videodecodethrea的Image信号槽函数 \n

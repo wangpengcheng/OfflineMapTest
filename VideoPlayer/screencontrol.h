@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file screencontrol.h
  * @note **使用新的模板布局类 VideoShowWidget，此类已经弃用；可以考虑作为显卡显示控制类**
  * @todo 将其更改为显卡显示控制类

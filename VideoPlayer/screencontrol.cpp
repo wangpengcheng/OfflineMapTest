@@ -1,4 +1,4 @@
-﻿#include "screencontrol.h"
+#include "screencontrol.h"
 
 ScreenControl::ScreenControl()
 {

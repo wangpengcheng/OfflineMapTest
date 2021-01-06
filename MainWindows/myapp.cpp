@@ -1,4 +1,4 @@
-﻿#include "myapp.h"
+#include "myapp.h"
 #include "myhelper.h"
 
 QString myApp::AppPath = QStringLiteral("");

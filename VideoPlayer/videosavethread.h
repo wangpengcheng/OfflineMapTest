@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file videosavethread.h
  * @brief 视频存储线程
  * @details 通过集成ffmpeg实现对于流的存储为h264编码和MP4格式,主要实现媒体流的存储

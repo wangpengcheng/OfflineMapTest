@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file mapcontrlconnect.h
  * @brief MapControlConnect 控制类头文件
  * @details  主要功能是连接和同步，两个地图之间的操作；主要运用是智能指针 \n

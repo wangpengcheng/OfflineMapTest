@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file frmipc.h
  * @brief frmIPC 信息提示框类
  * @author wangpengcheng  (wangpengcheng2018@gmail.com)

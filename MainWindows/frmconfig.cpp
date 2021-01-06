@@ -1,4 +1,4 @@
-﻿#include "frmconfig.h"
+#include "frmconfig.h"
 #include "ui_frmconfig.h"
 #include "myhelper.h"
 #include "iconhelper.h"

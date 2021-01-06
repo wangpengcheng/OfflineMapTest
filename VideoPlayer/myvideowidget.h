@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file myvideowidget.h
  * @brief MyVideoWidget类的头文件
  * @details 将Qt播放列表重新封装一次，便于后期的使用和布局，将其封装为类似HTML video的易于使用的类

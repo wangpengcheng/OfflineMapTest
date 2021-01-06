@@ -1,4 +1,4 @@
-﻿#include "mapcontrlconnect.h"
+#include "mapcontrlconnect.h"
 
 MapContrlConnect::MapContrlConnect()
 {

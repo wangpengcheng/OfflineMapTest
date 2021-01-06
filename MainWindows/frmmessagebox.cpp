@@ -1,4 +1,4 @@
-﻿#include "frmmessagebox.h"
+#include "frmmessagebox.h"
 #include "ui_frmmessagebox.h"
 #include "iconhelper.h"
 #include "myhelper.h"

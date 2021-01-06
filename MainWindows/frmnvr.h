@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file frmnvr.h
  * @brief  frmNVR 实现头文件
  * @author wangpengcheng  (wangpengcheng2018@gmail.com)

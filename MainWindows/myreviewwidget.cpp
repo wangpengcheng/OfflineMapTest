@@ -1,4 +1,4 @@
-﻿#include "myreviewwidget.h"
+#include "myreviewwidget.h"
 #include "MapItems/tool.h"
 #include "test/buslinetest.h"
 #include <QtLocation/private/qdeclarativegeomap_p.h>
