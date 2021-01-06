@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file GeoTiledMappingManagerEngine.h
  * @brief GeoTiledMappingManagerEngine 定义头部文件
  * @author wangpengcheng  (wangpengcheng2018@gmail.com)

@@ -1,4 +1,4 @@
-﻿#include "MapEngine.h"
+#include "MapEngine.h"
 
 #include <QVariant>
 #include <QDebug>

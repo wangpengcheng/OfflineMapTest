@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file TileCacheWorker.h
  * @brief CacheWorker 定义头文件
  * @author wangpengcheng  (wangpengcheng2018@gmail.com)

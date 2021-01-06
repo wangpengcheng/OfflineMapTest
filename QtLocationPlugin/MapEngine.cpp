@@ -1,4 +1,4 @@
-﻿#include <math.h>
+#include <math.h>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QDir>

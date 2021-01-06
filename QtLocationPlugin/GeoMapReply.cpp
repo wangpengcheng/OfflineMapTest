@@ -1,4 +1,4 @@
-﻿#include "MapEngine.h"
+#include "MapEngine.h"
 #include "GeoMapReply.h"
 
 #include <QtLocation/private/qgeotilespec_p.h>

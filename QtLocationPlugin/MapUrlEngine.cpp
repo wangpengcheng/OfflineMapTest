@@ -1,4 +1,4 @@
-﻿#include "MapEngine.h"
+#include "MapEngine.h"
 
 #include <QRegExp>
 #include <QNetworkReply>

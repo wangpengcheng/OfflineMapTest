@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file MapEngineData.h
  * @brief MapEngine类中需要使用的基础数据的定义头文件
  * @author wangpengcheng  (wangpengcheng2018@gmail.com)

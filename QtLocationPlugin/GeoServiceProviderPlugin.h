@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file GeoServiceProviderPlugin.h
  * @brief 地体瓦片服务类工厂类 定义头文件
  * @author wangpengcheng  (wangpengcheng2018@gmail.com)
