@@ -17,3 +17,9 @@ this need you have doxygen;if not ，you can install it from [doxygen](https://w
 ./script/build_doc.sh
 ```
 then you can find doc in `./docs/doxy/html/index.html`.Then get more message.
+
+## Contributors
+
+- [wangpengcheng](https://github.com/wangpengcheng/)
+  - mail: [wangpengcheng2018@gmail](wangpengcheng2018@gmail)
+  - QQ: 673018396
